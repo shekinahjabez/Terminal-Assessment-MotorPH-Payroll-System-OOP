@@ -15,10 +15,8 @@ import java.io.*;
 import java.util.*;
 import javax.swing.*;
 
-
 public class CSVReader {
 
-    private static HashSet<String> userIDs;
     private static List<String[]> employeeData;
     private static List<String[]> leaveBalancesData;
     private String filePath; 
@@ -27,45 +25,14 @@ public class CSVReader {
     public CSVReader(String filePath) {
         this.filePath = filePath;
         loadCSVData();
-        loadUserIDs();
-        
-}    
+    }    
 
     public void loadLeaveBalances(String leaveBalancesFilePath) {
         this.leaveBalancesFilePath = leaveBalancesFilePath;
         loadLeaveBalancesData();
     }
-    
 
-    public void loadUserIDs() {
-        userIDs = new HashSet<>();
-
-        //String filePath = "src\\motorph9\\EmployeeDetails.csv";
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            br.readLine();
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-
-                if (values.length >= 1) {
-                    userIDs.add(values[0].trim());
-                } else {
-                    System.err.println("Invalid line format: " + line);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error reading CSV file", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    public boolean isValidUserID(String userID) {
-        return userIDs != null && userIDs.contains(userID);
-    }
-
-    
     public String[] getUserInfo(String userID) {
-        //String filePath = "src\\motorph9\\EmployeeDetails.csv";
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             br.readLine();
@@ -125,10 +92,8 @@ public class CSVReader {
     }
     
     public void loadCSVData() {
-        userIDs = new HashSet<>();
         employeeData = new ArrayList<>();
 
-        //String filePath = "src\\motorph9\\EmployeeDetails.csv";
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             br.readLine(); // Skip header line
@@ -136,7 +101,6 @@ public class CSVReader {
                 String[] values = line.split(",");
 
                 if (values.length >= 7) {  // Ensure there are enough columns
-                    userIDs.add(values[0].trim());
                     employeeData.add(values);
                 } else {
                     System.err.println("Invalid line format: " + line);
@@ -197,15 +161,10 @@ public class CSVReader {
             JOptionPane.showMessageDialog(null, "Error writing leave balances CSV file", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    
-    
 
     public void main(String[] args) {
         CSVReader csvReader = new CSVReader("src\\motorph9\\EmployeeDetails.csv");
         csvReader.loadLeaveBalances("src\\motorph9\\LeaveBalances.csv");
-        csvReader.loadUserIDs();
         csvReader.showCSVInJTable("src\\motorph9\\EmployeeDetails.csv");
-
     }
 }

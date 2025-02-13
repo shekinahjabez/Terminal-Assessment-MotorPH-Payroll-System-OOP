@@ -32,6 +32,7 @@ public class LeaveRequest extends javax.swing.JFrame {
     private List<LeaveRequestData> leaveRequests = new ArrayList<>();
     private String leaveBalancesFilePath = "src\\motorph9\\LeaveBalances.csv";
     private final HRDashboard dashboard;
+    private LeaveRequestService leaveRequestService;
     /**
      * Creates new form LeaveRequest
      */
@@ -41,6 +42,7 @@ public class LeaveRequest extends javax.swing.JFrame {
         leaveTracker = loadLeaveTracker("src\\motorph9\\LeaveBalances.csv");
         csvReader = new CSVReader("src\\motorph9\\LeaveBalances.csv");
         this.dashboard = dashboard;
+        leaveRequestService = new LeaveRequestService();
 
         jButtonClear.setEnabled(false);
         

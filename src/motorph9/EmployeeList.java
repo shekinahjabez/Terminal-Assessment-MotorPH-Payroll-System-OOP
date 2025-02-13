@@ -31,8 +31,6 @@ import com.opencsv.exceptions.CsvException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
-
 /**
  * @author Shekinah Jabez
  */
@@ -40,6 +38,7 @@ public class EmployeeList extends javax.swing.JFrame {
     
     private static final String CSV_FILE = "src\\motorph9\\EmployeeDetails.csv";
     private final HRDashboard dashboard;
+    private final EmployeeService employeeService;
     
     /**
      * Creates new form Employee
@@ -49,6 +48,7 @@ public class EmployeeList extends javax.swing.JFrame {
        
         setLocationRelativeTo(null);
         
+        employeeService = new EmployeeService();
         populateTableFromCSV(CSV_FILE);
 
         jButtonViewEmployee.setEnabled(false);
@@ -165,7 +165,7 @@ public class EmployeeList extends javax.swing.JFrame {
         jTableEmployees.setValueAt(pagibigNo, selectedRow, 6); // Update Pagibig No.
                          
         try{
-            updateCSVFile(lastName, firstName, sssNo, philHealthNo, tinNo, pagibigNo, selectedRow);
+            employeeService.updateCSVFile(lastName, firstName, sssNo, philHealthNo, tinNo, pagibigNo, selectedRow);
         }
         catch (IOException ex) {
             Logger.getLogger(EmployeeList.class.getName()).log(Level.SEVERE, null, ex);

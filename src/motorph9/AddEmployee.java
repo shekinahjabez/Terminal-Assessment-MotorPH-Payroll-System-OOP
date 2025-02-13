@@ -43,12 +43,14 @@ public class AddEmployee extends javax.swing.JFrame {
 
     private static final String CSV_FILE = "src\\motorph9\\EmployeeDetails.csv";
     private final HRDashboard dashboard;
+    private final EmployeeService employeeService;
+    
     /**
      * Creates new form AddEmployee
      */
     public AddEmployee(HRDashboard dashboard) {
         initComponents();
-         // Read CSV data and populate the JTable
+        employeeService = new EmployeeService();
         populateTableFromCSV(CSV_FILE);
         this.dashboard = dashboard;
            
@@ -113,6 +115,20 @@ public class AddEmployee extends javax.swing.JFrame {
         }
     }
      
+    private void addEmployeeToTable(String id, String lastName, String firstName, String SSSno, String PhilhealtNum, String Tin, String PagibigNum) {
+        DefaultTableModel addedRow = (DefaultTableModel) jTableEmployees.getModel();
+        addedRow.addRow(new Object[]{id, lastName, firstName, SSSno, PhilhealtNum, Tin, PagibigNum});
+    }
+     
+    private void clearInputFields() {
+        jTextFieldEmployeeno.setText("");
+        jTextFieldLastname.setText("");
+        jTextFieldFirstname.setText("");
+        jTextFieldSSSno.setText("");
+        jTextFieldPhilhealthno.setText("");
+        jTextFieldTINno.setText("");
+        jTextFieldPagibigno.setText("");
+    }
      
     /**
      * This method is called from within the constructor to initialize the form.
@@ -284,19 +300,19 @@ public class AddEmployee extends javax.swing.JFrame {
                     .addComponent(jLabelFirstname)
                     .addComponent(jTextFieldFirstname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.LEADING)
                     .addComponent(jLabelSSSno)
                     .addComponent(jTextFieldSSSno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.BASELINE)
                     .addComponent(jLabelPhilhealthno)
                     .addComponent(jTextFieldPhilhealthno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.BASELINE)
                     .addComponent(jTextFieldTINno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelTINno))
                 .addGap(18, 18, 18)
-                .addGroup(jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.BASELINE)
                     .addComponent(jLabelPagibigno)
                     .addComponent(jTextFieldPagibigno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 139, Short.MAX_VALUE)
@@ -487,7 +503,6 @@ public class AddEmployee extends javax.swing.JFrame {
         int jTableLastRow = jTableEmployees.getRowCount()+1;
 
         // TODO add your handling code here:
-        DefaultTableModel addedRow = (DefaultTableModel) jTableEmployees.getModel();       
         String id = jTextFieldEmployeeno.getText();
         String lastName  = jTextFieldLastname.getText();
         String firstName = jTextFieldFirstname.getText();
@@ -495,12 +510,6 @@ public class AddEmployee extends javax.swing.JFrame {
         String PhilhealtNum = jTextFieldPhilhealthno.getText();
         String Tin = jTextFieldTINno.getText();
         String PagibigNum = jTextFieldPagibigno.getText();
-//        String birthday = empBday.getText();
-//        String address = empAddy.getText();
-//        String phone = empPhone.getText();
-//        String status = empStatus.getText();
-//        String position = empPosition.getText();
-//        String supervisor = empSupp.getText();
                  
         for (char c : id.toCharArray()) {
             if (Character.isAlphabetic(c)){
@@ -524,100 +533,17 @@ public class AddEmployee extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
 
             } else {          
-                addedRow.addRow(new Object[] {id, lastName, firstName, SSSno, PhilhealtNum, Tin, PagibigNum});      
+                addEmployeeToTable(id, lastName, firstName, SSSno, PhilhealtNum, Tin, PagibigNum);
+                clearInputFields();
             }
             
-            try {updateCSVFile(id, lastName, firstName, SSSno, PhilhealtNum, Tin, PagibigNum, addedRow, jTableLastRow);} 
+            try {employeeService.updateCSVFile(id, lastName, firstName, SSSno, PhilhealtNum, Tin, PagibigNum, jTableLastRow);} 
             catch (IOException ex) {
                 Logger.getLogger(AddEmployee.class.getName()).log(Level.SEVERE, null, ex);
             }
         }   
     }//GEN-LAST:event_jButtonAddActionPerformed
 
-    public void updateCSVFile(String employeeNo,
-                              String lastName,
-                              String firstName, 
-                              String sssNo,
-                              String philHealthNo,
-                              String tinNo,
-                              String pagibigNo,
-                              DefaultTableModel addedRow,
-                              int jTableLastRow) throws FileNotFoundException, IOException{                    
-        try{           
-            DefaultTableModel modelToCSV = (DefaultTableModel) jTableEmployees.getModel();
-            int jTable_columnCount = modelToCSV.getColumnCount();
-            
-            //Saving all the Column Name from JTable in An Array
-            String[] jTableColumnName = new String[jTable_columnCount];           
-            for (int i=0;i<jTable_columnCount;i++){
-                jTableColumnName[i] = modelToCSV.getColumnName(i);
-            }
-            
-            //Getting Row of Data Added from Jtable
-            String[] arrAddedJTableRowData = new String [jTable_columnCount];                     
-            for (int i = 0; i < jTable_columnCount; i++) {                               
-                arrAddedJTableRowData[i] = (String) addedRow.getValueAt(jTableLastRow-1, i);
-            }         
-            
-            //Reading the CSV Document
-            List<List<String>> records = new ArrayList<>();      
-            try (BufferedReader br = new BufferedReader(new FileReader(CSV_FILE))) {
-            String line;
-                while ((line = br.readLine()) != null) {
-                    String[] values = line.split(",");                   
-                    records.add(Arrays.asList(values));                  
-                }
-            }           
-            catch(IOException e){e.printStackTrace();}
-        
-            //Getting the ColumnName from the CSV file.
-            List <String> csvOneLineRead = records.get(0);        
-            int csvMaxIndex = csvOneLineRead.size();
-      
-            //Converting the from an Array List to an Array - Getting column names
-            String[] arrCSVOneLineRead = new String[csvMaxIndex];
-            for (int i = 0; i < csvOneLineRead.size(); i++) {
-                arrCSVOneLineRead[i] = csvOneLineRead.get(i);
-            }
-        
-            //Getting the actual index of an array based from JTable Column Name
-            int[] jTableToCSVIdentifier = new int[jTable_columnCount];
-            for(int i=0;i<jTable_columnCount;i++){
-                for(int j=0;j<arrCSVOneLineRead.length;j++){
-                    if(jTableColumnName[i].equalsIgnoreCase(arrCSVOneLineRead[j])){
-                        jTableToCSVIdentifier[i] = j;
-                    }
-                }
-            }            
-            
-            int indexer = 0;
-            String[] dataToInput = new String[csvMaxIndex];
-            for(int i=0;i<jTableToCSVIdentifier.length;i++){                                                                                           
-                for(int j=0;j<csvMaxIndex;j++){
-                    if(j == jTableToCSVIdentifier[i]){
-                        dataToInput[j] = arrAddedJTableRowData[i];                          
-                        indexer++;
-                        break;
-                    }                      
-                }                    
-            }
-                        
-            try{             
-                CSVReader csvReader = new CSVReader(new FileReader(new File(CSV_FILE)));                
-                List<String[]> allData = csvReader.readAll(); 
-                allData.add(dataToInput);
-                                
-                CSVWriter csvWriter = new CSVWriter (new FileWriter(new File(CSV_FILE)));
-                csvWriter.writeAll(allData,false);                
-                csvReader.close();   
-                csvWriter.flush();  
-                csvWriter.close();                                                                                
-                }
-            catch(CsvException e){e.printStackTrace();}                   
-        }
-        catch (IOException e){e.printStackTrace();}
-    }
-    
     private void jTextFieldEmployeenoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldEmployeenoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldEmployeenoActionPerformed

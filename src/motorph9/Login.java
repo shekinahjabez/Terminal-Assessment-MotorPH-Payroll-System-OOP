@@ -1,4 +1,3 @@
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -6,59 +5,25 @@
 package motorph9;
 
 import javax.swing.JOptionPane;
-import com.opencsv.CSVReader;
-import com.opencsv.CSVWriter;
-import static com.opencsv.ICSVWriter.NO_QUOTE_CHARACTER;
-import com.opencsv.exceptions.CsvException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.lang.String;
 import javax.swing.*;
-import motorph9.EmployeeDashboard;
-import motorph9.FinanceDashboard;
-import motorph9.HRDashboard;
-import motorph9.ITDashboard;
-import motorph9.User;
 
-    private static class AuthenticationService {
-
-        public AuthenticationService() {
-        }
-    }
-
-    private static class Dashboard {
-
-        public Dashboard() {
-        }
-    }
-/**
- *
- * @author Shekinah Jabez
- */
 public class Login extends javax.swing.JFrame {
 
     private static final String CSV_FILE = "src/motorph9/Credentials.csv";
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JButton loginButton;
-    
-    
-    
+    private AuthenticationService authenticationService;
+
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
-        
         setLocationRelativeTo(null);
+        authenticationService = new AuthenticationService(CSV_FILE);
     }
 
     /**
@@ -192,25 +157,18 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBtnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnLoginActionPerformed
+        String username = jUnameField.getText();
+        String password = new String(jPwordField.getPassword());
 
-    }//GEN-LAST:event_jBtnLoginActionPerformed
-
-    private class LoginActionListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String username = usernameField.getText();
-            String password = new String(passwordField.getPassword());
-            
-        User user = AuthenticationService.validateLogin(username, password, CSV_FILE);
+        User user = authenticationService.validateLogin(username, password);
         if (user == null) {
-        JOptionPane.showMessageDialog(Login.this, "Incorrect Credentials.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(Login.this, "Incorrect Credentials.", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
-        JOptionPane.showMessageDialog(Login.this, "Login Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-        openDashboard(user);
-        dispose();
-            }
+            JOptionPane.showMessageDialog(Login.this, "Login Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            openDashboard(user);
+            dispose();
         }
-    }
+    }//GEN-LAST:event_jBtnLoginActionPerformed
 
     private void openDashboard(User user) {
         Dashboard dashboard;
@@ -230,8 +188,7 @@ public class Login extends javax.swing.JFrame {
         }
         dashboard.showDashboard();
     }
-}
-    
+
     private void jPwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPwordFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jPwordFieldActionPerformed
