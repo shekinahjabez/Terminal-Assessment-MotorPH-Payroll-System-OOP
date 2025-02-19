@@ -2,20 +2,25 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package motorph9;
+package motorph9_oop;
 
 import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import javax.swing.*;
 
 public class Login extends javax.swing.JFrame {
 
-    private static final String CSV_FILE = "src/motorph9/Credentials.csv";
+    private static final String CSV_FILE = "src/data9/LoginCredentials.csv";
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JButton loginButton;
-    private AuthenticationService authenticationService;
+    private EmployeeDetailsReader reader;
 
     /**
      * Creates new form Login
@@ -23,7 +28,6 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         setLocationRelativeTo(null);
-        authenticationService = new AuthenticationService(CSV_FILE);
     }
 
     /**
@@ -156,38 +160,43 @@ public class Login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jBtnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnLoginActionPerformed
-        String username = jUnameField.getText();
-        String password = new String(jPwordField.getPassword());
-
-        User user = authenticationService.validateLogin(username, password);
-        if (user == null) {
-            JOptionPane.showMessageDialog(Login.this, "Incorrect Credentials.", "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(Login.this, "Login Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            openDashboard(user);
-            dispose();
+    private class LoginActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String username = usernameField.getText();
+            String password = new String(passwordField.getPassword());
+            
+            try {
+                User user = validateLogin(username, password);
+                if (user == null) {
+                    JOptionPane.showMessageDialog(Login.this, "Incorrect Credentials.", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(Login.this, "Login Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    openDashboard(user);
+                    dispose();
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-    }//GEN-LAST:event_jBtnLoginActionPerformed
+    }
+    
+     private User validateLogin(String username, String password) throws IOException {
+        User user = reader.getEmployeeById(username);
+        if (user != null && user.getUsername().equals(username)) {
+            return user;
+        }
+        return null;
+    }
 
     private void openDashboard(User user) {
-        Dashboard dashboard;
-        switch (user.getRole().toLowerCase()) {
-            case "finance":
-                dashboard = new FinanceDashboard(user);
-                break;
-            case "hr":
-                dashboard = new HRDashboard(user);
-                break;
-            case "it":
-                dashboard = new ITDashboard(user);
-                break;
-            default:
-                dashboard = new EmployeeDashboard(user);
-                break;
-        }
-        dashboard.showDashboard();
+        user.accessDashboard();
     }
+
+
+    private void jBtnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnLoginActionPerformed
+
+    }//GEN-LAST:event_jBtnLoginActionPerformed
 
     private void jPwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPwordFieldActionPerformed
         // TODO add your handling code here:
