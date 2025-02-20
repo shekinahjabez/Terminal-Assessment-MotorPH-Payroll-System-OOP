@@ -20,21 +20,16 @@ import java.util.List;
 public class EmployeeDetailsReader {
    private static final String FILE_PATH = "src/data9/Employee.csv";
     
-    public User getEmployeeById(String employeeId) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            String[] data = line.split(",");
-            if (data.length > 0 && data[0].equals(employeeId)) {
-                reader.close();
+    public static User getEmployeeById(String employeeId) throws IOException {
+        for (String[] data : CSVReader.readCSV(FILE_PATH)) {
+            if (data[0].equals(employeeId)) {
                 return createUserFromData(data);
             }
         }
-        reader.close();
         return null;
     }
-    
-    private User createUserFromData(String[] data) {
+
+    private static User createUserFromData(String[] data) {
         switch (data[14].toLowerCase()) { // userType column
             case "hr":
                 return new HRUser(data[0], data[1], data[2], data[3], data[4], data[5], Integer.parseInt(data[6]),
@@ -50,56 +45,40 @@ public class EmployeeDetailsReader {
                         data[7], data[8], data[9], data[10], data[11], data[12], data[13], data[14]);
         }
     }
-    
-    
-    public void addEmployee(User newEmployee) throws IOException {
-        FileWriter writer = new FileWriter(FILE_PATH, true);
-        BufferedWriter buffer = new BufferedWriter(writer);
-        PrintWriter out = new PrintWriter(buffer);
-        out.println(newEmployee.toCSV());
-        out.close();
+
+    public static void addEmployee(User newEmployee) throws IOException {
+        List<String[]> data = CSVReader.readCSV(FILE_PATH);
+        data.add(new String[]{newEmployee.getEmployeeId(), newEmployee.getUsername(), newEmployee.getFirstName(),
+                newEmployee.getLastName(), newEmployee.getBirthday(), newEmployee.getAddress(),
+                String.valueOf(newEmployee.getPhone()), newEmployee.getSSS(), newEmployee.getPhilHealth(),
+                newEmployee.getTIN(), newEmployee.getPagibig(), newEmployee.getImmediateSupervisor(),
+                newEmployee.getStatus(), newEmployee.getPosition(), newEmployee.getUserType()});
+        CSVReader.writeCSV(FILE_PATH, data);
     }
-    
-    public boolean updateEmployee(User updatedEmployee) throws IOException {
-        List<User> employees = getAllEmployees();
+
+    public static boolean updateEmployee(User updatedEmployee) throws IOException {
+        List<String[]> data = CSVReader.readCSV(FILE_PATH);
         boolean found = false;
-        for (int i = 0; i < employees.size(); i++) {
-            if (employees.get(i).getEmployeeId().equals(updatedEmployee.getEmployeeId())) {
-                employees.set(i, updatedEmployee);
+        for (int i = 0; i < data.size(); i++) {
+            if (data.get(i)[0].equals(updatedEmployee.getEmployeeId())) {
+                data.set(i, new String[]{updatedEmployee.getEmployeeId(), updatedEmployee.getUsername(),
+                        updatedEmployee.getFirstName(), updatedEmployee.getLastName(), updatedEmployee.getBirthday(),
+                        updatedEmployee.getAddress(), String.valueOf(updatedEmployee.getPhone()), updatedEmployee.getSSS(),
+                        updatedEmployee.getPhilHealth(), updatedEmployee.getTIN(), updatedEmployee.getPagibig(),
+                        updatedEmployee.getImmediateSupervisor(), updatedEmployee.getStatus(),
+                        updatedEmployee.getPosition(), updatedEmployee.getUserType()});
                 found = true;
                 break;
             }
         }
-        if (found) writeAllEmployees(employees);
+        if (found) CSVReader.writeCSV(FILE_PATH, data);
         return found;
     }
-    
-    public boolean deleteEmployee(String employeeId) throws IOException {
-        List<User> employees = getAllEmployees();
-        boolean removed = employees.removeIf(emp -> emp.getEmployeeId().equals(employeeId));
-        if (removed) writeAllEmployees(employees);
+
+    public static boolean deleteEmployee(String employeeId) throws IOException {
+        List<String[]> data = CSVReader.readCSV(FILE_PATH);
+        boolean removed = data.removeIf(emp -> emp[0].equals(employeeId));
+        if (removed) CSVReader.writeCSV(FILE_PATH, data);
         return removed;
-    }
-    
-    private List<User> getAllEmployees() throws IOException {
-        List<User> employees = new ArrayList<>();
-        BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            String[] data = line.split(",");
-            if (data.length >= 15) {
-                employees.add(createUserFromData(data));
-            }
-        }
-        reader.close();
-        return employees;
-    }
-    
-    private void writeAllEmployees(List<User> employees) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH));
-        for (User emp : employees) {
-            writer.write(emp.toCSV() + "\n");
-        }
-        writer.close();
     }
 }

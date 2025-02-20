@@ -16,7 +16,7 @@ import javax.swing.*;
 
 public class Login extends javax.swing.JFrame {
 
-    private static final String CSV_FILE = "src/data9/LoginCredentials.csv";
+    private static final String CSV_FILE = "src/data9/Login.csv";
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JButton loginButton;

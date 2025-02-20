@@ -4,12 +4,14 @@
  */
 package motorph9_oop;
 
+import java.io.IOException;
+
 /**
  *
  * @author Shekinah Jabez
  */
 public class HRUser extends User {
-    public HRUser(String employeeId, String username, String firstName, String userType) {
+    public HRUser(String employeeId, String username, String firstName, String userType, String par4, String par5, int phone, String par6, String par7, String par8, String par9, String par10, String par11, String par12, String par13) {
         super(employeeId, username, firstName, userType);
     }
     
@@ -58,22 +60,22 @@ public class HRUser extends User {
     public void approveLeave(String leaveID) throws IOException {
         LeaveRequest leaveRequest = LeaveRequestReader.getLeaveById(leaveID);
         if (leaveRequest != null) {
-            leaveRequest.approve(this);
+            leaveRequest.approve(getFirstName() + " " + getLastName()); // Pass HRUser's name
             LeaveRequestReader.updateLeaveRequest(leaveRequest);
             System.out.println("Leave approved.");
         } else {
             System.out.println("Leave request not found.");
         }
     }
-    
+
     public void rejectLeave(String leaveID) throws IOException {
         LeaveRequest leaveRequest = LeaveRequestReader.getLeaveById(leaveID);
         if (leaveRequest != null) {
-            leaveRequest.rejectLeave();
+            leaveRequest.reject(getFirstName() + " " + getLastName()); // Pass HRUser's name
             LeaveRequestReader.updateLeaveRequest(leaveRequest);
             System.out.println("Leave rejected.");
         } else {
             System.out.println("Leave request not found.");
+        }
     }
-}
-
+}    

@@ -14,21 +14,43 @@ public class LeaveRequest {
     private String leaveID;
     private String employeeID;
     private String leaveType;
+    private LocalDate dateRequest;
     private LocalDate startDate;
     private LocalDate endDate;
     private String status; // Pending, Approved, Rejected
     private String reason;
+    private String approver;
+    private LocalDate dateResponded;
 
-    public LeaveRequest(String leaveID, String employeeID, String leaveType, LocalDate startDate, LocalDate endDate, String reason) {
+    public LeaveRequest(String leaveID, String employeeID, String leaveType, LocalDate dateRequest, LocalDate startDate, String status) {
         this.leaveID = leaveID;
         this.employeeID = employeeID;
         this.leaveType = leaveType;
+        this.dateRequest = dateRequest;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.status = "Pending";
+        this.status = status;
         this.reason = reason;
+        this.approver = approver;
+        this.dateResponded = dateResponded;
     }
-    
+
+    public String getLeaveID() {
+        return leaveID;
+    }
+
+    public String getEmployeeID() {
+        return employeeID;
+    }
+
+    public String getLeaveType() {
+        return leaveType;
+    }
+
+    public LocalDate getDateRequest() {
+        return dateRequest;
+    }
+
     public LocalDate getStartDate() {
         return startDate;
     }
@@ -37,16 +59,36 @@ public class LeaveRequest {
         return endDate;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public String getApprover() {
+        return approver;
+    }
+
+    public LocalDate getDateResponded() {
+        return dateResponded;
+    }
+
     public String getLeaveDetails() {
         return "Leave ID: " + leaveID + "\nEmployee ID: " + employeeID + "\nType: " + leaveType + "\nStart: " + startDate + "\nEnd: " + endDate + "\nReason: " + reason + "\nStatus: " + status;
     }
 
-    public EmployeeUser request(EmployeeUser employee) {
-        return employee;
+    public void approve(String approver) {
+        this.status = "Approved";
+        this.approver = approver;
+        this.dateResponded = LocalDate.now();
     }
 
-    public void approve(HRUser hr) {
-        this.status = "Approved";
+    public void reject(String approver) {
+        this.status = "Rejected";
+        this.approver = approver;
+        this.dateResponded = LocalDate.now();
     }
 
     public boolean isApproved() {

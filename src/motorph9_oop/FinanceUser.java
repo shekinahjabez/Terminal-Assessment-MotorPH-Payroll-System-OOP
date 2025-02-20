@@ -11,7 +11,7 @@ import java.io.IOException;
  * @author Shekinah Jabez
  */
 public class FinanceUser extends User {
-    public FinanceUser(String employeeId, String username, String firstName, String userType) {
+    public FinanceUser(String employeeId, String username, String firstName, String userType, String par4, String par5, int parseInt, String par6, String par7, String par8, String par9, String par10, String par11, String par12, String par13) {
         super(employeeId, username, firstName, userType);
     }
     

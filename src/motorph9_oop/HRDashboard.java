@@ -33,7 +33,7 @@ public class HRDashboard extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setButtonsEnabled(false);
         jLabelGreet.setText("Welcome, " + firstName + "!");
-        showEmployeeDetails(employeeId);
+        //showEmployeeDetails(employeeId);
         
         jTextFieldSearch.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -126,7 +126,7 @@ public class HRDashboard extends javax.swing.JFrame {
     
     }
 
-    private void showEmployeeDetails(String employeeId){
+    /*private void showEmployeeDetails(String employeeId){
         
          try {
             
@@ -136,22 +136,22 @@ public class HRDashboard extends javax.swing.JFrame {
             
             if (userInfo != null) {
 
-                //**DASHBOARD**//
-                jLabelDashname.setText(userInfo[3] + ", " + userInfo[4]);
+                                    
+             /*   jLabelDashname.setText(userInfo[3] + ", " + userInfo[4]);
                 jLabelDashempnum.setText("Employee Number: " + userInfo[0]);
-                jLabelDashbirthday.setText("Birthday: " + userInfo[5]);
+                jLabelDashbirthday.setText("Birthday: " + userInfo[5]); /*
 
-                //**PROFILE**//
-                jLabelFullname.setText(userInfo[3] + ", " + userInfo[4]);
+                
+            /*    jLabelFullname.setText(userInfo[3] + ", " + userInfo[4]);
                 jLabelEmpnum.setText("Employee Number: " + userInfo[0]);
                 jLabelBirthday.setText("Birthday: " + userInfo[5]);
                 jLabelAddress.setText("<html>" + "Address: " + userInfo[6] + "</html>");
                 jLabelContact.setText("Contact No.: " + userInfo[7]);
                 jLabelPosition.setText("Position: " + userInfo[13]);
-                jLabelSuper.setText("Supervisor: " + userInfo[14]);
+                jLabelSuper.setText("Supervisor: " + userInfo[14]); /*
 
-                //**WALLET**//
-                jLabelHourlyrate.setText("Hourly Rate: " + userInfo[20]);
+                
+            /*    jLabelHourlyrate.setText("Hourly Rate: " + userInfo[20]);
                 jLabelBasicsalary.setText("Basic Salary: " + userInfo[15]);
                 jLabelRice.setText("Rice Subsidy: " + userInfo[16]);
                 jLabelPhoneallowance.setText ("Phone Allowance: " + userInfo[17]);
@@ -162,7 +162,7 @@ public class HRDashboard extends javax.swing.JFrame {
                 jLabelPhilhealth.setText("Philhealth Number: " + userInfo[9]);
                 jLabelGrosssalary.setText("Gross Semi-monthly Salary: " + userInfo[19]);
                 jLabelWitholding.setText("Witholding Tax: Value not Available");
-                jLabelNetsalary.setText("Net Salary: Value Not Available");
+                jLabelNetsalary.setText("Net Salary: Value Not Available"); /*
 
             } else {
                 
@@ -174,6 +174,7 @@ public class HRDashboard extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error: Please enter a valid Employee Number.", "Input Error", JOptionPane.ERROR_MESSAGE);
         }        
     }
+ /*
     /** 
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -844,10 +845,10 @@ public class HRDashboard extends javax.swing.JFrame {
 
     private void jButtonLeavereqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLeavereqActionPerformed
         // TODO add your handling code here:
-         Leave newClassInstance = new Leave(this);
+         /* Leave newClassInstance = new Leave(this);
                  newClassInstance.setVisible(true);
                  
-                 dispose();
+                 dispose(); /*
     }//GEN-LAST:event_jButtonLeavereqActionPerformed
 
     private void jButtonDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDashboardActionPerformed
@@ -927,7 +928,7 @@ public class HRDashboard extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    //public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

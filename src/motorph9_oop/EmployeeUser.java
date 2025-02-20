@@ -4,6 +4,8 @@
  */
 package motorph9_oop;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -14,7 +16,7 @@ public class EmployeeUser extends User {
     private LocalDateTime clockInTime;
     private LocalDateTime clockOutTime;
 
-    public EmployeeUser(String employeeId, String username, String firstName, String userType) {
+    public EmployeeUser(String employeeId, String username, String firstName, String userType, String par4, String par5, int parseInt, String par6, String par7, String par8, String par9, String par10, String par11, String par12, String par13) {
         super(employeeId, username, firstName, userType);
     }
     
