@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package motorph9;
+package motorph9_oop;
 
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
@@ -24,7 +24,7 @@ import java.io.IOException;
  *
  * @author Shekinah Jabez
  */
-public class LeaveRequest extends javax.swing.JFrame {
+public class Leave extends javax.swing.JFrame {
 
     private EmployeeLeaveTracker leaveTracker;
     private CSVReader csvReader;
@@ -36,7 +36,7 @@ public class LeaveRequest extends javax.swing.JFrame {
     /**
      * Creates new form LeaveRequest
      */
-    public LeaveRequest(HRDashboard dashboard) {
+    public Leave(HRDashboard dashboard) {
         initComponents();
         
         leaveTracker = loadLeaveTracker("src\\motorph9\\LeaveBalances.csv");
@@ -230,8 +230,6 @@ public class LeaveRequest extends javax.swing.JFrame {
         jButtonSubmit = new javax.swing.JButton();
         jButtonCancel = new javax.swing.JButton();
         jTextFieldReason = new javax.swing.JTextField();
-        jDateChooser_EndDate = new com.toedter.calendar.JDateChooser();
-        jDateChooser_StartDate = new com.toedter.calendar.JDateChooser();
         jButtonClear = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -529,12 +527,6 @@ public class LeaveRequest extends javax.swing.JFrame {
         });
         jPanelLeaverequest.add(jTextFieldReason, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 360, 390, 70));
 
-        jDateChooser_EndDate.setDateFormatString("MMM dd, yyyy");
-        jPanelLeaverequest.add(jDateChooser_EndDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 330, 390, -1));
-
-        jDateChooser_StartDate.setDateFormatString("MMM dd, yyyy");
-        jPanelLeaverequest.add(jDateChooser_StartDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 300, 390, -1));
-
         jButtonClear.setBackground(new java.awt.Color(0, 0, 51));
         jButtonClear.setForeground(new java.awt.Color(255, 255, 255));
         jButtonClear.setText("Clear");
@@ -783,20 +775,21 @@ public class LeaveRequest extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LeaveRequest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Leave.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LeaveRequest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Leave.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LeaveRequest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Leave.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LeaveRequest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Leave.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                //new LeaveRequest().setVisible(true);
+                //new Leave().setVisible(true);
             }
         });
     }
@@ -810,8 +803,6 @@ public class LeaveRequest extends javax.swing.JFrame {
     private javax.swing.JButton jButtonViewrequests;
     private javax.swing.JButton jButtonWithdrawleave;
     private javax.swing.JComboBox<String> jComboBoxLeavetype;
-    private com.toedter.calendar.JDateChooser jDateChooser_EndDate;
-    private com.toedter.calendar.JDateChooser jDateChooser_StartDate;
     private javax.swing.JLabel jLabelDate;
     private javax.swing.JLabel jLabelEmployeeno;
     private javax.swing.JLabel jLabelEnddate;
