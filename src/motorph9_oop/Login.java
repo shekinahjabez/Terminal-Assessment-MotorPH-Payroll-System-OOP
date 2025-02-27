@@ -190,7 +190,20 @@ public class Login extends javax.swing.JFrame {
     }
 
     private void openDashboard(User user) {
-        user.accessDashboard();
+        switch (user.getUserType().toLowerCase()) {
+            case "hr":
+                new HRDashboard(user).setVisible(true);
+                break;
+            case "finance":
+                new FinanceDashboard(user).setVisible(true);
+                break;
+            case "it":
+                new ITDashboard(user).setVisible(true);
+                break;
+            default:
+                new EmployeeDashboard(user).setVisible(true);
+                break;
+        }
     }
 
 

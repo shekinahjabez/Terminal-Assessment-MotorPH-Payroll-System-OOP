@@ -37,10 +37,24 @@ public class FinanceUser extends User {
         System.out.println("Generating payroll report");
     }
     
-    public String processPayroll() {
-        return "Payroll processed successfully";
+    public void processPayroll(String employeeId) throws IOException {
+        PayrollProcessor.processPayroll(employeeId);
     }
-    
+
+    public void viewPayroll(String employeeId) throws IOException {
+        System.out.println("Payroll Details for Employee ID: " + employeeId);
+        for (String[] data : CSVReader.readCSV("src/motorph9/Payroll.csv")) {
+            if (data[0].equals(employeeId)) {
+                System.out.println("Month: " + data[1] + " | Year: " + data[2]);
+                System.out.println("Gross Salary: " + data[3]);
+                System.out.println("Total Allowance: " + data[4]);
+                System.out.println("Total Deductions: " + data[5]);
+                System.out.println("Net Monthly Salary: " + data[6]);
+                return;
+            }
+        }
+        System.out.println("No payroll record found for Employee ID: " + employeeId);
+    }
 }
 
 class Deductions {
