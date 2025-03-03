@@ -574,9 +574,9 @@ public class HRDashboard extends javax.swing.JFrame {
         jLabelSeparate = new javax.swing.JLabel();
         jLabelGreet = new javax.swing.JLabel();
         jLabelDate = new javax.swing.JLabel();
-        jLblUname1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        Logo = new javax.swing.JLabel();
+        jLabelMotor = new javax.swing.JLabel();
+        jLabelPH = new javax.swing.JLabel();
         jTabbedMain = new javax.swing.JTabbedPane();
         jPanelManageEmployee = new javax.swing.JPanel();
         jScrollPaneTableEmployeeRecords = new javax.swing.JScrollPane();
@@ -656,22 +656,22 @@ public class HRDashboard extends javax.swing.JFrame {
         jLabelDate.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         jPanelHeader.add(jLabelDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 50, -1, -1));
 
-        jLblUname1.setBackground(new java.awt.Color(0, 0, 102));
-        jLblUname1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
-        jLblUname1.setForeground(new java.awt.Color(255, 255, 255));
-        jLblUname1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logos9/LogoMPH_(small1).png"))); // NOI18N
-        jLblUname1.setText("Username");
-        jPanelHeader.add(jLblUname1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, -10, 100, 110));
+        Logo.setBackground(new java.awt.Color(0, 0, 102));
+        Logo.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        Logo.setForeground(new java.awt.Color(255, 255, 255));
+        Logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logos9/LogoMPH_(small1).png"))); // NOI18N
+        Logo.setText("Username");
+        jPanelHeader.add(Logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, -10, 100, 110));
 
-        jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("MOTOR");
-        jPanelHeader.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, -10, -1, 100));
+        jLabelMotor.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
+        jLabelMotor.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelMotor.setText("MOTOR");
+        jPanelHeader.add(jLabelMotor, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, -10, -1, 100));
 
-        jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(204, 0, 51));
-        jLabel5.setText("PH");
-        jPanelHeader.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, -20, 70, 120));
+        jLabelPH.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
+        jLabelPH.setForeground(new java.awt.Color(204, 0, 51));
+        jLabelPH.setText("PH");
+        jPanelHeader.add(jLabelPH, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, -20, 70, 120));
 
         jPanelHRMain.add(jPanelHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1340, 90));
 
@@ -1364,6 +1364,7 @@ public class HRDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Logo;
     private javax.swing.JButton jButtonAdd;
     private javax.swing.JButton jButtonAddEmployee;
     private javax.swing.JButton jButtonApprove;
@@ -1373,8 +1374,6 @@ public class HRDashboard extends javax.swing.JFrame {
     private javax.swing.JButton jButtonManageEmployees;
     private javax.swing.JButton jButtonReject;
     private javax.swing.JButton jButtonUpdate;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabelAddress;
     private javax.swing.JLabel jLabelBirthday;
     private javax.swing.JLabel jLabelDate;
@@ -1383,6 +1382,8 @@ public class HRDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelGMT;
     private javax.swing.JLabel jLabelGreet;
     private javax.swing.JLabel jLabelLastname;
+    private javax.swing.JLabel jLabelMotor;
+    private javax.swing.JLabel jLabelPH;
     private javax.swing.JLabel jLabelPagibigNo;
     private javax.swing.JLabel jLabelPagibigNo1;
     private javax.swing.JLabel jLabelPagibigNo2;
@@ -1396,7 +1397,6 @@ public class HRDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelTitleAddEmployee;
     private javax.swing.JLabel jLabelTitleEmployeeList;
     private javax.swing.JLabel jLabelTitleLeaveRequests;
-    private javax.swing.JLabel jLblUname1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanelAddEmployee;
     private javax.swing.JPanel jPanelAdddetails;
