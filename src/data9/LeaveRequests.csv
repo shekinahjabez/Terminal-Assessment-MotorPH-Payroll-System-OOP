@@ -1,0 +1,4 @@
+leaveID,employeeNum,leaveType,dateRequest,startDate,endDate,reason,status,approver,dateResponded
+L001,10002,Sick Leave,2024-06-03,2024-06-03,2024-06-05,Flu,Approved,Manuel III Garcia,2025-03-03
+L002,10003,Vacation Leave,2024-07-09,2024-07-10,2024-07-15,Family Trip,Approved,Manuel III Garcia,2025-03-03
+L003,10004,Maternity Leave,2024-07-10,2024-08-01,2024-10-01,Childbirth,Approved,Garcia Manuel III,2024-07-11
