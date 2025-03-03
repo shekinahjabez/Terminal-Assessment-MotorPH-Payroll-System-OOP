@@ -622,7 +622,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         });
         jPanelEmployeeDetails.add(jButtonLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 420, 140, 30));
 
-        jTabbedPaneEmployee.addTab("tab1", jPanelEmployeeDetails);
+        jTabbedPaneEmployee.addTab("Employee Details", jPanelEmployeeDetails);
 
         jPanelAttendanceandTracker.setBackground(new java.awt.Color(51, 0, 0));
         jPanelAttendanceandTracker.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -750,7 +750,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jLabelAttendanceLog.setText("Attendance Logs");
         jPanelAttendanceandTracker.add(jLabelAttendanceLog, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 80));
 
-        jTabbedPaneEmployee.addTab("tab4", jPanelAttendanceandTracker);
+        jTabbedPaneEmployee.addTab("Attendance & Tracker", jPanelAttendanceandTracker);
 
         jPanelSalaryInformation.setBackground(new java.awt.Color(51, 0, 0));
         jPanelSalaryInformation.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1025,7 +1025,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         });
         jPanelSalaryInformation.add(jButtonViewSalary, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 430, 160, 30));
 
-        jTabbedPaneEmployee.addTab("tab2", jPanelSalaryInformation);
+        jTabbedPaneEmployee.addTab("Salary Information", jPanelSalaryInformation);
 
         jPanelEmployeeMain.add(jTabbedPaneEmployee, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1020, 510));
 

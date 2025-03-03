@@ -4,20 +4,37 @@
  */
 package motorph9_MS2;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author Four Lugtu
  */
 public class ITDashboard extends javax.swing.JFrame {
-
+    private User user;
+    
     /**
      * Creates new form ITDashboards
      */
     public ITDashboard() {
         initComponents();
+        setupUI();
+        setLocationRelativeTo(null);
     }
     
+    /*public ITDashboard(User user) {
+    }*/
+    
     public ITDashboard(User user) {
+        this.user = user;
+        initComponents();  // Ensure GUI elements are initialized
+        setupUI();         // Apply UI settings
+    }
+    
+    private void setupUI() {
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setVisible(true);
     }
 
     /**
@@ -221,7 +238,10 @@ public class ITDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonApprovePasswordResetActionPerformed
 
     private void jButtonLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLogoutActionPerformed
-
+        Login newClassInstance = new Login();
+                 newClassInstance.setVisible(true); 
+                 
+                dispose();
     }//GEN-LAST:event_jButtonLogoutActionPerformed
 
     /**
