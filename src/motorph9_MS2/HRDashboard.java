@@ -115,6 +115,10 @@ public class HRDashboard extends javax.swing.JFrame {
             System.err.println("❌ Error loading employees: " + e.getMessage());
         }
     }
+
+    public JTable getjTableEmployeeRecords() {
+        return jTableEmployeeRecords;
+    }
   
     /*private void loadEmployeeData() {
         DefaultTableModel model = (DefaultTableModel) jTableEmployeeRecords.getModel();
@@ -189,20 +193,20 @@ public class HRDashboard extends javax.swing.JFrame {
             return;
         }
 
-        // Retrieve employee data from the table
-        String employeeNum = (String) jTableEmployeeRecords.getValueAt(selectedRow, 0);
-        String lastName = (String) jTableEmployeeRecords.getValueAt(selectedRow, 1);
-        String firstName = (String) jTableEmployeeRecords.getValueAt(selectedRow, 2);
-        String sssNumber = (String) jTableEmployeeRecords.getValueAt(selectedRow, 3);
-        String philhealthNumber = (String) jTableEmployeeRecords.getValueAt(selectedRow, 4);
-        String tinNumber = (String) jTableEmployeeRecords.getValueAt(selectedRow, 5);
-        String pagibigNumber = (String) jTableEmployeeRecords.getValueAt(selectedRow, 6);
-        String birthday = (String) jTableEmployeeRecords.getValueAt(selectedRow, 7);
-        String address = (String) jTableEmployeeRecords.getValueAt(selectedRow, 8);
-        String phoneNumber = (String) jTableEmployeeRecords.getValueAt(selectedRow, 9);
-        String status = (String) jTableEmployeeRecords.getValueAt(selectedRow, 10);
-        String position = (String) jTableEmployeeRecords.getValueAt(selectedRow, 11);
-        String supervisor = (String) jTableEmployeeRecords.getValueAt(selectedRow, 12);
+        // Retrieve employee data from the table   
+        String employeeNum = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 0));
+        String lastName = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 1));
+        String firstName = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 2));
+        String sssNumber = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 3));
+        String philhealthNumber = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 4));
+        String tinNumber = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 5));
+        String pagibigNumber = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 6));
+        String birthday = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 7));
+        String address = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 8));
+        String phoneNumber = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 9)); // No cast issues
+        String status = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 10));
+        String position = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 11));
+        String supervisor = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 12));
 
         // Prompt user for updates
         String newLastName = JOptionPane.showInputDialog("Enter new last name:", lastName);
@@ -679,9 +683,7 @@ public class HRDashboard extends javax.swing.JFrame {
         jPanelManageEmployee.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jTableEmployeeRecords.setAutoCreateRowSorter(true);
-        jTableEmployeeRecords.setBackground(new java.awt.Color(255, 255, 255));
         jTableEmployeeRecords.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jTableEmployeeRecords.setForeground(new java.awt.Color(0, 0, 0));
         jTableEmployeeRecords.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null, null, null, null},
@@ -791,8 +793,6 @@ public class HRDashboard extends javax.swing.JFrame {
         jLabelTitleLeaveRequests.setText("LEAVE REQUESTS");
         jPanelLeaveRequest.add(jLabelTitleLeaveRequests, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 110, -1, 32));
 
-        jTableLeaveRequest.setBackground(new java.awt.Color(255, 255, 255));
-        jTableLeaveRequest.setForeground(new java.awt.Color(0, 0, 0));
         jTableLeaveRequest.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null},
@@ -1078,9 +1078,7 @@ public class HRDashboard extends javax.swing.JFrame {
         );
 
         jTableAddEmployee.setAutoCreateRowSorter(true);
-        jTableAddEmployee.setBackground(new java.awt.Color(255, 255, 255));
         jTableAddEmployee.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jTableAddEmployee.setForeground(new java.awt.Color(0, 0, 0));
         jTableAddEmployee.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null},
@@ -1244,9 +1242,7 @@ public class HRDashboard extends javax.swing.JFrame {
 
         jPanelHRMain.add(jPanelSidebar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 190, 320));
 
-        jButtonLogout.setBackground(new java.awt.Color(255, 255, 255));
         jButtonLogout.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
-        jButtonLogout.setForeground(new java.awt.Color(0, 0, 0));
         jButtonLogout.setText("Logout");
         jButtonLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1319,7 +1315,11 @@ public class HRDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonRejectActionPerformed
 
     private void jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateActionPerformed
-        updateEmployee();
+        UpdateEmployeeForm updateEmployeeForm = new UpdateEmployeeForm(this);
+        updateEmployeeForm.setLocationRelativeTo(this); // Centers relative to the parent JFrame
+        updateEmployeeForm.setVisible(true);
+        updateEmployeeForm.populateTextFields(jTableEmployeeRecords.getSelectedRow());
+//        updateEmployee();
     }//GEN-LAST:event_jButtonUpdateActionPerformed
 
     private void jTextFieldEmployeenoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldEmployeenoKeyTyped
@@ -1358,7 +1358,8 @@ public class HRDashboard extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new HRDashboard().setVisible(true);
+                HRDashboard hrDashboard = new HRDashboard(); // Store the instance in a variable
+                new UpdateEmployeeForm(hrDashboard).setVisible(true);  //hrDashboard.setVisible(true);
             }
         });
     }
