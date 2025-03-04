@@ -16,37 +16,7 @@ import java.util.List;
  */
 public class EmployeeDetailsReader {
    private static final String FILE_PATH = "src/data9/Employee.csv";
-     
-   /*public User getEmployeeById(String username) {
-        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
-            String line;
-            br.readLine(); // Skip header row
-
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
-                if (data.length >= 13) { // Ensure there are enough columns
-                    String empNum = data[0].trim();
-                    String storedUsername = data[1].trim(); // Last name as username
-                    String firstName = data[2].trim();
-                    String roleName = "Employee"; // Default role for regular employees
-
-                    System.out.println("Checking user: " + storedUsername);
-
-                    if (storedUsername.equals(username.trim())) {
-                        return new EmployeeUser(
-                            empNum, storedUsername, firstName, data[3], data[4], // Employee ID, Last Name, First Name, Birthday, Address
-                            Integer.parseInt(data[5]), data[6], data[7], // Phone (converted to int), SSS, PhilHealth
-                            data[8], data[9], data[10], data[11], data[12] // TIN, Pagibig, Status, Position, Supervisor
-                        );
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }*/
-   
+        
     public User getEmployeeById(String username) {
         try (BufferedReader br = new BufferedReader(new FileReader("src/data9/Login.csv"))) {
             String line;
@@ -112,44 +82,6 @@ public class EmployeeDetailsReader {
         System.out.println("❌ Employee Not Found for ID: " + empNum); // Debugging output
         return null; // ✅ Return null if not found
     }
-
-    
-    /*private String[] getEmployeeDetails(String empNum) {
-        try (BufferedReader br = new BufferedReader(new FileReader("src/data9/Employee.csv"))) {
-            String line;
-            br.readLine(); // ✅ Skip header row
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",", -1);
-                if (data.length >= 3 && data[0].trim().equals(empNum)) {
-                    return data; // ✅ Return full employee data
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null; // ✅ Return null if not found
-    }*/
-
-   
-    /*private static User createUserFromData(String[] data) {
-        switch (data[14].toLowerCase()) { // userType column
-            case "hr" -> {
-                return new HRUser(data[0], data[1], data[2], data[3]);
-           }
-            case "finance" -> {
-                return new FinanceUser(data[0], data[1], data[2], data[3]);
-           }
-            case "it" -> {
-                return new ITUser(data[0], data[1], data[2], data[3]);
-           }
-            default -> {
-                return new EmployeeUser(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11], data[12]);
-            }
-
-
-        }
-       // userType column
-    }*/
 
     public static void addEmployee(User newEmployee) throws IOException {
         List<String[]> data = CSVReader.readCSV(FILE_PATH);
@@ -225,47 +157,6 @@ public class EmployeeDetailsReader {
         return employees;
     }
     
-    /*public User getLoginDetails(String username) {
-        try (BufferedReader br = new BufferedReader(new FileReader("src/data9/Login.csv"))) {
-            String line;
-            br.readLine(); // ✅ Skip header row
-
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",", -1);
-                if (data.length >= 4) { // 4 columns (employeeNum,username,roleName,password)
-                    String empNum = data[0].trim();
-                    String storedUsername = data[1].trim();
-                    String roleName = data[2].trim();
-                    String storedPassword = data[3].trim(); // ✅ Read password from Login.csv
-
-                    if (storedUsername.equals(username.trim())) {
-                        // ✅ Fetch First & Last Name from Employee.csv
-                        String[] employeeDetails = getEmployeeDetails(empNum);
-                        String firstName = (employeeDetails != null) ? employeeDetails[2] : "Unknown";
-                        String lastName = (employeeDetails != null) ? employeeDetails[1] : "Unknown";
-
-                        // ✅ Return Correct User Type with First & Last Name
-                        switch (roleName) {
-                            case "HR":
-                                return new HRUser(empNum, storedUsername, "HR", storedPassword, firstName, lastName);
-                            case "IT":
-                                return new ITUser(empNum, storedUsername, "IT", storedPassword, firstName, lastName);
-                            case "Finance":
-                                return new FinanceUser(empNum, storedUsername, "Finance", storedPassword, firstName, lastName);
-                            case "Employee":
-                                return new EmployeeUser(empNum, storedUsername, "Employee", storedPassword, firstName, lastName);
-                            default:
-                                return null;
-                        }
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }*/ 
-    
     public User getLoginDetails(String username) {
         try (BufferedReader br = new BufferedReader(new FileReader("src/data9/Login.csv"))) {
             String line;
@@ -291,14 +182,14 @@ public class EmployeeDetailsReader {
                         System.out.println("✅ Last Name Retrieved: " + lastName);  // Debugging output
 
                         // ✅ Return Correct User Type with First & Last Name
-                        switch (roleName) {
+                        switch (roleName.trim().toUpperCase()) {
                             case "HR":
                                 return new HRUser(empNum, storedUsername, "HR", storedPassword, firstName, lastName);
                             case "IT":
                                 return new ITUser(empNum, storedUsername, "IT", storedPassword, firstName, lastName);
-                            case "Finance":
+                            case "FINANCE":
                                 return new FinanceUser(empNum, storedUsername, "Finance", storedPassword, firstName, lastName);
-                            case "Employee":
+                            case "EMPLOYEE":
                                 return new EmployeeUser(empNum, storedUsername, "Employee", storedPassword, firstName, lastName);
                             default:
                                 return null;
