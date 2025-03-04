@@ -16,8 +16,13 @@ import java.io.FileReader;
 import javax.swing.*;
 import motorph9_MS2.EmployeeDashboard;
 import motorph9_MS2.EmployeeDetailsReader;
+import motorph9_MS2.EmployeeUser;
 import motorph9_MS2.FinanceDashboard;
+import motorph9_MS2.FinanceUser;
+import motorph9_MS2.HRDashboard;
+import motorph9_MS2.HRUser;
 import motorph9_MS2.ITDashboard;
+import motorph9_MS2.ITUser;
 import motorph9_MS2.LeaveRequestReader;
 import motorph9_MS2.User;
 
@@ -33,12 +38,24 @@ public class Login extends javax.swing.JFrame {
      * Creates new form Login
      */
     public Login() {
-        initComponents();
+        /*initComponents();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setMinimumSize(new java.awt.Dimension(957, 490)); 
         setMaximumSize(new java.awt.Dimension(1200, 700));
+        reader = new EmployeeDetailsReader();
+        
+        jBtnLogin.addActionListener(new LoginActionListener());*/
+        
+        initComponents();
+        setMinimumSize(new java.awt.Dimension(957, 490)); 
+        pack();
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
+        //setMaximumSize(new java.awt.Dimension(1200, 700));
         reader = new EmployeeDetailsReader();
         
         jBtnLogin.addActionListener(new LoginActionListener());
@@ -153,26 +170,26 @@ public class Login extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
+        private class LoginActionListener implements ActionListener {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String username = jUnameField.getText();
+                String password = new String(jPwordField.getPassword());
 
-    private class LoginActionListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String username = jUnameField.getText();
-            String password = new String(jPwordField.getPassword());
-
-            try {
-                User user = validateLogin(username, password);
-                if (user == null) {
-                    JOptionPane.showMessageDialog(Login.this, "Incorrect Credentials.", "Error", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(Login.this, "Login Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    openDashboard(user); // ✅ Calls method to open the dashboard
-                    dispose(); // ✅ Closes login window
+                try {
+                    User user = validateLogin(username, password);
+                    if (user == null) {
+                        JOptionPane.showMessageDialog(Login.this, "Incorrect Credentials.", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(Login.this, "Login Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        openDashboard(user); // ✅ Calls method to open the dashboard
+                        dispose(); // ✅ Closes login window
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (IOException ex) {
-                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
 
 
         private User validateLogin(String username, String password) throws IOException {
@@ -192,9 +209,8 @@ public class Login extends javax.swing.JFrame {
 
             System.out.println("Login failed for user: " + username);
             return null;
-        }
-    
-    
+        }        
+
         private void openDashboard(User user) {
             if (user instanceof HRUser) {
                 HRDashboard hrDashboard = new HRDashboard((HRUser) user, reader, new LeaveRequestReader());
