@@ -4,6 +4,8 @@
  */
 package motorph9_MS2;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author admin
@@ -262,28 +264,34 @@ public class UpdateEmployeeForm extends javax.swing.JFrame {
     }
     
     void populateTextFields(int selectedRow) {
-        if (selectedRow >= 0) { // Ensure a row is selected
-            for (int i = 0; i < 1; i++) {
-                try {
-                    // Use reflection to access jTextField1 to jTextField12 dynamically
-                    javax.swing.JTextField textField = (javax.swing.JTextField) this.getClass()
-                            .getDeclaredField("jTextField" + (i + 1)).get(this);
+        if (selectedRow < 0) { // No row selected
+            JOptionPane.showMessageDialog(this,
+            "Please select an employee to modify!",
+            "No Employee Selected",
+            JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+        setVisible(true);
+        for (int i = 0; i < 1; i++) {
+            try {
+                // Use reflection to access jTextField1 to jTextField12 dynamically
+                javax.swing.JTextField textField = (javax.swing.JTextField) this.getClass()
+                        .getDeclaredField("jTextField" + (i + 1)).get(this);
 
-                    // Correct the access to the JTable
-                    Object value = hrDashboard.getjTableEmployeeRecords().getValueAt(selectedRow, i);
-                    System.out.println("Value at (" + selectedRow + ", " + i + "): " + value);
+                // Correct the access to the JTable
+                Object value = hrDashboard.getjTableEmployeeRecords().getValueAt(selectedRow, i);
+                System.out.println("Value at (" + selectedRow + ", " + i + "): " + value);
 
-                    textField.setText(value != null ? String.valueOf(value) : "");
-                } catch (NoSuchFieldException | IllegalAccessException e) {
-                    e.printStackTrace(); // Handle potential errors
-                }
+                textField.setText(value != null ? String.valueOf(value) : "");
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace(); // Handle potential errors
             }
-        } else {
-            System.out.println("No row selected!");
         }
     }
     
-
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

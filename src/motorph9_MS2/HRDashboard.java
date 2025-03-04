@@ -1317,7 +1317,6 @@ public class HRDashboard extends javax.swing.JFrame {
     private void jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateActionPerformed
         UpdateEmployeeForm updateEmployeeForm = new UpdateEmployeeForm(this);
         updateEmployeeForm.setLocationRelativeTo(this); // Centers relative to the parent JFrame
-        updateEmployeeForm.setVisible(true);
         updateEmployeeForm.populateTextFields(jTableEmployeeRecords.getSelectedRow());
 //        updateEmployee();
     }//GEN-LAST:event_jButtonUpdateActionPerformed
