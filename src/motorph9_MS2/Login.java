@@ -38,26 +38,12 @@ public class Login extends javax.swing.JFrame {
      * Creates new form Login
      */
     public Login() {
-        /*initComponents();
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setMinimumSize(new java.awt.Dimension(957, 490)); 
-        setMaximumSize(new java.awt.Dimension(1200, 700));
-        reader = new EmployeeDetailsReader();
-        
-        jBtnLogin.addActionListener(new LoginActionListener());*/
-        
         initComponents();
         setMinimumSize(new java.awt.Dimension(957, 490)); 
         pack();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //setExtendedState(JFrame.MAXIMIZED_BOTH);
-        
-        //setMaximumSize(new java.awt.Dimension(1200, 700));
         reader = new EmployeeDetailsReader();
-        
         jBtnLogin.addActionListener(new LoginActionListener());
     }
 

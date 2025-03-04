@@ -266,7 +266,7 @@ public class EmployeeDetailsReader {
         return null;
     }*/ 
     
-    public User getLoginDetails(String username) {
+    /*public User getLoginDetails(String username) {
         try (BufferedReader br = new BufferedReader(new FileReader("src/data9/Login.csv"))) {
             String line;
             br.readLine(); // ✅ Skip header row
@@ -299,6 +299,52 @@ public class EmployeeDetailsReader {
                             case "Finance":
                                 return new FinanceUser(empNum, storedUsername, "Finance", storedPassword, firstName, lastName);
                             case "Employee":
+                                return new EmployeeUser(empNum, storedUsername, "Employee", storedPassword, firstName, lastName);
+                            default:
+                                return null;
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }*/
+    
+    public User getLoginDetails(String username) {
+        try (BufferedReader br = new BufferedReader(new FileReader("src/data9/Login.csv"))) {
+            String line;
+            br.readLine(); // ✅ Skip header row
+
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",", -1);
+                if (data.length >= 4) { // ✅ 4 columns (employeeNum,username,roleName,password)
+                    String empNum = data[0].trim(); // ✅ Employee ID from Login.csv
+                    System.out.println("🔍 Found empNum for login: " + empNum); // Debugging output
+
+                    String storedUsername = data[1].trim();
+                    String roleName = data[2].trim();
+                    String storedPassword = data[3].trim(); // ✅ Read password from Login.csv
+
+                    if (storedUsername.equals(username.trim())) {
+                        // ✅ Fetch First & Last Name from Employee.csv
+                        String[] employeeDetails = getEmployeeDetails(empNum);
+                        String firstName = (employeeDetails != null) ? employeeDetails[2] : "Unknown";
+                        String lastName = (employeeDetails != null) ? employeeDetails[1] : "Unknown";
+
+                        System.out.println("✅ First Name Retrieved: " + firstName); // Debugging output
+                        System.out.println("✅ Last Name Retrieved: " + lastName);  // Debugging output
+
+                        // ✅ Return Correct User Type with First & Last Name
+                        switch (roleName.trim().toUpperCase()) {
+                            case "HR":
+                                return new HRUser(empNum, storedUsername, "HR", storedPassword, firstName, lastName);
+                            case "IT":
+                                return new ITUser(empNum, storedUsername, "IT", storedPassword, firstName, lastName);
+                            case "FINANCE":
+                                return new FinanceUser(empNum, storedUsername, "Finance", storedPassword, firstName, lastName);
+                            case "EMPLOYEE":
                                 return new EmployeeUser(empNum, storedUsername, "Employee", storedPassword, firstName, lastName);
                             default:
                                 return null;
