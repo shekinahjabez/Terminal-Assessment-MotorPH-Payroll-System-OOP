@@ -29,7 +29,7 @@
                   <Group type="102" attributes="0">
                       <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="jTextField14" min="-2" max="-2" attributes="0"/>
+                      <Component id="jTextField13" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -47,25 +47,23 @@
                           <Component id="jLabel12" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jTextField4" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextField3" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextField5" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextField6" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextField7" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextField8" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextField9" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextField10" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextField11" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextField12" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextField2" alignment="1" min="-2" max="-2" attributes="0"/>
                           <Component id="jTextField1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField2" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                              <Component id="jTextField4" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextField3" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextField5" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextField6" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextField7" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextField8" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextField9" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextField10" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextField11" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextField12" alignment="1" min="-2" max="-2" attributes="0"/>
-                          </Group>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="155" max="32767" attributes="0"/>
+              <EmptySpace pref="203" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -135,7 +133,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField14" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTextField13" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="7" max="32767" attributes="0"/>
           </Group>
@@ -159,8 +157,11 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
+        <Property name="text" type="java.lang.String" value="jTextField2"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField2ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
@@ -169,7 +170,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField3">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
+        <Property name="text" type="java.lang.String" value="jTextField3"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
@@ -179,72 +180,72 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField4">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
+        <Property name="text" type="java.lang.String" value="jTextField4"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
-        <Property name="text" type="java.lang.String" value="SSS Number:"/>
+        <Property name="text" type="java.lang.String" value="Birthday:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField5">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
+        <Property name="text" type="java.lang.String" value="jTextField5"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
-        <Property name="text" type="java.lang.String" value="PhilHealth Number:"/>
+        <Property name="text" type="java.lang.String" value="Address:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField6">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
+        <Property name="text" type="java.lang.String" value="jTextField6"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Tin Number:"/>
+        <Property name="text" type="java.lang.String" value="Phone Number:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField7">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
+        <Property name="text" type="java.lang.String" value="jTextField7"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
       <Properties>
-        <Property name="text" type="java.lang.String" value="PagIbig Number:"/>
+        <Property name="text" type="java.lang.String" value="SSS Number:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel8">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Birthday:"/>
+        <Property name="text" type="java.lang.String" value="PhilHealth Number:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField8">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
+        <Property name="text" type="java.lang.String" value="jTextField8"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel9">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Address:"/>
+        <Property name="text" type="java.lang.String" value="Tin Number:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField9">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
+        <Property name="text" type="java.lang.String" value="jTextField9"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel10">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Phone Number:"/>
+        <Property name="text" type="java.lang.String" value="PagIbig Number:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField10">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
+        <Property name="text" type="java.lang.String" value="jTextField10"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel11">
@@ -254,7 +255,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField11">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
+        <Property name="text" type="java.lang.String" value="jTextField11"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel12">
@@ -264,7 +265,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField12">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
+        <Property name="text" type="java.lang.String" value="jTextField12"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel13">
@@ -272,9 +273,9 @@
         <Property name="text" type="java.lang.String" value="Supervisor:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField14">
+    <Component class="javax.swing.JTextField" name="jTextField13">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
+        <Property name="text" type="java.lang.String" value="jTextField13"/>
       </Properties>
     </Component>
   </SubComponents>
