@@ -11,6 +11,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.JOptionPane;
+import java.io.*;
+import java.util.regex.*;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -345,7 +348,7 @@ public class UpdateEmployeeForm extends javax.swing.JFrame {
             }
         }
     }
-    
+
     void saveUpdatedEmployee() {
         File inputFile = new File("src/data9/Employee.csv");
         File tempFile = new File("src/data9/Employee_temp.csv");
@@ -360,6 +363,15 @@ public class UpdateEmployeeForm extends javax.swing.JFrame {
         String employeeID = hrDashboard.getjTableEmployeeRecords().getValueAt(selectedRow, 0).toString();
         boolean isModified = false;
 
+        // Validation patterns
+        Pattern alphabeticPattern = Pattern.compile("^[A-Za-z ]+$");  // For First Name & Last Name
+        Pattern numericPattern = Pattern.compile("^\\d+$");  // For Employee Number, Phone Number
+        Pattern datePattern = Pattern.compile("^\\d{1,2}/\\d{1,2}/\\d{4}$");  // Birthday
+        Pattern idPattern = Pattern.compile("^\\d{2}-\\d{7}-\\d$");  // SSS Number
+        Pattern philhealthPattern = Pattern.compile("^\\d{12}$");  // PhilHealth Number
+        Pattern tinPattern = Pattern.compile("^\\d{3}-\\d{3}-\\d{3}-\\d{3}$");  // TIN Number
+        Pattern pagibigPattern = Pattern.compile("^\\d{12}$");  // Pag-IBIG Number
+
         try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
              BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
 
@@ -371,11 +383,68 @@ public class UpdateEmployeeForm extends javax.swing.JFrame {
                 if (data[0].equals(employeeID)) { // Match Employee ID
                     found = true;
 
-                    // ✅ Extract values from text fields and check for changes
                     for (int i = 0; i < data.length && i < 13; i++) {
                         javax.swing.JTextField textField = (javax.swing.JTextField) this.getClass()
                                 .getDeclaredField("jTextField" + (i + 1)).get(this);
                         String newValue = textField.getText().trim();
+
+                        // Validate First Name & Last Name
+                        if (i == 1 || i == 2) { 
+                            if (!alphabeticPattern.matcher(newValue).matches()) {
+                                JOptionPane.showMessageDialog(this, "Invalid name format: " + newValue + 
+                                                              "\nOnly alphabetic characters and spaces are allowed.",
+                                                              "Validation Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+                        }
+                        // Validate Employee Number & Phone Number (numeric)
+                        else if (i == 0 || i == 5) { 
+                            if (!numericPattern.matcher(newValue).matches()) {
+                                JOptionPane.showMessageDialog(this, "Invalid numeric value: " + newValue, 
+                                                              "Validation Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+                        }
+                        // Validate Birthday
+                        else if (i == 3) { 
+                            if (!datePattern.matcher(newValue).matches()) {
+                                JOptionPane.showMessageDialog(this, "Invalid date format (MM/DD/YYYY): " + newValue, 
+                                                              "Validation Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+                        }
+                        // Validate SSS Number
+                        else if (i == 6) { 
+                            if (!idPattern.matcher(newValue).matches()) {
+                                JOptionPane.showMessageDialog(this, "Invalid SSS number format (XX-XXXXXXX-X): " + newValue, 
+                                                              "Validation Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+                        }
+                        // Validate PhilHealth Number
+                        else if (i == 7) { 
+                            if (!philhealthPattern.matcher(newValue).matches()) {
+                                JOptionPane.showMessageDialog(this, "Invalid PhilHealth number (12 digits): " + newValue, 
+                                                              "Validation Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+                        }
+                        // Validate TIN Number
+                        else if (i == 8) { 
+                            if (!tinPattern.matcher(newValue).matches()) {
+                                JOptionPane.showMessageDialog(this, "Invalid TIN number format (XXX-XXX-XXX-XXX): " + newValue, 
+                                                              "Validation Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+                        }
+                        // Validate Pag-IBIG Number
+                        else if (i == 9) { 
+                            if (!pagibigPattern.matcher(newValue).matches()) {
+                                JOptionPane.showMessageDialog(this, "Invalid Pag-IBIG number (12 digits): " + newValue, 
+                                                              "Validation Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+                        }
 
                         if (!data[i].equals(newValue)) { // Check if field changed
                             isModified = true;
@@ -383,11 +452,9 @@ public class UpdateEmployeeForm extends javax.swing.JFrame {
                         }
                     }
 
-                    // ✅ Write updated data
                     writer.write(String.join(",", data) + "\n");
 
                 } else {
-                    // ✅ Keep original line for other employees
                     writer.write(line + "\n");
                 }
             }
@@ -405,18 +472,17 @@ public class UpdateEmployeeForm extends javax.swing.JFrame {
             return;
         }
 
-        // ✅ Replace original file with updated file
+        // Replace original file with updated file
         if (inputFile.delete()) {
             if (tempFile.renameTo(inputFile)) {
                 if (isModified) {
                     JOptionPane.showMessageDialog(this, "Employee updated successfully!", 
                                                   "Success", JOptionPane.INFORMATION_MESSAGE);
-                    dispose(); // ✅ Close window after successful save
+                    dispose(); // Close window after successful save
                 } else {
-                    // ✅ Show message and close window after clicking "OK"
                     JOptionPane.showMessageDialog(this, "No changes were made!", 
                                                   "Info", JOptionPane.INFORMATION_MESSAGE);
-                    dispose(); // ✅ Close window after clicking OK
+                    dispose();
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Error renaming temp file!", 
