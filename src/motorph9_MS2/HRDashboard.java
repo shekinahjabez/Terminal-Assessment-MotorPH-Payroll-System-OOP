@@ -84,7 +84,7 @@ public class HRDashboard extends javax.swing.JFrame {
         jLabelDate.setText(dateFormat.format(new Date()));
     }
     
-    private void loadEmployeeTable() {
+    public void loadEmployeeTable() {
         if (jTableEmployeeRecords == null) {
             System.err.println("❌ Error: jTableemployeeTable is still null!");
             return;
