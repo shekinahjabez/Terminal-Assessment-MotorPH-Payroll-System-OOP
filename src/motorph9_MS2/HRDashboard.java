@@ -186,6 +186,7 @@ public class HRDashboard extends javax.swing.JFrame {
         }
     }
 
+/* this method is moved to UpdateEmployeeForm.java
     private void updateEmployee() { 
         int selectedRow = jTableEmployeeRecords.getSelectedRow();
         if (selectedRow == -1) {
@@ -250,6 +251,7 @@ public class HRDashboard extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Update canceled or invalid input.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+***/
     
     private void addEmployee() { 
         JTextField jTextFieldEmployeeno = new JTextField();
