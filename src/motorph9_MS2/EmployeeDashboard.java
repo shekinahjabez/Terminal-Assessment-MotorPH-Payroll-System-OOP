@@ -4,20 +4,40 @@
  */
 package motorph9_MS2;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author Four Lugtu
  */
 public class EmployeeDashboard extends javax.swing.JFrame {
+    
+    private User loggedInUser; // To store the logged-in user
 
     /**
      * Creates new form EmployeeDashboards
      */
     public EmployeeDashboard() {
         initComponents();
+        setLocationRelativeTo(null); // Center the window
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Define close behavior
     }
-    
+
     public EmployeeDashboard(User user) {
+        initComponents(); // ✅ Call initComponents() to initialize UI
+        setLocationRelativeTo(null); // ✅ Center the window
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // ✅ Define close behavior
+        this.loggedInUser = user; // ✅ Store the logged-in user
+        displayWelcomeMessage(); // ✅ Call method to display welcome message (example)
+    }
+
+    private void displayWelcomeMessage() {
+        if (loggedInUser != null) {
+            jLabelFirstName.setText(loggedInUser.getFirstName() + "!"); // Example: Set welcome label
+            // You can display other user-specific information here as needed
+        } else {
+            jLabelFirstName.setText("Employee!"); // Default if user is null (shouldn't happen in login flow)
+        }
     }
 
     /**
