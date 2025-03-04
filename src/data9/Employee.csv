@@ -1,11 +1,10 @@
 employeeNum,lastName,firstName,birthday,address,phoneNumber,sssNumber,philhealthNumber,tinNumber,pagibigNumber,status,position,supervisor
-10002,Lim,Antonio,06/19/1988,San Antonio De Padua 2 Block 1 Lot 8 and 2 Dasmarinas Cavite,171867411,52-2061274-9,331735646338,683-102-776-000,663904995411,Regular,Chief Operating Officer,Garcia Manuel III
+10002,1,Antonio,06/19/1988,San Antonio De Padua 2 Block 1 Lot 8 and 2 Dasmarinas Cavite,171867411,52-2061274-9,331735646338,683-102-776-000,663904995411,Regular,Chief Operating Officer,Garcia Manuel III
 10003,Aquino,Bianca Sofia,08/04/1989,Rm. 402 4/F Jiao Building Timog Avenue Cor. Quezon Avenue 1100 Quezon City,966889370,30-8870406-2,177451189665,971-711-280-000,171519773969,Regular,Chief Finance Officer,Garcia Manuel III
-10004,Reyes,Isabella,06/16/1994,460 Solanda Street Intramuros 1000 Manila,786868477,40-2511815-0,341911411254,876-809-437-000,416946776041,Regular,Chief Marketing Officer,Garcia Manuel III
+10004,reyes,Isabella,06/16/1994,460 Solanda Street Intramuros 1000 Manila,786868477,40-2511815-0,341911411254,876-809-437-000,416946776041,Regular,Chief Marketing Officer,Garcia Manuel III
 10005,Hernandez,Eduard,09/23/1989,National Highway Gingoog  Misamis Occidental,88861012,50-5577638-1,957436191812,031-702-374-000,952347222457,Regular,IT Operations and Systems,Lim Antonio
-10006,Villanueva,Andrea Mae,02/14/1988,17/85 Stracke Via Suite 042 Poblacion Las Piñas 4783 Dinagat Islands ,918621603,49-1632020-8,382189453145,317-674-022-000,441093369646,Regular,HR Manager,Lim Antonio
-10007,San Jose,Brad,03/15/1996,99 Strosin Hills Poblacion Bislig 5340 Tawi-Tawi,797009261,40-2400714-1,239192926939,672-474-690-000,210850209964,Regular,HR Team Leader,Villanueva Andrea Mae
-10008,Romualdez,Alice,05/14/1992,12A/33 Upton Isle Apt. 420 Roxas City 1814 Surigao del Norte ,983606799,55-4476527-2,545652640232,888-572-294-000,211385556888,Regular,HR Rank and File,San Jose Brad
+10006,Villanueva,Andrea Mae,02/14/1988,17/85 Stracke Via Suite 042 Poblacion Las Piñas 4783 Dinagat Islands,918621603,49-1632020-8,382189453145,317-674-022-000,441093369646,Regular,HR Manager,Lim Antonio
+10008,Romualdez,Alice,05/14/1992,12A/33 Upton Isle Apt. 420 Roxas City 1814 Surigao del Norte,983606799,55-4476527-2,545652640232,888-572-294-000,211385556888,Regular,HR Rank and File,San Jose Brad
 10009,Atienza,Rosie,09/24/1948,90A Dibbert Terrace Apt. 190 San Lorenzo 6056 Davao del Norte,266036427,41-0644692-3,708988234853,604-997-793-000,260107732354,Regular,HR Rank and File,San Jose Brad
 10010,Alvaro,Roderick,03/30/1988,#284 T. Morato corner Scout Rallos Street Quezon City,53381386,64-7605054-4,578114853194,525-420-419-000,799254095212,Regular,Accounting Head,Aquino Bianca Sofia 
 10011,Salcedo,Anthony,09/14/1993,93/54 Shanahan Alley Apt. 183 Santo Tomas 1572 Masbate,70766300,26-9647608-3,126445315651,210-805-911-000,218002473454,Regular,Payroll Manager,Alvaro Roderick

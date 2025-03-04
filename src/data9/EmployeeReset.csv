@@ -1,0 +1,35 @@
+﻿employeeNum,lastName,firstName,birthday,address,phoneNumber,sssNumber,philhealthNumber,tinNumber,pagibigNumber,status,position,supervisor
+10001,Garcia,Manuel III,10/11/1983,Valero Carpark Building Valero Street 1227 Makati City,966860270,44-4506057-3,8.20127E+11,442-605-657-000,6.91295E+11,Regular,Chief Executive Officer,N/A
+10002,Lim,Antonio,06/19/1988,San Antonio De Padua 2 Block 1 Lot 8 and 2 Dasmarinas Cavite,171867411,52-2061274-9,3.31736E+11,683-102-776-000,6.63905E+11,Regular,Chief Operating Officer,Garcia Manuel III
+10003,Aquino,Bianca Sofia,08/04/1989,Rm. 402 4/F Jiao Building Timog Avenue Cor. Quezon Avenue 1100 Quezon City,966889370,30-8870406-2,1.77451E+11,971-711-280-000,1.7152E+11,Regular,Chief Finance Officer,Garcia Manuel III
+10004,Reyes,Isabella,06/16/1994,460 Solanda Street Intramuros 1000 Manila,786868477,40-2511815-0,3.41911E+11,876-809-437-000,4.16947E+11,Regular,Chief Marketing Officer,Garcia Manuel III
+10005,Hernandez,Eduard,09/23/1989,National Highway Gingoog  Misamis Occidental,88861012,50-5577638-1,9.57436E+11,031-702-374-000,9.52347E+11,Regular,IT Operations and Systems,Lim Antonio
+10006,Villanueva,Andrea Mae,02/14/1988,17/85 Stracke Via Suite 042 Poblacion Las Piñas 4783 Dinagat Islands ,918621603,49-1632020-8,3.82189E+11,317-674-022-000,4.41093E+11,Regular,HR Manager,Lim Antonio
+10007,San Jose,Brad,03/15/1996,99 Strosin Hills Poblacion Bislig 5340 Tawi-Tawi,797009261,40-2400714-1,2.39193E+11,672-474-690-000,2.1085E+11,Regular,HR Team Leader,Villanueva Andrea Mae
+10008,Romualdez,Alice,05/14/1992,12A/33 Upton Isle Apt. 420 Roxas City 1814 Surigao del Norte ,983606799,55-4476527-2,5.45653E+11,888-572-294-000,2.11386E+11,Regular,HR Rank and File,San Jose Brad
+10009,Atienza,Rosie,09/24/1948,90A Dibbert Terrace Apt. 190 San Lorenzo 6056 Davao del Norte,266036427,41-0644692-3,7.08988E+11,604-997-793-000,2.60108E+11,Regular,HR Rank and File,San Jose Brad
+10010,Alvaro,Roderick,03/30/1988,#284 T. Morato corner Scout Rallos Street Quezon City,53381386,64-7605054-4,5.78115E+11,525-420-419-000,7.99254E+11,Regular,Accounting Head,Aquino Bianca Sofia 
+10011,Salcedo,Anthony,09/14/1993,93/54 Shanahan Alley Apt. 183 Santo Tomas 1572 Masbate,70766300,26-9647608-3,1.26445E+11,210-805-911-000,2.18002E+11,Regular,Payroll Manager,Alvaro Roderick
+10012,Lopez,Josie,01/14/1987,49 Springs Apt. 266 Poblacion Taguig 3200 Occidental Mindoro,478355427,44-8563448-3,4.31709E+11,218-489-737-000,1.13071E+11,Regular,Payroll Team Leader,Salcedo Anthony
+10013,Farala,Martha,01/11/1942,42/25 Sawayn Stream Ubay 1208 Zamboanga del Norte ,329034366,45-5656375-0,2.33694E+11,210-835-851-000,6.3113E+11,Regular,Payroll Rank and File,Salcedo Anthony
+10014,Martinez,Leila,07/11/1970,37/46 Kulas Roads Maragondon 0962 Quirino ,877110749,27-2090996-4,5.15741E+11,275-792-513-000,1.01205E+11,Regular,Payroll Rank and File,Salcedo Anthony
+10015,Romualdez,Fredrick,03/10/1985,22A/52 Lubowitz Meadows Pililla 4895 Zambales,23079009,26-8768374-1,3.08367E+11,598-065-761-000,2.23058E+11,Regular,Account Manager,Lim Antonio
+10016,Mata,Christian,10/21/1987,90 O'Keefe Spur Apt. 379 Catigbian 2772 Sulu ,783776744,49-2959312-6,8.24188E+11,103-100-522-000,6.31053E+11,Regular,Account Team Leader,Romualdez Fredrick 
+10017,De Leon,Selena,02/20/1975,89A Armstrong Trace Compostela 7874 Maguindanao,975432139,27-2090208-8,5.87272E+11,482-259-498-000,7.19008E+11,Regular,Account Team Leader,Romualdez Fredrick 
+10018,San Jose,Allison,06/24/1986,08 Grant Drive Suite 406 Poblacion Iloilo City 9186 La Union,179075129,45-3251383-0,7.45148E+11,121-203-336-000,1.14902E+11,Regular,Account Rank and File,Mata Christian
+10019,Rosario,Cydney,10/06/1996,93A/21 Berge Points Tapaz 2180 Quezon,868819912,49-1629900-2,5.79253E+11,122-244-511-000,2.65104E+11,Regular,Account Rank and File,Mata Christian
+10020,Bautista,Mark,02/12/1991,65 Murphy Center Suite 094 Poblacion Palayan 5636 Quirino,683725348,49-1647342-5,3.99665E+11,273-970-941-000,2.60055E+11,Regular,Account Rank and File,Mata Christian
+10021,Lazaro,Darlene,11/25/1985,47A/94 Larkin Plaza Apt. 179 Poblacion Caloocan 2751 Quirino,740721558,45-5617168-2,6.06387E+11,354-650-951-000,1.04908E+11,Probationary,Account Rank and File,Mata Christian
+10022,Delos Santos,Kolby,02/26/1980,06A Gulgowski Extensions Bongabon 6085 Zamboanga del Sur,739443033,52-0109570-6,3.57451E+11,187-500-345-000,1.13018E+11,Probationary,Account Rank and File,Mata Christian
+10023,Santos,Vella,12/31/1983,99A Padberg Spring Poblacion Mabalacat 3959 Lanao del Sur,955879269,52-9883524-3,5.4867E+11,101-558-994-000,3.60028E+11,Probationary,Account Rank and File,Mata Christian
+10024,Del Rosario,Tomas,12/18/1978,80A/48 Ledner Ridges Poblacion Kabankalan 8870 Marinduque,882550989,45-5866331-6,9.53902E+11,560-735-732-000,9.13109E+11,Probationary,Account Rank and File,Mata Christian
+10025,Tolentino,Jacklyn,05/19/1984,96/48 Watsica Flats Suite 734 Poblacion Malolos 1844 Ifugao,675757366,47-1692793-0,7.53801E+11,841-177-857-000,2.10547E+11,Probationary,Account Rank and File,De Leon Selena
+10026,Gutierrez,Percival,12/18/1970,58A Wilderman Walks Poblacion Digos 5822 Davao del Sur,512899876,40-9504657-8,7.97639E+11,502-995-671-000,2.10897E+11,Probationary,Account Rank and File,De Leon Selena
+10027,Manalaysay,Garfield,08/28/1986,60 Goyette Valley Suite 219 Poblacion Tabuk 3159 Lanao del Sur,948628136,45-3298166-4,8.10909E+11,336-676-445-000,2.11274E+11,Probationary,Account Rank and File,De Leon Selena
+10028,Villegas,Lizeth,12/12/1981,66/77 Mann Views Luisiana 1263 Dinagat Islands,332372215,40-2400719-4,9.3439E+11,210-395-397-000,1.22238E+11,Probationary,Account Rank and File,De Leon Selena
+10029,Ramos,Carol,08/20/1978,72/70 Stamm Spurs Bustos 4550 Iloilo,250700389,60-1152206-4,3.5183E+11,395-032-717-000,2.12142E+11,Probationary,Account Rank and File,De Leon Selena
+10030,Maceda,Emelia,04/14/1973,50A/83 Bahringer Oval Suite 145 Kiamba 7688 Nueva Ecija,973358041,54-1331005-0,4.65088E+11,215-973-013-000,5.15013E+11,Probationary,Account Rank and File,De Leon Selena
+10031,Aguilar,Delia,01/27/1989,95 Cremin Junction Surallah 2809 Cotabato,529705439,52-1859253-1,1.36451E+11,599-312-588-000,1.10019E+11,Probationary,Account Rank and File,De Leon Selena
+10032,Castro,John Rafael,02/09/1992,Hi-way Yati Liloan Cebu,332424955,26-7145133-4,6.01645E+11,404-768-309-000,6.97764E+11,Regular,Sales & Marketing,Reyes Isabella
+10033,Martinez,Carlos Ian,11/16/1990,Bulala Camalaniugan,78854208,11-5062972-7,3.80685E+11,256-436-296-000,9.93373E+11,Regular,Supply Chain and Logistics,Reyes Isabella
+10034,Santos,Beatriz,08/07/1990,Agapita Building Metro Manila,526639511,20-2987501-5,9.1846E+11,911-529-713-000,8.74042E+11,Regular,Customer Service and Relations,Reyes Isabella
