@@ -7,6 +7,11 @@ package motorph9_MS2;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.Timer;
@@ -16,6 +21,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.*;
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Pattern;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -256,6 +262,7 @@ public class HRDashboard extends javax.swing.JFrame {
        return panel;
    }
 
+   
     private void updateEmployee() {
         int selectedRow = jTableEmployeeRecords.getSelectedRow();
         if (selectedRow == -1) {
@@ -286,55 +293,117 @@ public class HRDashboard extends javax.swing.JFrame {
         // Show update panel in a dialog
         JOptionPane.showMessageDialog(this, createUpdateEmployeePanel(), "Update Employee", JOptionPane.PLAIN_MESSAGE);
     }
-
-
-
-
+ 
     private void saveUpdatedEmployee() {
-      int selectedRow = jTableEmployeeRecords.getSelectedRow();
-      if (selectedRow == -1) {
-          JOptionPane.showMessageDialog(this, "No employee selected!", "Error", JOptionPane.ERROR_MESSAGE);
-          return;
-      }
+        File inputFile = new File("src/data9/Employee.csv");
+        File tempFile = new File("src/data9/Employee_temp.csv");
 
-      String employeeID = jTextField1.getText().trim();
-      String lastName = jTextField2.getText().trim();
-      String firstName = jTextField3.getText().trim();
-      String birthday = jTextField4.getText().trim();
-      String address = jTextField5.getText().trim();
-      String phoneNumber = jTextField6.getText().trim();
-      String sss = jTextField7.getText().trim();
-      String philHealth = jTextField8.getText().trim();
-      String tin = jTextField9.getText().trim();
-      String pagibig = jTextField10.getText().trim();
-      String status = jTextField11.getText().trim();
-      String position = jTextField12.getText().trim();
-      String supervisor = jTextField13.getText().trim();
+        int selectedRow = jTableEmployeeRecords.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "No employee selected!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-      // Update JTable with new values
-      jTableEmployeeRecords.setValueAt(lastName, selectedRow, 1);
-      jTableEmployeeRecords.setValueAt(firstName, selectedRow, 2);
-      jTableEmployeeRecords.setValueAt(birthday, selectedRow, 3);
-      jTableEmployeeRecords.setValueAt(address, selectedRow, 4);
-      jTableEmployeeRecords.setValueAt(phoneNumber, selectedRow, 5);
-      jTableEmployeeRecords.setValueAt(sss, selectedRow, 6);
-      jTableEmployeeRecords.setValueAt(philHealth, selectedRow, 7);
-      jTableEmployeeRecords.setValueAt(tin, selectedRow, 8);
-      jTableEmployeeRecords.setValueAt(pagibig, selectedRow, 9);
-      jTableEmployeeRecords.setValueAt(status, selectedRow, 10);
-      jTableEmployeeRecords.setValueAt(position, selectedRow, 11);
-      jTableEmployeeRecords.setValueAt(supervisor, selectedRow, 12);
+        String employeeID = jTableEmployeeRecords.getValueAt(selectedRow, 0).toString();
+        boolean isModified = false;
 
-      // Save to file
-      try {
-          hrUser.updateEmployee(new EmployeeUser(employeeID, lastName, firstName, birthday, address, 
-                                                 Integer.parseInt(phoneNumber), sss, philHealth, tin, 
-                                                 pagibig, status, position, supervisor), employeeReader);
-          JOptionPane.showMessageDialog(this, "Employee updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-      } catch (Exception e) {
-          JOptionPane.showMessageDialog(this, "Error updating employee: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-      }
+        // Validation patterns
+        Pattern alphabeticPattern = Pattern.compile("^[A-Za-z ]+$");  
+        Pattern numeric9Pattern = Pattern.compile("^\\d{9}$"); // Phone Number (9 digits)
+        Pattern datePattern = Pattern.compile("^\\d{1,2}/\\d{1,2}/\\d{4}$");  
+        Pattern idPattern = Pattern.compile("^\\d{2}-\\d{7}-\\d$");  
+        Pattern philhealthPattern = Pattern.compile("^\\d{12}$");  
+        Pattern tinPattern = Pattern.compile("^\\d{3}-\\d{3}-\\d{3}-\\d{3}$");  
+        Pattern pagibigPattern = Pattern.compile("^\\d{12}$");  
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
+
+            String line;
+            boolean found = false;
+
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",", -1);
+
+                if (data[0].equals(employeeID)) {
+                    found = true;
+                    String[] newData = new String[data.length];
+
+                    for (int i = 0; i < data.length && i < 13; i++) {
+                        javax.swing.JTextField textField = (javax.swing.JTextField) this.getClass()
+                                .getDeclaredField("jTextField" + (i + 1)).get(this);
+                        String newValue = textField.getText().trim();
+
+                        // Validate inputs
+                        if ((i == 1 || i == 2) && !alphabeticPattern.matcher(newValue).matches()) {
+                            JOptionPane.showMessageDialog(this, "Invalid name format: " + newValue, "Validation Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                        if (i == 5 && !numeric9Pattern.matcher(newValue).matches()) {
+                            JOptionPane.showMessageDialog(this, "Invalid numeric value: " + newValue + "\nMust be exactly 9 digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                        if (i == 3 && !datePattern.matcher(newValue).matches()) {
+                            JOptionPane.showMessageDialog(this, "Invalid date format (MM/DD/YYYY): " + newValue, "Validation Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                        if (i == 6 && !idPattern.matcher(newValue).matches()) {
+                            JOptionPane.showMessageDialog(this, "Invalid SSS number format: " + newValue, "Validation Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                        if (i == 7 && !philhealthPattern.matcher(newValue).matches()) {
+                            JOptionPane.showMessageDialog(this, "Invalid PhilHealth number: " + newValue + "\nMust be exactly 12 digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                        if (i == 8 && !tinPattern.matcher(newValue).matches()) {
+                            JOptionPane.showMessageDialog(this, "Invalid TIN number format: " + newValue, "Validation Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                        if (i == 9 && !pagibigPattern.matcher(newValue).matches()) {
+                            JOptionPane.showMessageDialog(this, "Invalid Pag-IBIG number: " + newValue + "\nMust be exactly 12 digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+
+                        if (!data[i].equals(newValue)) {
+                            isModified = true;
+                            newData[i] = newValue;
+                        } else {
+                            newData[i] = data[i];
+                        }
+                    }
+
+                    writer.write(String.join(",", newData) + "\n");
+                } else {
+                    writer.write(line + "\n");
+                }
+            }
+
+            if (!found) {
+                JOptionPane.showMessageDialog(this, "Employee not found in CSV!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+        } catch (IOException | NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error saving employee data!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Replace original file with updated file
+        if (inputFile.delete() && tempFile.renameTo(inputFile)) {
+            if (isModified) {
+                JOptionPane.showMessageDialog(this, "Employee updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                loadEmployeeTable();
+            } else {
+                JOptionPane.showMessageDialog(this, "No changes were made!", "Info", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Error updating file!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
+
+
+
     
     private void addEmployee() {
         JTextField jTextFieldEmployeeno = new JTextField();
