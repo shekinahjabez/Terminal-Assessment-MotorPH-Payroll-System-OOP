@@ -529,8 +529,24 @@ public class HRDashboard extends javax.swing.JFrame {
     }
 
 
+    /* sample Add Employee Data:
+    
+    LastName          Pacquiao
+    FirstName         Manny
+    Birthday          12/25/1994              
+    Address           123QC
+    phoneNumber       123456789
+    sssNumber         12-3456789-0
+    philhealthNumber  123456789012
+    tinNumber         123-456-789-000
+    pagibigNumber     123456789012
+    status            Probationary
+    position          Account Rank and File
+    supervisor        De Leon Selena
 
-    private void addEmployee2() {
+    */
+    
+    private void addEmployee() {
         int newEmployeeID = getNextEmployeeID(); // Get next available Employee ID
         jTextField1.setText(String.valueOf(newEmployeeID));
 
@@ -578,116 +594,7 @@ public class HRDashboard extends javax.swing.JFrame {
 
         return maxID + 1;
     }
-    
-    
-    private void addEmployee() {
-        JTextField jTextFieldEmployeeno = new JTextField();
-        JTextField jTextFieldLastname = new JTextField();
-        JTextField jTextFieldFirstname = new JTextField();
-        JTextField jTextFieldBirthday = new JTextField();
-        JTextField jTextFieldAddress = new JTextField();
-        JTextField jTextFieldPhoneno = new JTextField();
-        JTextField jTextFieldSSSno = new JTextField();
-        JTextField jTextFieldPhilhealthno = new JTextField();
-        JTextField jTextFieldTINno = new JTextField();
-        JTextField jTextFieldPagibigNo = new JTextField();
-        JTextField jTextFieldStatus = new JTextField();
-        JTextField jTextFieldPosition = new JTextField();
-        JTextField jTextFieldSupervisor = new JTextField();
-
-        // Set tooltips for better user guidance
-        jTextFieldEmployeeno.setToolTipText("Enter numeric Employee Number.");
-        jTextFieldLastname.setToolTipText("Enter employee's last name.");
-        jTextFieldFirstname.setToolTipText("Enter employee's first name.");
-        jTextFieldBirthday.setToolTipText("Enter date in YYYY-MM-DD format.");
-        jTextFieldAddress.setToolTipText("Enter employee's full address.");
-        jTextFieldPhoneno.setToolTipText("Enter numeric phone number.");
-        jTextFieldSSSno.setToolTipText("Enter numeric SSS Number.");
-        jTextFieldPhilhealthno.setToolTipText("Enter numeric PhilHealth Number.");
-        jTextFieldTINno.setToolTipText("Enter numeric TIN Number.");
-        jTextFieldPagibigNo.setToolTipText("Enter numeric Pag-IBIG Number.");
-        jTextFieldStatus.setToolTipText("Enter employment status (e.g., Active, Resigned).");
-        jTextFieldPosition.setToolTipText("Enter employee's job position.");
-        jTextFieldSupervisor.setToolTipText("Enter supervisor's name.");
-
-        JPanel panel = new JPanel(new GridLayout(13, 2));
-        panel.add(new JLabel("Employee Number:")); panel.add(jTextFieldEmployeeno);
-        panel.add(new JLabel("Last Name:")); panel.add(jTextFieldLastname);
-        panel.add(new JLabel("First Name:")); panel.add(jTextFieldFirstname);
-        panel.add(new JLabel("Birthday (YYYY-MM-DD):")); panel.add(jTextFieldBirthday);
-        panel.add(new JLabel("Address:")); panel.add(jTextFieldAddress);
-        panel.add(new JLabel("Phone Number:")); panel.add(jTextFieldPhoneno);
-        panel.add(new JLabel("SSS Number:")); panel.add(jTextFieldSSSno);
-        panel.add(new JLabel("PhilHealth Number:")); panel.add(jTextFieldPhilhealthno);
-        panel.add(new JLabel("TIN Number:")); panel.add(jTextFieldTINno);
-        panel.add(new JLabel("Pag-IBIG Number:")); panel.add(jTextFieldPagibigNo);
-        panel.add(new JLabel("Status:")); panel.add(jTextFieldStatus);
-        panel.add(new JLabel("Position:")); panel.add(jTextFieldPosition);
-        panel.add(new JLabel("Supervisor:")); panel.add(jTextFieldSupervisor);
-
-        int result = JOptionPane.showConfirmDialog(null, panel, "Add Employee", JOptionPane.OK_CANCEL_OPTION);
-        if (result == JOptionPane.OK_OPTION) {
-            try {
-                // Validate if all fields are filled
-                if (jTextFieldEmployeeno.getText().trim().isEmpty() || 
-                    jTextFieldLastname.getText().trim().isEmpty() ||
-                    jTextFieldFirstname.getText().trim().isEmpty() ||
-                    jTextFieldBirthday.getText().trim().isEmpty() ||
-                    jTextFieldAddress.getText().trim().isEmpty() ||
-                    jTextFieldPhoneno.getText().trim().isEmpty() ||
-                    jTextFieldSSSno.getText().trim().isEmpty() ||
-                    jTextFieldPhilhealthno.getText().trim().isEmpty() ||
-                    jTextFieldTINno.getText().trim().isEmpty() ||
-                    jTextFieldPagibigNo.getText().trim().isEmpty() ||
-                    jTextFieldStatus.getText().trim().isEmpty() ||
-                    jTextFieldPosition.getText().trim().isEmpty() ||
-                    jTextFieldSupervisor.getText().trim().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "All fields must be filled!", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                // Convert phone number to integer
-                int parsedPhoneNumber = Integer.parseInt(jTextFieldPhoneno.getText().trim());
-
-                // Create a new EmployeeUser object
-                EmployeeUser newEmployee = new EmployeeUser(
-                    jTextFieldEmployeeno.getText().trim(), jTextFieldLastname.getText().trim(), 
-                    jTextFieldFirstname.getText().trim(), jTextFieldBirthday.getText().trim(),
-                    jTextFieldAddress.getText().trim(), parsedPhoneNumber,
-                    jTextFieldSSSno.getText().trim(), jTextFieldPhilhealthno.getText().trim(),
-                    jTextFieldTINno.getText().trim(), jTextFieldPagibigNo.getText().trim(),
-                    jTextFieldStatus.getText().trim(), jTextFieldPosition.getText().trim(),
-                    jTextFieldSupervisor.getText().trim()
-                );
-
-                // Save to CSV
-                hrUser.addEmployee(newEmployee, employeeReader);
-
-                // Add to JTable
-                DefaultTableModel model = (DefaultTableModel) jTableEmployeeRecords.getModel();
-                model.addRow(new Object[]{
-                    newEmployee.getEmployeeId(), newEmployee.getLastName(), newEmployee.getFirstName(),
-                    newEmployee.getBirthday(), newEmployee.getAddress(), newEmployee.getPhone(),
-                    newEmployee.getSSS(), newEmployee.getPhilHealth(), newEmployee.getTIN(),
-                    newEmployee.getPagibigNumber(), newEmployee.getStatus(), newEmployee.getPosition(),
-                    newEmployee.getImmediateSupervisor()
-                });
-
-                // Auto-scroll to the newly added row
-                int lastRow = model.getRowCount() - 1;
-                jTableEmployeeRecords.setRowSelectionInterval(lastRow, lastRow);
-                jTableEmployeeRecords.scrollRectToVisible(jTableEmployeeRecords.getCellRect(lastRow, 0, true));
-
-                // Refresh the table data
-                loadEmployeeData();
-                JOptionPane.showMessageDialog(null, "Employee added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Invalid input. Please enter correct values.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }
-    
+                
     private void resetAddEmployeeForm() {
         jTextFieldEmployeeno.setText("");
         jTextFieldLastname.setText("");
@@ -1664,7 +1571,7 @@ public class HRDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAddEmployeeActionPerformed
 
     private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
-        addEmployee2();
+        addEmployee();
     }//GEN-LAST:event_jButtonAddActionPerformed
 
     /**
