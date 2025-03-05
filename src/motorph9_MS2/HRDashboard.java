@@ -4,9 +4,8 @@
  */
 
 /*to do mark:
-fix jDateChooser Update and Add Employee
-fix No changes were made dispose() after.
-
+fix "No changes were made." this prompt's dispose() after.
+improve Save, Cancel, and OK Buttons
 
 */
 
@@ -1564,10 +1563,6 @@ public class HRDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonRejectActionPerformed
 
     private void jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateActionPerformed
-//        UpdateEmployeeForm updateEmployeeForm = new UpdateEmployeeForm(this);
-//        updateEmployeeForm.setLocationRelativeTo(this); // Centers relative to the parent JFrame
-//        updateEmployeeForm.populateTextFields(jTableEmployeeRecords.getSelectedRow());
-//        createUpdateEmployeePanel();
         updateEmployee();
     }//GEN-LAST:event_jButtonUpdateActionPerformed
 
