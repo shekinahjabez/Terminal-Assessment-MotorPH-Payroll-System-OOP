@@ -47,7 +47,7 @@ public class HRDashboard extends javax.swing.JFrame {
     private JTextField jTextField11 = new JTextField();
     private JTextField jTextField12 = new JTextField();
     private JTextField jTextField13 = new JTextField();
-    private JButton jButtonSaveUpdate, jButtonCancelUpdate;
+    private JButton jButtonSaveUpdate, jButtonCancelUpdate, jButtonSaveAdd;
    
     public HRDashboard(HRUser hrUser, EmployeeDetailsReader employeeReader, LeaveRequestReader leaveRequestReader) {
         this.hrUser = hrUser;
@@ -209,10 +209,64 @@ public class HRDashboard extends javax.swing.JFrame {
     }
         
    private JPanel createUpdateEmployeePanel() {
+       JPanel addEmpPanel = new JPanel(new GridLayout(14, 2));
+
+       addEmpPanel.add(new JLabel("Employee ID:"));
+       jTextField1.setEditable(false);
+       addEmpPanel.add(jTextField1);
+
+       addEmpPanel.add(new JLabel("Last Name:"));
+       addEmpPanel.add(jTextField2);
+
+       addEmpPanel.add(new JLabel("First Name:"));
+       addEmpPanel.add(jTextField3);
+
+       addEmpPanel.add(new JLabel("Birthday:"));
+       addEmpPanel.add(jTextField4);
+
+       addEmpPanel.add(new JLabel("Address:"));
+       addEmpPanel.add(jTextField5);
+
+       addEmpPanel.add(new JLabel("Phone Number:"));
+       addEmpPanel.add(jTextField6);
+
+       addEmpPanel.add(new JLabel("SSS Number:"));
+       addEmpPanel.add(jTextField7);
+
+       addEmpPanel.add(new JLabel("PhilHealth Number:"));
+       addEmpPanel.add(jTextField8);
+
+       addEmpPanel.add(new JLabel("TIN Number:"));
+       addEmpPanel.add(jTextField9);
+
+       addEmpPanel.add(new JLabel("Pag-IBIG Number:"));
+       addEmpPanel.add(jTextField10);
+
+       addEmpPanel.add(new JLabel("Status:"));
+       addEmpPanel.add(jTextField11);
+
+       addEmpPanel.add(new JLabel("Position:"));
+       addEmpPanel.add(jTextField12);
+
+       addEmpPanel.add(new JLabel("Supervisor:"));
+       addEmpPanel.add(jTextField13);
+
+       jButtonSaveUpdate = new JButton("Save");
+       jButtonSaveUpdate.addActionListener(e -> saveUpdatedEmployee());
+       addEmpPanel.add(jButtonSaveUpdate);
+
+       jButtonCancelUpdate = new JButton("Cancel");
+       jButtonCancelUpdate.addActionListener(e -> JOptionPane.showMessageDialog(this, "Update canceled."));
+       addEmpPanel.add(jButtonCancelUpdate);
+
+       return addEmpPanel;
+   }
+   
+     private JPanel createAddEmployeePanel() {
        JPanel panel = new JPanel(new GridLayout(14, 2));
 
        panel.add(new JLabel("Employee ID:"));
-       jTextField1.setEditable(false);
+       jTextField1.setEditable(true);
        panel.add(jTextField1);
 
        panel.add(new JLabel("Last Name:"));
@@ -251,13 +305,13 @@ public class HRDashboard extends javax.swing.JFrame {
        panel.add(new JLabel("Supervisor:"));
        panel.add(jTextField13);
 
-       jButtonSaveUpdate = new JButton("Save");
-       jButtonSaveUpdate.addActionListener(e -> saveUpdatedEmployee());
-       panel.add(jButtonSaveUpdate);
+       jButtonSaveAdd = new JButton("Save");
+       jButtonSaveAdd.addActionListener(e -> saveAddEmployee());
+       panel.add(jButtonSaveAdd);
 
        jButtonCancelUpdate = new JButton("Cancel");
-       jButtonCancelUpdate.addActionListener(e -> JOptionPane.showMessageDialog(this, "Update canceled."));
-       panel.add(jButtonCancelUpdate);
+       jButtonCancelUpdate.addActionListener(e -> JOptionPane.showMessageDialog(this, "Canceled."));
+       panel.add(jButtonCancelUpdate); //to do refactor
 
        return panel;
    }
@@ -403,8 +457,109 @@ public class HRDashboard extends javax.swing.JFrame {
         }
     }
 
+    
+    private void saveAddEmployee() {
+    File inputFile = new File("src/data9/Employee.csv");
+    boolean isModified = false;
+
+    // Validation patterns
+    Pattern employeeIdPattern = Pattern.compile("^\\d{5}$"); // Employee ID (5 digits)
+    Pattern alphabeticPattern = Pattern.compile("^[A-Za-z ]+$");  
+    Pattern numeric9Pattern = Pattern.compile("^\\d{9}$"); 
+    Pattern datePattern = Pattern.compile("^\\d{1,2}/\\d{1,2}/\\d{4}$");  
+    Pattern idPattern = Pattern.compile("^\\d{2}-\\d{7}-\\d$");  
+    Pattern philhealthPattern = Pattern.compile("^\\d{12}$");  
+    Pattern tinPattern = Pattern.compile("^\\d{3}-\\d{3}-\\d{3}-\\d{3}$");  
+    Pattern pagibigPattern = Pattern.compile("^\\d{12}$");  
+
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(inputFile, true))) {
+        String[] newData = new String[13];
+
+        for (int i = 0; i < 13; i++) {
+            javax.swing.JTextField textField = (javax.swing.JTextField) this.getClass()
+                    .getDeclaredField("jTextField" + (i + 1)).get(this);
+            String newValue = textField.getText().trim();
+
+            // Validate inputs
+            if (i == 0 && !employeeIdPattern.matcher(newValue).matches()) {
+                JOptionPane.showMessageDialog(this, "Invalid Employee ID: " + newValue + "\nMust be exactly 5 digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if ((i == 1 || i == 2) && !alphabeticPattern.matcher(newValue).matches()) {
+                JOptionPane.showMessageDialog(this, "Invalid name format: " + newValue, "Validation Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (i == 5 && !numeric9Pattern.matcher(newValue).matches()) {
+                JOptionPane.showMessageDialog(this, "Invalid numeric value: " + newValue + "\nMust be exactly 9 digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (i == 3 && !datePattern.matcher(newValue).matches()) {
+                JOptionPane.showMessageDialog(this, "Invalid date format (MM/DD/YYYY): " + newValue, "Validation Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (i == 6 && !idPattern.matcher(newValue).matches()) {
+                JOptionPane.showMessageDialog(this, "Invalid SSS number format: " + newValue, "Validation Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (i == 7 && !philhealthPattern.matcher(newValue).matches()) {
+                JOptionPane.showMessageDialog(this, "Invalid PhilHealth number: " + newValue + "\nMust be exactly 12 digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (i == 8 && !tinPattern.matcher(newValue).matches()) {
+                JOptionPane.showMessageDialog(this, "Invalid TIN number format: " + newValue, "Validation Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (i == 9 && !pagibigPattern.matcher(newValue).matches()) {
+                JOptionPane.showMessageDialog(this, "Invalid Pag-IBIG number: " + newValue + "\nMust be exactly 12 digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            newData[i] = newValue;
+        }
+
+        writer.write(String.join(",", newData) + "\n");
+        isModified = true;
+
+    } catch (IOException | NoSuchFieldException | IllegalAccessException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error saving employee data!", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    if (isModified) {
+        JOptionPane.showMessageDialog(this, "Employee added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        loadEmployeeTable();
+    } else {
+        JOptionPane.showMessageDialog(this, "No changes were made!", "Info", JOptionPane.INFORMATION_MESSAGE);
+        dispose();
+    }
+}
 
 
+
+    
+    private void addEmployee2() {
+        
+        // Assign blanks to text fields
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+        jTextField5.setText("");
+        jTextField6.setText("");
+        jTextField7.setText("");
+        jTextField8.setText("");
+        jTextField9.setText("");
+        jTextField10.setText("");
+        jTextField11.setText("");
+        jTextField12.setText("");
+        jTextField13.setText("");
+
+        // Show Add panel in a dialog
+        JOptionPane.showMessageDialog(this, createUpdateEmployeePanel(), "Add Employee", JOptionPane.PLAIN_MESSAGE);
+ 
+    }
+    
     
     private void addEmployee() {
         JTextField jTextFieldEmployeeno = new JTextField();
@@ -528,7 +683,7 @@ public class HRDashboard extends javax.swing.JFrame {
         jTextFieldStatus.setText("");
         jTextFieldPosition.setText("");
         jTextFieldSupervisor.setText("");
-        jButtonAdd.setEnabled(false); // Disable the add button initially
+        jButtonAdd.setEnabled(true); // Disable the add button initially
     }
     
     private void checkFormCompletion() {
@@ -743,7 +898,7 @@ public class HRDashboard extends javax.swing.JFrame {
         jButtonDelete = new javax.swing.JButton();
         jButtonUpdate = new javax.swing.JButton();
         jLabelTitleEmployeeList = new javax.swing.JLabel();
-        jButtonAddEmp = new javax.swing.JButton();
+        jButtonAdd = new javax.swing.JButton();
         jPanelLeaveRequest = new javax.swing.JPanel();
         jLabelTitleLeaveRequests = new javax.swing.JLabel();
         jScrollPaneLeaveRequests = new javax.swing.JScrollPane();
@@ -781,7 +936,6 @@ public class HRDashboard extends javax.swing.JFrame {
         jScrollPaneAddEmployee = new javax.swing.JScrollPane();
         jTableAddEmployee = new javax.swing.JTable();
         jLabelTitleAddEmployee = new javax.swing.JLabel();
-        jButtonAdd = new javax.swing.JButton();
         jPanelSidebar = new javax.swing.JPanel();
         jButtonManageEmployees = new javax.swing.JButton();
         jButtonLeaveRequests = new javax.swing.JButton();
@@ -938,15 +1092,15 @@ public class HRDashboard extends javax.swing.JFrame {
         jLabelTitleEmployeeList.setText("EMPLOYEE RECORDS");
         jPanelManageEmployee.add(jLabelTitleEmployeeList, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 110, -1, -1));
 
-        jButtonAddEmp.setBackground(new java.awt.Color(204, 0, 51));
-        jButtonAddEmp.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonAddEmp.setText("Add");
-        jButtonAddEmp.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAdd.setBackground(new java.awt.Color(204, 0, 51));
+        jButtonAdd.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonAdd.setText("Add");
+        jButtonAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAddEmpActionPerformed(evt);
+                jButtonAddActionPerformed(evt);
             }
         });
-        jPanelManageEmployee.add(jButtonAddEmp, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 163, -1, 30));
+        jPanelManageEmployee.add(jButtonAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 170, -1, -1));
 
         jTabbedMain.addTab("Manage Employees", jPanelManageEmployee);
 
@@ -1316,15 +1470,6 @@ public class HRDashboard extends javax.swing.JFrame {
         jLabelTitleAddEmployee.setForeground(new java.awt.Color(255, 255, 255));
         jLabelTitleAddEmployee.setText("ADD EMPLOYEE");
 
-        jButtonAdd.setBackground(new java.awt.Color(204, 0, 51));
-        jButtonAdd.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonAdd.setText("Add");
-        jButtonAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAddActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanelAddEmployeeLayout = new javax.swing.GroupLayout(jPanelAddEmployee);
         jPanelAddEmployee.setLayout(jPanelAddEmployeeLayout);
         jPanelAddEmployeeLayout.setHorizontalGroup(
@@ -1333,13 +1478,11 @@ public class HRDashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanelAdddetails, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanelAddEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanelAddEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelAddEmployeeLayout.createSequentialGroup()
                         .addComponent(jScrollPaneAddEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelAddEmployeeLayout.createSequentialGroup()
-                        .addComponent(jButtonAdd)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabelTitleAddEmployee)
                         .addGap(14, 14, 14))))
         );
@@ -1347,12 +1490,10 @@ public class HRDashboard extends javax.swing.JFrame {
             jPanelAddEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelAddEmployeeLayout.createSequentialGroup()
                 .addGap(140, 140, 140)
-                .addGroup(jPanelAddEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelTitleAddEmployee)
-                    .addComponent(jButtonAdd))
+                .addComponent(jLabelTitleAddEmployee)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPaneAddEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelAddEmployeeLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanelAdddetails, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1504,12 +1645,8 @@ public class HRDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAddEmployeeActionPerformed
 
     private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
-        addEmployee();
+        addEmployee2();
     }//GEN-LAST:event_jButtonAddActionPerformed
-
-    private void jButtonAddEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddEmpActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonAddEmpActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1536,7 +1673,6 @@ public class HRDashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAdd;
-    private javax.swing.JButton jButtonAddEmp;
     private javax.swing.JButton jButtonAddEmployee;
     private javax.swing.JButton jButtonApprove;
     private javax.swing.JButton jButtonDelete;
