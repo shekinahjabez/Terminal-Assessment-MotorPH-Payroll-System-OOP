@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.regex.Pattern;
 import javax.swing.table.DefaultTableModel;
+import com.toedter.calendar.JDateChooser;
 
 
 public class HRDashboard extends javax.swing.JFrame { 
@@ -38,6 +39,8 @@ public class HRDashboard extends javax.swing.JFrame {
     private JTextField jTextField2 = new JTextField();
     private JTextField jTextField3 = new JTextField();
     private JTextField jTextField4 = new JTextField();
+    private JDateChooser jDateChooserBirthday = new JDateChooser();
+
     private JTextField jTextField5 = new JTextField();
     private JTextField jTextField6 = new JTextField();
     private JTextField jTextField7 = new JTextField();
@@ -209,6 +212,60 @@ public class HRDashboard extends javax.swing.JFrame {
     }
         
    private JPanel createUpdateEmployeePanel() {
+       JPanel updateEmpPanel = new JPanel(new GridLayout(14, 2));
+
+       updateEmpPanel.add(new JLabel("Employee ID:"));
+       jTextField1.setEditable(false);
+       updateEmpPanel.add(jTextField1);
+
+       updateEmpPanel.add(new JLabel("Last Name:"));
+       updateEmpPanel.add(jTextField2);
+
+       updateEmpPanel.add(new JLabel("First Name:"));
+       updateEmpPanel.add(jTextField3);
+
+       updateEmpPanel.add(new JLabel("Birthday:"));
+       updateEmpPanel.add(jTextField4);
+
+       updateEmpPanel.add(new JLabel("Address:"));
+       updateEmpPanel.add(jTextField5);
+
+       updateEmpPanel.add(new JLabel("Phone Number:"));
+       updateEmpPanel.add(jTextField6);
+
+       updateEmpPanel.add(new JLabel("SSS Number:"));
+       updateEmpPanel.add(jTextField7);
+
+       updateEmpPanel.add(new JLabel("PhilHealth Number:"));
+       updateEmpPanel.add(jTextField8);
+
+       updateEmpPanel.add(new JLabel("TIN Number:"));
+       updateEmpPanel.add(jTextField9);
+
+       updateEmpPanel.add(new JLabel("Pag-IBIG Number:"));
+       updateEmpPanel.add(jTextField10);
+
+       updateEmpPanel.add(new JLabel("Status:"));
+       updateEmpPanel.add(jTextField11);
+
+       updateEmpPanel.add(new JLabel("Position:"));
+       updateEmpPanel.add(jTextField12);
+
+       updateEmpPanel.add(new JLabel("Supervisor:"));
+       updateEmpPanel.add(jTextField13);
+
+       jButtonSaveUpdate = new JButton("Save");
+       jButtonSaveUpdate.addActionListener(e -> saveUpdatedEmployee());
+       updateEmpPanel.add(jButtonSaveUpdate);
+
+       jButtonCancelUpdate = new JButton("Cancel");
+       jButtonCancelUpdate.addActionListener(e -> JOptionPane.showMessageDialog(this, "Update canceled."));
+       updateEmpPanel.add(jButtonCancelUpdate);
+
+       return updateEmpPanel;
+   }
+   
+     private JPanel createAddEmployeePanel() {
        JPanel addEmpPanel = new JPanel(new GridLayout(14, 2));
 
        addEmpPanel.add(new JLabel("Employee ID:"));
@@ -251,69 +308,15 @@ public class HRDashboard extends javax.swing.JFrame {
        addEmpPanel.add(new JLabel("Supervisor:"));
        addEmpPanel.add(jTextField13);
 
-       jButtonSaveUpdate = new JButton("Save");
-       jButtonSaveUpdate.addActionListener(e -> saveUpdatedEmployee());
-       addEmpPanel.add(jButtonSaveUpdate);
-
-       jButtonCancelUpdate = new JButton("Cancel");
-       jButtonCancelUpdate.addActionListener(e -> JOptionPane.showMessageDialog(this, "Update canceled."));
-       addEmpPanel.add(jButtonCancelUpdate);
-
-       return addEmpPanel;
-   }
-   
-     private JPanel createAddEmployeePanel() {
-       JPanel panel = new JPanel(new GridLayout(14, 2));
-
-       panel.add(new JLabel("Employee ID:"));
-       jTextField1.setEditable(false);
-       panel.add(jTextField1);
-
-       panel.add(new JLabel("Last Name:"));
-       panel.add(jTextField2);
-
-       panel.add(new JLabel("First Name:"));
-       panel.add(jTextField3);
-
-       panel.add(new JLabel("Birthday:"));
-       panel.add(jTextField4);
-
-       panel.add(new JLabel("Address:"));
-       panel.add(jTextField5);
-
-       panel.add(new JLabel("Phone Number:"));
-       panel.add(jTextField6);
-
-       panel.add(new JLabel("SSS Number:"));
-       panel.add(jTextField7);
-
-       panel.add(new JLabel("PhilHealth Number:"));
-       panel.add(jTextField8);
-
-       panel.add(new JLabel("TIN Number:"));
-       panel.add(jTextField9);
-
-       panel.add(new JLabel("Pag-IBIG Number:"));
-       panel.add(jTextField10);
-
-       panel.add(new JLabel("Status:"));
-       panel.add(jTextField11);
-
-       panel.add(new JLabel("Position:"));
-       panel.add(jTextField12);
-
-       panel.add(new JLabel("Supervisor:"));
-       panel.add(jTextField13);
-
        jButtonSaveAdd = new JButton("Save");
        jButtonSaveAdd.addActionListener(e -> saveAddEmployee());
-       panel.add(jButtonSaveAdd);
+       addEmpPanel.add(jButtonSaveAdd);
 
        jButtonCancelUpdate = new JButton("Cancel");
        jButtonCancelUpdate.addActionListener(e -> JOptionPane.showMessageDialog(this, "Canceled."));
-       panel.add(jButtonCancelUpdate); //to do refactor
+       addEmpPanel.add(jButtonCancelUpdate); //to do refactor
 
-       return panel;
+       return addEmpPanel;
    }
 
    
