@@ -26,7 +26,23 @@ public class HRDashboard extends javax.swing.JFrame {
     private HRUser hrUser;
     private EmployeeDetailsReader employeeReader;
     private LeaveRequestReader leaveRequestReader;
-    
+
+    //Swing components for UpdateEmployee - manage employee
+    private JTextField jTextField1 = new JTextField();
+    private JTextField jTextField2 = new JTextField();
+    private JTextField jTextField3 = new JTextField();
+    private JTextField jTextField4 = new JTextField();
+    private JTextField jTextField5 = new JTextField();
+    private JTextField jTextField6 = new JTextField();
+    private JTextField jTextField7 = new JTextField();
+    private JTextField jTextField8 = new JTextField();
+    private JTextField jTextField9 = new JTextField();
+    private JTextField jTextField10 = new JTextField();
+    private JTextField jTextField11 = new JTextField();
+    private JTextField jTextField12 = new JTextField();
+    private JTextField jTextField13 = new JTextField();
+    private JButton jButtonSaveUpdate, jButtonCancelUpdate;
+   
     public HRDashboard(HRUser hrUser, EmployeeDetailsReader employeeReader, LeaveRequestReader leaveRequestReader) {
         this.hrUser = hrUser;
         this.employeeReader = employeeReader;
@@ -185,78 +201,60 @@ public class HRDashboard extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error loading employee data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-    private JTextField jTextFieldEmployeeID, jTextFieldLastName, jTextFieldFirstName, jTextFieldUpdateBirthday;
-    private JTextField jTextFieldUpdateAddress, jTextFieldPhoneNumber, jTextFieldSSS, jTextFieldPhilHealth;
-    private JTextField jTextFieldTIN, jTextFieldPagibig, jTextFieldUpdateStatus, jTextFieldUpdatePosition, jTextFieldUpdateSupervisor;
-    private JButton jButtonSaveUpdate, jButtonCancelUpdate;
         
-    private JPanel createUpdateEmployeePanel() {
-        JPanel panel = new JPanel(new GridLayout(14, 2));
+   private JPanel createUpdateEmployeePanel() {
+       JPanel panel = new JPanel(new GridLayout(14, 2));
 
-        panel.add(new JLabel("Employee ID:"));
-        jTextFieldEmployeeID = new JTextField();
-        jTextFieldEmployeeID.setEditable(false);
-        panel.add(jTextFieldEmployeeID);
+       panel.add(new JLabel("Employee ID:"));
+       jTextField1.setEditable(false);
+       panel.add(jTextField1);
 
-        panel.add(new JLabel("Last Name:"));
-        jTextFieldLastName = new JTextField();
-        panel.add(jTextFieldLastName);
+       panel.add(new JLabel("Last Name:"));
+       panel.add(jTextField2);
 
-        panel.add(new JLabel("First Name:"));
-        jTextFieldFirstName = new JTextField();
-        panel.add(jTextFieldFirstName);
+       panel.add(new JLabel("First Name:"));
+       panel.add(jTextField3);
 
-        panel.add(new JLabel("Birthday:"));
-        jTextFieldUpdateBirthday = new JTextField(); // Renamed field
-        panel.add(jTextFieldUpdateBirthday);
+       panel.add(new JLabel("Birthday:"));
+       panel.add(jTextField4);
 
-        panel.add(new JLabel("Address:"));
-        jTextFieldUpdateAddress = new JTextField(); // Renamed field
-        panel.add(jTextFieldUpdateAddress);
+       panel.add(new JLabel("Address:"));
+       panel.add(jTextField5);
 
-        panel.add(new JLabel("Phone Number:"));
-        jTextFieldPhoneNumber = new JTextField();
-        panel.add(jTextFieldPhoneNumber);
+       panel.add(new JLabel("Phone Number:"));
+       panel.add(jTextField6);
 
-        panel.add(new JLabel("SSS Number:"));
-        jTextFieldSSS = new JTextField();
-        panel.add(jTextFieldSSS);
+       panel.add(new JLabel("SSS Number:"));
+       panel.add(jTextField7);
 
-        panel.add(new JLabel("PhilHealth Number:"));
-        jTextFieldPhilHealth = new JTextField();
-        panel.add(jTextFieldPhilHealth);
+       panel.add(new JLabel("PhilHealth Number:"));
+       panel.add(jTextField8);
 
-        panel.add(new JLabel("TIN Number:"));
-        jTextFieldTIN = new JTextField();
-        panel.add(jTextFieldTIN);
+       panel.add(new JLabel("TIN Number:"));
+       panel.add(jTextField9);
 
-        panel.add(new JLabel("Pag-IBIG Number:"));
-        jTextFieldPagibig = new JTextField();
-        panel.add(jTextFieldPagibig);
+       panel.add(new JLabel("Pag-IBIG Number:"));
+       panel.add(jTextField10);
 
-        panel.add(new JLabel("Status:"));
-        jTextFieldUpdateStatus = new JTextField(); // Renamed field
-        panel.add(jTextFieldUpdateStatus);
+       panel.add(new JLabel("Status:"));
+       panel.add(jTextField11);
 
-        panel.add(new JLabel("Position:"));
-        jTextFieldUpdatePosition = new JTextField(); // Renamed field
-        panel.add(jTextFieldUpdatePosition);
+       panel.add(new JLabel("Position:"));
+       panel.add(jTextField12);
 
-        panel.add(new JLabel("Supervisor:"));
-        jTextFieldUpdateSupervisor = new JTextField(); // Renamed field
-        panel.add(jTextFieldUpdateSupervisor);
+       panel.add(new JLabel("Supervisor:"));
+       panel.add(jTextField13);
 
-        jButtonSaveUpdate = new JButton("Save");
-        jButtonSaveUpdate.addActionListener(e -> saveUpdatedEmployee());
-        panel.add(jButtonSaveUpdate);
+       jButtonSaveUpdate = new JButton("Save");
+       jButtonSaveUpdate.addActionListener(e -> saveUpdatedEmployee());
+       panel.add(jButtonSaveUpdate);
 
-        jButtonCancelUpdate = new JButton("Cancel");
-        jButtonCancelUpdate.addActionListener(e -> JOptionPane.showMessageDialog(this, "Update canceled."));
-        panel.add(jButtonCancelUpdate);
+       jButtonCancelUpdate = new JButton("Cancel");
+       jButtonCancelUpdate.addActionListener(e -> JOptionPane.showMessageDialog(this, "Update canceled."));
+       panel.add(jButtonCancelUpdate);
 
-        return panel;
-    }
+       return panel;
+   }
 
     private void updateEmployee() {
         int selectedRow = jTableEmployeeRecords.getSelectedRow();
@@ -270,28 +268,26 @@ public class HRDashboard extends javax.swing.JFrame {
             System.out.println("Column " + i + ": " + jTableEmployeeRecords.getValueAt(selectedRow, i));
         }
 
-        if (jTextFieldEmployeeID == null) {
-            JOptionPane.showMessageDialog(this, "Error: Update panel not initialized!", "Error", JOptionPane.ERROR_MESSAGE);
-            createUpdateEmployeePanel(); // Ensure fields are initialized
-        }
+        // Assign selected row values to text fields
+        jTextField1.setText(jTableEmployeeRecords.getValueAt(selectedRow, 0).toString());
+        jTextField2.setText(jTableEmployeeRecords.getValueAt(selectedRow, 1).toString());
+        jTextField3.setText(jTableEmployeeRecords.getValueAt(selectedRow, 2).toString());
+        jTextField4.setText(jTableEmployeeRecords.getValueAt(selectedRow, 3).toString());
+        jTextField5.setText(jTableEmployeeRecords.getValueAt(selectedRow, 4).toString());
+        jTextField6.setText(jTableEmployeeRecords.getValueAt(selectedRow, 5).toString());
+        jTextField7.setText(jTableEmployeeRecords.getValueAt(selectedRow, 6).toString());
+        jTextField8.setText(jTableEmployeeRecords.getValueAt(selectedRow, 7).toString());
+        jTextField9.setText(jTableEmployeeRecords.getValueAt(selectedRow, 8).toString());
+        jTextField10.setText(jTableEmployeeRecords.getValueAt(selectedRow, 9).toString());
+        jTextField11.setText(jTableEmployeeRecords.getValueAt(selectedRow, 10).toString());
+        jTextField12.setText(jTableEmployeeRecords.getValueAt(selectedRow, 11).toString());
+        jTextField13.setText(jTableEmployeeRecords.getValueAt(selectedRow, 12).toString());
 
-        // Assign values from table row to text fields
-        jTextFieldEmployeeID.setText(jTableEmployeeRecords.getValueAt(selectedRow, 0).toString());
-        jTextFieldLastName.setText(jTableEmployeeRecords.getValueAt(selectedRow, 1).toString());
-        jTextFieldFirstName.setText(jTableEmployeeRecords.getValueAt(selectedRow, 2).toString());
-        jTextFieldUpdateBirthday.setText(jTableEmployeeRecords.getValueAt(selectedRow, 3).toString());
-        jTextFieldUpdateAddress.setText(jTableEmployeeRecords.getValueAt(selectedRow, 4).toString());
-        jTextFieldPhoneNumber.setText(jTableEmployeeRecords.getValueAt(selectedRow, 5).toString());
-        jTextFieldSSS.setText(jTableEmployeeRecords.getValueAt(selectedRow, 6).toString());
-        jTextFieldPhilHealth.setText(jTableEmployeeRecords.getValueAt(selectedRow, 7).toString());
-        jTextFieldTIN.setText(jTableEmployeeRecords.getValueAt(selectedRow, 8).toString());
-        jTextFieldPagibig.setText(jTableEmployeeRecords.getValueAt(selectedRow, 9).toString());
-        jTextFieldUpdateStatus.setText(jTableEmployeeRecords.getValueAt(selectedRow, 10).toString());
-        jTextFieldUpdatePosition.setText(jTableEmployeeRecords.getValueAt(selectedRow, 11).toString());
-        jTextFieldUpdateSupervisor.setText(jTableEmployeeRecords.getValueAt(selectedRow, 12).toString());
-
+        // Show update panel in a dialog
         JOptionPane.showMessageDialog(this, createUpdateEmployeePanel(), "Update Employee", JOptionPane.PLAIN_MESSAGE);
     }
+
+
 
 
     private void saveUpdatedEmployee() {
@@ -301,19 +297,19 @@ public class HRDashboard extends javax.swing.JFrame {
           return;
       }
 
-      String employeeID = jTextFieldEmployeeID.getText().trim();
-      String lastName = jTextFieldLastName.getText().trim();
-      String firstName = jTextFieldFirstName.getText().trim();
-      String birthday = jTextFieldUpdateBirthday.getText().trim();
-      String address = jTextFieldUpdateAddress.getText().trim();
-      String phoneNumber = jTextFieldPhoneNumber.getText().trim();
-      String sss = jTextFieldSSS.getText().trim();
-      String philHealth = jTextFieldPhilHealth.getText().trim();
-      String tin = jTextFieldTIN.getText().trim();
-      String pagibig = jTextFieldPagibig.getText().trim();
-      String status = jTextFieldUpdateStatus.getText().trim();
-      String position = jTextFieldUpdatePosition.getText().trim();
-      String supervisor = jTextFieldUpdateSupervisor.getText().trim();
+      String employeeID = jTextField1.getText().trim();
+      String lastName = jTextField2.getText().trim();
+      String firstName = jTextField3.getText().trim();
+      String birthday = jTextField4.getText().trim();
+      String address = jTextField5.getText().trim();
+      String phoneNumber = jTextField6.getText().trim();
+      String sss = jTextField7.getText().trim();
+      String philHealth = jTextField8.getText().trim();
+      String tin = jTextField9.getText().trim();
+      String pagibig = jTextField10.getText().trim();
+      String status = jTextField11.getText().trim();
+      String position = jTextField12.getText().trim();
+      String supervisor = jTextField13.getText().trim();
 
       // Update JTable with new values
       jTableEmployeeRecords.setValueAt(lastName, selectedRow, 1);
@@ -1407,8 +1403,8 @@ public class HRDashboard extends javax.swing.JFrame {
 //        UpdateEmployeeForm updateEmployeeForm = new UpdateEmployeeForm(this);
 //        updateEmployeeForm.setLocationRelativeTo(this); // Centers relative to the parent JFrame
 //        updateEmployeeForm.populateTextFields(jTableEmployeeRecords.getSelectedRow());
-    createUpdateEmployeePanel();
-    updateEmployee();
+//        createUpdateEmployeePanel();
+        updateEmployee();
     }//GEN-LAST:event_jButtonUpdateActionPerformed
 
     private void jTextFieldEmployeenoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldEmployeenoKeyTyped
