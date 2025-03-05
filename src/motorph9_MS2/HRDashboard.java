@@ -186,74 +186,161 @@ public class HRDashboard extends javax.swing.JFrame {
         }
     }
 
-/* this method is moved to UpdateEmployeeForm.java
-    private void updateEmployee() { 
+    private JTextField jTextFieldEmployeeID, jTextFieldLastName, jTextFieldFirstName, jTextFieldUpdateBirthday;
+    private JTextField jTextFieldUpdateAddress, jTextFieldPhoneNumber, jTextFieldSSS, jTextFieldPhilHealth;
+    private JTextField jTextFieldTIN, jTextFieldPagibig, jTextFieldUpdateStatus, jTextFieldUpdatePosition, jTextFieldUpdateSupervisor;
+    private JButton jButtonSaveUpdate, jButtonCancelUpdate;
+        
+    private JPanel createUpdateEmployeePanel() {
+        JPanel panel = new JPanel(new GridLayout(14, 2));
+
+        panel.add(new JLabel("Employee ID:"));
+        jTextFieldEmployeeID = new JTextField();
+        jTextFieldEmployeeID.setEditable(false);
+        panel.add(jTextFieldEmployeeID);
+
+        panel.add(new JLabel("Last Name:"));
+        jTextFieldLastName = new JTextField();
+        panel.add(jTextFieldLastName);
+
+        panel.add(new JLabel("First Name:"));
+        jTextFieldFirstName = new JTextField();
+        panel.add(jTextFieldFirstName);
+
+        panel.add(new JLabel("Birthday:"));
+        jTextFieldUpdateBirthday = new JTextField(); // Renamed field
+        panel.add(jTextFieldUpdateBirthday);
+
+        panel.add(new JLabel("Address:"));
+        jTextFieldUpdateAddress = new JTextField(); // Renamed field
+        panel.add(jTextFieldUpdateAddress);
+
+        panel.add(new JLabel("Phone Number:"));
+        jTextFieldPhoneNumber = new JTextField();
+        panel.add(jTextFieldPhoneNumber);
+
+        panel.add(new JLabel("SSS Number:"));
+        jTextFieldSSS = new JTextField();
+        panel.add(jTextFieldSSS);
+
+        panel.add(new JLabel("PhilHealth Number:"));
+        jTextFieldPhilHealth = new JTextField();
+        panel.add(jTextFieldPhilHealth);
+
+        panel.add(new JLabel("TIN Number:"));
+        jTextFieldTIN = new JTextField();
+        panel.add(jTextFieldTIN);
+
+        panel.add(new JLabel("Pag-IBIG Number:"));
+        jTextFieldPagibig = new JTextField();
+        panel.add(jTextFieldPagibig);
+
+        panel.add(new JLabel("Status:"));
+        jTextFieldUpdateStatus = new JTextField(); // Renamed field
+        panel.add(jTextFieldUpdateStatus);
+
+        panel.add(new JLabel("Position:"));
+        jTextFieldUpdatePosition = new JTextField(); // Renamed field
+        panel.add(jTextFieldUpdatePosition);
+
+        panel.add(new JLabel("Supervisor:"));
+        jTextFieldUpdateSupervisor = new JTextField(); // Renamed field
+        panel.add(jTextFieldUpdateSupervisor);
+
+        jButtonSaveUpdate = new JButton("Save");
+        jButtonSaveUpdate.addActionListener(e -> saveUpdatedEmployee());
+        panel.add(jButtonSaveUpdate);
+
+        jButtonCancelUpdate = new JButton("Cancel");
+        jButtonCancelUpdate.addActionListener(e -> JOptionPane.showMessageDialog(this, "Update canceled."));
+        panel.add(jButtonCancelUpdate);
+
+        return panel;
+    }
+
+    private void updateEmployee() {
         int selectedRow = jTableEmployeeRecords.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Select an employee to update.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Retrieve employee data from the table   
-        String employeeNum = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 0));
-        String lastName = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 1));
-        String firstName = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 2));
-        String sssNumber = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 3));
-        String philhealthNumber = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 4));
-        String tinNumber = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 5));
-        String pagibigNumber = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 6));
-        String birthday = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 7));
-        String address = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 8));
-        String phoneNumber = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 9)); // No cast issues
-        String status = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 10));
-        String position = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 11));
-        String supervisor = String.valueOf(jTableEmployeeRecords.getValueAt(selectedRow, 12));
-
-        // Prompt user for updates
-        String newLastName = JOptionPane.showInputDialog("Enter new last name:", lastName);
-        String newFirstName = JOptionPane.showInputDialog("Enter new first name:", firstName);
-        String newSSS = JOptionPane.showInputDialog("Enter new SSS number:", sssNumber);
-        String newPhilHealth = JOptionPane.showInputDialog("Enter new PhilHealth number:", philhealthNumber);
-        String newTIN = JOptionPane.showInputDialog("Enter new TIN number:", tinNumber);
-        String newPagibig = JOptionPane.showInputDialog("Enter new Pag-IBIG number:", pagibigNumber);
-        String newBirthday = JOptionPane.showInputDialog("Enter new birthday:", birthday);
-        String newAddress = JOptionPane.showInputDialog("Enter new address:", address);
-        String newPhoneNumber = JOptionPane.showInputDialog("Enter new phone number:", phoneNumber);
-        String newStatus = JOptionPane.showInputDialog("Enter new status:", status);
-        String newPosition = JOptionPane.showInputDialog("Enter new position:", position);
-        String newSupervisor = JOptionPane.showInputDialog("Enter new supervisor:", supervisor);
-
-        // Ensure the user entered valid values before updating
-        if (newLastName != null && newFirstName != null && newSSS != null &&
-            newPhilHealth != null && newTIN != null && newPagibig != null &&
-            newBirthday != null && newAddress != null && newPhoneNumber != null &&
-            newStatus != null && newPosition != null && newSupervisor != null) {
-
-            try {
-                int parsedPhoneNumber = Integer.parseInt(newPhoneNumber.trim()); // ✅ Convert phone number to int
-
-                // Create an updated EmployeeUser object
-                EmployeeUser updatedEmployee = new EmployeeUser(
-                    employeeNum, newLastName, newFirstName, newBirthday, 
-                    newAddress, parsedPhoneNumber, newSSS, newPhilHealth, 
-                    newTIN, newPagibig, newStatus, newPosition, newSupervisor
-                );
-
-                // Call update method
-                hrUser.updateEmployee(updatedEmployee, employeeReader);
-                loadEmployeeData(); // Reload table data after update
-                JOptionPane.showMessageDialog(this, "Employee updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Invalid phone number. Please enter a numeric value.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Update canceled or invalid input.", "Error", JOptionPane.ERROR_MESSAGE);
+        // Debugging: Print row data before assigning to text fields
+        for (int i = 0; i < jTableEmployeeRecords.getColumnCount(); i++) {
+            System.out.println("Column " + i + ": " + jTableEmployeeRecords.getValueAt(selectedRow, i));
         }
+
+        if (jTextFieldEmployeeID == null) {
+            JOptionPane.showMessageDialog(this, "Error: Update panel not initialized!", "Error", JOptionPane.ERROR_MESSAGE);
+            createUpdateEmployeePanel(); // Ensure fields are initialized
+        }
+
+        // Assign values from table row to text fields
+        jTextFieldEmployeeID.setText(jTableEmployeeRecords.getValueAt(selectedRow, 0).toString());
+        jTextFieldLastName.setText(jTableEmployeeRecords.getValueAt(selectedRow, 1).toString());
+        jTextFieldFirstName.setText(jTableEmployeeRecords.getValueAt(selectedRow, 2).toString());
+        jTextFieldUpdateBirthday.setText(jTableEmployeeRecords.getValueAt(selectedRow, 3).toString());
+        jTextFieldUpdateAddress.setText(jTableEmployeeRecords.getValueAt(selectedRow, 4).toString());
+        jTextFieldPhoneNumber.setText(jTableEmployeeRecords.getValueAt(selectedRow, 5).toString());
+        jTextFieldSSS.setText(jTableEmployeeRecords.getValueAt(selectedRow, 6).toString());
+        jTextFieldPhilHealth.setText(jTableEmployeeRecords.getValueAt(selectedRow, 7).toString());
+        jTextFieldTIN.setText(jTableEmployeeRecords.getValueAt(selectedRow, 8).toString());
+        jTextFieldPagibig.setText(jTableEmployeeRecords.getValueAt(selectedRow, 9).toString());
+        jTextFieldUpdateStatus.setText(jTableEmployeeRecords.getValueAt(selectedRow, 10).toString());
+        jTextFieldUpdatePosition.setText(jTableEmployeeRecords.getValueAt(selectedRow, 11).toString());
+        jTextFieldUpdateSupervisor.setText(jTableEmployeeRecords.getValueAt(selectedRow, 12).toString());
+
+        JOptionPane.showMessageDialog(this, createUpdateEmployeePanel(), "Update Employee", JOptionPane.PLAIN_MESSAGE);
     }
-***/
+
+
+    private void saveUpdatedEmployee() {
+      int selectedRow = jTableEmployeeRecords.getSelectedRow();
+      if (selectedRow == -1) {
+          JOptionPane.showMessageDialog(this, "No employee selected!", "Error", JOptionPane.ERROR_MESSAGE);
+          return;
+      }
+
+      String employeeID = jTextFieldEmployeeID.getText().trim();
+      String lastName = jTextFieldLastName.getText().trim();
+      String firstName = jTextFieldFirstName.getText().trim();
+      String birthday = jTextFieldUpdateBirthday.getText().trim();
+      String address = jTextFieldUpdateAddress.getText().trim();
+      String phoneNumber = jTextFieldPhoneNumber.getText().trim();
+      String sss = jTextFieldSSS.getText().trim();
+      String philHealth = jTextFieldPhilHealth.getText().trim();
+      String tin = jTextFieldTIN.getText().trim();
+      String pagibig = jTextFieldPagibig.getText().trim();
+      String status = jTextFieldUpdateStatus.getText().trim();
+      String position = jTextFieldUpdatePosition.getText().trim();
+      String supervisor = jTextFieldUpdateSupervisor.getText().trim();
+
+      // Update JTable with new values
+      jTableEmployeeRecords.setValueAt(lastName, selectedRow, 1);
+      jTableEmployeeRecords.setValueAt(firstName, selectedRow, 2);
+      jTableEmployeeRecords.setValueAt(birthday, selectedRow, 3);
+      jTableEmployeeRecords.setValueAt(address, selectedRow, 4);
+      jTableEmployeeRecords.setValueAt(phoneNumber, selectedRow, 5);
+      jTableEmployeeRecords.setValueAt(sss, selectedRow, 6);
+      jTableEmployeeRecords.setValueAt(philHealth, selectedRow, 7);
+      jTableEmployeeRecords.setValueAt(tin, selectedRow, 8);
+      jTableEmployeeRecords.setValueAt(pagibig, selectedRow, 9);
+      jTableEmployeeRecords.setValueAt(status, selectedRow, 10);
+      jTableEmployeeRecords.setValueAt(position, selectedRow, 11);
+      jTableEmployeeRecords.setValueAt(supervisor, selectedRow, 12);
+
+      // Save to file
+      try {
+          hrUser.updateEmployee(new EmployeeUser(employeeID, lastName, firstName, birthday, address, 
+                                                 Integer.parseInt(phoneNumber), sss, philHealth, tin, 
+                                                 pagibig, status, position, supervisor), employeeReader);
+          JOptionPane.showMessageDialog(this, "Employee updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+      } catch (Exception e) {
+          JOptionPane.showMessageDialog(this, "Error updating employee: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+      }
+    }
     
-    private void addEmployee() { 
+    private void addEmployee() {
         JTextField jTextFieldEmployeeno = new JTextField();
         JTextField jTextFieldLastname = new JTextField();
         JTextField jTextFieldFirstname = new JTextField();
@@ -1317,10 +1404,11 @@ public class HRDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonRejectActionPerformed
 
     private void jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateActionPerformed
-        UpdateEmployeeForm updateEmployeeForm = new UpdateEmployeeForm(this);
-        updateEmployeeForm.setLocationRelativeTo(this); // Centers relative to the parent JFrame
-        updateEmployeeForm.populateTextFields(jTableEmployeeRecords.getSelectedRow());
-//        updateEmployee();
+//        UpdateEmployeeForm updateEmployeeForm = new UpdateEmployeeForm(this);
+//        updateEmployeeForm.setLocationRelativeTo(this); // Centers relative to the parent JFrame
+//        updateEmployeeForm.populateTextFields(jTableEmployeeRecords.getSelectedRow());
+    createUpdateEmployeePanel();
+    updateEmployee();
     }//GEN-LAST:event_jButtonUpdateActionPerformed
 
     private void jTextFieldEmployeenoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldEmployeenoKeyTyped
