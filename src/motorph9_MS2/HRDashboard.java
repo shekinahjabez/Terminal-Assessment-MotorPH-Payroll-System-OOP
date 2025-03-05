@@ -555,9 +555,10 @@ public class HRDashboard extends javax.swing.JFrame {
         jTextField12.setText("");
         jTextField13.setText("");
 
+        System.out.println("Add Employee form launched.");
         // Show Add panel in a dialog
-        JOptionPane.showMessageDialog(this, createUpdateEmployeePanel(), "Add Employee", JOptionPane.PLAIN_MESSAGE);
- 
+        JOptionPane.showMessageDialog(this, createAddEmployeePanel(), "Add Employee", JOptionPane.PLAIN_MESSAGE);
+
     }
     
     
@@ -1100,7 +1101,7 @@ public class HRDashboard extends javax.swing.JFrame {
                 jButtonAddActionPerformed(evt);
             }
         });
-        jPanelManageEmployee.add(jButtonAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 170, -1, -1));
+        jPanelManageEmployee.add(jButtonAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 163, -1, 30));
 
         jTabbedMain.addTab("Manage Employees", jPanelManageEmployee);
 
