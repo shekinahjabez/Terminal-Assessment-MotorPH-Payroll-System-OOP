@@ -266,7 +266,7 @@ public class HRDashboard extends javax.swing.JFrame {
        JPanel panel = new JPanel(new GridLayout(14, 2));
 
        panel.add(new JLabel("Employee ID:"));
-       jTextField1.setEditable(true);
+       jTextField1.setEditable(false);
        panel.add(jTextField1);
 
        panel.add(new JLabel("Last Name:"));
@@ -459,89 +459,82 @@ public class HRDashboard extends javax.swing.JFrame {
 
     
     private void saveAddEmployee() {
-    File inputFile = new File("src/data9/Employee.csv");
-    boolean isModified = false;
+        File inputFile = new File("src/data9/Employee.csv");
 
-    // Validation patterns
-    Pattern employeeIdPattern = Pattern.compile("^\\d{5}$"); // Employee ID (5 digits)
-    Pattern alphabeticPattern = Pattern.compile("^[A-Za-z ]+$");  
-    Pattern numeric9Pattern = Pattern.compile("^\\d{9}$"); 
-    Pattern datePattern = Pattern.compile("^\\d{1,2}/\\d{1,2}/\\d{4}$");  
-    Pattern idPattern = Pattern.compile("^\\d{2}-\\d{7}-\\d$");  
-    Pattern philhealthPattern = Pattern.compile("^\\d{12}$");  
-    Pattern tinPattern = Pattern.compile("^\\d{3}-\\d{3}-\\d{3}-\\d{3}$");  
-    Pattern pagibigPattern = Pattern.compile("^\\d{12}$");  
+        // Validation patterns
+        Pattern employeeIdPattern = Pattern.compile("^\\d{5}$"); // Employee ID (5 digits)
+        Pattern alphabeticPattern = Pattern.compile("^[A-Za-z ]+$");  
+        Pattern numeric9Pattern = Pattern.compile("^\\d{9}$"); 
+        Pattern datePattern = Pattern.compile("^\\d{1,2}/\\d{1,2}/\\d{4}$");  
+        Pattern idPattern = Pattern.compile("^\\d{2}-\\d{7}-\\d$");  
+        Pattern philhealthPattern = Pattern.compile("^\\d{12}$");  
+        Pattern tinPattern = Pattern.compile("^\\d{3}-\\d{3}-\\d{3}-\\d{3}$");  
+        Pattern pagibigPattern = Pattern.compile("^\\d{12}$");  
 
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(inputFile, true))) {
-        String[] newData = new String[13];
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(inputFile, true))) {
+            String[] newData = new String[13];
 
-        for (int i = 0; i < 13; i++) {
-            javax.swing.JTextField textField = (javax.swing.JTextField) this.getClass()
-                    .getDeclaredField("jTextField" + (i + 1)).get(this);
-            String newValue = textField.getText().trim();
+            for (int i = 0; i < 13; i++) {
+                javax.swing.JTextField textField = (javax.swing.JTextField) this.getClass()
+                        .getDeclaredField("jTextField" + (i + 1)).get(this);
+                String newValue = textField.getText().trim();
 
-            // Validate inputs
-            if (i == 0 && !employeeIdPattern.matcher(newValue).matches()) {
-                JOptionPane.showMessageDialog(this, "Invalid Employee ID: " + newValue + "\nMust be exactly 5 digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            if ((i == 1 || i == 2) && !alphabeticPattern.matcher(newValue).matches()) {
-                JOptionPane.showMessageDialog(this, "Invalid name format: " + newValue, "Validation Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            if (i == 5 && !numeric9Pattern.matcher(newValue).matches()) {
-                JOptionPane.showMessageDialog(this, "Invalid numeric value: " + newValue + "\nMust be exactly 9 digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            if (i == 3 && !datePattern.matcher(newValue).matches()) {
-                JOptionPane.showMessageDialog(this, "Invalid date format (MM/DD/YYYY): " + newValue, "Validation Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            if (i == 6 && !idPattern.matcher(newValue).matches()) {
-                JOptionPane.showMessageDialog(this, "Invalid SSS number format: " + newValue, "Validation Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            if (i == 7 && !philhealthPattern.matcher(newValue).matches()) {
-                JOptionPane.showMessageDialog(this, "Invalid PhilHealth number: " + newValue + "\nMust be exactly 12 digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            if (i == 8 && !tinPattern.matcher(newValue).matches()) {
-                JOptionPane.showMessageDialog(this, "Invalid TIN number format: " + newValue, "Validation Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            if (i == 9 && !pagibigPattern.matcher(newValue).matches()) {
-                JOptionPane.showMessageDialog(this, "Invalid Pag-IBIG number: " + newValue + "\nMust be exactly 12 digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-                return;
+                // Validate inputs
+                if (i == 0 && !employeeIdPattern.matcher(newValue).matches()) {
+                    JOptionPane.showMessageDialog(this, "Invalid Employee ID: " + newValue + "\nMust be exactly 5 digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                if ((i == 1 || i == 2) && !alphabeticPattern.matcher(newValue).matches()) {
+                    JOptionPane.showMessageDialog(this, "Invalid name format: " + newValue, "Validation Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                if (i == 5 && !numeric9Pattern.matcher(newValue).matches()) {
+                    JOptionPane.showMessageDialog(this, "Invalid numeric value: " + newValue + "\nMust be exactly 9 digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                if (i == 3 && !datePattern.matcher(newValue).matches()) {
+                    JOptionPane.showMessageDialog(this, "Invalid date format (MM/DD/YYYY): " + newValue, "Validation Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                if (i == 6 && !idPattern.matcher(newValue).matches()) {
+                    JOptionPane.showMessageDialog(this, "Invalid SSS number format: " + newValue, "Validation Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                if (i == 7 && !philhealthPattern.matcher(newValue).matches()) {
+                    JOptionPane.showMessageDialog(this, "Invalid PhilHealth number: " + newValue + "\nMust be exactly 12 digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                if (i == 8 && !tinPattern.matcher(newValue).matches()) {
+                    JOptionPane.showMessageDialog(this, "Invalid TIN number format: " + newValue, "Validation Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                if (i == 9 && !pagibigPattern.matcher(newValue).matches()) {
+                    JOptionPane.showMessageDialog(this, "Invalid Pag-IBIG number: " + newValue + "\nMust be exactly 12 digits.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                newData[i] = newValue;
             }
 
-            newData[i] = newValue;
+            writer.write(String.join(",", newData) + "\n");
+
+        } catch (IOException | NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error saving employee data!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+            JOptionPane.showMessageDialog(this, "Employee added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            loadEmployeeTable();
 
-        writer.write(String.join(",", newData) + "\n");
-        isModified = true;
-
-    } catch (IOException | NoSuchFieldException | IllegalAccessException e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Error saving employee data!", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
     }
 
-    if (isModified) {
-        JOptionPane.showMessageDialog(this, "Employee added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-        loadEmployeeTable();
-    } else {
-        JOptionPane.showMessageDialog(this, "No changes were made!", "Info", JOptionPane.INFORMATION_MESSAGE);
-        dispose();
-    }
-}
 
 
-
-    
     private void addEmployee2() {
-        
-        // Assign blanks to text fields
-        jTextField1.setText("");
+        int newEmployeeID = getNextEmployeeID(); // Get next available Employee ID
+        jTextField1.setText(String.valueOf(newEmployeeID));
+
+        // Assign blanks to other text fields
         jTextField2.setText("");
         jTextField3.setText("");
         jTextField4.setText("");
@@ -556,9 +549,34 @@ public class HRDashboard extends javax.swing.JFrame {
         jTextField13.setText("");
 
         System.out.println("Add Employee form launched.");
+
         // Show Add panel in a dialog
         JOptionPane.showMessageDialog(this, createAddEmployeePanel(), "Add Employee", JOptionPane.PLAIN_MESSAGE);
+    }
 
+    // Method to get the next Employee ID from Employee.csv
+    private int getNextEmployeeID() {
+        String filePath = "src/data9/Employee.csv"; // Update with correct path if needed
+        int maxID = 0;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                try {
+                    int currentID = Integer.parseInt(data[0].trim());
+                    if (currentID > maxID) {
+                        maxID = currentID;
+                    }
+                } catch (NumberFormatException e) {
+                    System.err.println("Skipping invalid Employee ID: " + data[0]);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading Employee.csv: " + e.getMessage());
+        }
+
+        return maxID + 1;
     }
     
     
