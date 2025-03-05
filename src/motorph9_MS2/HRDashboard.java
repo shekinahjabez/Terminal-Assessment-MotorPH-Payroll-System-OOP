@@ -396,6 +396,7 @@ public class HRDashboard extends javax.swing.JFrame {
                 loadEmployeeTable();
             } else {
                 JOptionPane.showMessageDialog(this, "No changes were made!", "Info", JOptionPane.INFORMATION_MESSAGE);
+                dispose();
             }
         } else {
             JOptionPane.showMessageDialog(this, "Error updating file!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -742,6 +743,7 @@ public class HRDashboard extends javax.swing.JFrame {
         jButtonDelete = new javax.swing.JButton();
         jButtonUpdate = new javax.swing.JButton();
         jLabelTitleEmployeeList = new javax.swing.JLabel();
+        jButtonAddEmp = new javax.swing.JButton();
         jPanelLeaveRequest = new javax.swing.JPanel();
         jLabelTitleLeaveRequests = new javax.swing.JLabel();
         jScrollPaneLeaveRequests = new javax.swing.JScrollPane();
@@ -935,6 +937,16 @@ public class HRDashboard extends javax.swing.JFrame {
         jLabelTitleEmployeeList.setForeground(new java.awt.Color(255, 255, 255));
         jLabelTitleEmployeeList.setText("EMPLOYEE RECORDS");
         jPanelManageEmployee.add(jLabelTitleEmployeeList, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 110, -1, -1));
+
+        jButtonAddEmp.setBackground(new java.awt.Color(204, 0, 51));
+        jButtonAddEmp.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonAddEmp.setText("Add");
+        jButtonAddEmp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddEmpActionPerformed(evt);
+            }
+        });
+        jPanelManageEmployee.add(jButtonAddEmp, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 163, -1, 30));
 
         jTabbedMain.addTab("Manage Employees", jPanelManageEmployee);
 
@@ -1495,6 +1507,10 @@ public class HRDashboard extends javax.swing.JFrame {
         addEmployee();
     }//GEN-LAST:event_jButtonAddActionPerformed
 
+    private void jButtonAddEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddEmpActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonAddEmpActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1520,6 +1536,7 @@ public class HRDashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAdd;
+    private javax.swing.JButton jButtonAddEmp;
     private javax.swing.JButton jButtonAddEmployee;
     private javax.swing.JButton jButtonApprove;
     private javax.swing.JButton jButtonDelete;
