@@ -3,6 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+/*to do mark:
+fix jDateChooser Update and Add Employee
+fix No changes were made dispose() after.
+
+
+*/
+
 package motorph9_MS2;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -318,7 +325,6 @@ public class HRDashboard extends javax.swing.JFrame {
 
        return addEmpPanel;
    }
-
    
     private void updateEmployee() {
         int selectedRow = jTableEmployeeRecords.getSelectedRow();
@@ -327,7 +333,7 @@ public class HRDashboard extends javax.swing.JFrame {
             return;
         }
 
-        // Debugging: Print row data before assigning to text fields
+        // Debugging: Print row data before assigning to fields
         for (int i = 0; i < jTableEmployeeRecords.getColumnCount(); i++) {
             System.out.println("Column " + i + ": " + jTableEmployeeRecords.getValueAt(selectedRow, i));
         }
@@ -336,7 +342,18 @@ public class HRDashboard extends javax.swing.JFrame {
         jTextField1.setText(jTableEmployeeRecords.getValueAt(selectedRow, 0).toString());
         jTextField2.setText(jTableEmployeeRecords.getValueAt(selectedRow, 1).toString());
         jTextField3.setText(jTableEmployeeRecords.getValueAt(selectedRow, 2).toString());
-        jTextField4.setText(jTableEmployeeRecords.getValueAt(selectedRow, 3).toString());
+
+        // Handle Birthday using JDateChooser
+        try {
+            String birthdayStr = jTableEmployeeRecords.getValueAt(selectedRow, 3).toString();
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy"); // Adjust format if needed
+            Date parsedDate = sdf.parse(birthdayStr);
+            jDateChooserBirthday.setDate(parsedDate);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error parsing birthday date!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
         jTextField5.setText(jTableEmployeeRecords.getValueAt(selectedRow, 4).toString());
         jTextField6.setText(jTableEmployeeRecords.getValueAt(selectedRow, 5).toString());
         jTextField7.setText(jTableEmployeeRecords.getValueAt(selectedRow, 6).toString());
@@ -459,7 +476,7 @@ public class HRDashboard extends javax.swing.JFrame {
                loadEmployeeTable();
            } else {
                JOptionPane.showMessageDialog(this, "No changes were made!", "Info", JOptionPane.INFORMATION_MESSAGE);
-               dispose();
+//               dispose();
            }
        } else {
            JOptionPane.showMessageDialog(this, "Error updating file!", "Error", JOptionPane.ERROR_MESSAGE);
