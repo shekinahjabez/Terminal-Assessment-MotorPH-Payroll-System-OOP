@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JDateChooser;
+import java.util.Vector;
 
 
 public class HRDashboard extends javax.swing.JFrame { 
@@ -147,7 +148,7 @@ public class HRDashboard extends javax.swing.JFrame {
             System.err.println("❌ Error loading employees: " + e.getMessage());
         }
     }
-
+    
     public JTable getjTableEmployeeRecords() {
         return jTableEmployeeRecords;
     }
@@ -473,7 +474,7 @@ public class HRDashboard extends javax.swing.JFrame {
        if (inputFile.delete() && tempFile.renameTo(inputFile)) {
            if (isModified) {
                JOptionPane.showMessageDialog(this, "Employee updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-               loadEmployeeTable();
+               loadEmployeeData();
            } else {
                JOptionPane.showMessageDialog(this, "No changes were made!", "Info", JOptionPane.INFORMATION_MESSAGE);
 //               dispose();
@@ -482,7 +483,6 @@ public class HRDashboard extends javax.swing.JFrame {
            JOptionPane.showMessageDialog(this, "Error updating file!", "Error", JOptionPane.ERROR_MESSAGE);
        }
    }
-
     
     private void saveAddedEmployee() {
         File inputFile = new File("src/data9/Employee.csv");
@@ -557,7 +557,7 @@ public class HRDashboard extends javax.swing.JFrame {
         }
 
         JOptionPane.showMessageDialog(this, "Employee added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-        loadEmployeeTable();
+        loadEmployeeData();
     }
 
 
