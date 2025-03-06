@@ -10,6 +10,7 @@ Add Employee: Save but disposed if there's error
 Leave: check if you can set the spacing per COlumns
 
 *Done:
+restricted UPdate & Adding of dates 
 fixed UPdateEmployee's "No changes were made." this prompt's dispose() after.
 move Welcome
 fix default color of Leave button
@@ -39,6 +40,7 @@ import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Font;
 import java.awt.PopupMenu;
+import java.util.Calendar;
 import java.util.Vector;
 
 
@@ -66,7 +68,7 @@ public class HRDashboard extends javax.swing.JFrame {
 
     private JButton btnSaveUpdate, btnCancelUpdate, btnSaveAdd, btnCancelAdd;
     
-    JDialog dialogUpdateEmployee = new JDialog(this, "Update Employeeeeee", true);
+    JDialog dialogUpdateEmployee = new JDialog(this, "Update Employee", true);
     JDialog dialogAddEmployee = new JDialog(this, "Add Employee", true);
 
    
@@ -204,14 +206,6 @@ public class HRDashboard extends javax.swing.JFrame {
         button.setFocusPainted(false);
         return button;
     }
-
-//to do for checking if this is still needed         
-//    private void showUpdateEmployeeDialog() {
-//        dialogUpdateEmployee.setContentPane(createUpdateEmployeePanel(dialogUpdateEmployee));
-//        dialogUpdateEmployee.pack();
-//        dialogUpdateEmployee.setLocationRelativeTo(this);
-//        dialogUpdateEmployee.setVisible(true);
-//    }
     
     private JPanel createUpdateEmployeePanel(JDialog dialog) {
         JPanel updateEmpPanel = new JPanel(new GridLayout(15, 2));
@@ -272,13 +266,6 @@ public class HRDashboard extends javax.swing.JFrame {
         updateEmpPanel.add(btnCancelUpdate);
 
         return updateEmpPanel;
-    }
-
-    private void showAddEmployeeDialog() {
-        dialogAddEmployee.setContentPane(createAddEmployeePanel(dialogAddEmployee));
-        dialogAddEmployee.pack();
-        dialogAddEmployee.setLocationRelativeTo(this);
-        dialogAddEmployee.setVisible(true);
     }
     
     private JPanel createAddEmployeePanel(JDialog dialog) {
@@ -360,11 +347,19 @@ public class HRDashboard extends javax.swing.JFrame {
         txtLastName.setText(getTableValue(selectedRow, 1));
         txtFirstName.setText(getTableValue(selectedRow, 2));
 
-        // Handle Birthday using JDateChooser
+        // Handle Birthday using JDateChooser with 18-year restriction
         try {
             String birthdayStr = getTableValue(selectedRow, 3);
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+
+            // Calculate the minimum allowed date (18 years ago)
+            Calendar minAgeCalendar = Calendar.getInstance();
+            minAgeCalendar.add(Calendar.YEAR, -18);
+            Date minAllowedDate = minAgeCalendar.getTime(); // User must be born before this date
+
+            chooserBirthday.setSelectableDateRange(null, minAllowedDate); // Restrict future dates
+
             if (!birthdayStr.isEmpty()) {
-                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy"); // Adjust format if needed
                 Date parsedDate = sdf.parse(birthdayStr);
                 chooserBirthday.setDate(parsedDate);
             } else {
@@ -385,13 +380,12 @@ public class HRDashboard extends javax.swing.JFrame {
         txtPosition.setText(getTableValue(selectedRow, 11));
         txtSupervisor.setText(getTableValue(selectedRow, 12));
 
-        // Show update panel in a dialog (No "OK" button issue)
+        // Show update panel in a dialog
         dialogUpdateEmployee.setContentPane(createUpdateEmployeePanel(dialogUpdateEmployee));
         dialogUpdateEmployee.pack();
         dialogUpdateEmployee.setLocationRelativeTo(this);
         dialogUpdateEmployee.setVisible(true);
     }
-
 
     // Helper Method to Prevent NullPointerException
     private String getTableValue(int row, int col) {
@@ -441,8 +435,27 @@ public class HRDashboard extends javax.swing.JFrame {
                                 JOptionPane.showMessageDialog(this, "Birthday field cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
                                 return;
                             }
+
+                            Date selectedDate = chooserBirthday.getDate();
                             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-                            newValue = sdf.format(chooserBirthday.getDate());
+
+                            Calendar currentCalendar = Calendar.getInstance();
+                            Calendar minDateCalendar = Calendar.getInstance();
+                            minDateCalendar.add(Calendar.YEAR, -18); // Subtract 18 years from today
+                            Date minAllowedDate = minDateCalendar.getTime(); // Minimum valid birthday
+
+                            if (selectedDate.after(currentCalendar.getTime())) {
+                                JOptionPane.showMessageDialog(this, "Birthday cannot be a future date.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+
+                            if (selectedDate.after(minAllowedDate)) {
+                                String minAllowedDateStr = sdf.format(minAllowedDate);
+                                JOptionPane.showMessageDialog(this, "Date selected must not be later than " + minAllowedDateStr + ".", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+
+                            newValue = sdf.format(selectedDate);
                         } else {
                             newValue = getTextFieldValue(i);
                         }
@@ -505,20 +518,15 @@ public class HRDashboard extends javax.swing.JFrame {
                 loadEmployeeData();
                 dialogUpdateEmployee.dispose();
             } else {
-//                JOptionPane.showMessageDialog(this, "No changes were made!", "Info", JOptionPane.INFORMATION_MESSAGE);
-//                dialogUpdateEmployee.dispose();
-                
-                int result = JOptionPane.showConfirmDialog(this, "No changes were made!", "Inforrrrr", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
-
-                if (result == JOptionPane.OK_OPTION) {
-                    dialogUpdateEmployee.dispose(); // Close the dialog
-                }
-
+                JOptionPane.showMessageDialog(this, "No changes were made!", "Info", JOptionPane.INFORMATION_MESSAGE);
+                dialogUpdateEmployee.dispose();
             }
         } else {
             JOptionPane.showMessageDialog(this, "Error updating file!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+
 
     private void saveAddedEmployee() {
         File inputFile = new File("src/data9/Employee.csv");
@@ -543,8 +551,20 @@ public class HRDashboard extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(this, "Birthday field cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
+
                     SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-                    newValue = sdf.format(chooserBirthday.getDate());
+                    Date selectedDate = chooserBirthday.getDate();
+                    Calendar cal = Calendar.getInstance();
+                    cal.add(Calendar.YEAR, -18); // Calculate 18 years ago
+                    Date minAllowedDate = cal.getTime();
+                    String formattedMinDate = sdf.format(minAllowedDate);
+
+                    if (selectedDate.after(minAllowedDate)) {
+                        JOptionPane.showMessageDialog(this, "Date selected must not be on a later date than " + formattedMinDate + ".", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    newValue = sdf.format(selectedDate);
                 } else {
                     newValue = getTextFieldValue(i);
                 }
@@ -635,40 +655,45 @@ public class HRDashboard extends javax.swing.JFrame {
 
     */
     
-    /*private void addEmployee() { 
-        int newEmployeeID = getNextEmployeeID(); // Get next available Employee ID
-        jTextField1.setText(String.valueOf(newEmployeeID));
+    private void addEmployee() {
+       int newEmployeeID = getNextEmployeeID(); // Get next available Employee ID
+       txtEmployeeID.setText(String.valueOf(newEmployeeID));
 
-        // Assign blanks to other text fields
-        resetEmployeeForm();
+       // Assign blanks to other text fields
+       resetEmployeeForm();
 
-        System.out.println("Add Employee form launched.");
+       // Restrict birthday selection to at least 18 years ago
+       Calendar cal = Calendar.getInstance();
+       cal.add(Calendar.YEAR, -18); // Move back 18 years
+       chooserBirthday.setMaxSelectableDate(cal.getTime()); // Restrict future dates
 
-        // Show Add panel in a dialog (No "OK" button issue)
-        JDialog dialog = new JDialog(this, "Add Employee", true);
-        dialog.setContentPane(createAddEmployeePanel(dialog));
-        dialog.pack();
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
-    }*/
-    
-    private void addEmployee() { 
-        int newEmployeeID = getNextEmployeeID(); // Get next available Employee ID
-        txtEmployeeID.setText(String.valueOf(newEmployeeID));
+       // Ensure the date chooser is empty initially
+       chooserBirthday.setDate(null);
 
-        // Assign blanks to other text fields
-        resetEmployeeForm();
+       // Move default view to 18 years ago when the user clicks the date chooser
+       chooserBirthday.getDateEditor().getUiComponent().addFocusListener(new FocusAdapter() {
+           @Override
+           public void focusGained(FocusEvent e) {
+               if (chooserBirthday.getDate() == null) {
+                   SwingUtilities.invokeLater(() -> {
+                       Calendar defaultCal = Calendar.getInstance();
+                       defaultCal.add(Calendar.YEAR, -18);
+                       chooserBirthday.setDate(defaultCal.getTime()); // Set the default view to 18 years ago
+                       chooserBirthday.setDate(null); // Clear selection after setting the view
+                   });
+               }
+           }
+       });
 
-        System.out.println("Add Employee form launched.");
+       System.out.println("Add Employee form launched.");
 
-        // Show Add panel in a dialog (No "OK" button issue)
-        JDialog dialog = new JDialog(this, "Add Employee", true);
-        dialog.setContentPane(createAddEmployeePanel(dialog));
-        dialog.pack();
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
-    }
-    
+       // Show Add panel in a dialog
+       dialogAddEmployee.setContentPane(createAddEmployeePanel(dialogAddEmployee));
+       dialogAddEmployee.pack();
+       dialogAddEmployee.setLocationRelativeTo(this);
+       dialogAddEmployee.setVisible(true);
+   }
+
     // Helper Method to Reset Form Fields
     private void resetEmployeeForm() {
         txtLastName.setText("");
