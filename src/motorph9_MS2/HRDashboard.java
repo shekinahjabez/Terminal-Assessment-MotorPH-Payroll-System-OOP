@@ -967,6 +967,37 @@ public class HRDashboard extends javax.swing.JFrame {
         jTableLeaveRequest = new javax.swing.JTable();
         jButtonApprove = new javax.swing.JButton();
         jButtonReject = new javax.swing.JButton();
+        jPanelAddEmployee = new javax.swing.JPanel();
+        jPanelAdddetails = new javax.swing.JPanel();
+        jLabelEmployeeno = new javax.swing.JLabel();
+        jTextFieldEmployeeno = new javax.swing.JTextField();
+        jLabelLastname = new javax.swing.JLabel();
+        jTextFieldLastname = new javax.swing.JTextField();
+        jLabelFirstname = new javax.swing.JLabel();
+        jTextFieldFirstname = new javax.swing.JTextField();
+        jLabelBirthday = new javax.swing.JLabel();
+        jLabelPhilhealthno = new javax.swing.JLabel();
+        jTextFieldBirthday = new javax.swing.JTextField();
+        jTextFieldPhilhealthno = new javax.swing.JTextField();
+        jLabelTINno = new javax.swing.JLabel();
+        jTextFieldTINno = new javax.swing.JTextField();
+        jLabelAddress = new javax.swing.JLabel();
+        jLabelPhoneno = new javax.swing.JLabel();
+        jLabelSSSno = new javax.swing.JLabel();
+        jTextFieldAddress = new javax.swing.JTextField();
+        jTextFieldPhoneno = new javax.swing.JTextField();
+        jLabelPagibigNo = new javax.swing.JLabel();
+        jLabelPagibigNo1 = new javax.swing.JLabel();
+        jLabelPagibigNo2 = new javax.swing.JLabel();
+        jLabelPagibigNo3 = new javax.swing.JLabel();
+        jTextFieldSSSno = new javax.swing.JTextField();
+        jTextFieldPosition = new javax.swing.JTextField();
+        jTextFieldStatus = new javax.swing.JTextField();
+        jTextFieldPagibigNo = new javax.swing.JTextField();
+        jTextFieldSupervisor = new javax.swing.JTextField();
+        jScrollPaneAddEmployee = new javax.swing.JScrollPane();
+        jTableAddEmployee = new javax.swing.JTable();
+        jLabelTitleAddEmployee = new javax.swing.JLabel();
         jPanelSidebar = new javax.swing.JPanel();
         jButtonManageEmployees = new javax.swing.JButton();
         jButtonLeaveRequests = new javax.swing.JButton();
@@ -1205,6 +1236,333 @@ public class HRDashboard extends javax.swing.JFrame {
 
         jTabbedMain.addTab("Leave Requests", jPanelLeaveRequest);
 
+        jPanelAddEmployee.setBackground(new java.awt.Color(102, 0, 0));
+
+        jPanelAdddetails.setBackground(new java.awt.Color(0, 0, 0));
+
+        jLabelEmployeeno.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jLabelEmployeeno.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelEmployeeno.setText("EMPLOYEE NO");
+
+        jTextFieldEmployeeno.setBackground(new java.awt.Color(0, 0, 0));
+        jTextFieldEmployeeno.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextFieldEmployeeno.setForeground(new java.awt.Color(255, 255, 255));
+        jTextFieldEmployeeno.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldEmployeenoKeyTyped(evt);
+            }
+        });
+
+        jLabelLastname.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jLabelLastname.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelLastname.setText("LAST NAME");
+
+        jTextFieldLastname.setBackground(new java.awt.Color(0, 0, 0));
+        jTextFieldLastname.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextFieldLastname.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabelFirstname.setBackground(new java.awt.Color(0, 0, 0));
+        jLabelFirstname.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jLabelFirstname.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelFirstname.setText("FIRST NAME");
+
+        jTextFieldFirstname.setBackground(new java.awt.Color(0, 0, 0));
+        jTextFieldFirstname.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextFieldFirstname.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabelBirthday.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jLabelBirthday.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelBirthday.setText("BIRTHDAY");
+
+        jLabelPhilhealthno.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jLabelPhilhealthno.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelPhilhealthno.setText("PHILHEALTH NO");
+
+        jTextFieldBirthday.setBackground(new java.awt.Color(0, 0, 0));
+        jTextFieldBirthday.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextFieldBirthday.setForeground(new java.awt.Color(255, 255, 255));
+
+        jTextFieldPhilhealthno.setBackground(new java.awt.Color(0, 0, 0));
+        jTextFieldPhilhealthno.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextFieldPhilhealthno.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabelTINno.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jLabelTINno.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelTINno.setText("TIN NO");
+
+        jTextFieldTINno.setBackground(new java.awt.Color(0, 0, 0));
+        jTextFieldTINno.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextFieldTINno.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabelAddress.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jLabelAddress.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelAddress.setText("ADDRESS");
+
+        jLabelPhoneno.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jLabelPhoneno.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelPhoneno.setText("PHONE NO");
+
+        jLabelSSSno.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jLabelSSSno.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelSSSno.setText("SSS NO");
+
+        jTextFieldAddress.setBackground(new java.awt.Color(0, 0, 0));
+        jTextFieldAddress.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextFieldAddress.setForeground(new java.awt.Color(255, 255, 255));
+
+        jTextFieldPhoneno.setBackground(new java.awt.Color(0, 0, 0));
+        jTextFieldPhoneno.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextFieldPhoneno.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabelPagibigNo.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jLabelPagibigNo.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelPagibigNo.setText("PAG-IBIG NO");
+
+        jLabelPagibigNo1.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jLabelPagibigNo1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelPagibigNo1.setText("STATUS");
+
+        jLabelPagibigNo2.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jLabelPagibigNo2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelPagibigNo2.setText("POSITION");
+
+        jLabelPagibigNo3.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jLabelPagibigNo3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelPagibigNo3.setText("SUPERVISOR");
+
+        jTextFieldSSSno.setBackground(new java.awt.Color(0, 0, 0));
+        jTextFieldSSSno.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextFieldSSSno.setForeground(new java.awt.Color(255, 255, 255));
+
+        jTextFieldPosition.setBackground(new java.awt.Color(0, 0, 0));
+        jTextFieldPosition.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextFieldPosition.setForeground(new java.awt.Color(255, 255, 255));
+
+        jTextFieldStatus.setBackground(new java.awt.Color(0, 0, 0));
+        jTextFieldStatus.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextFieldStatus.setForeground(new java.awt.Color(255, 255, 255));
+
+        jTextFieldPagibigNo.setBackground(new java.awt.Color(0, 0, 0));
+        jTextFieldPagibigNo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextFieldPagibigNo.setForeground(new java.awt.Color(255, 255, 255));
+
+        jTextFieldSupervisor.setBackground(new java.awt.Color(0, 0, 0));
+        jTextFieldSupervisor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextFieldSupervisor.setForeground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout jPanelAdddetailsLayout = new javax.swing.GroupLayout(jPanelAdddetails);
+        jPanelAdddetails.setLayout(jPanelAdddetailsLayout);
+        jPanelAdddetailsLayout.setHorizontalGroup(
+            jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelAdddetailsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelAdddetailsLayout.createSequentialGroup()
+                        .addGroup(jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelEmployeeno)
+                            .addComponent(jLabelLastname)
+                            .addComponent(jLabelPhilhealthno, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelSSSno, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jLabelPhoneno, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabelBirthday, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabelFirstname, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(11, 11, 11)
+                        .addGroup(jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldPhilhealthno, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+                            .addComponent(jTextFieldEmployeeno)
+                            .addComponent(jTextFieldLastname)
+                            .addComponent(jTextFieldBirthday)
+                            .addComponent(jTextFieldFirstname, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jTextFieldAddress)
+                            .addComponent(jTextFieldPhoneno)
+                            .addComponent(jTextFieldSSSno)))
+                    .addGroup(jPanelAdddetailsLayout.createSequentialGroup()
+                        .addGroup(jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelTINno, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelPagibigNo)
+                            .addComponent(jLabelPagibigNo1)
+                            .addComponent(jLabelPagibigNo2))
+                        .addGap(38, 38, 38)
+                        .addGroup(jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldPosition)
+                            .addComponent(jTextFieldPagibigNo)
+                            .addComponent(jTextFieldTINno)
+                            .addComponent(jTextFieldStatus)
+                            .addComponent(jTextFieldSupervisor))))
+                .addContainerGap())
+            .addGroup(jPanelAdddetailsLayout.createSequentialGroup()
+                .addComponent(jLabelPagibigNo3)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanelAdddetailsLayout.setVerticalGroup(
+            jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelAdddetailsLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelEmployeeno)
+                    .addComponent(jTextFieldEmployeeno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelLastname)
+                    .addComponent(jTextFieldLastname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelFirstname)
+                    .addComponent(jTextFieldFirstname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextFieldBirthday, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelBirthday))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelAddress)
+                    .addComponent(jTextFieldAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelAdddetailsLayout.createSequentialGroup()
+                        .addComponent(jLabelPhoneno)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelSSSno))
+                    .addGroup(jPanelAdddetailsLayout.createSequentialGroup()
+                        .addComponent(jTextFieldPhoneno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldSSSno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextFieldPhilhealthno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelPhilhealthno))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldTINno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelTINno))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldPagibigNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelPagibigNo))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelAdddetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelAdddetailsLayout.createSequentialGroup()
+                        .addComponent(jTextFieldStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldPosition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldSupervisor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelAdddetailsLayout.createSequentialGroup()
+                        .addComponent(jLabelPagibigNo1)
+                        .addGap(16, 16, 16)
+                        .addComponent(jLabelPagibigNo2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelPagibigNo3)))
+                .addGap(141, 141, 141))
+        );
+
+        jTableAddEmployee.setAutoCreateRowSorter(true);
+        jTableAddEmployee.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTableAddEmployee.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Employee Number", "Last Name", "First name", "SSS No.", "PhilHealth No.", "TIN No.", "Pagibig No.", "Status", "Position", "Supervisor"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true, true, true, true, true, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableAddEmployee.setToolTipText("");
+        jTableAddEmployee.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        jScrollPaneAddEmployee.setViewportView(jTableAddEmployee);
+
+        jLabelTitleAddEmployee.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelTitleAddEmployee.setFont(new java.awt.Font("Century Gothic", 1, 20)); // NOI18N
+        jLabelTitleAddEmployee.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelTitleAddEmployee.setText("ADD EMPLOYEE");
+
+        javax.swing.GroupLayout jPanelAddEmployeeLayout = new javax.swing.GroupLayout(jPanelAddEmployee);
+        jPanelAddEmployee.setLayout(jPanelAddEmployeeLayout);
+        jPanelAddEmployeeLayout.setHorizontalGroup(
+            jPanelAddEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelAddEmployeeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanelAdddetails, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanelAddEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelAddEmployeeLayout.createSequentialGroup()
+                        .addComponent(jScrollPaneAddEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelAddEmployeeLayout.createSequentialGroup()
+                        .addComponent(jLabelTitleAddEmployee)
+                        .addGap(14, 14, 14))))
+        );
+        jPanelAddEmployeeLayout.setVerticalGroup(
+            jPanelAddEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelAddEmployeeLayout.createSequentialGroup()
+                .addGap(140, 140, 140)
+                .addComponent(jLabelTitleAddEmployee)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPaneAddEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(49, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelAddEmployeeLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanelAdddetails, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jTabbedMain.addTab("Add Employee", jPanelAddEmployee);
+
         jPanelHRMain.add(jTabbedMain, new org.netbeans.lib.awtextra.AbsoluteConstraints(208, -42, 1130, 680));
 
         jPanelSidebar.setBackground(new java.awt.Color(0, 0, 0));
@@ -1312,6 +1670,12 @@ public class HRDashboard extends javax.swing.JFrame {
         updateEmployee();
     }//GEN-LAST:event_jButtonUpdateActionPerformed
 
+    private void jTextFieldEmployeenoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldEmployeenoKeyTyped
+        boolean max = jTextFieldEmployeeno.getText().length() > 4;
+        char empID = evt.getKeyChar();
+        if(!Character.isDigit(empID)|| max){evt.consume();}
+    }//GEN-LAST:event_jTextFieldEmployeenoKeyTyped
+
     private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
         addEmployee();
     }//GEN-LAST:event_jButtonAddActionPerformed
@@ -1349,25 +1713,56 @@ public class HRDashboard extends javax.swing.JFrame {
     private javax.swing.JButton jButtonUpdate;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabelAddress;
+    private javax.swing.JLabel jLabelBirthday;
     private javax.swing.JLabel jLabelDate;
+    private javax.swing.JLabel jLabelEmployeeno;
+    private javax.swing.JLabel jLabelFirstname;
     private javax.swing.JLabel jLabelGMT;
     private javax.swing.JLabel jLabelGreet;
+    private javax.swing.JLabel jLabelLastname;
+    private javax.swing.JLabel jLabelPagibigNo;
+    private javax.swing.JLabel jLabelPagibigNo1;
+    private javax.swing.JLabel jLabelPagibigNo2;
+    private javax.swing.JLabel jLabelPagibigNo3;
+    private javax.swing.JLabel jLabelPhilhealthno;
+    private javax.swing.JLabel jLabelPhoneno;
+    private javax.swing.JLabel jLabelSSSno;
     private javax.swing.JLabel jLabelSeparate;
+    private javax.swing.JLabel jLabelTINno;
     private javax.swing.JLabel jLabelTime;
+    private javax.swing.JLabel jLabelTitleAddEmployee;
     private javax.swing.JLabel jLabelTitleEmployeeList;
     private javax.swing.JLabel jLabelTitleLeaveRequests;
     private javax.swing.JLabel jLblUname1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanelAddEmployee;
+    private javax.swing.JPanel jPanelAdddetails;
     private javax.swing.JPanel jPanelHRMain;
     private javax.swing.JPanel jPanelHeader;
     private javax.swing.JPanel jPanelLeaveRequest;
     private javax.swing.JPanel jPanelManageEmployee;
     private javax.swing.JPanel jPanelSidebar;
+    private javax.swing.JScrollPane jScrollPaneAddEmployee;
     private javax.swing.JScrollPane jScrollPaneLeaveRequests;
     private javax.swing.JScrollPane jScrollPaneTableEmployeeRecords;
     private javax.swing.JTabbedPane jTabbedMain;
+    private javax.swing.JTable jTableAddEmployee;
     private javax.swing.JTable jTableEmployeeRecords;
     private javax.swing.JTable jTableLeaveRequest;
+    private javax.swing.JTextField jTextFieldAddress;
+    private javax.swing.JTextField jTextFieldBirthday;
+    private javax.swing.JTextField jTextFieldEmployeeno;
+    private javax.swing.JTextField jTextFieldFirstname;
+    private javax.swing.JTextField jTextFieldLastname;
+    private javax.swing.JTextField jTextFieldPagibigNo;
+    private javax.swing.JTextField jTextFieldPhilhealthno;
+    private javax.swing.JTextField jTextFieldPhoneno;
+    private javax.swing.JTextField jTextFieldPosition;
+    private javax.swing.JTextField jTextFieldSSSno;
+    private javax.swing.JTextField jTextFieldStatus;
+    private javax.swing.JTextField jTextFieldSupervisor;
+    private javax.swing.JTextField jTextFieldTINno;
     // End of variables declaration//GEN-END:variables
 
 }
