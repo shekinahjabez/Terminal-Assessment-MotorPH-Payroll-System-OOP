@@ -4,16 +4,18 @@
  */
 
 /*to do mark:
-improve Save, Cancel, and OK Buttons
 
-Add Employee: Save but disposed if there's error
 Leave: check if you can set the spacing per COlumns
 
 *Done:
+fix Add Employee: Save but disposed if there's error
 restricted UPdate & Adding of dates 
 fixed UPdateEmployee's "No changes were made." this prompt's dispose() after.
 move Welcome
 fix default color of Leave button
+improve Save, Cancel, and OK Buttons
+corrected jdateChooser UX
+
 
 */
 
@@ -39,10 +41,7 @@ import java.util.regex.Pattern;
 import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Font;
-import java.awt.PopupMenu;
 import java.util.Calendar;
-import java.util.Vector;
-
 
 public class HRDashboard extends javax.swing.JFrame { 
     private Timer timer;
@@ -225,6 +224,10 @@ public class HRDashboard extends javax.swing.JFrame {
 
         updateEmpPanel.add(createStyledLabel("Birthday:", labelFont));
         updateEmpPanel.add(chooserBirthday);
+        chooserBirthday.getCalendarButton().setBackground(Color.BLACK);
+        chooserBirthday.getDateEditor().getUiComponent().setBackground(Color.BLACK);
+        chooserBirthday.getDateEditor().getUiComponent().setForeground(Color.WHITE);
+
 
         updateEmpPanel.add(createStyledLabel("Address:", labelFont));
         updateEmpPanel.add(createStyledTextField(txtAddress, labelFont));
@@ -286,6 +289,9 @@ public class HRDashboard extends javax.swing.JFrame {
 
         addEmpPanel.add(createStyledLabel("Birthday:", labelFont));
         addEmpPanel.add(chooserBirthday);
+        chooserBirthday.getCalendarButton().setBackground(Color.BLACK);
+        chooserBirthday.getDateEditor().getUiComponent().setBackground(Color.BLACK);
+        chooserBirthday.getDateEditor().getUiComponent().setForeground(Color.WHITE);
 
         addEmpPanel.add(createStyledLabel("Address:", labelFont));
         addEmpPanel.add(createStyledTextField(txtAddress, labelFont));
@@ -330,62 +336,82 @@ public class HRDashboard extends javax.swing.JFrame {
     }
 
     private void updateEmployee() {
-        int selectedRow = jTableEmployeeRecords.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Select an employee to update.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // Debugging: Print row data before assigning to fields
-        for (int i = 0; i < jTableEmployeeRecords.getColumnCount(); i++) {
-            Object value = jTableEmployeeRecords.getValueAt(selectedRow, i);
-            System.out.println("Column " + i + ": " + (value != null ? value.toString() : "null"));
-        }
-
-        // Assign selected row values to text fields (with null safety)
-        txtEmployeeID.setText(getTableValue(selectedRow, 0));
-        txtLastName.setText(getTableValue(selectedRow, 1));
-        txtFirstName.setText(getTableValue(selectedRow, 2));
-
-        // Handle Birthday using JDateChooser with 18-year restriction
-        try {
-            String birthdayStr = getTableValue(selectedRow, 3);
-            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-
-            // Calculate the minimum allowed date (18 years ago)
-            Calendar minAgeCalendar = Calendar.getInstance();
-            minAgeCalendar.add(Calendar.YEAR, -18);
-            Date minAllowedDate = minAgeCalendar.getTime(); // User must be born before this date
-
-            chooserBirthday.setSelectableDateRange(null, minAllowedDate); // Restrict future dates
-
-            if (!birthdayStr.isEmpty()) {
-                Date parsedDate = sdf.parse(birthdayStr);
-                chooserBirthday.setDate(parsedDate);
-            } else {
-                chooserBirthday.setDate(null); // Set empty if no value
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error parsing birthday date!", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-        txtAddress.setText(getTableValue(selectedRow, 4));
-        txtPhoneNumber.setText(getTableValue(selectedRow, 5));
-        txtSSSNumber.setText(getTableValue(selectedRow, 6));
-        txtPhilHealthNumber.setText(getTableValue(selectedRow, 7));
-        txtTINNumber.setText(getTableValue(selectedRow, 8));
-        txtPagIbigNumber.setText(getTableValue(selectedRow, 9));
-        txtStatus.setText(getTableValue(selectedRow, 10));
-        txtPosition.setText(getTableValue(selectedRow, 11));
-        txtSupervisor.setText(getTableValue(selectedRow, 12));
-
-        // Show update panel in a dialog
-        dialogUpdateEmployee.setContentPane(createUpdateEmployeePanel(dialogUpdateEmployee));
-        dialogUpdateEmployee.pack();
-        dialogUpdateEmployee.setLocationRelativeTo(this);
-        dialogUpdateEmployee.setVisible(true);
+    int selectedRow = jTableEmployeeRecords.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Select an employee to update.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
     }
+
+    // Debugging: Print row data before assigning to fields
+    for (int i = 0; i < jTableEmployeeRecords.getColumnCount(); i++) {
+        Object value = jTableEmployeeRecords.getValueAt(selectedRow, i);
+        System.out.println("Column " + i + ": " + (value != null ? value.toString() : "null"));
+    }
+
+    // Assign selected row values to text fields (with null safety)
+    txtEmployeeID.setText(getTableValue(selectedRow, 0));
+    txtLastName.setText(getTableValue(selectedRow, 1));
+    txtFirstName.setText(getTableValue(selectedRow, 2));
+
+    // Handle Birthday using JDateChooser with 18-year restriction
+    try {
+        String birthdayStr = getTableValue(selectedRow, 3);
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+
+        // Calculate the minimum allowed date (18 years ago)
+        Calendar minAgeCalendar = Calendar.getInstance();
+        minAgeCalendar.add(Calendar.YEAR, -18);
+        Date minAllowedDate = minAgeCalendar.getTime(); // User must be born before this date
+
+        chooserBirthday.setSelectableDateRange(null, minAllowedDate); // Restrict future dates
+
+        if (!birthdayStr.isEmpty()) {
+            Date parsedDate = sdf.parse(birthdayStr);
+            chooserBirthday.setDate(parsedDate);
+        } else {
+            chooserBirthday.setDate(null); // Set empty if no value
+        }
+
+        // Styling JDateChooser (Black background, White text)
+        JTextField dateField = (JTextField) chooserBirthday.getDateEditor().getUiComponent();
+        dateField.setBackground(Color.BLACK);
+        dateField.setForeground(Color.WHITE);
+        dateField.setCaretColor(Color.WHITE); // Ensures cursor is visible
+
+        // Prevent text color change on focus
+        dateField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                dateField.setForeground(Color.WHITE); // Keep text white on focus
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                dateField.setForeground(Color.WHITE); // Keep text white when losing focus
+            }
+        });
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error parsing birthday date!", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    txtAddress.setText(getTableValue(selectedRow, 4));
+    txtPhoneNumber.setText(getTableValue(selectedRow, 5));
+    txtSSSNumber.setText(getTableValue(selectedRow, 6));
+    txtPhilHealthNumber.setText(getTableValue(selectedRow, 7));
+    txtTINNumber.setText(getTableValue(selectedRow, 8));
+    txtPagIbigNumber.setText(getTableValue(selectedRow, 9));
+    txtStatus.setText(getTableValue(selectedRow, 10));
+    txtPosition.setText(getTableValue(selectedRow, 11));
+    txtSupervisor.setText(getTableValue(selectedRow, 12));
+
+    // Show update panel in a dialog
+    dialogUpdateEmployee.setContentPane(createUpdateEmployeePanel(dialogUpdateEmployee));
+    dialogUpdateEmployee.pack();
+    dialogUpdateEmployee.setLocationRelativeTo(this);
+    dialogUpdateEmployee.setVisible(true);
+}
 
     // Helper Method to Prevent NullPointerException
     private String getTableValue(int row, int col) {
@@ -656,43 +682,67 @@ public class HRDashboard extends javax.swing.JFrame {
     */
     
     private void addEmployee() {
-       int newEmployeeID = getNextEmployeeID(); // Get next available Employee ID
-       txtEmployeeID.setText(String.valueOf(newEmployeeID));
+        int newEmployeeID = getNextEmployeeID(); // Get next available Employee ID
+        txtEmployeeID.setText(String.valueOf(newEmployeeID));
 
-       // Assign blanks to other text fields
-       resetEmployeeForm();
+        // Assign blanks to other text fields
+        resetEmployeeForm();
 
-       // Restrict birthday selection to at least 18 years ago
-       Calendar cal = Calendar.getInstance();
-       cal.add(Calendar.YEAR, -18); // Move back 18 years
-       chooserBirthday.setMaxSelectableDate(cal.getTime()); // Restrict future dates
+        // Restrict birthday selection to at least 18 years ago
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.YEAR, -18); // Move back 18 years
+        chooserBirthday.setMaxSelectableDate(cal.getTime()); // Restrict future dates
 
-       // Ensure the date chooser is empty initially
-       chooserBirthday.setDate(null);
+        // Ensure the date chooser is empty initially
+        chooserBirthday.setDate(null);
 
-       // Move default view to 18 years ago when the user clicks the date chooser
-       chooserBirthday.getDateEditor().getUiComponent().addFocusListener(new FocusAdapter() {
-           @Override
-           public void focusGained(FocusEvent e) {
-               if (chooserBirthday.getDate() == null) {
-                   SwingUtilities.invokeLater(() -> {
-                       Calendar defaultCal = Calendar.getInstance();
-                       defaultCal.add(Calendar.YEAR, -18);
-                       chooserBirthday.setDate(defaultCal.getTime()); // Set the default view to 18 years ago
-                       chooserBirthday.setDate(null); // Clear selection after setting the view
-                   });
-               }
-           }
-       });
+        // Get reference to the date field inside JDateChooser
+        JTextField dateField = (JTextField) chooserBirthday.getDateEditor().getUiComponent();
+        dateField.setBackground(Color.BLACK);
+        dateField.setForeground(Color.WHITE);
+        dateField.setCaretColor(Color.WHITE); // Ensures cursor is visible
 
-       System.out.println("Add Employee form launched.");
+        // Fix: Update text color dynamically when the date is selected/changed
+        chooserBirthday.getDateEditor().addPropertyChangeListener("date", evt -> {
+            dateField.setForeground(Color.WHITE); // Ensure text remains white when date is selected
+        });
 
-       // Show Add panel in a dialog
-       dialogAddEmployee.setContentPane(createAddEmployeePanel(dialogAddEmployee));
-       dialogAddEmployee.pack();
-       dialogAddEmployee.setLocationRelativeTo(this);
-       dialogAddEmployee.setVisible(true);
-   }
+        // Prevent text color from changing when gaining/losing focus
+        dateField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                dateField.setForeground(Color.WHITE); // Keep text white on focus
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                dateField.setForeground(Color.WHITE); // Keep text white when losing focus
+            }
+        });
+
+        // Move default view to 18 years ago when the user clicks the date chooser
+        dateField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (chooserBirthday.getDate() == null) {
+                    SwingUtilities.invokeLater(() -> {
+                        Calendar defaultCal = Calendar.getInstance();
+                        defaultCal.add(Calendar.YEAR, -18);
+                        chooserBirthday.setDate(defaultCal.getTime()); // Set the default view to 18 years ago
+                        chooserBirthday.setDate(null); // Clear selection after setting the view
+                    });
+                }
+            }
+        });
+
+        System.out.println("Add Employee form launched.");
+
+        // Show Add panel in a dialog
+        dialogAddEmployee.setContentPane(createAddEmployeePanel(dialogAddEmployee));
+        dialogAddEmployee.pack();
+        dialogAddEmployee.setLocationRelativeTo(this);
+        dialogAddEmployee.setVisible(true);
+    }
 
     // Helper Method to Reset Form Fields
     private void resetEmployeeForm() {
