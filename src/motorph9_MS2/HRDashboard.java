@@ -30,34 +30,35 @@ import java.util.List;
 import java.util.regex.Pattern;
 import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JDateChooser;
+import java.awt.Font;
+import java.awt.PopupMenu;
 import java.util.Vector;
 
 
 public class HRDashboard extends javax.swing.JFrame { 
-    //private JTable employeeTable;
-    //private JTable leaveTable;
     private Timer timer;
     private HRUser hrUser;
     private EmployeeDetailsReader employeeReader;
     private LeaveRequestReader leaveRequestReader;
 
-    //Swing components for UpdateEmployee - manage employee
-    private JTextField jTextField1 = new JTextField();
-    private JTextField jTextField2 = new JTextField();
-    private JTextField jTextField3 = new JTextField();
-    private JTextField jTextField4 = new JTextField();
-    private JDateChooser jDateChooserBirthday = new JDateChooser();
+    // Swing components for UpdateEmployee - Manage Employee
+    private JTextField txtEmployeeID = new JTextField();
+    private JTextField txtLastName = new JTextField();
+    private JTextField txtFirstName = new JTextField();
+    private JDateChooser chooserBirthday = new JDateChooser();
 
-    private JTextField jTextField5 = new JTextField();
-    private JTextField jTextField6 = new JTextField();
-    private JTextField jTextField7 = new JTextField();
-    private JTextField jTextField8 = new JTextField();
-    private JTextField jTextField9 = new JTextField();
-    private JTextField jTextField10 = new JTextField();
-    private JTextField jTextField11 = new JTextField();
-    private JTextField jTextField12 = new JTextField();
-    private JTextField jTextField13 = new JTextField();
-    private JButton jButtonSaveUpdate, jButtonCancelUpdate, jButtonSaveAdd;
+    private JTextField txtAddress = new JTextField();
+    private JTextField txtPhoneNumber = new JTextField();
+    private JTextField txtSSSNumber = new JTextField();
+    private JTextField txtPhilHealthNumber = new JTextField();
+    private JTextField txtTINNumber = new JTextField();
+    private JTextField txtPagIbigNumber = new JTextField();
+    private JTextField txtStatus = new JTextField();
+    private JTextField txtPosition = new JTextField();
+    private JTextField txtSupervisor = new JTextField();
+
+    private JButton btnSaveUpdate, btnCancelUpdate, btnSaveAdd, btnCancelAdd;
+
    
     public HRDashboard(HRUser hrUser, EmployeeDetailsReader employeeReader, LeaveRequestReader leaveRequestReader) {
         this.hrUser = hrUser;
@@ -82,33 +83,16 @@ public class HRDashboard extends javax.swing.JFrame {
     private HRDashboard() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
-    /*private void setupSearchListener() {
-        jTextFieldSearch.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) { checkInput(); }
-            @Override
-            public void removeUpdate(DocumentEvent e) { checkInput(); }
-            @Override
-            public void changedUpdate(DocumentEvent e) { checkInput(); }
-        });
-    }*/
+    
+    public JTable getjTableEmployeeRecords() {
+        return jTableEmployeeRecords;
+    }
     
     private void startClock() {
         timer = new Timer(1000, e -> updateTimeAndDate());
         timer.start();
     }
-    
-    /*private void checkInput() {
-        setButtonsEnabled(true);
-    }
-
-    private void setButtonsEnabled(boolean enabled) {
-        jButtonManageEmployees.setEnabled(enabled);
-        jButtonLeaveRequests.setEnabled(enabled);
-        //jButtonSearch.setEnabled(enabled);
-    }*/
-
+  
     private void updateTimeAndDate() {
         SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm:ss a");
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM d, yyyy");
@@ -148,40 +132,6 @@ public class HRDashboard extends javax.swing.JFrame {
         }
     }
     
-    public JTable getjTableEmployeeRecords() {
-        return jTableEmployeeRecords;
-    }
-  
-    /*private void loadEmployeeData() {
-        DefaultTableModel model = (DefaultTableModel) jTableEmployeeRecords.getModel();
-        model.setRowCount(0); // ✅ Clear table before loading new data
-
-        try {
-            List<EmployeeUser> employees = EmployeeDetailsReader.getAllEmployees();
-            System.out.println("Total Employees Loaded: " + employees.size()); // ✅ Debugging
-
-            for (EmployeeUser emp : employees) {
-                model.addRow(new Object[]{
-                    emp.getEmployeeNum(),
-                    emp.getLastName(),
-                    emp.getFirstName(),
-                    emp.getBirthday(),
-                    emp.getAddress(),
-                    emp.getPhone(),
-                    emp.getSSS(),
-                    emp.getPhilHealth(),
-                    emp.getTIN(),
-                    emp.getPagibigNumber(),
-                    emp.getStatus(),
-                    emp.getPosition(),
-                    emp.getImmediateSupervisor()
-                });
-            }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error loading employee data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }*/
-    
     private void loadEmployeeData() {
         DefaultTableModel modelRecords = (DefaultTableModel) jTableEmployeeRecords.getModel();
         DefaultTableModel modelAddEmployee = (DefaultTableModel) jTableAddEmployee.getModel();
@@ -217,115 +167,174 @@ public class HRDashboard extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error loading employee data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-        
-   private JPanel createUpdateEmployeePanel() {
-       JPanel updateEmpPanel = new JPanel(new GridLayout(14, 2));
+    
+    // Method to create a styled JLabel
+    private JLabel createStyledLabel(String text, Font font) {
+        JLabel label = new JLabel(text);
+        label.setFont(font);
+        label.setForeground(Color.WHITE); // White text
+        return label;
+    }
 
-       updateEmpPanel.add(new JLabel("Employee ID:"));
-       jTextField1.setEditable(false);
-       updateEmpPanel.add(jTextField1);
+    // Method to create a styled JTextField
+    private JTextField createStyledTextField(JTextField textField, Font font) {
+        textField.setFont(font);
+        textField.setBackground(Color.BLACK);
+        textField.setForeground(Color.WHITE);
+        return textField;
+    }
 
-       updateEmpPanel.add(new JLabel("Last Name:"));
-       updateEmpPanel.add(jTextField2);
+    // Method to create a styled JButton
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Century Gothic", Font.PLAIN, 13));
+        button.setBackground(new Color(204, 0, 51)); // Red background
+        button.setForeground(Color.WHITE); // White text
+        button.setFocusPainted(false);
+        return button;
+    }
 
-       updateEmpPanel.add(new JLabel("First Name:"));
-       updateEmpPanel.add(jTextField3);
+         
+    private void showUpdateEmployeeDialog() {
+        JDialog dialog = new JDialog(this, "Update Employee", true);
+        dialog.setContentPane(createUpdateEmployeePanel(dialog));
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }
+    
+    private JPanel createUpdateEmployeePanel(JDialog dialog) {
+        JPanel updateEmpPanel = new JPanel(new GridLayout(15, 2));
+        updateEmpPanel.setBackground(new Color(0, 0, 0)); // Set panel background
 
-       updateEmpPanel.add(new JLabel("Birthday:"));
-       updateEmpPanel.add(jDateChooserBirthday);
-       
-       updateEmpPanel.add(new JLabel("Address:"));
-       updateEmpPanel.add(jTextField5);
+        Font labelFont = new Font("Century Gothic", Font.PLAIN, 13);
 
-       updateEmpPanel.add(new JLabel("Phone Number:"));
-       updateEmpPanel.add(jTextField6);
+        updateEmpPanel.add(createStyledLabel("Employee ID:", labelFont));
+        txtEmployeeID.setEditable(false);
+        updateEmpPanel.add(createStyledTextField(txtEmployeeID, labelFont));
 
-       updateEmpPanel.add(new JLabel("SSS Number:"));
-       updateEmpPanel.add(jTextField7);
+        updateEmpPanel.add(createStyledLabel("Last Name:", labelFont));
+        updateEmpPanel.add(createStyledTextField(txtLastName, labelFont));
 
-       updateEmpPanel.add(new JLabel("PhilHealth Number:"));
-       updateEmpPanel.add(jTextField8);
+        updateEmpPanel.add(createStyledLabel("First Name:", labelFont));
+        updateEmpPanel.add(createStyledTextField(txtFirstName, labelFont));
 
-       updateEmpPanel.add(new JLabel("TIN Number:"));
-       updateEmpPanel.add(jTextField9);
+        updateEmpPanel.add(createStyledLabel("Birthday:", labelFont));
+        updateEmpPanel.add(chooserBirthday);
 
-       updateEmpPanel.add(new JLabel("Pag-IBIG Number:"));
-       updateEmpPanel.add(jTextField10);
+        updateEmpPanel.add(createStyledLabel("Address:", labelFont));
+        updateEmpPanel.add(createStyledTextField(txtAddress, labelFont));
 
-       updateEmpPanel.add(new JLabel("Status:"));
-       updateEmpPanel.add(jTextField11);
+        updateEmpPanel.add(createStyledLabel("Phone Number:", labelFont));
+        updateEmpPanel.add(createStyledTextField(txtPhoneNumber, labelFont));
 
-       updateEmpPanel.add(new JLabel("Position:"));
-       updateEmpPanel.add(jTextField12);
+        updateEmpPanel.add(createStyledLabel("SSS Number:", labelFont));
+        updateEmpPanel.add(createStyledTextField(txtSSSNumber, labelFont));
 
-       updateEmpPanel.add(new JLabel("Supervisor:"));
-       updateEmpPanel.add(jTextField13);
+        updateEmpPanel.add(createStyledLabel("PhilHealth Number:", labelFont));
+        updateEmpPanel.add(createStyledTextField(txtPhilHealthNumber, labelFont));
 
-       jButtonSaveUpdate = new JButton("Save");
-       jButtonSaveUpdate.addActionListener(e -> saveUpdatedEmployee());
-       updateEmpPanel.add(jButtonSaveUpdate);
+        updateEmpPanel.add(createStyledLabel("TIN Number:", labelFont));
+        updateEmpPanel.add(createStyledTextField(txtTINNumber, labelFont));
 
-       jButtonCancelUpdate = new JButton("Cancel");
-       jButtonCancelUpdate.addActionListener(e -> JOptionPane.showMessageDialog(this, "Update canceled."));
-       updateEmpPanel.add(jButtonCancelUpdate);
+        updateEmpPanel.add(createStyledLabel("Pag-IBIG Number:", labelFont));
+        updateEmpPanel.add(createStyledTextField(txtPagIbigNumber, labelFont));
 
-       return updateEmpPanel;
-   }
-   
-     private JPanel createAddEmployeePanel() {
-       JPanel addEmpPanel = new JPanel(new GridLayout(14, 2));
+        updateEmpPanel.add(createStyledLabel("Status:", labelFont));
+        updateEmpPanel.add(createStyledTextField(txtStatus, labelFont));
 
-       addEmpPanel.add(new JLabel("Employee ID:"));
-       jTextField1.setEditable(false);
-       addEmpPanel.add(jTextField1);
+        updateEmpPanel.add(createStyledLabel("Position:", labelFont));
+        updateEmpPanel.add(createStyledTextField(txtPosition, labelFont));
 
-       addEmpPanel.add(new JLabel("Last Name:"));
-       addEmpPanel.add(jTextField2);
+        updateEmpPanel.add(createStyledLabel("Supervisor:", labelFont));
+        updateEmpPanel.add(createStyledTextField(txtSupervisor, labelFont));
 
-       addEmpPanel.add(new JLabel("First Name:"));
-       addEmpPanel.add(jTextField3);
+        // Save Button
+        btnSaveUpdate = createStyledButton("Save");
+        btnSaveUpdate.addActionListener(e -> {
+            saveUpdatedEmployee();
+            dialog.dispose(); // Close dialog after saving
+        });
+        updateEmpPanel.add(btnSaveUpdate);
 
-       addEmpPanel.add(new JLabel("Birthday:"));
-       addEmpPanel.add(jDateChooserBirthday);
+        // Cancel Button
+        btnCancelUpdate = createStyledButton("Cancel");
+        btnCancelUpdate.addActionListener(e -> dialog.dispose()); // Close dialog on cancel
+        updateEmpPanel.add(btnCancelUpdate);
 
-       addEmpPanel.add(new JLabel("Address:"));
-       addEmpPanel.add(jTextField5);
+        return updateEmpPanel;
+    }
 
-       addEmpPanel.add(new JLabel("Phone Number:"));
-       addEmpPanel.add(jTextField6);
+    private void showAddEmployeeDialog() {
+        JDialog dialog = new JDialog(this, "Add Employee", true);
+        dialog.setContentPane(createAddEmployeePanel(dialog));
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }
+    
+    private JPanel createAddEmployeePanel(JDialog dialog) {
+        JPanel addEmpPanel = new JPanel(new GridLayout(15, 2));
+        addEmpPanel.setBackground(new Color(0, 0, 0)); // Set panel background
 
-       addEmpPanel.add(new JLabel("SSS Number:"));
-       addEmpPanel.add(jTextField7);
+        Font labelFont = new Font("Century Gothic", Font.PLAIN, 13);
 
-       addEmpPanel.add(new JLabel("PhilHealth Number:"));
-       addEmpPanel.add(jTextField8);
+        addEmpPanel.add(createStyledLabel("Employee ID:", labelFont));
+        txtEmployeeID.setEditable(false);
+        addEmpPanel.add(createStyledTextField(txtEmployeeID, labelFont));
 
-       addEmpPanel.add(new JLabel("TIN Number:"));
-       addEmpPanel.add(jTextField9);
+        addEmpPanel.add(createStyledLabel("Last Name:", labelFont));
+        addEmpPanel.add(createStyledTextField(txtLastName, labelFont));
 
-       addEmpPanel.add(new JLabel("Pag-IBIG Number:"));
-       addEmpPanel.add(jTextField10);
+        addEmpPanel.add(createStyledLabel("First Name:", labelFont));
+        addEmpPanel.add(createStyledTextField(txtFirstName, labelFont));
 
-       addEmpPanel.add(new JLabel("Status:"));
-       addEmpPanel.add(jTextField11);
+        addEmpPanel.add(createStyledLabel("Birthday:", labelFont));
+        addEmpPanel.add(chooserBirthday);
 
-       addEmpPanel.add(new JLabel("Position:"));
-       addEmpPanel.add(jTextField12);
+        addEmpPanel.add(createStyledLabel("Address:", labelFont));
+        addEmpPanel.add(createStyledTextField(txtAddress, labelFont));
 
-       addEmpPanel.add(new JLabel("Supervisor:"));
-       addEmpPanel.add(jTextField13);
+        addEmpPanel.add(createStyledLabel("Phone Number:", labelFont));
+        addEmpPanel.add(createStyledTextField(txtPhoneNumber, labelFont));
 
-       jButtonSaveAdd = new JButton("Save");
-       jButtonSaveAdd.addActionListener(e -> saveAddedEmployee());
-       addEmpPanel.add(jButtonSaveAdd);
+        addEmpPanel.add(createStyledLabel("SSS Number:", labelFont));
+        addEmpPanel.add(createStyledTextField(txtSSSNumber, labelFont));
 
-       jButtonCancelUpdate = new JButton("Cancel");
-       jButtonCancelUpdate.addActionListener(e -> JOptionPane.showMessageDialog(this, "Canceled."));
-       addEmpPanel.add(jButtonCancelUpdate); //to do refactor
+        addEmpPanel.add(createStyledLabel("PhilHealth Number:", labelFont));
+        addEmpPanel.add(createStyledTextField(txtPhilHealthNumber, labelFont));
 
-       return addEmpPanel;
-   }
-   
+        addEmpPanel.add(createStyledLabel("TIN Number:", labelFont));
+        addEmpPanel.add(createStyledTextField(txtTINNumber, labelFont));
+
+        addEmpPanel.add(createStyledLabel("Pag-IBIG Number:", labelFont));
+        addEmpPanel.add(createStyledTextField(txtPagIbigNumber, labelFont));
+
+        addEmpPanel.add(createStyledLabel("Status:", labelFont));
+        addEmpPanel.add(createStyledTextField(txtStatus, labelFont));
+
+        addEmpPanel.add(createStyledLabel("Position:", labelFont));
+        addEmpPanel.add(createStyledTextField(txtPosition, labelFont));
+
+        addEmpPanel.add(createStyledLabel("Supervisor:", labelFont));
+        addEmpPanel.add(createStyledTextField(txtSupervisor, labelFont));
+
+        // Save Button
+        btnSaveAdd = createStyledButton("Save");
+        btnSaveAdd.addActionListener(e -> {
+            saveAddedEmployee();
+            dialog.dispose(); // Close dialog after saving
+        });
+        addEmpPanel.add(btnSaveAdd);
+
+        // Cancel Button
+        btnCancelAdd = createStyledButton("Cancel");
+        btnCancelAdd.addActionListener(e -> dialog.dispose()); // Close dialog on cancel
+        addEmpPanel.add(btnCancelAdd);
+
+        return addEmpPanel;
+    }
+
     private void updateEmployee() {
         int selectedRow = jTableEmployeeRecords.getSelectedRow();
         if (selectedRow == -1) {
@@ -335,40 +344,56 @@ public class HRDashboard extends javax.swing.JFrame {
 
         // Debugging: Print row data before assigning to fields
         for (int i = 0; i < jTableEmployeeRecords.getColumnCount(); i++) {
-            System.out.println("Column " + i + ": " + jTableEmployeeRecords.getValueAt(selectedRow, i));
+            Object value = jTableEmployeeRecords.getValueAt(selectedRow, i);
+            System.out.println("Column " + i + ": " + (value != null ? value.toString() : "null"));
         }
 
-        // Assign selected row values to text fields
-        jTextField1.setText(jTableEmployeeRecords.getValueAt(selectedRow, 0).toString());
-        jTextField2.setText(jTableEmployeeRecords.getValueAt(selectedRow, 1).toString());
-        jTextField3.setText(jTableEmployeeRecords.getValueAt(selectedRow, 2).toString());
+        // Assign selected row values to text fields (with null safety)
+        txtEmployeeID.setText(getTableValue(selectedRow, 0));
+        txtLastName.setText(getTableValue(selectedRow, 1));
+        txtFirstName.setText(getTableValue(selectedRow, 2));
 
         // Handle Birthday using JDateChooser
         try {
-            String birthdayStr = jTableEmployeeRecords.getValueAt(selectedRow, 3).toString();
-            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy"); // Adjust format if needed
-            Date parsedDate = sdf.parse(birthdayStr);
-            jDateChooserBirthday.setDate(parsedDate);
+            String birthdayStr = getTableValue(selectedRow, 3);
+            if (!birthdayStr.isEmpty()) {
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy"); // Adjust format if needed
+                Date parsedDate = sdf.parse(birthdayStr);
+                chooserBirthday.setDate(parsedDate);
+            } else {
+                chooserBirthday.setDate(null); // Set empty if no value
+            }
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error parsing birthday date!", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        jTextField5.setText(jTableEmployeeRecords.getValueAt(selectedRow, 4).toString());
-        jTextField6.setText(jTableEmployeeRecords.getValueAt(selectedRow, 5).toString());
-        jTextField7.setText(jTableEmployeeRecords.getValueAt(selectedRow, 6).toString());
-        jTextField8.setText(jTableEmployeeRecords.getValueAt(selectedRow, 7).toString());
-        jTextField9.setText(jTableEmployeeRecords.getValueAt(selectedRow, 8).toString());
-        jTextField10.setText(jTableEmployeeRecords.getValueAt(selectedRow, 9).toString());
-        jTextField11.setText(jTableEmployeeRecords.getValueAt(selectedRow, 10).toString());
-        jTextField12.setText(jTableEmployeeRecords.getValueAt(selectedRow, 11).toString());
-        jTextField13.setText(jTableEmployeeRecords.getValueAt(selectedRow, 12).toString());
+        txtAddress.setText(getTableValue(selectedRow, 4));
+        txtPhoneNumber.setText(getTableValue(selectedRow, 5));
+        txtSSSNumber.setText(getTableValue(selectedRow, 6));
+        txtPhilHealthNumber.setText(getTableValue(selectedRow, 7));
+        txtTINNumber.setText(getTableValue(selectedRow, 8));
+        txtPagIbigNumber.setText(getTableValue(selectedRow, 9));
+        txtStatus.setText(getTableValue(selectedRow, 10));
+        txtPosition.setText(getTableValue(selectedRow, 11));
+        txtSupervisor.setText(getTableValue(selectedRow, 12));
 
-        // Show update panel in a dialog
-        JOptionPane.showMessageDialog(this, createUpdateEmployeePanel(), "Update Employee", JOptionPane.PLAIN_MESSAGE);
+        // Show update panel in a dialog (No "OK" button issue)
+        JDialog dialog = new JDialog(this, "Update Employee", true);
+        dialog.setContentPane(createUpdateEmployeePanel(dialog));
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
     }
-    
-    private void saveUpdatedEmployee() {
+
+
+    // Helper Method to Prevent NullPointerException
+    private String getTableValue(int row, int col) {
+        Object value = jTableEmployeeRecords.getValueAt(row, col);
+        return (value != null) ? value.toString().trim() : "";
+    }
+
+    /*private void saveUpdatedEmployee() {
        File inputFile = new File("src/data9/Employee.csv");
        File tempFile = new File("src/data9/Employee_temp.csv");
 
@@ -406,12 +431,12 @@ public class HRDashboard extends javax.swing.JFrame {
                        String newValue;
 
                        if (i == 3) { // Handle Birthday (JDateChooser)
-                           if (jDateChooserBirthday.getDate() == null) {
+                           if (chooserBirthday.getDate() == null) {
                                JOptionPane.showMessageDialog(this, "Birthday field cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
                                return;
                            }
                            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-                           newValue = sdf.format(jDateChooserBirthday.getDate());
+                           newValue = sdf.format(chooserBirthday.getDate());
                        } else {
                            javax.swing.JTextField textField = (javax.swing.JTextField) this.getClass()
                                    .getDeclaredField("jTextField" + (i + 1)).get(this);
@@ -481,9 +506,122 @@ public class HRDashboard extends javax.swing.JFrame {
        } else {
            JOptionPane.showMessageDialog(this, "Error updating file!", "Error", JOptionPane.ERROR_MESSAGE);
        }
-   }
+   }*/
     
-    private void saveAddedEmployee() {
+    private void saveUpdatedEmployee() {
+        File inputFile = new File("src/data9/Employee.csv");
+        File tempFile = new File("src/data9/Employee_temp.csv");
+
+        int selectedRow = jTableEmployeeRecords.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "No employee selected!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String employeeID = jTableEmployeeRecords.getValueAt(selectedRow, 0).toString();
+        boolean isModified = false;
+
+        // Validation patterns
+        Pattern alphabeticPattern = Pattern.compile("^[A-Za-z ]+$");
+        Pattern numeric9Pattern = Pattern.compile("^\\d{9}$"); // Phone Number (9 digits)
+        Pattern idPattern = Pattern.compile("^\\d{2}-\\d{7}-\\d$");
+        Pattern philhealthPattern = Pattern.compile("^\\d{12}$");
+        Pattern tinPattern = Pattern.compile("^\\d{3}-\\d{3}-\\d{3}-\\d{3}$");
+        Pattern pagibigPattern = Pattern.compile("^\\d{12}$");
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
+
+            String line;
+            boolean found = false;
+
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",", -1);
+
+                if (data[0].equals(employeeID)) {
+                    found = true;
+                    String[] newData = new String[data.length];
+
+                    for (int i = 0; i < data.length && i < 13; i++) {
+                        String newValue;
+
+                        if (i == 3) { // Handle Birthday (JDateChooser)
+                            if (chooserBirthday.getDate() == null) {
+                                JOptionPane.showMessageDialog(this, "Birthday field cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                                return;
+                            }
+                            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+                            newValue = sdf.format(chooserBirthday.getDate());
+                        } else {
+                            newValue = getTextFieldValue(i);
+                        }
+
+                        // Validate inputs
+                        if ((i == 1 || i == 2) && !alphabeticPattern.matcher(newValue).matches()) {
+                            showValidationError("Invalid Name Format", "Only letters and spaces allowed.", newValue);
+                            return;
+                        }
+                        if (i == 5 && !numeric9Pattern.matcher(newValue).matches()) {
+                            showValidationError("Invalid Phone Number", "Must be exactly 9 digits.", newValue);
+                            return;
+                        }
+                        if (i == 6 && !idPattern.matcher(newValue).matches()) {
+                            showValidationError("Invalid SSS Number", "Format: XX-XXXXXXX-X", newValue);
+                            return;
+                        }
+                        if (i == 7 && !philhealthPattern.matcher(newValue).matches()) {
+                            showValidationError("Invalid PhilHealth Number", "Must be exactly 12 digits.", newValue);
+                            return;
+                        }
+                        if (i == 8 && !tinPattern.matcher(newValue).matches()) {
+                            showValidationError("Invalid TIN Number", "Format: XXX-XXX-XXX-XXX", newValue);
+                            return;
+                        }
+                        if (i == 9 && !pagibigPattern.matcher(newValue).matches()) {
+                            showValidationError("Invalid Pag-IBIG Number", "Must be exactly 12 digits.", newValue);
+                            return;
+                        }
+
+                        if (!data[i].equals(newValue)) {
+                            isModified = true;
+                            newData[i] = newValue;
+                        } else {
+                            newData[i] = data[i];
+                        }
+                    }
+
+                    writer.write(String.join(",", newData) + "\n");
+                } else {
+                    writer.write(line + "\n");
+                }
+            }
+
+            if (!found) {
+                JOptionPane.showMessageDialog(this, "Employee not found in CSV!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error saving employee data!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Replace original file with updated file
+        if (inputFile.delete() && tempFile.renameTo(inputFile)) {
+            if (isModified) {
+                JOptionPane.showMessageDialog(this, "Employee updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                loadEmployeeData();
+            } else {
+                JOptionPane.showMessageDialog(this, "No changes were made!", "Info", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Error updating file!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    
+    /*private void saveAddedEmployee() {
         File inputFile = new File("src/data9/Employee.csv");
 
         // Validation patterns
@@ -502,12 +640,12 @@ public class HRDashboard extends javax.swing.JFrame {
                 String newValue;
 
                 if (i == 3) { // Handle Birthday (DateChooser)
-                    if (jDateChooserBirthday.getDate() == null) {
+                    if (chooserBirthday.getDate() == null) {
                         JOptionPane.showMessageDialog(this, "Birthday field cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                     SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-                    newValue = sdf.format(jDateChooserBirthday.getDate());
+                    newValue = sdf.format(chooserBirthday.getDate());
                 } else {
                     javax.swing.JTextField textField = (javax.swing.JTextField) this.getClass()
                             .getDeclaredField("jTextField" + (i + 1)).get(this);
@@ -557,9 +695,105 @@ public class HRDashboard extends javax.swing.JFrame {
 
         JOptionPane.showMessageDialog(this, "Employee added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
         loadEmployeeData();
+    }*/
+    
+    private void saveAddedEmployee() {
+        File inputFile = new File("src/data9/Employee.csv");
+
+        // Validation patterns
+        Pattern employeeIdPattern = Pattern.compile("^\\d{5}$"); // Employee ID (5 digits)
+        Pattern alphabeticPattern = Pattern.compile("^[A-Za-z ]+$");  
+        Pattern numeric9Pattern = Pattern.compile("^\\d{9}$"); 
+        Pattern idPattern = Pattern.compile("^\\d{2}-\\d{7}-\\d$");  
+        Pattern philhealthPattern = Pattern.compile("^\\d{12}$");  
+        Pattern tinPattern = Pattern.compile("^\\d{3}-\\d{3}-\\d{3}-\\d{3}$");  
+        Pattern pagibigPattern = Pattern.compile("^\\d{12}$");  
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(inputFile, true))) {
+            String[] newData = new String[13];
+
+            for (int i = 0; i < 13; i++) {
+                String newValue;
+
+                if (i == 3) { // Handle Birthday (DateChooser)
+                    if (chooserBirthday.getDate() == null) {
+                        JOptionPane.showMessageDialog(this, "Birthday field cannot be empty.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+                    newValue = sdf.format(chooserBirthday.getDate());
+                } else {
+                    newValue = getTextFieldValue(i);
+                }
+
+                // Validate inputs
+                if (i == 0 && !employeeIdPattern.matcher(newValue).matches()) {
+                    showValidationError("Invalid Employee ID", "Must be exactly 5 digits.", newValue);
+                    return;
+                }
+                if ((i == 1 || i == 2) && !alphabeticPattern.matcher(newValue).matches()) {
+                    showValidationError("Invalid Name Format", "Only letters and spaces allowed.", newValue);
+                    return;
+                }
+                if (i == 5 && !numeric9Pattern.matcher(newValue).matches()) {
+                    showValidationError("Invalid Numeric Value", "Must be exactly 9 digits.", newValue);
+                    return;
+                }
+                if (i == 6 && !idPattern.matcher(newValue).matches()) {
+                    showValidationError("Invalid SSS Number", "Format: XX-XXXXXXX-X", newValue);
+                    return;
+                }
+                if (i == 7 && !philhealthPattern.matcher(newValue).matches()) {
+                    showValidationError("Invalid PhilHealth Number", "Must be exactly 12 digits.", newValue);
+                    return;
+                }
+                if (i == 8 && !tinPattern.matcher(newValue).matches()) {
+                    showValidationError("Invalid TIN Number", "Format: XXX-XXX-XXX-XXX", newValue);
+                    return;
+                }
+                if (i == 9 && !pagibigPattern.matcher(newValue).matches()) {
+                    showValidationError("Invalid Pag-IBIG Number", "Must be exactly 12 digits.", newValue);
+                    return;
+                }
+
+                newData[i] = newValue;
+            }
+
+            writer.write(String.join(",", newData) + "\n");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error saving employee data!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        JOptionPane.showMessageDialog(this, "Employee added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        loadEmployeeData();
+    }
+    
+    // Get value from corresponding text field
+    private String getTextFieldValue(int index) {
+        switch (index) {
+            case 0: return txtEmployeeID.getText().trim();
+            case 1: return txtLastName.getText().trim();
+            case 2: return txtFirstName.getText().trim();
+            case 4: return txtAddress.getText().trim();
+            case 5: return txtPhoneNumber.getText().trim();
+            case 6: return txtSSSNumber.getText().trim();
+            case 7: return txtPhilHealthNumber.getText().trim();
+            case 8: return txtTINNumber.getText().trim();
+            case 9: return txtPagIbigNumber.getText().trim();
+            case 10: return txtStatus.getText().trim();
+            case 11: return txtPosition.getText().trim();
+            case 12: return txtSupervisor.getText().trim();
+            default: return "";
+        }
     }
 
-
+    // Show validation error pop-up
+    private void showValidationError(String title, String message, String value) {
+        JOptionPane.showMessageDialog(this, title + ": " + value + "\n" + message, "Validation Error", JOptionPane.ERROR_MESSAGE);
+    }
 
     /* sample Add Employee Data:
     
@@ -578,28 +812,54 @@ public class HRDashboard extends javax.swing.JFrame {
 
     */
     
-    private void addEmployee() {
+    /*private void addEmployee() { 
         int newEmployeeID = getNextEmployeeID(); // Get next available Employee ID
         jTextField1.setText(String.valueOf(newEmployeeID));
 
         // Assign blanks to other text fields
-        jTextField2.setText("");
-        jTextField3.setText("");
-        jTextField4.setText("");
-        jTextField5.setText("");
-        jTextField6.setText("");
-        jTextField7.setText("");
-        jTextField8.setText("");
-        jTextField9.setText("");
-        jTextField10.setText("");
-        jTextField11.setText("");
-        jTextField12.setText("");
-        jTextField13.setText("");
+        resetEmployeeForm();
 
         System.out.println("Add Employee form launched.");
 
-        // Show Add panel in a dialog
-        JOptionPane.showMessageDialog(this, createAddEmployeePanel(), "Add Employee", JOptionPane.PLAIN_MESSAGE);
+        // Show Add panel in a dialog (No "OK" button issue)
+        JDialog dialog = new JDialog(this, "Add Employee", true);
+        dialog.setContentPane(createAddEmployeePanel(dialog));
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }*/
+    
+    private void addEmployee() { 
+        int newEmployeeID = getNextEmployeeID(); // Get next available Employee ID
+        txtEmployeeID.setText(String.valueOf(newEmployeeID));
+
+        // Assign blanks to other text fields
+        resetEmployeeForm();
+
+        System.out.println("Add Employee form launched.");
+
+        // Show Add panel in a dialog (No "OK" button issue)
+        JDialog dialog = new JDialog(this, "Add Employee", true);
+        dialog.setContentPane(createAddEmployeePanel(dialog));
+        dialog.pack();
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }
+    
+    // Helper Method to Reset Form Fields
+    private void resetEmployeeForm() {
+        txtLastName.setText("");
+        txtFirstName.setText("");
+        txtAddress.setText("");
+        txtPhoneNumber.setText("");
+        txtSSSNumber.setText("");
+        txtPhilHealthNumber.setText("");
+        txtTINNumber.setText("");
+        txtPagIbigNumber.setText("");
+        txtStatus.setText("");
+        txtPosition.setText("");
+        txtSupervisor.setText("");
+        chooserBirthday.setDate(null); // Ensure birthday field is reset
     }
 
     // Method to get the next Employee ID from Employee.csv
@@ -626,24 +886,7 @@ public class HRDashboard extends javax.swing.JFrame {
 
         return maxID + 1;
     }
-                
-    private void resetAddEmployeeForm() {
-        jTextFieldEmployeeno.setText("");
-        jTextFieldLastname.setText("");
-        jTextFieldFirstname.setText("");
-        jTextFieldBirthday.setText("");
-        jTextFieldAddress.setText("");
-        jTextFieldPhoneno.setText("");
-        jTextFieldSSSno.setText("");
-        jTextFieldPhilhealthno.setText("");
-        jTextFieldTINno.setText("");
-        jTextFieldPagibigNo.setText("");
-        jTextFieldStatus.setText("");
-        jTextFieldPosition.setText("");
-        jTextFieldSupervisor.setText("");
-        jButtonAdd.setEnabled(true); // Disable the add button initially
-    }
-    
+                    
     private void checkFormCompletion() {
         boolean allFilled = !jTextFieldEmployeeno.getText().trim().isEmpty() &&
                             !jTextFieldLastname.getText().trim().isEmpty() &&
@@ -717,7 +960,6 @@ public class HRDashboard extends javax.swing.JFrame {
         });
     }
 
-    
     private void deleteEmployee() {
         int selectedRow = jTableEmployeeRecords.getSelectedRow();
         if (selectedRow == -1) {
@@ -737,40 +979,6 @@ public class HRDashboard extends javax.swing.JFrame {
         }
     }    
         
-    /*private void loadLeaveRequests() {
-        DefaultTableModel model = (DefaultTableModel) jTableLeaveRequest.getModel();
-        model.setRowCount(0);
-        List<LeaveRequest> leaveRequests = leaveRequestReader.getAllLeaveRequests();
-        for (LeaveRequest leave : leaveRequests) {
-            model.addRow(new Object[]{leave.getLeaveId(), leave.getEmployeeId(), leave.getLeaveType(), leave.getStartDate(), leave.getEndDate(), leave.getStatus()});
-        }
-    }
-    
-    private void loadLeaveRequests() {
-        DefaultTableModel model = (DefaultTableModel) jTableLeaveRequest.getModel();
-        model.setRowCount(0); // Clear existing data
-
-        try {
-            List<LeaveRequest> leaveRequests = leaveRequestReader.getAllLeaveRequests();
-            for (LeaveRequest leave : leaveRequests) {
-                model.addRow(new Object[]{
-                    leave.getLeaveID(),
-                    leave.getEmployeeID(),
-                    leave.getLeaveType(),
-                    leave.getDateRequest(),
-                    leave.getStartDate(),
-                    leave.getEndDate(),
-                    leave.getReason(),
-                    leave.getStatus(),
-                    leave.getApprover(),
-                    leave.getDateResponded()
-                });
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error loading leave requests: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }*/
-    
     private void loadLeaveRequests() {
         DefaultTableModel model = (DefaultTableModel) jTableLeaveRequest.getModel();
         model.setRowCount(0); // Clear the table before loading new data
@@ -798,8 +1006,6 @@ public class HRDashboard extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error loading leave requests: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-
 
     private void approveLeave() {
         int selectedRow = jTableLeaveRequest.getSelectedRow();
@@ -1660,4 +1866,5 @@ public class HRDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldSupervisor;
     private javax.swing.JTextField jTextFieldTINno;
     // End of variables declaration//GEN-END:variables
+
 }
