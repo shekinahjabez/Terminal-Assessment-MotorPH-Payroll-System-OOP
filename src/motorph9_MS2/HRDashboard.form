@@ -219,18 +219,18 @@
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                           <Table columnCount="13" rowCount="40">
                             <Column editable="false" title="Employee No." type="java.lang.Integer"/>
-                            <Column editable="true" title="Last Name" type="java.lang.String"/>
-                            <Column editable="true" title="First name" type="java.lang.String"/>
-                            <Column editable="true" title="Birthday" type="java.lang.Object"/>
-                            <Column editable="true" title="Address" type="java.lang.Object"/>
-                            <Column editable="true" title="Phone No." type="java.lang.Integer"/>
-                            <Column editable="true" title="SSS No." type="java.lang.Integer"/>
-                            <Column editable="true" title="PhilHealth No." type="java.lang.Integer"/>
-                            <Column editable="true" title="TIN No." type="java.lang.Integer"/>
-                            <Column editable="true" title="Pagibig No." type="java.lang.Integer"/>
-                            <Column editable="true" title="Status" type="java.lang.Object"/>
-                            <Column editable="true" title="Position" type="java.lang.Object"/>
-                            <Column editable="true" title="Supervisor" type="java.lang.Object"/>
+                            <Column editable="false" title="Last Name" type="java.lang.String"/>
+                            <Column editable="false" title="First name" type="java.lang.String"/>
+                            <Column editable="false" title="Birthday" type="java.lang.Object"/>
+                            <Column editable="false" title="Address" type="java.lang.Object"/>
+                            <Column editable="false" title="Phone No." type="java.lang.Integer"/>
+                            <Column editable="false" title="SSS No." type="java.lang.Integer"/>
+                            <Column editable="false" title="PhilHealth No." type="java.lang.Integer"/>
+                            <Column editable="false" title="TIN No." type="java.lang.Integer"/>
+                            <Column editable="false" title="Pagibig No." type="java.lang.Integer"/>
+                            <Column editable="false" title="Status" type="java.lang.Object"/>
+                            <Column editable="false" title="Position" type="java.lang.Object"/>
+                            <Column editable="false" title="Supervisor" type="java.lang.Object"/>
                           </Table>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" value=""/>
@@ -443,7 +443,7 @@
                     <Component class="javax.swing.JTable" name="jTableLeaveRequest">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="10" rowCount="5">
+                          <Table columnCount="11" rowCount="5">
                             <Column editable="false" title="Leave ID" type="java.lang.Object"/>
                             <Column editable="false" title="Employee No." type="java.lang.Object"/>
                             <Column editable="false" title="Leave Type" type="java.lang.Object"/>
@@ -453,7 +453,8 @@
                             <Column editable="false" title="Reason" type="java.lang.Object"/>
                             <Column editable="false" title="Status" type="java.lang.Object"/>
                             <Column editable="false" title="Approver" type="java.lang.Object"/>
-                            <Column editable="true" title="Date Responded" type="java.lang.Object"/>
+                            <Column editable="false" title="Date Responded" type="java.lang.Object"/>
+                            <Column editable="false" title="Remarks" type="java.lang.Object"/>
                           </Table>
                         </Property>
                         <Property name="toolTipText" type="java.lang.String" value=""/>
@@ -500,6 +501,11 @@
                               <Renderer/>
                             </Column>
                             <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                               <Title/>
                               <Editor/>
                               <Renderer/>
