@@ -4,11 +4,18 @@
  */
 package motorph9_MS2;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JFrame;
+import javax.swing.Timer;
+
 /**
  *
  * @author Four Lugtu
  */
 public class FinanceDashboard extends javax.swing.JFrame {
+    private Timer timer;
+    private FinanceUser financeUser;
 
     /**
      * Creates new form FinanceDashboards
@@ -19,6 +26,34 @@ public class FinanceDashboard extends javax.swing.JFrame {
     
     public FinanceDashboard(User user) {
     
+    }
+    
+    public FinanceDashboard(FinanceUser financeUser) {  // ✅ Pass FinanceUser object directly
+        this.financeUser = financeUser; // ✅ Assign finance correctly
+        initComponents(); // Call initComponents() to initialize UI
+        setLocationRelativeTo(null); // Center the window
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Define close behavior
+        startClock();
+
+        // ✅ Debugging: Print ITUser details
+        System.out.println("FinanceUser Data: ");
+        System.out.println("Username: " + financeUser.getUsername());
+        System.out.println("First Name: " + financeUser.getFirstName());
+        System.out.println("Last Name: " + financeUser.getLastName());
+
+        jLabelGreet.setText("Welcome, " + financeUser.getFirstName() + "!");
+    }
+    
+    private void startClock() {
+        timer = new Timer(1000, e -> updateTimeAndDate());
+        timer.start();
+    }
+    
+    private void updateTimeAndDate() {
+        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm:ss a");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM d, yyyy");
+        jLabelTime.setText(timeFormat.format(new Date()));
+        jLabelDate.setText(dateFormat.format(new Date()));
     }
 
 
