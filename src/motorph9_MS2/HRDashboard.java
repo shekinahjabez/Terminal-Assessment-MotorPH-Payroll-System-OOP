@@ -7,6 +7,13 @@
 fix "No changes were made." this prompt's dispose() after.
 improve Save, Cancel, and OK Buttons
 
+Add Employee: Save but disposed if there's error
+Leave: check if you can set the spacing per COlumns
+
+*Done:
+move Welcome
+fix default color of Leave button
+
 */
 
 package motorph9_MS2;
@@ -74,6 +81,7 @@ public class HRDashboard extends javax.swing.JFrame {
         System.out.println("Last Name: " + hrUser.getLastName());
         
         jLabelGreet.setText("Welcome, " + hrUser.getFirstName() + "!");
+        jButtonLeaveRequests.setBackground (new java.awt.Color(0,0,0));
         //setupSearchListener();
         startClock();
         loadEmployeeTable();
@@ -1125,13 +1133,13 @@ public class HRDashboard extends javax.swing.JFrame {
         jLabelGreet.setFont(new java.awt.Font("Century Gothic", 1, 20)); // NOI18N
         jLabelGreet.setForeground(new java.awt.Color(255, 255, 255));
         jLabelGreet.setText("Welcome!");
-        jPanelHeader.add(jLabelGreet, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 20, -1, -1));
+        jPanelHeader.add(jLabelGreet, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 20, -1, -1));
 
         jLabelDate.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jLabelDate.setForeground(new java.awt.Color(255, 255, 255));
         jLabelDate.setText("Wednesday, December 25, 2012");
         jLabelDate.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        jPanelHeader.add(jLabelDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 50, -1, -1));
+        jPanelHeader.add(jLabelDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 50, -1, -1));
 
         jLblUname1.setBackground(new java.awt.Color(0, 0, 102));
         jLblUname1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
