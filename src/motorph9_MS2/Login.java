@@ -78,6 +78,11 @@ public class Login extends javax.swing.JFrame {
         jLblForgotPassword.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
         jLblForgotPassword.setForeground(new java.awt.Color(255, 255, 255));
         jLblForgotPassword.setText("<html><u>Forgot Password</u></html>");
+        jLblForgotPassword.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLblForgotPasswordMouseClicked(evt);
+            }
+        });
         jPnlBlack.add(jLblForgotPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 320, 100, 40));
 
         jUnameField.setBackground(new java.awt.Color(255, 255, 255));
@@ -231,6 +236,12 @@ public class Login extends javax.swing.JFrame {
     private void jBtnLoginMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBtnLoginMousePressed
         // TODO add your handling code here:
     }//GEN-LAST:event_jBtnLoginMousePressed
+
+    private void jLblForgotPasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLblForgotPasswordMouseClicked
+        // Open the Forgot Password Form when clicked
+        ForgotPasswordForm form = new ForgotPasswordForm();
+        form.setVisible(true);
+    }//GEN-LAST:event_jLblForgotPasswordMouseClicked
 
     /**
      * @param args the command line arguments

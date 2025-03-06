@@ -58,7 +58,7 @@ public class EmployeeDetailsReader {
         return null;
     }
 
-    // ✅ Fetch Employee Details from Employee.csv
+    // Fetch Employee Details from Employee.csv
     private String[] getEmployeeDetails(String empNum) {
         System.out.println("🔍 Searching for Employee Details for ID: " + empNum);
 
@@ -155,6 +155,39 @@ public class EmployeeDetailsReader {
             System.err.println("Error reading employee details: " + e.getMessage());
         }
         return employees;
+    }
+    
+    /**
+     * Checks if the given Employee Number and Name exist in Employee.csv.
+     * This method is used for **validating Password Reset Requests**.
+     *
+     * @param empNum The Employee Number entered by the user.
+     * @param empName The Full Name entered by the user (should match "FirstName LastName").
+     * @return true if the Employee Number and Name match an entry in Employee.csv, false otherwise.
+     */
+    public boolean isEmployeeValid(String empNum, String empName) {
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            br.readLine(); // ✅ Skip header row
+
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",", -1); // ✅ Handle empty values properly
+                
+                if (data.length >= 3) { // ✅ Ensure at least Employee ID, Last Name, and First Name exist
+                    String csvEmpNum = data[0].trim();  // ✅ Employee ID (Column 0)
+                    String csvFullName = data[2].trim() + " " + data[1].trim(); // ✅ Construct full name as "FirstName LastName"
+
+                    // ✅ Compare Employee Number & Name (case-insensitive)
+                    if (csvEmpNum.equals(empNum) && csvFullName.equalsIgnoreCase(empName)) {
+                        return true; // ✅ Employee found
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("❌ Error reading employee database: " + e.getMessage());
+        }
+
+        return false; // ❌ Employee not found
     }
     
     public User getLoginDetails(String username) {
