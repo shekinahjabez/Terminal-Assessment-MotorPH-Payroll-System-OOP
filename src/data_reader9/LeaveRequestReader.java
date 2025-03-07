@@ -2,11 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package motorph9_MS2;
+package data_reader9;
 
+import data_reader9.CSVReader;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
+import motorph9_MS2.LeaveRequest;
 
 public class LeaveRequestReader {
     private static final String FILE_PATH = "src/data9/LeaveRequests.csv";

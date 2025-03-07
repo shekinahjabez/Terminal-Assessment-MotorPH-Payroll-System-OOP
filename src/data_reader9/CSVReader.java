@@ -1,4 +1,4 @@
-package motorph9_MS2;
+package data_reader9;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

@@ -15,7 +15,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import javax.swing.*;
 import motorph9_MS2.EmployeeDashboard;
-import motorph9_MS2.EmployeeDetailsReader;
+import data_reader9.EmployeeDetailsReader;
 import motorph9_MS2.EmployeeUser;
 import motorph9_MS2.FinanceDashboard;
 import motorph9_MS2.FinanceUser;
@@ -23,7 +23,7 @@ import motorph9_MS2.HRDashboard;
 import motorph9_MS2.HRUser;
 import motorph9_MS2.ITDashboard;
 import motorph9_MS2.ITUser;
-import motorph9_MS2.LeaveRequestReader;
+import data_reader9.LeaveRequestReader;
 import motorph9_MS2.User;
 
 public class Login extends javax.swing.JFrame {

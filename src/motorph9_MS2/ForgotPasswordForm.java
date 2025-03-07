@@ -4,12 +4,14 @@
  */
 package motorph9_MS2;
 
+import data_reader9.EmployeeDetailsReader;
+import data_reader9.PasswordResetReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
-import motorph9_MS2.PasswordResetReader;
+import data_reader9.PasswordResetReader;
 import motorph9_MS2.PasswordResetRequest;
 
 /**

@@ -20,6 +20,8 @@ corrected jdateChooser UX
 */
 
 package motorph9_MS2;
+import data_reader9.EmployeeDetailsReader;
+import data_reader9.LeaveRequestReader;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.*;

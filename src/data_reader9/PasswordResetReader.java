@@ -1,14 +1,17 @@
+package data_reader9;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package motorph9_MS2;
+
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.JOptionPane;
+import motorph9_MS2.PasswordResetRequest;
 
 /**
  *

@@ -4,6 +4,8 @@
  */
 package motorph9_MS2;
 
+import data_reader9.EmployeeDetailsReader;
+import data_reader9.LeaveRequestReader;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;

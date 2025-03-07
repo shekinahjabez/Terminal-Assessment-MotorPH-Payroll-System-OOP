@@ -4,16 +4,21 @@
  */
 package motorph9_MS2;
 
+import data_reader9.LeaveRequestReader;
+import data_reader9.TimeTrackerReader;
+import data_reader9.AllowanceDetailsReader;
+import data_reader9.SalaryDetailsReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+//import motorph9_MS2.FinanceUser.SalaryDetails;
 
 public class EmployeeUser extends User {
     private LocalDateTime clockInTime;
     private LocalDateTime clockOutTime;
-    private String firstName;
-    private String lastName;
+    //private String firstName;
+    //private String lastName;
     
     public EmployeeUser(String employeeId, String lastName, String firstName, String birthday, 
                         String address, int phone, String sssNumber, String philhealthNumber, 
@@ -28,10 +33,6 @@ public class EmployeeUser extends User {
         super(employeeId, username, roleName, password, firstName, lastName);
     }    
     
-    /*public EmployeeUser(String employeeId, String username, String roleName, String password) {
-        super(employeeId, username, roleName, password);
-    }*/
-
     public LocalDateTime getClockInTime() {
         return clockInTime;
     }
@@ -55,11 +56,27 @@ public class EmployeeUser extends User {
         System.out.println("Clocked out at: " + clockOutTime);
     }
     
-    /*public void requestLeave(String leaveID, String leaveType, LocalDate startDate, LocalDate endDate, String reason) throws IOException {
-        LeaveRequest leaveRequest = new LeaveRequest(leaveID, getEmployeeId(), leaveType, startDate, endDate, reason);
-        LeaveRequestReader.addLeaveRequest(leaveRequest);
-        System.out.println("Leave request submitted.");
-    }*/
+    public SalaryDetails getSalaryDetails() throws IOException {
+        double grossSalary = SalaryCalculation.calculateGrossSalary(getEmployeeId());
+        double netSalary = SalaryCalculation.calculateNetSalary(getEmployeeId());
+        double hourlyRate = SalaryCalculation.calculateHourlyRate(getEmployeeId());
+
+        double riceSubsidy = AllowanceDetailsReader.getRiceSubsidyAllowance(getEmployeeId());
+        double phoneAllowance = AllowanceDetailsReader.getPhoneAllowance(getEmployeeId());
+        double clothingAllowance = AllowanceDetailsReader.getClothingAllowance(getEmployeeId());
+        double totalAllowances = riceSubsidy + phoneAllowance + clothingAllowance;
+
+        double pagibigDeduction = Deductions.calculatePagibigDeduction();
+        double philHealthDeduction = Deductions.calculatePhilHealthDeduction(grossSalary);
+        double sssDeduction = Deductions.calculateSSSDeduction(grossSalary);
+        double withholdingTax = Deductions.calculateWithholdingTax(grossSalary);
+        double totalDeductions = pagibigDeduction + philHealthDeduction + sssDeduction + withholdingTax;
+
+        return new SalaryDetails(grossSalary, netSalary, hourlyRate,
+                                 riceSubsidy, phoneAllowance, clothingAllowance, totalAllowances,
+                                 pagibigDeduction, philHealthDeduction, sssDeduction, withholdingTax, totalDeductions);
+    }
+
     
     public void requestLeave(String leaveID, String leaveType, LocalDate startDate, LocalDate endDate, String reason) throws IOException {
         LeaveRequest leaveRequest = new LeaveRequest(

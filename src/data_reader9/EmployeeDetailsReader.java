@@ -2,13 +2,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package motorph9_MS2;
+package data_reader9;
 
+import data_reader9.CSVReader;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import motorph9_MS2.EmployeeUser;
+import motorph9_MS2.FinanceUser;
+import motorph9_MS2.HRUser;
+import motorph9_MS2.ITUser;
+import motorph9_MS2.User;
 
 /**
  *
@@ -56,6 +62,49 @@ public class EmployeeDetailsReader {
             e.printStackTrace();
         }
         return null;
+    }
+    
+    public EmployeeUser getEmployeeDetailsByNumber(String employeeNumToFind) throws IOException {        
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {    
+            String line;
+            br.readLine(); // Skip header row
+            
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",", -1); // Split by comma, handle empty values
+                
+                if (data.length >= 13) { // Ensure we have enough columns
+                   String employeeId = data[0].trim(); 
+                   if (employeeId.equals(employeeNumToFind.trim())) { 
+                      // Create EmployeeUser object from CSV row (using data from "Employee Reset Data.csv")
+                      return new EmployeeUser(
+                             data[0].trim(), // employeeId
+                             data[1].trim(), // lastName
+                             data[2].trim(), // firstName
+                             data[3].trim(), // birthday
+                             data[4].trim(), // address
+                             Integer.parseInt(data[5].trim()), // phone
+                             data[6].trim(), // sssNumber
+                             data[7].trim(), // philhealthNumber
+                             data[8].trim(), // tinNumber
+                             data[9].trim(), // pagibigNumber
+                             data[10].trim(), // status
+                             data[11].trim(), // position
+                             data[12].trim()  // supervisor
+                     );   
+                      
+                   }   
+                    
+                }
+                
+            }
+            
+        } catch (IOException e) {
+            System.err.println("Error reading Employee Reset Data CSV: " + e.getMessage());
+            throw e; // Re-throw the exception to be handled by caller
+        }
+        
+        return null;
+        
     }
 
     // Fetch Employee Details from Employee.csv
