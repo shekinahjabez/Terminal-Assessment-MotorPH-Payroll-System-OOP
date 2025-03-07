@@ -137,7 +137,7 @@ public class ITDashboard extends javax.swing.JFrame {
         jLabelDate.setForeground(new java.awt.Color(255, 255, 255));
         jLabelDate.setText("Wednesday, December 25, 2012");
         jLabelDate.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        jPanelITMain.add(jLabelDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 50, -1, -1));
+        jPanelITMain.add(jLabelDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 50, -1, -1));
 
         jLabelGMT.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabelGMT.setForeground(new java.awt.Color(255, 255, 255));
@@ -183,7 +183,7 @@ public class ITDashboard extends javax.swing.JFrame {
         jLabelGreet.setFont(new java.awt.Font("Century Gothic", 1, 20)); // NOI18N
         jLabelGreet.setForeground(new java.awt.Color(255, 255, 255));
         jLabelGreet.setText("Welcome!");
-        jPanelITMain.add(jLabelGreet, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 20, -1, -1));
+        jPanelITMain.add(jLabelGreet, new org.netbeans.lib.awtextra.AbsoluteConstraints(788, 20, 240, -1));
 
         jButtonDenyPasswordReset.setBackground(new java.awt.Color(204, 0, 51));
         jButtonDenyPasswordReset.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N

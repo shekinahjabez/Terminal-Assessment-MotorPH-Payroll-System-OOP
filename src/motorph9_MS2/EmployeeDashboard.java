@@ -5,15 +5,26 @@
 package motorph9_MS2;
 
 import data_reader9.EmployeeDetailsReader;
+import data_reader9.LeaveRequestReader;
 import java.awt.Color;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import motorph9_MS2.FinanceUser;
-//import motorph9_MS2.FinanceUser.SalaryDetails;
+import javax.swing.table.DefaultTableModel;
+import motorph9_MS2.EmployeeLeaveTracker;
+import motorph9_MS2.EmployeeUser;
+import motorph9_MS2.LeaveRequest;
+import motorph9_MS2.Login;
+import motorph9_MS2.SalaryDetails;
+import motorph9_MS2.User;
 
 /**
  *
@@ -22,8 +33,8 @@ import motorph9_MS2.FinanceUser;
 public class EmployeeDashboard extends javax.swing.JFrame {
     
     private User loggedInUser; // To store the logged-in user
-    private EmployeeDetailsReader employeeDetailsReader; // ✅ Use EmployeeDetailsReader
-
+    private EmployeeDetailsReader employeeDetailsReader; // Use EmployeeDetailsReader
+    private EmployeeLeaveTracker leaveTracker; // Use EmployeeLeaveTracker
     /**
      * Creates new form EmployeeDashboards
      */
@@ -31,20 +42,22 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null); // Center the window
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Define close behavior
-        employeeDetailsReader = new EmployeeDetailsReader(); // ✅ Initialize reader
+        employeeDetailsReader = new EmployeeDetailsReader(); // Initialize reader
     }
 
     public EmployeeDashboard(User user) {
-        initComponents(); // ✅ Call initComponents() to initialize UI
-        setLocationRelativeTo(null); // ✅ Center the window
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // ✅ Define close behavior
-        this.loggedInUser = user; // ✅ Store the logged-in user
-        employeeDetailsReader = new EmployeeDetailsReader(); // ✅ Initialize reader
-        displayWelcomeMessage(); // ✅ Call method to display welcome message (example)
-        loadEmployeeDetails(); // ✅ Call method to load and display employee details
+        initComponents(); // Call initComponents() to initialize UI
+        setLocationRelativeTo(null); // Center the window
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Define close behavior
+        this.loggedInUser = user; // Store the logged-in user
+        employeeDetailsReader = new EmployeeDetailsReader(); // Initialize reader
+        leaveTracker = new EmployeeLeaveTracker(user.getEmployeeId()); //Initialize leave tracker
+        displayWelcomeMessage(); // Call method to display welcome message (example)
+        loadEmployeeDetails(); // Call method to load and display employee details
         loadSalaryInformation();
+        initializeLeaveTypeComboBox(); // Populate leave types with balance
     }
-
+    
     private void displayWelcomeMessage() {
         if (loggedInUser != null) {
             jLabelFirstName.setText(loggedInUser.getFirstName() + "!"); // Example: Set welcome label
@@ -108,30 +121,9 @@ public class EmployeeDashboard extends javax.swing.JFrame {
             System.out.println("No logged-in EmployeeUser found!"); // Debugging step
         }
     }
-
-    /*private void loadSalaryInformation() {
-        if (loggedInUser != null && loggedInUser instanceof EmployeeUser) { // Checks for EmployeeUser
-            try {
-                EmployeeUser employee = (EmployeeUser) loggedInUser;
-                String employeeId = employee.getEmployeeId();
-
-                // Get salary details for Employee
-                SalaryDetails salaryDetails = getSalaryDetails(employeeId);
-
-                // Update the UI
-                updateSalaryUI(salaryDetails);
-
-            } catch (IOException ex) {
-                Logger.getLogger(EmployeeDashboard.class.getName()).log(Level.SEVERE, "Error reading salary details", ex);
-                JOptionPane.showMessageDialog(this, "Error reading salary details.", "File Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            System.out.println("No logged-in EmployeeUser found!"); // Debugging step
-        }
-    }*/
     
     private void updateSalaryUI(SalaryDetails salary) {
-        DecimalFormat formatter = new DecimalFormat("#,##0.00"); // ✅ Formats numbers like 12,345.67
+        DecimalFormat formatter = new DecimalFormat("#,##0.00"); // Formats numbers like 12,345.67
 
         // Update Salary Fields
         jTextFieldGrossSalary.setText(formatter.format(salary.grossSalary()));
@@ -151,29 +143,38 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jTextFieldWithholdingTax.setText(formatter.format(salary.withholdingTax()));
         jTextFieldTotalDeductions.setText(formatter.format(salary.totalDeductions()));
     }
+    
+    private void loadRequests() {
+        DefaultTableModel model = (DefaultTableModel) jTableRequestLogs.getModel();
+        model.setRowCount(0);
+        
+        List<LeaveRequest> requests = new LeaveRequestReader().getAllLeaveRequests();
+        for (LeaveRequest request : requests) {
+            if (request.getEmployeeID().equals(loggedInUser.getEmployeeId())) {
+                model.addRow(new Object[]{
+                    request.getLeaveType(),
+                    request.getDateRequest(),
+                    request.getStartDate(),
+                    request.getEndDate(),
+                    request.getReason(),
+                    request.getStatus(),
+                    request.getApprover().isEmpty() ? "HR" : request.getApprover(),
+                    request.getDateResponded() != null ? request.getDateResponded().toString() : "Pending"
+                });
+            }
+        }
+    }
+    
+    private void initializeLeaveTypeComboBox() {
+        jComboBoxLeaveType.setModel(new DefaultComboBoxModel<>(new String[]{
+            "Sick Leave (" + leaveTracker.getSickLeaveBalance() + " left)",
+            "Vacation Leave (" + leaveTracker.getVacationLeaveBalance() + " left)",
+            "Birthday Leave (" + leaveTracker.getBirthdayLeaveBalance() + " left)"
+        }));
+    }
+
 
     
-    /*private void updateSalaryUI(SalaryDetails salary) { // Uses the standalone SalaryDetails
-        // Update Salary Fields
-        jTextFieldGrossSalary.setText(String.valueOf(salary.grossSalary()));
-        jTextFieldNetSalary.setText(String.valueOf(salary.netSalary()));
-        jTextFieldHourlyRate.setText(String.valueOf(salary.hourlyRate()));
-
-        // Update Allowance Breakdown
-        jTextFieldRiceSubsidy.setText(String.valueOf(salary.riceSubsidy()));
-        jTextFieldPhone.setText(String.valueOf(salary.phoneAllowance()));
-        jTextFieldClothing.setText(String.valueOf(salary.clothingAllowance()));
-        jTextFieldTotalAllowances.setText(String.valueOf(salary.totalAllowances()));
-
-        // Update Deduction Breakdown
-        jTextFieldPagibigDeductions.setText(String.valueOf(salary.pagibigDeduction()));
-        jTextFieldPhilhealth.setText(String.valueOf(salary.philHealthDeduction()));
-        jTextFieldSSSDeductions.setText(String.valueOf(salary.sssDeduction()));
-        jTextFieldWithholdingTax.setText(String.valueOf(salary.withholdingTax()));
-        jTextFieldTotalDeductions.setText(String.valueOf(salary.totalDeductions()));
-    }*/    
-
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -278,7 +279,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jPanelRequests = new javax.swing.JPanel();
         jPanelAttendanceLogs = new javax.swing.JPanel();
         jScrollPaneAttendanceLogs = new javax.swing.JScrollPane();
-        jTableAttendanceLogs = new javax.swing.JTable();
+        jTableRequestLogs = new javax.swing.JTable();
         jLabelRequests = new javax.swing.JLabel();
         jLabelCreateRequest = new javax.swing.JLabel();
         jLabelSelectMonth = new javax.swing.JLabel();
@@ -303,7 +304,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jLabelAttendanceandTracker = new javax.swing.JLabel();
         jPanelAttendanceAndTracker = new javax.swing.JPanel();
         jScrollPaneAttenedanceandTracker = new javax.swing.JScrollPane();
-        jTableAttendanceandTracker = new javax.swing.JTable();
+        jTableAttendanceLogs = new javax.swing.JTable();
         jLabelTimeTracker = new javax.swing.JLabel();
         jLabelSelectYearAttendance = new javax.swing.JLabel();
         jLabelSelectMonthAttendance = new javax.swing.JLabel();
@@ -601,16 +602,30 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jTableSalaryLogs.setBackground(new java.awt.Color(255, 255, 255));
         jTableSalaryLogs.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Employee No.", "Month", "Year", "Gross Salary", "Total Allowance", "Total Deductions", "Net Month Salary"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPaneSalaryLogs.setViewportView(jTableSalaryLogs);
+        if (jTableSalaryLogs.getColumnModel().getColumnCount() > 0) {
+            jTableSalaryLogs.getColumnModel().getColumn(0).setResizable(false);
+            jTableSalaryLogs.getColumnModel().getColumn(1).setResizable(false);
+            jTableSalaryLogs.getColumnModel().getColumn(2).setResizable(false);
+            jTableSalaryLogs.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         jPanelSalaryLogs.add(jScrollPaneSalaryLogs, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 530, 240));
 
@@ -823,20 +838,28 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jPanelAttendanceLogs.setBackground(new java.awt.Color(204, 0, 51));
         jPanelAttendanceLogs.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTableAttendanceLogs.setBackground(new java.awt.Color(255, 255, 255));
-        jTableAttendanceLogs.setForeground(new java.awt.Color(0, 0, 0));
-        jTableAttendanceLogs.setModel(new javax.swing.table.DefaultTableModel(
+        jTableRequestLogs.setBackground(new java.awt.Color(255, 255, 255));
+        jTableRequestLogs.setForeground(new java.awt.Color(0, 0, 0));
+        jTableRequestLogs.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Leave Type", "Date Request", "Start Date", "End Date", "Reason", "Status", "Approver", "Date Approved"
             }
-        ));
-        jScrollPaneAttendanceLogs.setViewportView(jTableAttendanceLogs);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPaneAttendanceLogs.setViewportView(jTableRequestLogs);
 
         jPanelAttendanceLogs.add(jScrollPaneAttendanceLogs, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 660, 240));
 
@@ -871,7 +894,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
         jComboBoxLeaveType.setBackground(new java.awt.Color(255, 255, 255));
         jComboBoxLeaveType.setForeground(new java.awt.Color(0, 0, 0));
-        jComboBoxLeaveType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxLeaveType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Vacation Leave", "Sick Leave", "Birthday Leave" }));
         jPanelCreateRquest.add(jComboBoxLeaveType, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, 170, -1));
 
         jLabelReason.setBackground(new java.awt.Color(255, 255, 255));
@@ -950,6 +973,11 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jButtonSubmitRequest.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jButtonSubmitRequest.setForeground(new java.awt.Color(255, 255, 255));
         jButtonSubmitRequest.setText("Submit");
+        jButtonSubmitRequest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSubmitRequestActionPerformed(evt);
+            }
+        });
         jPanelRequests.add(jButtonSubmitRequest, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 460, 160, 30));
 
         jTabbedPaneEmployee.addTab("Requests", jPanelRequests);
@@ -966,8 +994,8 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jPanelAttendanceAndTracker.setBackground(new java.awt.Color(204, 0, 51));
         jPanelAttendanceAndTracker.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTableAttendanceandTracker.setBackground(new java.awt.Color(255, 255, 255));
-        jTableAttendanceandTracker.setModel(new javax.swing.table.DefaultTableModel(
+        jTableAttendanceLogs.setBackground(new java.awt.Color(255, 255, 255));
+        jTableAttendanceLogs.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -978,7 +1006,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPaneAttenedanceandTracker.setViewportView(jTableAttendanceandTracker);
+        jScrollPaneAttenedanceandTracker.setViewportView(jTableAttendanceLogs);
 
         jPanelAttendanceAndTracker.add(jScrollPaneAttenedanceandTracker, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 530, 240));
 
@@ -1114,6 +1142,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jButtonSalaryInfomation.setBackground(new java.awt.Color(0,0,0));
         jButtonRequests.setBackground(Color.RED);
         jButtonAttendance.setBackground(new java.awt.Color(0,0,0));
+        loadRequests();
     }//GEN-LAST:event_jButtonRequestsActionPerformed
 
     private void jButtonAttendanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAttendanceActionPerformed
@@ -1123,6 +1152,67 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jButtonRequests.setBackground(new java.awt.Color(0,0,0));
         jButtonAttendance.setBackground(Color.RED);
     }//GEN-LAST:event_jButtonAttendanceActionPerformed
+
+    private void jButtonSubmitRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSubmitRequestActionPerformed
+        String selectedLeave = jComboBoxLeaveType.getSelectedItem().toString();
+        String leaveType = selectedLeave.split(" ")[0]; // Extract actual leave type (e.g., "Sick Leave")
+        
+        Date startDate = jDateChooserStart.getDate();
+        Date endDate = jDateChooserEnd.getDate();
+        String reason = jTextFieldReason.getText();
+        
+        if (startDate == null || endDate == null || reason.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill out all fields correctly.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (startDate.after(endDate)) {
+            JOptionPane.showMessageDialog(this, "Start date must be before end date.", "Date Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        int leaveDuration = (int) ((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+        
+        if (!leaveTracker.hasSufficientLeave(leaveType, leaveDuration)) {
+            JOptionPane.showMessageDialog(this, "Insufficient leave balance.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        List<LeaveRequest> existingRequests = new LeaveRequestReader().getAllLeaveRequests();
+        for (LeaveRequest request : existingRequests) {
+            if (request.getEmployeeID().equals(loggedInUser.getEmployeeId()) &&
+                request.getLeaveType().equals(leaveType) &&
+                request.getStartDate().equals(startDate.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate()) &&
+                request.getEndDate().equals(endDate.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate())) {
+                JOptionPane.showMessageDialog(this, "You have already submitted a request for this leave period.", "Duplicate Request", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+        
+        
+        LeaveRequest leaveRequest = new LeaveRequest(
+            UUID.randomUUID().toString(),  // Generate a unique leave ID
+            loggedInUser.getEmployeeId(),
+            leaveType,
+            LocalDate.now(),
+            startDate.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate(),
+            endDate.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate(),
+            reason,
+            "Pending",
+            "",
+            null
+        );
+        
+        try {
+            LeaveRequestReader.addLeaveRequest(leaveRequest);
+            leaveTracker.deductLeave(leaveType, leaveDuration);
+            JOptionPane.showMessageDialog(this, "Request submitted successfully!\nUpdated Balances:\nSick Leave: " + leaveTracker.getSickLeaveBalance() + "\nVacation Leave: " + leaveTracker.getVacationLeaveBalance() + "\nBirthday Leave: " + leaveTracker.getBirthdayLeaveBalance(), "Success", JOptionPane.INFORMATION_MESSAGE);
+            loadRequests();
+            initializeLeaveTypeComboBox();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error saving request.", "File Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButtonSubmitRequestActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1268,7 +1358,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPaneSalaryLogs;
     private javax.swing.JTabbedPane jTabbedPaneEmployee;
     private javax.swing.JTable jTableAttendanceLogs;
-    private javax.swing.JTable jTableAttendanceandTracker;
+    private javax.swing.JTable jTableRequestLogs;
     private javax.swing.JTable jTableSalaryLogs;
     private javax.swing.JTextField jTextFieldAddress;
     private javax.swing.JTextField jTextFieldBirthday;
