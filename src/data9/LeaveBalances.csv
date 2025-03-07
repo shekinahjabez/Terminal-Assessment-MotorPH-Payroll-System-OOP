@@ -1,35 +1,35 @@
-Employee #,Sick Leave,Vacation Leave,Birthday Leave,Last Name,First Name
-10002,10,15,1,Mata,Christian
-10003,10,15,1,San Jose,Brad 
-10004,10,15,1,Salcedo,Anthony
-10005,10,15,1,Romualdez,Alice
-10006,10,15,1,Atienza,Rosie 
-10007,10,15,1,Farala,Martha
-10008,10,15,1,Martinez,Leila
-10009,10,15,1,San Jose,Allison 
-10010,10,15,1,Rosario,Cydney 
-10011,10,15,1,Lopez,Josie 
-10012,10,15,1,De Leon,Selena 
-10013,10,15,1,Romualdez,Fredrick 
-10014,10,15,1,Bautista,Mark 
-10015,10,15,1,Lazaro,Darlene 
-10016,10,15,1,Delos Santos,Kolby 
-10017,10,15,1,Santos,Vella 
-10018,10,15,1,Del Rosario,Tomas
-10019,10,15,1,Tolentino,Jacklyn 
-10020,10,15,1,Gutierrez,Percival 
-10021,10,15,1,Manalaysay,Garfield 
-10022,10,15,1,Villegas,Lizeth 
-10023,10,15,1,Ramos,Carol 
-10024,10,15,1,Maceda,Emelia 
-10025,10,15,1,Aguilar,Delia 
-1,10,15,1,Garcia,Manuel III
-2,10,15,1,Lim,Antonio
-3,10,15,1,Aquino,Bianca Sofia
-4,10,15,1,Reyes,Isabella
-5,10,15,1,Hernandez,Eduard
-6,10,15,1,Villanueva,Andrea Mae
-7,10,15,1,Alvaro,Roderick
-8,10,15,1,Castro,John Rafael
-9,10,15,1,Martinez,Carlos Ian
-10,10,15,1,Santos,Beatriz
+employeeNum,lastName,firstName,Sick Leave ,Vacation Leave,Birthday Leave
+10001,Garcia,Manuel III,10,15,1
+10002,Lim,Antonio,10,15,1
+10003,Aquino,Bianca Sofia,10,15,1
+10004,Reyes,Isabella,10,15,1
+10005,Hernandez,Eduard,10,15,1
+10006,Villanueva,Andrea Mae,10,15,1
+10007,San Jose,Brad,10,15,1
+10008,Romualdez,Alice,10,15,1
+10009,Atienza,Rosie,10,15,1
+10010,Alvaro,Roderick,10,15,1
+10011,Salcedo,Anthony,10,15,1
+10012,Lopez,Josie,10,15,1
+10013,Farala,Martha,10,15,1
+10014,Martinez,Leila,10,15,1
+10015,Romualdez,Fredrick,10,15,1
+10016,Mata,Christian,10,15,1
+10017,De Leon,Selena,10,15,1
+10018,San Jose,Allison,10,15,1
+10019,Rosario,Cydney,10,15,1
+10020,Bautista,Mark,10,15,1
+10021,Lazaro,Darlene,10,15,1
+10022,Delos Santos,Kolby,10,15,1
+10023,Santos,Vella,10,15,1
+10024,Del Rosario,Tomas,10,15,1
+10025,Tolentino,Jacklyn,10,15,1
+10026,Gutierrez,Percival,10,15,1
+10027,Manalaysay,Garfield,10,15,1
+10028,Villegas,Lizeth,10,15,1
+10029,Ramos,Carol,10,15,1
+10030,Maceda,Emelia,10,15,1
+10031,Aguilar,Delia,10,15,1
+10032,Castro,John Rafael,10,15,1
+10033,Martinez,Carlos Ian,10,15,1
+10034,Santos,Beatriz,10,15,1

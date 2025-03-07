@@ -4,6 +4,14 @@
  */
 package motorph9_MS2;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Shekinah Jabez
@@ -12,11 +20,12 @@ public class EmployeeLeaveTracker {
     private int sickLeaveBalance;
     private int vacationLeaveBalance;
     private int birthdayLeaveBalance;
+    private final String employeeId;
+    private static final String FILE_PATH = "src/data9/LeaveBalances.csv";
     
-    public EmployeeLeaveTracker(int sickLeaveBalance, int vacationLeaveBalance, int birthdayLeaveBalance) {
-        this.sickLeaveBalance = sickLeaveBalance;
-        this.vacationLeaveBalance = vacationLeaveBalance;
-        this.birthdayLeaveBalance = birthdayLeaveBalance;
+    public EmployeeLeaveTracker(String employeeId) {
+        this.employeeId = employeeId;
+        loadLeaveBalances();
     }
     
     public int getSickLeaveBalance() {
@@ -31,19 +40,6 @@ public class EmployeeLeaveTracker {
         return birthdayLeaveBalance;
     }
 
-    // Setter methods
-    public void setSickLeaveBalance(int sickLeaveBalance) {
-        this.sickLeaveBalance = sickLeaveBalance;
-    }
-
-    public void setVacationLeaveBalance(int vacationLeaveBalance) {
-        this.vacationLeaveBalance = vacationLeaveBalance;
-    }
-
-    public void setBirthdayLeaveBalance(int birthdayLeaveBalance) {
-        this.birthdayLeaveBalance = birthdayLeaveBalance;
-    }
-    
     public boolean hasSufficientLeave(String leaveType, int leaveDuration) {
         switch (leaveType) {
             case "Sick Leave":
@@ -69,5 +65,57 @@ public class EmployeeLeaveTracker {
                 birthdayLeaveBalance -= leaveDuration;
                 break;
         }
+        saveLeaveBalances();
     }
-} 
+    
+    private void loadLeaveBalances() {
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data[0].equals(employeeId)) {
+                    sickLeaveBalance = Integer.parseInt(data[3]);
+                    vacationLeaveBalance = Integer.parseInt(data[4]);
+                    birthdayLeaveBalance = Integer.parseInt(data[5]);
+                    return;
+                }
+            }
+        } catch (IOException | NumberFormatException e) {
+            System.err.println("Error loading leave balances: " + e.getMessage());
+        }
+    }
+    
+    private void saveLeaveBalances() {
+        List<String> fileContent = new ArrayList<>();
+        boolean found = false;
+        
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data[0].equals(employeeId)) {
+                    fileContent.add(employeeId + "," + sickLeaveBalance + "," + vacationLeaveBalance + "," + birthdayLeaveBalance);
+                    found = true;
+                } else {
+                    fileContent.add(line);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading leave balances: " + e.getMessage());
+        }
+        
+        if (!found) {
+            fileContent.add(employeeId + "," + sickLeaveBalance + "," + vacationLeaveBalance + "," + birthdayLeaveBalance);
+        }
+        
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH))) {
+            for (String record : fileContent) {
+                bw.write(record);
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            System.err.println("Error saving leave balances: " + e.getMessage());
+        }
+    }
+}
+
