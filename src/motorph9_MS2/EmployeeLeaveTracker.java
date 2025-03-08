@@ -85,7 +85,7 @@ public class EmployeeLeaveTracker {
         }
     }
     
-    private void saveLeaveBalances() {
+    /*private void saveLeaveBalances() {
         List<String> fileContent = new ArrayList<>();
         boolean found = false;
         
@@ -106,6 +106,40 @@ public class EmployeeLeaveTracker {
         
         if (!found) {
             fileContent.add(employeeId + "," + sickLeaveBalance + "," + vacationLeaveBalance + "," + birthdayLeaveBalance);
+        }
+        
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH))) {
+            for (String record : fileContent) {
+                bw.write(record);
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            System.err.println("Error saving leave balances: " + e.getMessage());
+        }
+    }*/
+    
+    public void saveLeaveBalances() {
+        List<String> fileContent = new ArrayList<>();
+        boolean found = false;
+        
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data[0].equals(employeeId)) {
+                    // Preserve firstName & lastName while updating leave balances
+                    fileContent.add(employeeId + "," + data[1] + "," + data[2] + "," + sickLeaveBalance + "," + vacationLeaveBalance + "," + birthdayLeaveBalance);
+                    found = true;
+                } else {
+                    fileContent.add(line);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading leave balances: " + e.getMessage());
+        }
+        
+        if (!found) {
+            fileContent.add(employeeId + ",Unknown,Unknown," + sickLeaveBalance + "," + vacationLeaveBalance + "," + birthdayLeaveBalance);
         }
         
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH))) {

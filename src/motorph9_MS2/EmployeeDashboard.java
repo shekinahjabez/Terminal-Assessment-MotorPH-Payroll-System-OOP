@@ -19,6 +19,10 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import com.toedter.calendar.JDateChooser;
+import java.time.DayOfWeek;
+import java.time.ZoneId;
+import java.time.chrono.ChronoLocalDate;
 import motorph9_MS2.EmployeeLeaveTracker;
 import motorph9_MS2.EmployeeUser;
 import motorph9_MS2.LeaveRequest;
@@ -35,6 +39,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private User loggedInUser; // To store the logged-in user
     private EmployeeDetailsReader employeeDetailsReader; // Use EmployeeDetailsReader
     private EmployeeLeaveTracker leaveTracker; // Use EmployeeLeaveTracker
+    private static final LocalDate TODAY = LocalDate.of(2025, 3, 8);
     /**
      * Creates new form EmployeeDashboards
      */
@@ -172,6 +177,34 @@ public class EmployeeDashboard extends javax.swing.JFrame {
             "Birthday Leave (" + leaveTracker.getBirthdayLeaveBalance() + " left)"
         }));
     }
+    
+    private String generateLeaveId() {
+        List<LeaveRequest> requests = new LeaveRequestReader().getAllLeaveRequests();
+        int maxId = 0;
+        for (LeaveRequest request : requests) {
+            String idStr = request.getLeaveID().replace("L", "");
+            try {
+                int idNum = Integer.parseInt(idStr);
+                if (idNum > maxId) maxId = idNum;
+            } catch (NumberFormatException ignored) {}
+        }
+        return "L" + String.format("%03d", maxId + 1);
+    }
+    
+    private int calculateWeekdays(LocalDate startDate, LocalDate endDate) {
+        int weekdays = 0;
+        for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+            DayOfWeek day = date.getDayOfWeek();
+            if (day != DayOfWeek.SATURDAY && day != DayOfWeek.SUNDAY) {
+                weekdays++;
+            }
+        }
+        return weekdays;
+    }
+
+
+    
+    
 
 
     
@@ -1155,48 +1188,57 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
     private void jButtonSubmitRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSubmitRequestActionPerformed
         String selectedLeave = jComboBoxLeaveType.getSelectedItem().toString();
-        String leaveType = selectedLeave.split(" ")[0]; // Extract actual leave type (e.g., "Sick Leave")
+        String leaveType = selectedLeave.replaceAll("\\s\\(.*\\)", "");
         
-        Date startDate = jDateChooserStart.getDate();
-        Date endDate = jDateChooserEnd.getDate();
+        Date startDateRaw = jDateChooserStart.getDate();
+        Date endDateRaw = jDateChooserEnd.getDate();
+        
+        if (startDateRaw == null || endDateRaw == null) {
+            JOptionPane.showMessageDialog(this, "Please select a valid start and end date.", "Date Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        LocalDate startLocalDate = startDateRaw.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate endLocalDate = endDateRaw.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        
+        if (startLocalDate == null || endLocalDate == null) {
+            JOptionPane.showMessageDialog(this, "Invalid date selection.", "Date Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (startLocalDate.isBefore(TODAY) || endLocalDate.isBefore(TODAY)) {
+            JOptionPane.showMessageDialog(this, "Leave cannot be in the past!", "Date Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (startLocalDate.getDayOfWeek() == DayOfWeek.SATURDAY || startLocalDate.getDayOfWeek() == DayOfWeek.SUNDAY ||
+            endLocalDate.getDayOfWeek() == DayOfWeek.SATURDAY || endLocalDate.getDayOfWeek() == DayOfWeek.SUNDAY) {
+            JOptionPane.showMessageDialog(this, "Leave cannot start or end on a weekend!", "Date Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         String reason = jTextFieldReason.getText();
-        
-        if (startDate == null || endDate == null || reason.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please fill out all fields correctly.", "Input Error", JOptionPane.ERROR_MESSAGE);
+        if (reason.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a reason for your leave.", "Input Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
-        if (startDate.after(endDate)) {
-            JOptionPane.showMessageDialog(this, "Start date must be before end date.", "Date Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        int leaveDuration = (int) ((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+        int leaveDuration = calculateWeekdays(startLocalDate, endLocalDate);
         
         if (!leaveTracker.hasSufficientLeave(leaveType, leaveDuration)) {
             JOptionPane.showMessageDialog(this, "Insufficient leave balance.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
-        List<LeaveRequest> existingRequests = new LeaveRequestReader().getAllLeaveRequests();
-        for (LeaveRequest request : existingRequests) {
-            if (request.getEmployeeID().equals(loggedInUser.getEmployeeId()) &&
-                request.getLeaveType().equals(leaveType) &&
-                request.getStartDate().equals(startDate.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate()) &&
-                request.getEndDate().equals(endDate.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate())) {
-                JOptionPane.showMessageDialog(this, "You have already submitted a request for this leave period.", "Duplicate Request", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-        }
-        
+        String leaveId = generateLeaveId();
         
         LeaveRequest leaveRequest = new LeaveRequest(
-            UUID.randomUUID().toString(),  // Generate a unique leave ID
+            leaveId,
             loggedInUser.getEmployeeId(),
             leaveType,
-            LocalDate.now(),
-            startDate.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate(),
-            endDate.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate(),
+            TODAY,
+            startLocalDate,
+            endLocalDate,
             reason,
             "Pending",
             "",
@@ -1206,12 +1248,76 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         try {
             LeaveRequestReader.addLeaveRequest(leaveRequest);
             leaveTracker.deductLeave(leaveType, leaveDuration);
+            leaveTracker.saveLeaveBalances();
             JOptionPane.showMessageDialog(this, "Request submitted successfully!\nUpdated Balances:\nSick Leave: " + leaveTracker.getSickLeaveBalance() + "\nVacation Leave: " + leaveTracker.getVacationLeaveBalance() + "\nBirthday Leave: " + leaveTracker.getBirthdayLeaveBalance(), "Success", JOptionPane.INFORMATION_MESSAGE);
             loadRequests();
             initializeLeaveTypeComboBox();
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Error saving request.", "File Error", JOptionPane.ERROR_MESSAGE);
         }
+        
+        /*String selectedLeave = jComboBoxLeaveType.getSelectedItem().toString();
+        String leaveType = selectedLeave.replaceAll("\\s\\(.*\\)", "");
+        
+        if (jDateChooserStart.getDate() == null || jDateChooserEnd.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Please select a valid start and end date.", "Date Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        LocalDate startLocalDate = jDateChooserStart.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate endLocalDate = jDateChooserEnd.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        String reason = jTextFieldReason.getText();
+        
+        if (reason.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a reason for your leave.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        ChronoLocalDate TODAY = null;
+        
+        if (startLocalDate.isBefore(TODAY) || endLocalDate.isBefore(TODAY)) {
+            JOptionPane.showMessageDialog(this, "Leave cannot be in the past!", "Date Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (startLocalDate.getDayOfWeek() == DayOfWeek.SATURDAY || startLocalDate.getDayOfWeek() == DayOfWeek.SUNDAY ||
+            endLocalDate.getDayOfWeek() == DayOfWeek.SATURDAY || endLocalDate.getDayOfWeek() == DayOfWeek.SUNDAY) {
+            JOptionPane.showMessageDialog(this, "Leave cannot start or end on a weekend!", "Date Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        int leaveDuration = calculateWeekdays(startLocalDate, endLocalDate);
+        
+        if (!leaveTracker.hasSufficientLeave(leaveType, leaveDuration)) {
+            JOptionPane.showMessageDialog(this, "Insufficient leave balance.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        String leaveId = generateLeaveId();
+        
+        LeaveRequest leaveRequest = new LeaveRequest(
+            leaveId,
+            loggedInUser.getEmployeeId(),
+            leaveType, 
+            TODAY,
+            startLocalDate,
+            endLocalDate,
+            reason,
+            "Pending",
+            "",
+            null
+        );
+        
+        try {
+            LeaveRequestReader.addLeaveRequest(leaveRequest);
+            leaveTracker.deductLeave(leaveType, leaveDuration);
+            leaveTracker.saveLeaveBalances();
+            JOptionPane.showMessageDialog(this, "Request submitted successfully!\nUpdated Balances:\nSick Leave: " + leaveTracker.getSickLeaveBalance() + "\nVacation Leave: " + leaveTracker.getVacationLeaveBalance() + "\nBirthday Leave: " + leaveTracker.getBirthdayLeaveBalance(), "Success", JOptionPane.INFORMATION_MESSAGE);
+            loadRequests();
+            initializeLeaveTypeComboBox();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error saving request.", "File Error", JOptionPane.ERROR_MESSAGE);
+        }*/
+             
     }//GEN-LAST:event_jButtonSubmitRequestActionPerformed
 
     /**
