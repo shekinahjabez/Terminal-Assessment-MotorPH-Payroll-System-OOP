@@ -1046,7 +1046,7 @@ public class HRDashboard extends javax.swing.JFrame {
         jLabelTitleEmployeeList.setFont(new java.awt.Font("Century Gothic", 1, 20)); // NOI18N
         jLabelTitleEmployeeList.setForeground(new java.awt.Color(255, 255, 255));
         jLabelTitleEmployeeList.setText("EMPLOYEE RECORDS");
-        jPanelManageEmployee.add(jLabelTitleEmployeeList, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 110, -1, -1));
+        jPanelManageEmployee.add(jLabelTitleEmployeeList, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 110, -1, 32));
 
         jButtonAdd.setBackground(new java.awt.Color(204, 0, 51));
         jButtonAdd.setForeground(new java.awt.Color(255, 255, 255));
@@ -1067,7 +1067,7 @@ public class HRDashboard extends javax.swing.JFrame {
         jLabelTitleLeaveRequests.setFont(new java.awt.Font("Segoe UI Semibold", 1, 20)); // NOI18N
         jLabelTitleLeaveRequests.setForeground(new java.awt.Color(255, 255, 255));
         jLabelTitleLeaveRequests.setText("LEAVE REQUESTS");
-        jPanelLeaveRequest.add(jLabelTitleLeaveRequests, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 110, -1, 32));
+        jPanelLeaveRequest.add(jLabelTitleLeaveRequests, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 110, -1, 32));
 
         jTableLeaveRequest.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1105,7 +1105,7 @@ public class HRDashboard extends javax.swing.JFrame {
             jTableLeaveRequest.getColumnModel().getColumn(8).setResizable(false);
         }
 
-        jPanelLeaveRequest.add(jScrollPaneLeaveRequests, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 970, 403));
+        jPanelLeaveRequest.add(jScrollPaneLeaveRequests, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 208, 970, 403));
 
         jButtonApprove.setBackground(new java.awt.Color(204, 0, 51));
         jButtonApprove.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
@@ -1116,7 +1116,7 @@ public class HRDashboard extends javax.swing.JFrame {
                 jButtonApproveActionPerformed(evt);
             }
         });
-        jPanelLeaveRequest.add(jButtonApprove, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 150, -1, -1));
+        jPanelLeaveRequest.add(jButtonApprove, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 163, -1, 30));
 
         jButtonReject.setBackground(new java.awt.Color(204, 0, 51));
         jButtonReject.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
@@ -1127,7 +1127,7 @@ public class HRDashboard extends javax.swing.JFrame {
                 jButtonRejectActionPerformed(evt);
             }
         });
-        jPanelLeaveRequest.add(jButtonReject, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 80, -1));
+        jPanelLeaveRequest.add(jButtonReject, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 163, 80, 30));
 
         jTabbedMain.addTab("Leave Requests", jPanelLeaveRequest);
 
