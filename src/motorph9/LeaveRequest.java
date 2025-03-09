@@ -92,18 +92,10 @@ public class LeaveRequest {
         this.dateResponded = LocalDate.now();
     }
 
-    /*public boolean isApproved() {
-        return status.equals("Approved");
-    }*/
-    
     public boolean isApproved() {
         return "Approved".equalsIgnoreCase(status);
     }
-
-    /*public String toCSV() {
-        return String.join(",", leaveID, employeeID, leaveType, startDate.toString(), endDate.toString(), reason, status);
-    }*/
-    
+  
     public String toCSV() {
         return String.join(",",
             leaveID, employeeID, leaveType, dateRequest.toString(), startDate.toString(), endDate.toString(),

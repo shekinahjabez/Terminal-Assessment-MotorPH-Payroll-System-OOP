@@ -22,23 +22,6 @@ public class ITDashboard extends javax.swing.JFrame {
     /**
      * Creates new form ITDashboards
      */
-    /*public ITDashboard() {
-        initComponents();
-        setLocationRelativeTo(null); // Center the window
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Define close behavior
-        //startClock();
-    }*/
-    
-    /*public ITDashboard(User user) {
-        this.itUser = itUser;
-        initComponents(); // ✅ Call initComponents() to initialize UI
-        setLocationRelativeTo(null); // ✅ Center the window
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // ✅ Define close behavior
-        // You can also store the user object here if needed for ITPortal functionality
-        // this.loggedInUser = user;
-        startClock();
-        jLabelGreet.setText("Welcome, " + itUser.getFirstName() + "!");
-    }*/
     
     public ITDashboard(ITUser itUser) {  // ✅ Pass ITUser object directly
         this.itUser = itUser; // ✅ Assign it correctly
