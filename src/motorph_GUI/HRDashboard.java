@@ -20,7 +20,8 @@ corrected jdateChooser UX
 
 */
 
-package motorph9_MS2;
+package motorph_GUI;
+import motorph_GUI.Login;
 import data_reader9.EmployeeDetailsReader;
 import data_reader9.LeaveRequestReader;
 import java.awt.Color;
@@ -45,6 +46,9 @@ import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Font;
 import java.util.Calendar;
+import motorph9.EmployeeUser;
+import motorph9.HRUser;
+import motorph9.LeaveRequest;
 
 public class HRDashboard extends javax.swing.JFrame { 
     private Timer timer;

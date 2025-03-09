@@ -10,11 +10,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import motorph9_MS2.EmployeeUser;
-import motorph9_MS2.FinanceUser;
-import motorph9_MS2.HRUser;
-import motorph9_MS2.ITUser;
-import motorph9_MS2.User;
+import motorph9.EmployeeUser;
+import motorph9.FinanceUser;
+import motorph9.HRUser;
+import motorph9.ITUser;
+import motorph9.User;
 
 /**
  *
