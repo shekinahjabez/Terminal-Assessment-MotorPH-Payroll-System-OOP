@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package motorph9_MS2;
+package motorph_GUI;
 
 import data_reader9.EmployeeDetailsReader;
 import data_reader9.LeaveRequestReader;
@@ -23,12 +23,17 @@ import com.toedter.calendar.JDateChooser;
 import java.time.DayOfWeek;
 import java.time.ZoneId;
 import java.time.chrono.ChronoLocalDate;
-import motorph9_MS2.EmployeeLeaveTracker;
-import motorph9_MS2.EmployeeUser;
-import motorph9_MS2.LeaveRequest;
-import motorph9_MS2.Login;
-import motorph9_MS2.SalaryDetails;
-import motorph9_MS2.User;
+import motorph9.EmployeeLeaveTracker;
+import motorph9.EmployeeLeaveTracker;
+import motorph9.EmployeeUser;
+import motorph9.EmployeeUser;
+import motorph9.LeaveRequest;
+import motorph9.LeaveRequest;
+import motorph_GUI.Login;
+import motorph9.SalaryDetails;
+import motorph9.SalaryDetails;
+import motorph9.User;
+import motorph9.User;
 
 /**
  *
@@ -78,7 +83,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                 // ✅ Use getEmployeeResetDetailsByNumber from EmployeeDetailsReader
                 EmployeeUser employeeDetails = (EmployeeUser) employeeDetailsReader.getEmployeeDetailsByNumber(loggedInUser.getEmployeeId());
                 if (employeeDetails != null) {
-                    displayEmployeeDetails(employeeDetails); // ✅ Call method to populate UI
+                    displayEmployeeDetails(employeeDetails); // Call method to populate UI
                 } else {
                     JOptionPane.showMessageDialog(this, "Employee details not found in data file.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -89,8 +94,8 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         }
     }
     
-    private void displayEmployeeDetails(EmployeeUser details) { // ✅ Parameter type is now EmployeeUser
-        jTextFieldEmployeeID.setText(details.getEmployeeId()); // ✅ Use getEmployeeId()
+    private void displayEmployeeDetails(EmployeeUser details) { // Parameter type is now EmployeeUser
+        jTextFieldEmployeeID.setText(details.getEmployeeId()); //  Use getEmployeeId()
         jTextFieldPosition.setText(details.getPosition());
         jTextFieldUsername.setText(loggedInUser.getUsername());
         jTextFieldName.setText(details.getFirstName() + " " + details.getLastName());

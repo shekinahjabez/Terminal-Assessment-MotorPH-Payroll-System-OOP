@@ -8,7 +8,7 @@ import data_reader9.CSVReader;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
-import motorph9_MS2.LeaveRequest;
+import motorph9.LeaveRequest;
 
 public class LeaveRequestReader {
     private static final String FILE_PATH = "src/data9/LeaveRequests.csv";

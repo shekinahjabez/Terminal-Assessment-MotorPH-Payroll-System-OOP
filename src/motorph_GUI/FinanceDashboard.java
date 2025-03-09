@@ -2,12 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package motorph9_MS2;
+package motorph_GUI;
 
+import motorph_GUI.Login;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.Timer;
+import motorph9.FinanceUser;
+import motorph9.User;
 
 /**
  *
@@ -66,9 +69,8 @@ public class FinanceDashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanelMain = new javax.swing.JPanel();
         jPanelHeader = new javax.swing.JPanel();
-        jLabelSeparate = new javax.swing.JLabel();
         jLabelGreet = new javax.swing.JLabel();
         jLabelDate = new javax.swing.JLabel();
         jLblUname1 = new javax.swing.JLabel();
@@ -103,16 +105,12 @@ public class FinanceDashboard extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanelMain.setBackground(new java.awt.Color(0, 0, 0));
+        jPanelMain.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanelHeader.setBackground(new java.awt.Color(0, 0, 0));
         jPanelHeader.setForeground(new java.awt.Color(255, 102, 102));
         jPanelHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabelSeparate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logos9/horizontal (2).png"))); // NOI18N
-        jLabelSeparate.setText("jLabel8");
-        jPanelHeader.add(jLabelSeparate, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 51, 404, 1));
 
         jLabelGreet.setFont(new java.awt.Font("Century Gothic", 1, 20)); // NOI18N
         jLabelGreet.setForeground(new java.awt.Color(255, 255, 255));
@@ -142,7 +140,7 @@ public class FinanceDashboard extends javax.swing.JFrame {
         jLabel5.setText("PH");
         jPanelHeader.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, -20, 70, 120));
 
-        jPanel1.add(jPanelHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1340, 90));
+        jPanelMain.add(jPanelHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1340, 90));
 
         jPanelFinanceGenRep1.setBackground(new java.awt.Color(102, 0, 0));
         jPanelFinanceGenRep1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -169,7 +167,7 @@ public class FinanceDashboard extends javax.swing.JFrame {
         jLabelGenRep2.setText("GENERATED REPORTS");
         jPanelFinanceGenRep1.add(jLabelGenRep2, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 0, -1, 40));
 
-        jPanel1.add(jPanelFinanceGenRep1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 270, 1080, 460));
+        jPanelMain.add(jPanelFinanceGenRep1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 270, 1080, 460));
 
         jPanelFinanceGenRep.setBackground(new java.awt.Color(102, 0, 0));
         jPanelFinanceGenRep.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -214,7 +212,7 @@ public class FinanceDashboard extends javax.swing.JFrame {
         jTextFieldReportTotDed.setForeground(new java.awt.Color(0, 0, 0));
         jPanelFinanceGenRep.add(jTextFieldReportTotDed, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 10, 140, 30));
 
-        jPanel1.add(jPanelFinanceGenRep, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 150, 1080, 110));
+        jPanelMain.add(jPanelFinanceGenRep, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 150, 1080, 110));
 
         jPanelFinanceGenRepHead.setBackground(new java.awt.Color(102, 0, 0));
         jPanelFinanceGenRepHead.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -244,25 +242,25 @@ public class FinanceDashboard extends javax.swing.JFrame {
         jButtonEmpNum2.setText("LOAD EMPLOYEE");
         jPanelFinanceGenRepHead.add(jButtonEmpNum2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 20, 130, 30));
 
-        jPanel1.add(jPanelFinanceGenRepHead, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, 1080, 60));
+        jPanelMain.add(jPanelFinanceGenRepHead, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, 1080, 60));
 
         jButtonGenPDF.setBackground(new java.awt.Color(251, 0, 54));
         jButtonGenPDF.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jButtonGenPDF.setForeground(new java.awt.Color(255, 255, 255));
         jButtonGenPDF.setText("Generate PDF");
-        jPanel1.add(jButtonGenPDF, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 200, 40));
+        jPanelMain.add(jButtonGenPDF, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 200, 40));
 
         jButtonGenRep.setBackground(new java.awt.Color(251, 0, 54));
         jButtonGenRep.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jButtonGenRep.setForeground(new java.awt.Color(255, 255, 255));
         jButtonGenRep.setText("Generate Report");
-        jPanel1.add(jButtonGenRep, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 200, 40));
+        jPanelMain.add(jButtonGenRep, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 200, 40));
 
         jButtonProcPay.setBackground(new java.awt.Color(251, 0, 54));
         jButtonProcPay.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jButtonProcPay.setForeground(new java.awt.Color(255, 255, 255));
         jButtonProcPay.setText("Process Payroll");
-        jPanel1.add(jButtonProcPay, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 200, 40));
+        jPanelMain.add(jButtonProcPay, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 200, 40));
 
         jButtonLogout.setBackground(new java.awt.Color(255, 255, 255));
         jButtonLogout.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
@@ -273,21 +271,21 @@ public class FinanceDashboard extends javax.swing.JFrame {
                 jButtonLogoutActionPerformed(evt);
             }
         });
-        jPanel1.add(jButtonLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 490, 200, 30));
+        jPanelMain.add(jButtonLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 490, 200, 30));
 
         jLabelTime.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         jLabelTime.setForeground(new java.awt.Color(255, 255, 255));
         jLabelTime.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelTime.setText("12:12:12 AM");
-        jPanel1.add(jLabelTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 580, 210, 32));
+        jPanelMain.add(jLabelTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 580, 210, 32));
 
         jLabelGMT.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabelGMT.setForeground(new java.awt.Color(255, 255, 255));
         jLabelGMT.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelGMT.setText("GMT+8 PH Time");
-        jPanel1.add(jLabelGMT, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 560, 210, -1));
+        jPanelMain.add(jLabelGMT, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 560, 210, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1340, 670));
+        getContentPane().add(jPanelMain, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1340, 670));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -356,14 +354,13 @@ public class FinanceDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelReportTotAll;
     private javax.swing.JLabel jLabelReportTotDed;
     private javax.swing.JLabel jLabelSelectDates1;
-    private javax.swing.JLabel jLabelSeparate;
     private javax.swing.JLabel jLabelTime;
     private javax.swing.JLabel jLblUname1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelFinanceGenRep;
     private javax.swing.JPanel jPanelFinanceGenRep1;
     private javax.swing.JPanel jPanelFinanceGenRepHead;
     private javax.swing.JPanel jPanelHeader;
+    private javax.swing.JPanel jPanelMain;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTableGenRep;
     private javax.swing.JTextField jTextFieldEmpNum2;

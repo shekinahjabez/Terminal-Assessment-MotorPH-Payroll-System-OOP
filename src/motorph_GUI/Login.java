@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package motorph9_MS2;
+package motorph_GUI;
 
+import motorph_GUI.ForgotPasswordForm;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
@@ -14,17 +15,18 @@ import java.util.logging.Logger;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import javax.swing.*;
-import motorph9_MS2.EmployeeDashboard;
 import data_reader9.EmployeeDetailsReader;
-import motorph9_MS2.EmployeeUser;
-import motorph9_MS2.FinanceDashboard;
-import motorph9_MS2.FinanceUser;
-import motorph9_MS2.HRDashboard;
-import motorph9_MS2.HRUser;
-import motorph9_MS2.ITDashboard;
-import motorph9_MS2.ITUser;
+import motorph9.EmployeeUser;
+import motorph9.FinanceUser;
+import motorph9.HRUser;
+import motorph9.ITUser;
 import data_reader9.LeaveRequestReader;
-import motorph9_MS2.User;
+import motorph9.EmployeeUser;
+import motorph9.FinanceUser;
+import motorph9.HRUser;
+import motorph9.ITUser;
+import motorph9.User;
+import motorph9.User;
 
 public class Login extends javax.swing.JFrame {
 
@@ -85,9 +87,7 @@ public class Login extends javax.swing.JFrame {
         });
         jPnlBlack.add(jLblForgotPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 320, 100, 40));
 
-        jUnameField.setBackground(new java.awt.Color(255, 255, 255));
         jUnameField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jUnameField.setForeground(new java.awt.Color(0, 0, 0));
         jUnameField.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 255, 255)));
         jUnameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -96,8 +96,6 @@ public class Login extends javax.swing.JFrame {
         });
         jPnlBlack.add(jUnameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 190, 200, -1));
 
-        jPwordField.setBackground(new java.awt.Color(255, 255, 255));
-        jPwordField.setForeground(new java.awt.Color(0, 0, 0));
         jPwordField.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 255, 255)));
         jPwordField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

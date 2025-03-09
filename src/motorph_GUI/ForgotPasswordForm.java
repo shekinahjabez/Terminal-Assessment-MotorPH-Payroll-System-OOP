@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package motorph9_MS2;
+package motorph_GUI;
 
 import data_reader9.EmployeeDetailsReader;
 import data_reader9.PasswordResetReader;
@@ -12,7 +12,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import data_reader9.PasswordResetReader;
-import motorph9_MS2.PasswordResetRequest;
+import motorph9.PasswordResetRequest;
+import motorph9.PasswordResetRequest;
 
 /**
  *
