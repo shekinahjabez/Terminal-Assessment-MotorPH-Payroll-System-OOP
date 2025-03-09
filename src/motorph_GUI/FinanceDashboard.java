@@ -38,7 +38,7 @@ public class FinanceDashboard extends javax.swing.JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Define close behavior
         startClock();
 
-        // ✅ Debugging: Print ITUser details
+        // ✅ Debugging: Print FinanceUser details
         System.out.println("FinanceUser Data: ");
         System.out.println("Username: " + financeUser.getUsername());
         System.out.println("First Name: " + financeUser.getFirstName());
@@ -78,26 +78,9 @@ public class FinanceDashboard extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jPanelFinanceGenRep1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTableGenRep = new javax.swing.JTable();
+        jTableEmployeesList = new javax.swing.JTable();
         jLabelGenRep2 = new javax.swing.JLabel();
-        jPanelFinanceGenRep = new javax.swing.JPanel();
-        jLabelReportNetSal = new javax.swing.JLabel();
-        jLabelReportBasSal = new javax.swing.JLabel();
-        jLabelReportTotDed = new javax.swing.JLabel();
-        jLabelReportTotAll = new javax.swing.JLabel();
-        jTextFieldReportNetSal = new javax.swing.JTextField();
-        jTextFieldReportBasSal = new javax.swing.JTextField();
-        jTextFieldReportTotAll = new javax.swing.JTextField();
-        jTextFieldReportTotDed = new javax.swing.JTextField();
-        jPanelFinanceGenRepHead = new javax.swing.JPanel();
-        jLabelSelectDates1 = new javax.swing.JLabel();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
-        jLabelEmpNum3 = new javax.swing.JLabel();
-        jTextFieldEmpNum2 = new javax.swing.JTextField();
-        jButtonEmpNum2 = new javax.swing.JButton();
-        jButtonGenPDF = new javax.swing.JButton();
         jButtonGenRep = new javax.swing.JButton();
-        jButtonProcPay = new javax.swing.JButton();
         jButtonLogout = new javax.swing.JButton();
         jLabelTime = new javax.swing.JLabel();
         jLabelGMT = new javax.swing.JLabel();
@@ -145,122 +128,35 @@ public class FinanceDashboard extends javax.swing.JFrame {
         jPanelFinanceGenRep1.setBackground(new java.awt.Color(102, 0, 0));
         jPanelFinanceGenRep1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTableGenRep.setBackground(new java.awt.Color(255, 255, 255));
-        jTableGenRep.setForeground(new java.awt.Color(0, 0, 0));
-        jTableGenRep.setModel(new javax.swing.table.DefaultTableModel(
+        jTableEmployeesList.setBackground(new java.awt.Color(255, 255, 255));
+        jTableEmployeesList.setForeground(new java.awt.Color(0, 0, 0));
+        jTableEmployeesList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Employee Number", "Name", "SSS", "PhilHealth", "TIN", "PAGIBIG", "Total Allowances", "Total Deductions", "Gross Salary", "Net Salary"
             }
         ));
-        jScrollPane2.setViewportView(jTableGenRep);
+        jScrollPane2.setViewportView(jTableEmployeesList);
 
-        jPanelFinanceGenRep1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 1060, 340));
+        jPanelFinanceGenRep1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 1060, 520));
 
         jLabelGenRep2.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabelGenRep2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelGenRep2.setText("GENERATED REPORTS");
-        jPanelFinanceGenRep1.add(jLabelGenRep2, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 0, -1, 40));
+        jLabelGenRep2.setText("EMPLOYEES");
+        jPanelFinanceGenRep1.add(jLabelGenRep2, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 0, -1, 40));
 
-        jPanelMain.add(jPanelFinanceGenRep1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 270, 1080, 460));
-
-        jPanelFinanceGenRep.setBackground(new java.awt.Color(102, 0, 0));
-        jPanelFinanceGenRep.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabelReportNetSal.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabelReportNetSal.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelReportNetSal.setText("NET SALARY:");
-        jPanelFinanceGenRep.add(jLabelReportNetSal, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 60, -1, 50));
-
-        jLabelReportBasSal.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabelReportBasSal.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelReportBasSal.setText("BASIC SALARY:");
-        jPanelFinanceGenRep.add(jLabelReportBasSal, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, -1, 50));
-
-        jLabelReportTotDed.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabelReportTotDed.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelReportTotDed.setText("TOTAL DEDUCTIONS:");
-        jPanelFinanceGenRep.add(jLabelReportTotDed, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 0, -1, 50));
-
-        jLabelReportTotAll.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabelReportTotAll.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelReportTotAll.setText(" TOTAL ALLOWANCES:");
-        jPanelFinanceGenRep.add(jLabelReportTotAll, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 60, -1, 50));
-
-        jTextFieldReportNetSal.setBackground(new java.awt.Color(255, 255, 255));
-        jTextFieldReportNetSal.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jTextFieldReportNetSal.setForeground(new java.awt.Color(0, 0, 0));
-        jPanelFinanceGenRep.add(jTextFieldReportNetSal, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 70, 140, 30));
-
-        jTextFieldReportBasSal.setBackground(new java.awt.Color(255, 255, 255));
-        jTextFieldReportBasSal.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jTextFieldReportBasSal.setForeground(new java.awt.Color(0, 0, 0));
-        jPanelFinanceGenRep.add(jTextFieldReportBasSal, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 10, 140, 30));
-
-        jTextFieldReportTotAll.setBackground(new java.awt.Color(255, 255, 255));
-        jTextFieldReportTotAll.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jTextFieldReportTotAll.setForeground(new java.awt.Color(0, 0, 0));
-        jPanelFinanceGenRep.add(jTextFieldReportTotAll, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 70, 140, 30));
-
-        jTextFieldReportTotDed.setBackground(new java.awt.Color(255, 255, 255));
-        jTextFieldReportTotDed.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jTextFieldReportTotDed.setForeground(new java.awt.Color(0, 0, 0));
-        jPanelFinanceGenRep.add(jTextFieldReportTotDed, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 10, 140, 30));
-
-        jPanelMain.add(jPanelFinanceGenRep, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 150, 1080, 110));
-
-        jPanelFinanceGenRepHead.setBackground(new java.awt.Color(102, 0, 0));
-        jPanelFinanceGenRepHead.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabelSelectDates1.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        jLabelSelectDates1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelSelectDates1.setText("Select Date:");
-        jPanelFinanceGenRepHead.add(jLabelSelectDates1, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 10, -1, 50));
-
-        jDateChooser2.setBackground(new java.awt.Color(255, 255, 255));
-        jDateChooser2.setForeground(new java.awt.Color(0, 0, 0));
-        jPanelFinanceGenRepHead.add(jDateChooser2, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 22, 190, 30));
-
-        jLabelEmpNum3.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        jLabelEmpNum3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelEmpNum3.setText("Enter Employee Number:");
-        jPanelFinanceGenRepHead.add(jLabelEmpNum3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 50));
-
-        jTextFieldEmpNum2.setBackground(new java.awt.Color(255, 255, 255));
-        jTextFieldEmpNum2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jTextFieldEmpNum2.setForeground(new java.awt.Color(0, 0, 0));
-        jPanelFinanceGenRepHead.add(jTextFieldEmpNum2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, 140, 30));
-
-        jButtonEmpNum2.setBackground(new java.awt.Color(251, 0, 54));
-        jButtonEmpNum2.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jButtonEmpNum2.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonEmpNum2.setText("LOAD EMPLOYEE");
-        jPanelFinanceGenRepHead.add(jButtonEmpNum2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 20, 130, 30));
-
-        jPanelMain.add(jPanelFinanceGenRepHead, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, 1080, 60));
-
-        jButtonGenPDF.setBackground(new java.awt.Color(251, 0, 54));
-        jButtonGenPDF.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButtonGenPDF.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonGenPDF.setText("Generate PDF");
-        jPanelMain.add(jButtonGenPDF, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 200, 40));
+        jPanelMain.add(jPanelFinanceGenRep1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 90, 1080, 640));
 
         jButtonGenRep.setBackground(new java.awt.Color(251, 0, 54));
         jButtonGenRep.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jButtonGenRep.setForeground(new java.awt.Color(255, 255, 255));
         jButtonGenRep.setText("Generate Report");
-        jPanelMain.add(jButtonGenRep, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 200, 40));
-
-        jButtonProcPay.setBackground(new java.awt.Color(251, 0, 54));
-        jButtonProcPay.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButtonProcPay.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonProcPay.setText("Process Payroll");
-        jPanelMain.add(jButtonProcPay, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 200, 40));
+        jPanelMain.add(jButtonGenRep, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 200, 40));
 
         jButtonLogout.setBackground(new java.awt.Color(255, 255, 255));
         jButtonLogout.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
@@ -326,6 +222,10 @@ public class FinanceDashboard extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -336,37 +236,20 @@ public class FinanceDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonEmpNum2;
-    private javax.swing.JButton jButtonGenPDF;
     private javax.swing.JButton jButtonGenRep;
     private javax.swing.JButton jButtonLogout;
-    private javax.swing.JButton jButtonProcPay;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabelDate;
-    private javax.swing.JLabel jLabelEmpNum3;
     private javax.swing.JLabel jLabelGMT;
     private javax.swing.JLabel jLabelGenRep2;
     private javax.swing.JLabel jLabelGreet;
-    private javax.swing.JLabel jLabelReportBasSal;
-    private javax.swing.JLabel jLabelReportNetSal;
-    private javax.swing.JLabel jLabelReportTotAll;
-    private javax.swing.JLabel jLabelReportTotDed;
-    private javax.swing.JLabel jLabelSelectDates1;
     private javax.swing.JLabel jLabelTime;
     private javax.swing.JLabel jLblUname1;
-    private javax.swing.JPanel jPanelFinanceGenRep;
     private javax.swing.JPanel jPanelFinanceGenRep1;
-    private javax.swing.JPanel jPanelFinanceGenRepHead;
     private javax.swing.JPanel jPanelHeader;
     private javax.swing.JPanel jPanelMain;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTableGenRep;
-    private javax.swing.JTextField jTextFieldEmpNum2;
-    private javax.swing.JTextField jTextFieldReportBasSal;
-    private javax.swing.JTextField jTextFieldReportNetSal;
-    private javax.swing.JTextField jTextFieldReportTotAll;
-    private javax.swing.JTextField jTextFieldReportTotDed;
+    private javax.swing.JTable jTableEmployeesList;
     // End of variables declaration//GEN-END:variables
 }

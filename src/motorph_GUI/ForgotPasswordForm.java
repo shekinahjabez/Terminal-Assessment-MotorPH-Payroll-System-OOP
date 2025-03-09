@@ -71,7 +71,6 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
         jTextFieldFPEmpNum = new javax.swing.JTextField();
         jLabelFPDOR = new javax.swing.JLabel();
         jDateChooser = new com.toedter.calendar.JDateChooser();
-        jButtonFPExit = new javax.swing.JButton();
         jPanelHeader = new javax.swing.JPanel();
         Logo = new javax.swing.JLabel();
         jLabelMotor = new javax.swing.JLabel();
@@ -103,10 +102,10 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
         jPanelFormContents.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabelFPEmpName.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelFPEmpName.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        jLabelFPEmpName.setFont(new java.awt.Font("Century Gothic", 0, 17)); // NOI18N
         jLabelFPEmpName.setForeground(new java.awt.Color(255, 255, 255));
         jLabelFPEmpName.setText("Employee Name:");
-        jPanelFormContents.add(jLabelFPEmpName, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
+        jPanelFormContents.add(jLabelFPEmpName, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, -1, 50));
 
         jTextFieldFPEmpName.setBackground(new java.awt.Color(255, 255, 255));
         jTextFieldFPEmpName.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -117,10 +116,10 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
         jPanelFormContents.add(jTextFieldFPEmpName, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, 260, 30));
 
         jLabelFPEmpNum.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelFPEmpNum.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        jLabelFPEmpNum.setFont(new java.awt.Font("Century Gothic", 0, 17)); // NOI18N
         jLabelFPEmpNum.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelFPEmpNum.setText("Employee Number:");
-        jPanelFormContents.add(jLabelFPEmpNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
+        jLabelFPEmpNum.setText(" Employee Number:");
+        jPanelFormContents.add(jLabelFPEmpNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, 70));
 
         jTextFieldFPEmpNum.setBackground(new java.awt.Color(255, 255, 255));
         jTextFieldFPEmpNum.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -131,27 +130,16 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
         jPanelFormContents.add(jTextFieldFPEmpNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 260, 30));
 
         jLabelFPDOR.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelFPDOR.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        jLabelFPDOR.setFont(new java.awt.Font("Century Gothic", 0, 17)); // NOI18N
         jLabelFPDOR.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelFPDOR.setText("Date of Request:");
-        jPanelFormContents.add(jLabelFPDOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, -1, -1));
+        jLabelFPDOR.setText("  Date of Request:");
+        jPanelFormContents.add(jLabelFPDOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, -1, 50));
 
         jDateChooser.setBackground(new java.awt.Color(255, 255, 255));
         jDateChooser.setForeground(new java.awt.Color(0, 0, 0));
         jPanelFormContents.add(jDateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 90, 260, 30));
 
-        jPanelForgotPassword.add(jPanelFormContents, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 470, 130));
-
-        jButtonFPExit.setBackground(new java.awt.Color(255, 255, 255));
-        jButtonFPExit.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButtonFPExit.setForeground(new java.awt.Color(0, 0, 0));
-        jButtonFPExit.setText("Exit");
-        jButtonFPExit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonFPExitActionPerformed(evt);
-            }
-        });
-        jPanelForgotPassword.add(jButtonFPExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 70, 30));
+        jPanelForgotPassword.add(jPanelFormContents, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 470, 140));
 
         jPanelHeader.setBackground(new java.awt.Color(0, 0, 0));
         jPanelHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -196,7 +184,7 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
                 jButtonFPSubmit1ActionPerformed(evt);
             }
         });
-        jPanelForgotPassword.add(jButtonFPSubmit1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 350, 170, 40));
+        jPanelForgotPassword.add(jButtonFPSubmit1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 350, 170, 40));
 
         getContentPane().add(jPanelForgotPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 510, 420));
 
@@ -266,11 +254,6 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
         }    
     }//GEN-LAST:event_jTextFieldFPEmpNumKeyTyped
 
-    private void jButtonFPExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFPExitActionPerformed
-        // Close form after submission
-        this.dispose();
-    }//GEN-LAST:event_jButtonFPExitActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -297,6 +280,7 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(ForgotPasswordForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -308,7 +292,6 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Logo;
-    private javax.swing.JButton jButtonFPExit;
     private javax.swing.JButton jButtonFPSubmit1;
     private com.toedter.calendar.JDateChooser jDateChooser;
     private javax.swing.JLabel jLabelFPDOR;
