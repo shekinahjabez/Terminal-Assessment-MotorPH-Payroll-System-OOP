@@ -8,6 +8,7 @@
 Leave: check if you can set the spacing per COlumns
 
 *Done:
+Added Leave History
 fix Add Employee: Save but disposed if there's error
 restricted UPdate & Adding of dates 
 fixed UPdateEmployee's "No changes were made." this prompt's dispose() after.
