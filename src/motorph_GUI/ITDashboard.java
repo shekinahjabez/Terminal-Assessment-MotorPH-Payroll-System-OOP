@@ -16,19 +16,18 @@ import motorph9.ITUser;
  * @author Four Lugtu
  */
 public class ITDashboard extends javax.swing.JFrame {
-    private Timer timer;
+ private Timer timer;
     private ITUser itUser;
 
     /**
-     * Creates new form ITDashboards
-     */
-    
-    public ITDashboard(ITUser itUser) {  // ✅ Pass ITUser object directly
-        this.itUser = itUser; // ✅ Assign it correctly
-        initComponents(); // Call initComponents() to initialize UI
-        setLocationRelativeTo(null); // Center the window
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Define close behavior
-        startClock();
+      * Creates new form ITDashboar
+      * @param itUser*/
+  public ITDashboard(ITUser itUser) {  // ✅ Pass ITUser object directly
+      this.itUser = itUser; // ✅ Assign it correctly
+      initComponents(); // Call initComponents() to initialize UI
+      setLocationRelativeTo(null); // Center the window
+      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Define close behavior
+      startClock();
 
         // ✅ Debugging: Print ITUser details
         System.out.println("ITUser Data: ");
@@ -43,18 +42,19 @@ public class ITDashboard extends javax.swing.JFrame {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    
+
     private void startClock() {
         timer = new Timer(1000, e -> updateTimeAndDate());
         timer.start();
     }
-    
+
     private void updateTimeAndDate() {
         SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm:ss a");
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM d, yyyy");
         jLabelTime.setText(timeFormat.format(new Date()));
         jLabelDate.setText(dateFormat.format(new Date()));
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -64,34 +64,60 @@ public class ITDashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel3 = new javax.swing.JPanel();
         jPanelITMain = new javax.swing.JPanel();
         jLabelPH = new javax.swing.JLabel();
         jLabelMotor = new javax.swing.JLabel();
         Logo = new javax.swing.JLabel();
-        jLabelAdminInformation = new javax.swing.JLabel();
         jLabelDate = new javax.swing.JLabel();
         jLabelGMT = new javax.swing.JLabel();
         jLabelTime = new javax.swing.JLabel();
+        jLabelGreet = new javax.swing.JLabel();
+        jPanelHeader = new javax.swing.JPanel();
+        jButtonLogout = new javax.swing.JButton();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanelPasswordReset = new javax.swing.JPanel();
         jScrollPanePasswordResetTickets = new javax.swing.JScrollPane();
         jTablePasswordResetTickets = new javax.swing.JTable();
         jLabelPasswordResetTickets = new javax.swing.JLabel();
-        jLabelGreet = new javax.swing.JLabel();
-        jButtonDenyPasswordReset = new javax.swing.JButton();
-        jButtonApprovePasswordReset = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
         jPanelAdminInformation = new javax.swing.JPanel();
         jLabelDateAdmin = new javax.swing.JLabel();
         jLabelName = new javax.swing.JLabel();
         jTextFieldName = new javax.swing.JTextField();
         jLabelEmployeeNumber = new javax.swing.JLabel();
         jTextFieldEmployeeNumber = new javax.swing.JTextField();
-        jLabelReasonforAction = new javax.swing.JLabel();
-        jTextFieldReasonforAction = new javax.swing.JTextField();
         jDateChooser = new com.toedter.calendar.JDateChooser();
-        jButtonLogout = new javax.swing.JButton();
+        jLabelAdminInformation1 = new javax.swing.JLabel();
+        jButtonApprovePasswordReset1 = new javax.swing.JButton();
+        jButtonLogout1 = new javax.swing.JButton();
+        jButtonApprovePasswordReset = new javax.swing.JButton();
+        jButtonApprovePasswordReset2 = new javax.swing.JButton();
+        jPanelCreateAccount = new javax.swing.JPanel();
+        jScrollPaneTableEmployeeRecords = new javax.swing.JScrollPane();
+        jTableEmployeeRecords = new javax.swing.JTable();
+        jLabelCreateEmployeesAccoun = new javax.swing.JLabel();
+        jButtonDeleteAccount = new javax.swing.JButton();
+        jButtonCreateAccount = new javax.swing.JButton();
+        jSidePanel = new javax.swing.JPanel();
+        jButtonLogout2 = new javax.swing.JButton();
+        jButtonCreateEmployeeAccount = new javax.swing.JButton();
+        jButtonPasswordResetTickets = new javax.swing.JButton();
+        jTabbedPane2 = new javax.swing.JTabbedPane();
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanelITMain.setBackground(new java.awt.Color(0, 0, 0));
         jPanelITMain.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -113,16 +139,11 @@ public class ITDashboard extends javax.swing.JFrame {
         Logo.setText("Username");
         jPanelITMain.add(Logo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 100, 110));
 
-        jLabelAdminInformation.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabelAdminInformation.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelAdminInformation.setText("Admin Information");
-        jPanelITMain.add(jLabelAdminInformation, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 110, -1, -1));
-
         jLabelDate.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jLabelDate.setForeground(new java.awt.Color(255, 255, 255));
         jLabelDate.setText("Wednesday, December 25, 2012");
         jLabelDate.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        jPanelITMain.add(jLabelDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 50, -1, -1));
+        jPanelITMain.add(jLabelDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 50, -1, -1));
 
         jLabelGMT.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabelGMT.setForeground(new java.awt.Color(255, 255, 255));
@@ -135,6 +156,27 @@ public class ITDashboard extends javax.swing.JFrame {
         jLabelTime.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelTime.setText("12:12:12 AM");
         jPanelITMain.add(jLabelTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 40, 170, 32));
+
+        jLabelGreet.setFont(new java.awt.Font("Century Gothic", 1, 20)); // NOI18N
+        jLabelGreet.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelGreet.setText("Welcome!");
+        jPanelITMain.add(jLabelGreet, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 20, -1, -1));
+
+        jPanelHeader.setBackground(new java.awt.Color(0, 0, 0));
+        jPanelHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButtonLogout.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonLogout.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
+        jButtonLogout.setForeground(new java.awt.Color(0, 0, 0));
+        jButtonLogout.setText("Logout");
+        jButtonLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLogoutActionPerformed(evt);
+            }
+        });
+        jPanelHeader.add(jButtonLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 560, 200, 30));
+
+        jPanelITMain.add(jPanelHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1080, 90));
 
         jPanelPasswordReset.setBackground(new java.awt.Color(102, 0, 0));
         jPanelPasswordReset.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -151,52 +193,23 @@ public class ITDashboard extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Employee Name", "Employee Number", "Date of Request", "Admin Name", "Admin Employee Number", "Admin Action", "Admin Reason"
+                "Employee Name", "Employee Number", "Date of Request", "Admin Name", "Admin Employee Number", "Date of Reset", "Status"
             }
         ));
         jScrollPanePasswordResetTickets.setViewportView(jTablePasswordResetTickets);
 
-        jPanelPasswordReset.add(jScrollPanePasswordResetTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 820, 470));
+        jPanelPasswordReset.add(jScrollPanePasswordResetTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 800, 510));
 
         jLabelPasswordResetTickets.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabelPasswordResetTickets.setForeground(new java.awt.Color(255, 255, 255));
         jLabelPasswordResetTickets.setText("PASSWORD RESET TICKETS");
-        jPanelPasswordReset.add(jLabelPasswordResetTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, -1, -1));
+        jPanelPasswordReset.add(jLabelPasswordResetTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
-        jPanelITMain.add(jPanelPasswordReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(-60, 120, 900, 560));
+        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabelGreet.setFont(new java.awt.Font("Century Gothic", 1, 20)); // NOI18N
-        jLabelGreet.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelGreet.setText("Welcome!");
-        jPanelITMain.add(jLabelGreet, new org.netbeans.lib.awtextra.AbsoluteConstraints(788, 20, 240, -1));
-
-        jButtonDenyPasswordReset.setBackground(new java.awt.Color(204, 0, 51));
-        jButtonDenyPasswordReset.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
-        jButtonDenyPasswordReset.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonDenyPasswordReset.setText("Deny Password Reset");
-        jButtonDenyPasswordReset.setMaximumSize(new java.awt.Dimension(132, 27));
-        jButtonDenyPasswordReset.setMinimumSize(new java.awt.Dimension(132, 27));
-        jButtonDenyPasswordReset.setPreferredSize(new java.awt.Dimension(90, 23));
-        jButtonDenyPasswordReset.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonDenyPasswordResetActionPerformed(evt);
-            }
-        });
-        jPanelITMain.add(jButtonDenyPasswordReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 490, 200, 40));
-
-        jButtonApprovePasswordReset.setBackground(new java.awt.Color(204, 0, 51));
-        jButtonApprovePasswordReset.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
-        jButtonApprovePasswordReset.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonApprovePasswordReset.setText("Approve Password Reset");
-        jButtonApprovePasswordReset.setMaximumSize(new java.awt.Dimension(132, 27));
-        jButtonApprovePasswordReset.setMinimumSize(new java.awt.Dimension(132, 27));
-        jButtonApprovePasswordReset.setPreferredSize(new java.awt.Dimension(90, 23));
-        jButtonApprovePasswordReset.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonApprovePasswordResetActionPerformed(evt);
-            }
-        });
-        jPanelITMain.add(jButtonApprovePasswordReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 440, 200, 40));
+        jPanel4.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanelAdminInformation.setBackground(new java.awt.Color(102, 0, 0));
         jPanelAdminInformation.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -222,39 +235,240 @@ public class ITDashboard extends javax.swing.JFrame {
         jTextFieldEmployeeNumber.setBackground(new java.awt.Color(255, 255, 255));
         jPanelAdminInformation.add(jTextFieldEmployeeNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 180, -1));
 
-        jLabelReasonforAction.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabelReasonforAction.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelReasonforAction.setText("Reason for Action:");
-        jPanelAdminInformation.add(jLabelReasonforAction, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 200, -1));
-
-        jTextFieldReasonforAction.setBackground(new java.awt.Color(255, 255, 255));
-        jPanelAdminInformation.add(jTextFieldReasonforAction, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 180, 70));
-
         jDateChooser.setBackground(new java.awt.Color(255, 255, 255));
         jDateChooser.setForeground(new java.awt.Color(0, 0, 0));
         jPanelAdminInformation.add(jDateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 180, -1));
 
-        jPanelITMain.add(jPanelAdminInformation, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 140, 200, 280));
+        jPanel4.add(jPanelAdminInformation, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 200, 180));
 
-        jButtonLogout.setBackground(new java.awt.Color(255, 255, 255));
-        jButtonLogout.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
-        jButtonLogout.setForeground(new java.awt.Color(0, 0, 0));
-        jButtonLogout.setText("Logout");
-        jButtonLogout.addActionListener(new java.awt.event.ActionListener() {
+        jLabelAdminInformation1.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabelAdminInformation1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelAdminInformation1.setText("Admin Information");
+        jPanel4.add(jLabelAdminInformation1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 170, -1));
+
+        jButtonApprovePasswordReset1.setBackground(new java.awt.Color(204, 0, 51));
+        jButtonApprovePasswordReset1.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
+        jButtonApprovePasswordReset1.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonApprovePasswordReset1.setText("Reset Password");
+        jButtonApprovePasswordReset1.setMaximumSize(new java.awt.Dimension(132, 27));
+        jButtonApprovePasswordReset1.setMinimumSize(new java.awt.Dimension(132, 27));
+        jButtonApprovePasswordReset1.setPreferredSize(new java.awt.Dimension(90, 23));
+        jButtonApprovePasswordReset1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonLogoutActionPerformed(evt);
+                jButtonApprovePasswordReset1ActionPerformed(evt);
             }
         });
-        jPanelITMain.add(jButtonLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 580, 200, 30));
+        jPanel4.add(jButtonApprovePasswordReset1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, 160, 40));
 
-        getContentPane().add(jPanelITMain, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1080, 660));
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 240, 320));
+
+        jButtonLogout1.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonLogout1.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
+        jButtonLogout1.setForeground(new java.awt.Color(0, 0, 0));
+        jButtonLogout1.setText("Logout");
+        jButtonLogout1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLogout1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtonLogout1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 490, 200, 40));
+
+        jButtonApprovePasswordReset.setBackground(new java.awt.Color(153, 0, 0));
+        jButtonApprovePasswordReset.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
+        jButtonApprovePasswordReset.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonApprovePasswordReset.setText("Create Employee Account");
+        jButtonApprovePasswordReset.setMaximumSize(new java.awt.Dimension(132, 27));
+        jButtonApprovePasswordReset.setMinimumSize(new java.awt.Dimension(132, 27));
+        jButtonApprovePasswordReset.setPreferredSize(new java.awt.Dimension(90, 23));
+        jButtonApprovePasswordReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonApprovePasswordResetActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtonApprovePasswordReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 200, 40));
+
+        jButtonApprovePasswordReset2.setBackground(new java.awt.Color(153, 0, 0));
+        jButtonApprovePasswordReset2.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
+        jButtonApprovePasswordReset2.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonApprovePasswordReset2.setText("Password Reset Tickets");
+        jButtonApprovePasswordReset2.setMaximumSize(new java.awt.Dimension(132, 27));
+        jButtonApprovePasswordReset2.setMinimumSize(new java.awt.Dimension(132, 27));
+        jButtonApprovePasswordReset2.setPreferredSize(new java.awt.Dimension(90, 23));
+        jButtonApprovePasswordReset2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonApprovePasswordReset2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtonApprovePasswordReset2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 200, 40));
+
+        jPanelPasswordReset.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 0, 240, 580));
+
+        jTabbedPane1.addTab("PasswordReset", jPanelPasswordReset);
+
+        jPanelCreateAccount.setBackground(new java.awt.Color(102, 0, 0));
+        jPanelCreateAccount.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jTableEmployeeRecords.setAutoCreateRowSorter(true);
+        jTableEmployeeRecords.setBackground(new java.awt.Color(255, 255, 255));
+        jTableEmployeeRecords.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jTableEmployeeRecords.setForeground(new java.awt.Color(0, 0, 0));
+        jTableEmployeeRecords.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Employee No.", "Last Name", "First name", "Birthday", "Address", "Phone No.", "SSS No.", "PhilHealth No.", "TIN No.", "Pagibig No.", "Status", "Position", "Supervisor"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableEmployeeRecords.setToolTipText("");
+        jTableEmployeeRecords.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        jScrollPaneTableEmployeeRecords.setViewportView(jTableEmployeeRecords);
+
+        jPanelCreateAccount.add(jScrollPaneTableEmployeeRecords, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 820, 480));
+
+        jLabelCreateEmployeesAccoun.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabelCreateEmployeesAccoun.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelCreateEmployeesAccoun.setText("CREATE EMPLOYEES ACCOUNT");
+        jPanelCreateAccount.add(jLabelCreateEmployeesAccoun, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+
+        jButtonDeleteAccount.setBackground(new java.awt.Color(251, 0, 54));
+        jButtonDeleteAccount.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        jButtonDeleteAccount.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonDeleteAccount.setText("Delete Account");
+        jPanelCreateAccount.add(jButtonDeleteAccount, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 40, 130, 30));
+
+        jButtonCreateAccount.setBackground(new java.awt.Color(254, 0, 51));
+        jButtonCreateAccount.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        jButtonCreateAccount.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonCreateAccount.setText("Create Account");
+        jPanelCreateAccount.add(jButtonCreateAccount, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 40, 140, 30));
+
+        jSidePanel.setBackground(new java.awt.Color(0, 0, 0));
+        jSidePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButtonLogout2.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonLogout2.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
+        jButtonLogout2.setForeground(new java.awt.Color(0, 0, 0));
+        jButtonLogout2.setText("Logout");
+        jButtonLogout2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLogout2ActionPerformed(evt);
+            }
+        });
+        jSidePanel.add(jButtonLogout2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 490, 200, 40));
+
+        jButtonCreateEmployeeAccount.setBackground(new java.awt.Color(153, 0, 0));
+        jButtonCreateEmployeeAccount.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
+        jButtonCreateEmployeeAccount.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonCreateEmployeeAccount.setText("Create Employee Account");
+        jButtonCreateEmployeeAccount.setMaximumSize(new java.awt.Dimension(132, 27));
+        jButtonCreateEmployeeAccount.setMinimumSize(new java.awt.Dimension(132, 27));
+        jButtonCreateEmployeeAccount.setPreferredSize(new java.awt.Dimension(90, 23));
+        jButtonCreateEmployeeAccount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCreateEmployeeAccountActionPerformed(evt);
+            }
+        });
+        jSidePanel.add(jButtonCreateEmployeeAccount, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 200, 40));
+
+        jButtonPasswordResetTickets.setBackground(new java.awt.Color(153, 0, 0));
+        jButtonPasswordResetTickets.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
+        jButtonPasswordResetTickets.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonPasswordResetTickets.setText("Password Reset Tickets");
+        jButtonPasswordResetTickets.setMaximumSize(new java.awt.Dimension(132, 27));
+        jButtonPasswordResetTickets.setMinimumSize(new java.awt.Dimension(132, 27));
+        jButtonPasswordResetTickets.setPreferredSize(new java.awt.Dimension(90, 23));
+        jButtonPasswordResetTickets.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPasswordResetTicketsActionPerformed(evt);
+            }
+        });
+        jSidePanel.add(jButtonPasswordResetTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 200, 40));
+
+        jPanelCreateAccount.add(jSidePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 0, 240, 580));
+
+        jTabbedPane1.addTab("CreateAccount", jPanelCreateAccount);
+
+        jPanelITMain.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 1080, 730));
+        jPanelITMain.add(jTabbedPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1082, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanelITMain, javax.swing.GroupLayout.PREFERRED_SIZE, 1080, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 660, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanelITMain, javax.swing.GroupLayout.PREFERRED_SIZE, 660, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButtonDenyPasswordResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDenyPasswordResetActionPerformed
-        
-    }//GEN-LAST:event_jButtonDenyPasswordResetActionPerformed
 
     private void jButtonApprovePasswordResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApprovePasswordResetActionPerformed
         // TODO add your handling code here:
@@ -262,10 +476,42 @@ public class ITDashboard extends javax.swing.JFrame {
 
     private void jButtonLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLogoutActionPerformed
         Login newClassInstance = new Login();
-                 newClassInstance.setVisible(true); 
-                 
-                dispose();
+        newClassInstance.setVisible(true);
+
+        dispose();
     }//GEN-LAST:event_jButtonLogoutActionPerformed
+
+    private void jButtonLogout1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLogout1ActionPerformed
+        Login newClassInstance = new Login();
+        newClassInstance.setVisible(true);
+
+        dispose();
+    }//GEN-LAST:event_jButtonLogout1ActionPerformed
+
+    private void jButtonApprovePasswordReset1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApprovePasswordReset1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonApprovePasswordReset1ActionPerformed
+
+    private void jButtonApprovePasswordReset2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApprovePasswordReset2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonApprovePasswordReset2ActionPerformed
+
+    private void jButtonLogout2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLogout2ActionPerformed
+     {
+        Login newClassInstance = new Login();
+                 newClassInstance.setVisible(true); 
+
+                dispose();
+    }        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonLogout2ActionPerformed
+
+    private void jButtonCreateEmployeeAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateEmployeeAccountActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonCreateEmployeeAccountActionPerformed
+
+    private void jButtonPasswordResetTicketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPasswordResetTicketsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonPasswordResetTicketsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -298,20 +544,26 @@ public class ITDashboard extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ITDashboard().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new ITDashboard().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Logo;
     private javax.swing.JButton jButtonApprovePasswordReset;
-    private javax.swing.JButton jButtonDenyPasswordReset;
+    private javax.swing.JButton jButtonApprovePasswordReset1;
+    private javax.swing.JButton jButtonApprovePasswordReset2;
+    private javax.swing.JButton jButtonCreateAccount;
+    private javax.swing.JButton jButtonCreateEmployeeAccount;
+    private javax.swing.JButton jButtonDeleteAccount;
     private javax.swing.JButton jButtonLogout;
+    private javax.swing.JButton jButtonLogout1;
+    private javax.swing.JButton jButtonLogout2;
+    private javax.swing.JButton jButtonPasswordResetTickets;
     private com.toedter.calendar.JDateChooser jDateChooser;
-    private javax.swing.JLabel jLabelAdminInformation;
+    private javax.swing.JLabel jLabelAdminInformation1;
+    private javax.swing.JLabel jLabelCreateEmployeesAccoun;
     private javax.swing.JLabel jLabelDate;
     private javax.swing.JLabel jLabelDateAdmin;
     private javax.swing.JLabel jLabelEmployeeNumber;
@@ -321,15 +573,23 @@ public class ITDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelName;
     private javax.swing.JLabel jLabelPH;
     private javax.swing.JLabel jLabelPasswordResetTickets;
-    private javax.swing.JLabel jLabelReasonforAction;
     private javax.swing.JLabel jLabelTime;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanelAdminInformation;
+    private javax.swing.JPanel jPanelCreateAccount;
+    private javax.swing.JPanel jPanelHeader;
     private javax.swing.JPanel jPanelITMain;
     private javax.swing.JPanel jPanelPasswordReset;
     private javax.swing.JScrollPane jScrollPanePasswordResetTickets;
+    private javax.swing.JScrollPane jScrollPaneTableEmployeeRecords;
+    private javax.swing.JPanel jSidePanel;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTable jTableEmployeeRecords;
     private javax.swing.JTable jTablePasswordResetTickets;
     private javax.swing.JTextField jTextFieldEmployeeNumber;
     private javax.swing.JTextField jTextFieldName;
-    private javax.swing.JTextField jTextFieldReasonforAction;
     // End of variables declaration//GEN-END:variables
 }
