@@ -1242,7 +1242,8 @@ public class EmployeeDashboard extends javax.swing.JFrame {
             reason,
             "Pending",
             "",
-            null
+            null,
+            ""
         );
         
         try {

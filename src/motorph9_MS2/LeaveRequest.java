@@ -16,8 +16,9 @@ public class LeaveRequest {
     private String reason;
     private String approver;
     private LocalDate dateResponded;
+    private String remark;
 
-    public LeaveRequest(String leaveID, String employeeID, String leaveType, LocalDate dateRequest,LocalDate startDate, LocalDate endDate, String reason, String status,String approver, LocalDate dateResponded) {
+    public LeaveRequest(String leaveID, String employeeID, String leaveType, LocalDate dateRequest,LocalDate startDate, LocalDate endDate, String reason, String status,String approver, LocalDate dateResponded, String remark) {
         this.leaveID = leaveID;
         this.employeeID = employeeID;
         this.leaveType = leaveType;
@@ -28,6 +29,7 @@ public class LeaveRequest {
         this.status = status;
         this.approver = approver;
         this.dateResponded = dateResponded; 
+        this.remark = remark;
     }
 
     public String getLeaveID() {
@@ -68,6 +70,10 @@ public class LeaveRequest {
 
     public LocalDate getDateResponded() {
         return dateResponded;
+    }
+    
+    public String getRemark() {
+        return remark;
     }
 
     public String getLeaveDetails() {

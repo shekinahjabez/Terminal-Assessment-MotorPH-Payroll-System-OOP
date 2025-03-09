@@ -8,6 +8,7 @@
 Leave: check if you can set the spacing per COlumns
 
 *Done:
+Added Leave History
 fix Add Employee: Save but disposed if there's error
 restricted UPdate & Adding of dates 
 fixed UPdateEmployee's "No changes were made." this prompt's dispose() after.
@@ -802,42 +803,81 @@ public class HRDashboard extends javax.swing.JFrame {
             loadEmployeeData(); // Refresh the JTable after deletion
         }
     }    
-        
+    
     private void loadLeaveRequests() {
-        DefaultTableModel model = (DefaultTableModel) jTableLeaveRequest.getModel();
-        model.setRowCount(0); // Clear the table before loading new data
+        DefaultTableModel pendingModel = (DefaultTableModel) jTablePendingLeaveRequest.getModel();
+        DefaultTableModel processedModel = (DefaultTableModel) jTableProcessedLeaveRequest.getModel();
+
+        pendingModel.setRowCount(0);  // Clear the Pending table
+        processedModel.setRowCount(0); // Clear the Processed table
+
+        int pendingCount = 0;
+        int processedCount = 0;
 
         try {
             List<LeaveRequest> leaveRequests = leaveRequestReader.getAllLeaveRequests();
             System.out.println("Total leave requests loaded: " + leaveRequests.size()); // Debugging
 
             for (LeaveRequest leave : leaveRequests) {
-                // ✅ Make sure ALL requests are added, regardless of status
-                model.addRow(new Object[]{
-                    leave.getLeaveID(),
-                    leave.getEmployeeID(),
-                    leave.getLeaveType(),
-                    leave.getDateRequest(),
-                    leave.getStartDate(),
-                    leave.getEndDate(),
-                    leave.getReason(),
-                    leave.getStatus(), // ✅ Show status (Pending, Approved, Rejected)
-                    leave.getApprover(),
-                    leave.getDateResponded()
-                });
+                switch (leave.getStatus().toLowerCase()) {
+                    case "pending":
+                        pendingModel.addRow(new Object[]{
+                            leave.getLeaveID(),
+                            leave.getEmployeeID(),
+                            leave.getLeaveType(),
+                            leave.getDateRequest(),
+                            leave.getStartDate(),
+                            leave.getEndDate(),
+                            leave.getReason()
+                        });
+                        pendingCount++;
+                        break;
+                    case "approved":
+                    case "rejected":
+                        processedModel.addRow(new Object[]{
+                            leave.getLeaveID(),
+                            leave.getEmployeeID(),
+                            leave.getLeaveType(),
+                            leave.getDateRequest(),
+                            leave.getStartDate(),
+                            leave.getEndDate(),
+                            leave.getReason(),
+                            leave.getStatus(),
+                            leave.getApprover(),
+                            leave.getDateResponded(),
+                            leave.getRemark()
+                        });
+                        processedCount++;
+                        break;
+                }
             }
+
+            // Print counts for better visibility
+            System.out.println("Total pending requests: " + pendingCount);
+            System.out.println("Total processed requests (Approved/Rejected): " + processedCount);
+
+            // Display messages if no records are found
+            if (pendingModel.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(this, "No pending leave requests found.", "Info", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            if (processedModel.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(this, "No approved or rejected leave requests found.", "Info", JOptionPane.INFORMATION_MESSAGE);
+            }
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error loading leave requests: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
+
     private void approveLeave() {
-        int selectedRow = jTableLeaveRequest.getSelectedRow();
+        int selectedRow = jTablePendingLeaveRequest.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Select a leave request to approve.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        String leaveId = (String) jTableLeaveRequest.getValueAt(selectedRow, 0);
+        String leaveId = (String) jTablePendingLeaveRequest.getValueAt(selectedRow, 0);
         try {
             hrUser.approveLeave(leaveId,leaveRequestReader);
             loadLeaveRequests();
@@ -847,12 +887,12 @@ public class HRDashboard extends javax.swing.JFrame {
     }
     
     private void rejectLeave() {
-        int selectedRow = jTableLeaveRequest.getSelectedRow();
+        int selectedRow = jTablePendingLeaveRequest.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Select a leave request to reject.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        String leaveId = (String) jTableLeaveRequest.getValueAt(selectedRow, 0);
+        String leaveId = (String) jTablePendingLeaveRequest.getValueAt(selectedRow, 0);
         try {
             hrUser.rejectLeave(leaveId,leaveRequestReader);
             loadLeaveRequests();
@@ -887,12 +927,20 @@ public class HRDashboard extends javax.swing.JFrame {
         jButtonUpdate = new javax.swing.JButton();
         jLabelTitleEmployeeList = new javax.swing.JLabel();
         jButtonAdd = new javax.swing.JButton();
-        jPanelLeaveRequest = new javax.swing.JPanel();
+        jPanelPendingLeaveRequest = new javax.swing.JPanel();
         jLabelTitleLeaveRequests = new javax.swing.JLabel();
         jScrollPaneLeaveRequests = new javax.swing.JScrollPane();
-        jTableLeaveRequest = new javax.swing.JTable();
+        jTablePendingLeaveRequest = new javax.swing.JTable();
         jButtonApprove = new javax.swing.JButton();
         jButtonReject = new javax.swing.JButton();
+        jButtonHistory = new javax.swing.JButton();
+        jPanelProcessedLeaveRequest = new javax.swing.JPanel();
+        jLabelTitleLeaveRequests1 = new javax.swing.JLabel();
+        jScrollPaneLeaveRequests1 = new javax.swing.JScrollPane();
+        jTableProcessedLeaveRequest = new javax.swing.JTable();
+        jButtonApprove1 = new javax.swing.JButton();
+        jButtonReject1 = new javax.swing.JButton();
+        jButtonHistory1 = new javax.swing.JButton();
         jPanelSidebar = new javax.swing.JPanel();
         jButtonManageEmployees = new javax.swing.JButton();
         jButtonLeaveRequests = new javax.swing.JButton();
@@ -1046,7 +1094,7 @@ public class HRDashboard extends javax.swing.JFrame {
         jLabelTitleEmployeeList.setFont(new java.awt.Font("Century Gothic", 1, 20)); // NOI18N
         jLabelTitleEmployeeList.setForeground(new java.awt.Color(255, 255, 255));
         jLabelTitleEmployeeList.setText("EMPLOYEE RECORDS");
-        jPanelManageEmployee.add(jLabelTitleEmployeeList, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 110, -1, -1));
+        jPanelManageEmployee.add(jLabelTitleEmployeeList, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 110, -1, 32));
 
         jButtonAdd.setBackground(new java.awt.Color(204, 0, 51));
         jButtonAdd.setForeground(new java.awt.Color(255, 255, 255));
@@ -1060,16 +1108,91 @@ public class HRDashboard extends javax.swing.JFrame {
 
         jTabbedMain.addTab("Manage Employees", jPanelManageEmployee);
 
-        jPanelLeaveRequest.setBackground(new java.awt.Color(102, 0, 0));
-        jPanelLeaveRequest.setForeground(new java.awt.Color(255, 255, 255));
-        jPanelLeaveRequest.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanelPendingLeaveRequest.setBackground(new java.awt.Color(102, 0, 0));
+        jPanelPendingLeaveRequest.setForeground(new java.awt.Color(255, 255, 255));
+        jPanelPendingLeaveRequest.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabelTitleLeaveRequests.setFont(new java.awt.Font("Segoe UI Semibold", 1, 20)); // NOI18N
         jLabelTitleLeaveRequests.setForeground(new java.awt.Color(255, 255, 255));
         jLabelTitleLeaveRequests.setText("LEAVE REQUESTS");
-        jPanelLeaveRequest.add(jLabelTitleLeaveRequests, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 110, -1, 32));
+        jPanelPendingLeaveRequest.add(jLabelTitleLeaveRequests, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 110, -1, 32));
 
-        jTableLeaveRequest.setModel(new javax.swing.table.DefaultTableModel(
+        jTablePendingLeaveRequest.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Leave ID", "Employee No.", "Leave Type", "Date Requested", "Start Date ", "End Date", "Reason"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jTablePendingLeaveRequest.setToolTipText("");
+        jScrollPaneLeaveRequests.setViewportView(jTablePendingLeaveRequest);
+        if (jTablePendingLeaveRequest.getColumnModel().getColumnCount() > 0) {
+            jTablePendingLeaveRequest.getColumnModel().getColumn(1).setResizable(false);
+            jTablePendingLeaveRequest.getColumnModel().getColumn(3).setResizable(false);
+            jTablePendingLeaveRequest.getColumnModel().getColumn(6).setResizable(false);
+        }
+
+        jPanelPendingLeaveRequest.add(jScrollPaneLeaveRequests, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 208, 970, 403));
+
+        jButtonApprove.setBackground(new java.awt.Color(204, 0, 51));
+        jButtonApprove.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jButtonApprove.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonApprove.setText("Approve");
+        jButtonApprove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonApproveActionPerformed(evt);
+            }
+        });
+        jPanelPendingLeaveRequest.add(jButtonApprove, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 163, -1, 30));
+
+        jButtonReject.setBackground(new java.awt.Color(204, 0, 51));
+        jButtonReject.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jButtonReject.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonReject.setText("Reject");
+        jButtonReject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRejectActionPerformed(evt);
+            }
+        });
+        jPanelPendingLeaveRequest.add(jButtonReject, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 163, 80, 30));
+
+        jButtonHistory.setBackground(new java.awt.Color(204, 0, 51));
+        jButtonHistory.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jButtonHistory.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonHistory.setText("TemporaryBtn History");
+        jButtonHistory.setBorderPainted(false);
+        jButtonHistory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonHistoryActionPerformed(evt);
+            }
+        });
+        jPanelPendingLeaveRequest.add(jButtonHistory, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 163, 170, 30));
+
+        jTabbedMain.addTab("Leave Requests", jPanelPendingLeaveRequest);
+
+        jPanelProcessedLeaveRequest.setBackground(new java.awt.Color(102, 0, 0));
+        jPanelProcessedLeaveRequest.setForeground(new java.awt.Color(255, 255, 255));
+        jPanelProcessedLeaveRequest.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabelTitleLeaveRequests1.setFont(new java.awt.Font("Segoe UI Semibold", 1, 20)); // NOI18N
+        jLabelTitleLeaveRequests1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelTitleLeaveRequests1.setText("LEAVE REQUESTS");
+        jPanelProcessedLeaveRequest.add(jLabelTitleLeaveRequests1, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 110, -1, 32));
+
+        jTableProcessedLeaveRequest.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null, null},
@@ -1096,40 +1219,52 @@ public class HRDashboard extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTableLeaveRequest.setToolTipText("");
-        jScrollPaneLeaveRequests.setViewportView(jTableLeaveRequest);
-        if (jTableLeaveRequest.getColumnModel().getColumnCount() > 0) {
-            jTableLeaveRequest.getColumnModel().getColumn(1).setResizable(false);
-            jTableLeaveRequest.getColumnModel().getColumn(3).setResizable(false);
-            jTableLeaveRequest.getColumnModel().getColumn(6).setResizable(false);
-            jTableLeaveRequest.getColumnModel().getColumn(8).setResizable(false);
+        jTableProcessedLeaveRequest.setToolTipText("");
+        jScrollPaneLeaveRequests1.setViewportView(jTableProcessedLeaveRequest);
+        if (jTableProcessedLeaveRequest.getColumnModel().getColumnCount() > 0) {
+            jTableProcessedLeaveRequest.getColumnModel().getColumn(1).setResizable(false);
+            jTableProcessedLeaveRequest.getColumnModel().getColumn(3).setResizable(false);
+            jTableProcessedLeaveRequest.getColumnModel().getColumn(6).setResizable(false);
+            jTableProcessedLeaveRequest.getColumnModel().getColumn(8).setResizable(false);
         }
 
-        jPanelLeaveRequest.add(jScrollPaneLeaveRequests, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 970, 403));
+        jPanelProcessedLeaveRequest.add(jScrollPaneLeaveRequests1, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 208, 970, 403));
 
-        jButtonApprove.setBackground(new java.awt.Color(204, 0, 51));
-        jButtonApprove.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jButtonApprove.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonApprove.setText("Approve");
-        jButtonApprove.addActionListener(new java.awt.event.ActionListener() {
+        jButtonApprove1.setBackground(new java.awt.Color(204, 0, 51));
+        jButtonApprove1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jButtonApprove1.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonApprove1.setText("Approve");
+        jButtonApprove1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonApproveActionPerformed(evt);
+                jButtonApprove1ActionPerformed(evt);
             }
         });
-        jPanelLeaveRequest.add(jButtonApprove, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 150, -1, -1));
+        jPanelProcessedLeaveRequest.add(jButtonApprove1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 163, -1, 30));
 
-        jButtonReject.setBackground(new java.awt.Color(204, 0, 51));
-        jButtonReject.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jButtonReject.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonReject.setText("Reject");
-        jButtonReject.addActionListener(new java.awt.event.ActionListener() {
+        jButtonReject1.setBackground(new java.awt.Color(204, 0, 51));
+        jButtonReject1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jButtonReject1.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonReject1.setText("Reject");
+        jButtonReject1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonRejectActionPerformed(evt);
+                jButtonReject1ActionPerformed(evt);
             }
         });
-        jPanelLeaveRequest.add(jButtonReject, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, 80, -1));
+        jPanelProcessedLeaveRequest.add(jButtonReject1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 163, 80, 30));
 
-        jTabbedMain.addTab("Leave Requests", jPanelLeaveRequest);
+        jButtonHistory1.setBackground(new java.awt.Color(204, 0, 51));
+        jButtonHistory1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jButtonHistory1.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonHistory1.setText("TemporaryBtn History");
+        jButtonHistory1.setBorderPainted(false);
+        jButtonHistory1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonHistory1ActionPerformed(evt);
+            }
+        });
+        jPanelProcessedLeaveRequest.add(jButtonHistory1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 163, 170, 30));
+
+        jTabbedMain.addTab("Leave Requests", jPanelProcessedLeaveRequest);
 
         jPanelHRMain.add(jTabbedMain, new org.netbeans.lib.awtextra.AbsoluteConstraints(208, -42, 1130, 680));
 
@@ -1242,6 +1377,28 @@ public class HRDashboard extends javax.swing.JFrame {
         addEmployee();
     }//GEN-LAST:event_jButtonAddActionPerformed
 
+    private void jButtonHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHistoryActionPerformed
+        jTabbedMain.setSelectedIndex(2);
+        jButtonManageEmployees.setBackground(new java.awt.Color(0,0,0));
+        jButtonLeaveRequests.setBackground(Color.RED);
+        loadLeaveRequests();
+    }//GEN-LAST:event_jButtonHistoryActionPerformed
+
+    private void jButtonHistory1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHistory1ActionPerformed
+        jTabbedMain.setSelectedIndex(2);
+        jButtonManageEmployees.setBackground(new java.awt.Color(0,0,0));
+        jButtonLeaveRequests.setBackground(Color.RED);
+        loadLeaveRequests();
+    }//GEN-LAST:event_jButtonHistory1ActionPerformed
+
+    private void jButtonReject1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReject1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonReject1ActionPerformed
+
+    private void jButtonApprove1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApprove1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonApprove1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1267,11 +1424,15 @@ public class HRDashboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAdd;
     private javax.swing.JButton jButtonApprove;
+    private javax.swing.JButton jButtonApprove1;
     private javax.swing.JButton jButtonDelete;
+    private javax.swing.JButton jButtonHistory;
+    private javax.swing.JButton jButtonHistory1;
     private javax.swing.JButton jButtonLeaveRequests;
     private javax.swing.JButton jButtonLogout;
     private javax.swing.JButton jButtonManageEmployees;
     private javax.swing.JButton jButtonReject;
+    private javax.swing.JButton jButtonReject1;
     private javax.swing.JButton jButtonUpdate;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
@@ -1282,18 +1443,22 @@ public class HRDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelTime;
     private javax.swing.JLabel jLabelTitleEmployeeList;
     private javax.swing.JLabel jLabelTitleLeaveRequests;
+    private javax.swing.JLabel jLabelTitleLeaveRequests1;
     private javax.swing.JLabel jLblUname1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanelHRMain;
     private javax.swing.JPanel jPanelHeader;
-    private javax.swing.JPanel jPanelLeaveRequest;
     private javax.swing.JPanel jPanelManageEmployee;
+    private javax.swing.JPanel jPanelPendingLeaveRequest;
+    private javax.swing.JPanel jPanelProcessedLeaveRequest;
     private javax.swing.JPanel jPanelSidebar;
     private javax.swing.JScrollPane jScrollPaneLeaveRequests;
+    private javax.swing.JScrollPane jScrollPaneLeaveRequests1;
     private javax.swing.JScrollPane jScrollPaneTableEmployeeRecords;
     private javax.swing.JTabbedPane jTabbedMain;
     private javax.swing.JTable jTableEmployeeRecords;
-    private javax.swing.JTable jTableLeaveRequest;
+    private javax.swing.JTable jTablePendingLeaveRequest;
+    private javax.swing.JTable jTableProcessedLeaveRequest;
     // End of variables declaration//GEN-END:variables
 
 }

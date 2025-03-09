@@ -25,7 +25,8 @@ public class LeaveRequestReader {
             leaveRequest.getReason(),
             leaveRequest.getStatus(),
             leaveRequest.getApprover(),
-            leaveRequest.getDateResponded() != null ? leaveRequest.getDateResponded().toString() : ""
+            leaveRequest.getDateResponded() != null ? leaveRequest.getDateResponded().toString() : "",
+            leaveRequest.getRemark()
         });
         CSVReader.writeCSV(FILE_PATH, data);
     }
@@ -43,7 +44,8 @@ public class LeaveRequestReader {
                     data[6],  // reason
                     data[7],  // status (Pending, Approved, Rejected)
                     data.length > 8 ? data[8] : "",  // ✅ Approver (empty if missing)
-                    data.length > 9 && !data[9].isEmpty() ? LocalDate.parse(data[9]) : null // ✅ dateResponded (null if missing)
+                    data.length > 9 && !data[9].isEmpty() ? LocalDate.parse(data[9]) : null, // ✅ dateResponded (null if missing)
+                    data.length > 10 ? data[10] : ""  // ✅ remark (empty if missing)
                 );
             }
         }
@@ -64,7 +66,8 @@ public class LeaveRequestReader {
                     updatedLeave.getReason(),
                     updatedLeave.getStatus(),
                     updatedLeave.getApprover(),
-                    updatedLeave.getDateResponded() != null ? updatedLeave.getDateResponded().toString() : ""
+                    updatedLeave.getDateResponded() != null ? updatedLeave.getDateResponded().toString() : "",
+                    updatedLeave.getRemark(),
                 });
                 break;
             }
@@ -98,7 +101,8 @@ public class LeaveRequestReader {
                         data[6],  // reason
                         data[7],  // status (Pending, Approved, Rejected)
                         data.length > 8 && !data[8].isEmpty() ? data[8] : "",  // ✅ Approver (empty allowed)
-                        data.length > 9 && !data[9].isEmpty() ? LocalDate.parse(data[9]) : null // ✅ dateResponded (null if empty)
+                        data.length > 9 && !data[9].isEmpty() ? LocalDate.parse(data[9]) : null, // ✅ dateResponded (null if empty)
+                        data.length > 10 ? data[10] : ""  // ✅ remark (empty if missing)
                     );
 
                     leaveRequests.add(leave);

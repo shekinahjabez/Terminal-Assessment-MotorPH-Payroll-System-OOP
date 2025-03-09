@@ -89,7 +89,8 @@ public class EmployeeUser extends User {
             reason,               // reason
             "Pending",            // ✅ status (New requests are always "Pending")
             "",                   // ✅ approver (Empty, since not yet approved)
-            null                  // ✅ dateResponded (Null, since not yet processed)
+            null,                  // ✅ dateResponded (Null, since not yet processed)
+            "" 
         );
 
         LeaveRequestReader.addLeaveRequest(leaveRequest);
