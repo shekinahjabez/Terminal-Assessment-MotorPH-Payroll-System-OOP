@@ -558,9 +558,11 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jLabelPosition.setText("Position:");
         jPanelDetails.add(jLabelPosition, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 380, 60, -1));
 
+        jTextFieldPosition.setEditable(false);
         jTextFieldPosition.setBackground(new java.awt.Color(255, 255, 255));
         jPanelDetails.add(jTextFieldPosition, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 380, 270, -1));
 
+        jTextFieldEmployeeID.setEditable(false);
         jTextFieldEmployeeID.setBackground(new java.awt.Color(255, 255, 255));
         jPanelDetails.add(jTextFieldEmployeeID, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, 270, -1));
 
@@ -570,6 +572,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jLabelUsername.setText("Username:");
         jPanelDetails.add(jLabelUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, -1, -1));
 
+        jTextFieldUsername.setEditable(false);
         jTextFieldUsername.setBackground(new java.awt.Color(255, 255, 255));
         jPanelDetails.add(jTextFieldUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 270, -1));
 
@@ -579,6 +582,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jLabelName.setText("Name:");
         jPanelDetails.add(jLabelName, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, -1, -1));
 
+        jTextFieldName.setEditable(false);
         jTextFieldName.setBackground(new java.awt.Color(255, 255, 255));
         jPanelDetails.add(jTextFieldName, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 270, -1));
 
@@ -588,6 +592,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jLabelBirthday.setText("Birthday:");
         jPanelDetails.add(jLabelBirthday, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 110, -1, -1));
 
+        jTextFieldBirthday.setEditable(false);
         jTextFieldBirthday.setBackground(new java.awt.Color(255, 255, 255));
         jPanelDetails.add(jTextFieldBirthday, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 110, 270, -1));
 
@@ -597,6 +602,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jLabelAddress.setText("Address:");
         jPanelDetails.add(jLabelAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, -1, -1));
 
+        jTextFieldAddress.setEditable(false);
         jTextFieldAddress.setBackground(new java.awt.Color(255, 255, 255));
         jPanelDetails.add(jTextFieldAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 140, 270, -1));
 
@@ -606,6 +612,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jLabelPhoneNumber.setText("Phone Number:");
         jPanelDetails.add(jLabelPhoneNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 170, -1, -1));
 
+        jTextFieldPhoneNumber.setEditable(false);
         jTextFieldPhoneNumber.setBackground(new java.awt.Color(255, 255, 255));
         jPanelDetails.add(jTextFieldPhoneNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 170, 270, -1));
 
@@ -615,6 +622,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jLabelSSS.setText("SSS:");
         jPanelDetails.add(jLabelSSS, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, -1, -1));
 
+        jTextFieldSSS.setEditable(false);
         jTextFieldSSS.setBackground(new java.awt.Color(255, 255, 255));
         jPanelDetails.add(jTextFieldSSS, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 200, 270, -1));
 
@@ -624,6 +632,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jLabelPhilHealth.setText("PhilHealth:");
         jPanelDetails.add(jLabelPhilHealth, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 230, 80, -1));
 
+        jTextFieldPhilHealth.setEditable(false);
         jTextFieldPhilHealth.setBackground(new java.awt.Color(255, 255, 255));
         jPanelDetails.add(jTextFieldPhilHealth, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 230, 270, -1));
 
@@ -633,6 +642,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jLabelTIN.setText("TIN:");
         jPanelDetails.add(jLabelTIN, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 260, 30, -1));
 
+        jTextFieldTIN.setEditable(false);
         jTextFieldTIN.setBackground(new java.awt.Color(255, 255, 255));
         jPanelDetails.add(jTextFieldTIN, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 260, 270, -1));
 
@@ -642,6 +652,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jLabelPagibig.setText("PAGIBIG:");
         jPanelDetails.add(jLabelPagibig, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 290, 80, -1));
 
+        jTextFieldPagibig.setEditable(false);
         jTextFieldPagibig.setBackground(new java.awt.Color(255, 255, 255));
         jPanelDetails.add(jTextFieldPagibig, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 290, 270, -1));
 
@@ -651,6 +662,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jLabelSupervisor.setText("Immediate Supervisor:");
         jPanelDetails.add(jLabelSupervisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 170, -1));
 
+        jTextFieldSupervisor.setEditable(false);
         jTextFieldSupervisor.setBackground(new java.awt.Color(255, 255, 255));
         jPanelDetails.add(jTextFieldSupervisor, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 320, 270, -1));
 
@@ -660,6 +672,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jLabelStatus.setText("Status:");
         jPanelDetails.add(jLabelStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 350, 50, -1));
 
+        jTextFieldStatus.setEditable(false);
         jTextFieldStatus.setBackground(new java.awt.Color(255, 255, 255));
         jPanelDetails.add(jTextFieldStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 350, 270, -1));
 
