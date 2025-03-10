@@ -2,11 +2,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package data_reader9;
 
 import data_reader9.CSVReader;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,27 +24,56 @@ import java.util.List;
  */
 public class TimeTrackerReader {
     private static final String FILE_PATH = "src/data9/TimeTracker.csv";
+    private static final DateTimeFormatter CSV_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("MM/dd/yyyy,HH:mm"); // ✅ Formatter for CSV date-time
 
     public static void clockIn(String employeeId) throws IOException {
         List<String[]> data = CSVReader.readCSV(FILE_PATH);
         LocalDateTime now = LocalDateTime.now();
-        data.add(new String[]{employeeId, now.toString(), ""}); // Empty clock-out field
+        String formattedDateTime = now.format(CSV_DATE_TIME_FORMATTER); // ✅ Format date and time for CSV
+
+        // ✅ Add all 5 columns: employeeNum, date, timeIn, timeOut, hoursWorked (timeOut and hoursWorked are empty initially)
+        data.add(new String[]{employeeId, formattedDateTime.split(",")[0], formattedDateTime.split(",")[1], "", ""});
         CSVReader.writeCSV(FILE_PATH, data);
     }
 
     public static void clockOut(String employeeId) throws IOException {
         List<String[]> data = CSVReader.readCSV(FILE_PATH);
         LocalDateTime now = LocalDateTime.now();
+        String formattedDateTime = now.format(CSV_DATE_TIME_FORMATTER); // ✅ Format date and time for CSV
         boolean updated = false;
 
         for (String[] row : data) {
-            if (row[0].equals(employeeId) && row[2].isEmpty()) { // Find last clock-in without clock-out
-                row[2] = now.toString();
+            System.out.println("clockOut - Row Length: " + row.length + ", Row Data: " + String.join(",", row)); // ✅ Debug: Check row length and data
+            if (row.length >= 3 && row[0].equals(employeeId) && row[3].isEmpty()) { // Find last clock-in without clock-out (timeOut column is now index 3)
+                row[3] = formattedDateTime.split(",")[1]; // ✅ Update timeOut column (index 3) with formatted time
+
+                // ✅ Calculate and update hoursWorked column (index 4)
+                String timeInString = row[2]; // timeIn is at index 2
+                String dateString = row[1]; // date is at index 1
+                if (row.length >= 4) { // ✅ Check row.length >= 4 before accessing row[3]
+                    try {
+                        LocalDateTime timeIn = LocalDateTime.parse(dateString + "," + timeInString, CSV_DATE_TIME_FORMATTER);
+                        LocalDateTime timeOut = LocalDateTime.parse(dateString + "," + row[3], CSV_DATE_TIME_FORMATTER);
+
+                        Duration duration = Duration.between(timeIn, timeOut);
+                        long hours = duration.toHours();
+                        long minutes = duration.toMinutes() % 60;
+                        if (row.length > 4) { // ✅ Check if row has index 4 before accessing it
+                            row[4] = String.format("%d:%02d", hours, minutes);
+                        }
+                    } catch (java.time.format.DateTimeParseException e) {
+                        System.err.println("Error parsing time for duration calculation in CSV: " + String.join(",", row));
+                        if (row.length > 4) { // ✅ Check if row has index 4 before accessing it
+                            row[4] = "Error";
+                        }
+                    }
+                }
+
                 updated = true;
                 break;
             }
         }
-        
+
         if (updated) {
             CSVReader.writeCSV(FILE_PATH, data);
         } else {
@@ -46,12 +83,84 @@ public class TimeTrackerReader {
 
     public static List<String[]> getTimeLogs(String employeeId) throws IOException {
         List<String[]> logs = new ArrayList<>();
-        for (String[] row : CSVReader.readCSV(FILE_PATH)) {
-            if (row[0].equals(employeeId)) {
-                logs.add(row);
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            br.readLine(); // Skip header
+
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",", -1);
+                if (data.length == 5 && data[0].trim().equals(employeeId)) { // Check for 5 columns and employeeId
+                    // ✅ Extract data in the correct order for table columns: Employee #, Date, Time In, Time Out, Hours Worked
+                    String employeeNum = data[0].trim();
+                    String date = data[1].trim();
+                    String timeIn = data[2].trim();
+                    String timeOut = data[3].trim();
+                    String hoursWorked = data[4].trim();
+
+                    logs.add(new String[]{employeeNum, date, timeIn, timeOut, hoursWorked}); // Add data in correct order
+                }
             }
         }
         return logs;
     }
 }
+
+
+
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+//package data_reader9;
+
+//import data_reader9.CSVReader;
+//import java.io.IOException;
+//import java.time.LocalDateTime;
+//import java.util.ArrayList;
+//import java.util.List;
+
+/**
+ *
+ * @author Shekinah Jabez
+ */
+//public class TimeTrackerReader {
+//    private static final String FILE_PATH = "src/data9/TimeTracker.csv";
+//
+//    public static void clockIn(String employeeId) throws IOException {
+//        List<String[]> data = CSVReader.readCSV(FILE_PATH);
+//        LocalDateTime now = LocalDateTime.now();
+//        data.add(new String[]{employeeId, now.toString(), ""}); // Empty clock-out field
+//       CSVReader.writeCSV(FILE_PATH, data);
+//    }
+//
+//    public static void clockOut(String employeeId) throws IOException {
+//        List<String[]> data = CSVReader.readCSV(FILE_PATH);
+//        LocalDateTime now = LocalDateTime.now();
+//        boolean updated = false;
+
+//       for (String[] row : data) {
+//            if (row[0].equals(employeeId) && row[2].isEmpty()) { // Find last clock-in without clock-out
+//                row[2] = now.toString();
+//                updated = true;
+//                break;
+//            }
+//        }
+        
+//        if (updated) {
+//            CSVReader.writeCSV(FILE_PATH, data);
+//        } else {
+//            throw new IOException("No active clock-in found for employee " + employeeId);
+//        }
+//    }
+
+//   public static List<String[]> getTimeLogs(String employeeId) throws IOException {
+//        List<String[]> logs = new ArrayList<>();
+//        for (String[] row : CSVReader.readCSV(FILE_PATH)) {
+//            if (row[0].equals(employeeId)) {
+//                logs.add(row);
+//            }
+//        }
+//        return logs;
+//   }
+//}
 

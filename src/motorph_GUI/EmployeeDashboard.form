@@ -2398,8 +2398,8 @@
                             </Property>
                             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                               <StringArray count="2">
-                                <StringItem index="0" value="2024"/>
-                                <StringItem index="1" value="2025"/>
+                                <StringItem index="0" value="2025"/>
+                                <StringItem index="1" value="2024"/>
                               </StringArray>
                             </Property>
                           </Properties>
@@ -2514,6 +2514,9 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="TIME IN"/>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonTimeInActionPerformed"/>
+                          </Events>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                               <AbsoluteConstraints x="50" y="50" width="320" height="50"/>

@@ -166,7 +166,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
     // ✅ Helper method to check if a log entry matches the filters
     private boolean isLogMatchingFilter(String logDateString, String selectedMonth, String selectedYear) {
-        System.out.println("isLogMatchingFilter - LogDateString: " + logDateString + ", Selected Month: " + selectedMonth + ", Selected Year: " + selectedYear); // ✅ Debug: Input values
+        System.out.println("isLogMatchingFilter - Input: logDateString='" + logDateString + "', selectedMonth='" + selectedMonth + "', selectedYear='" + selectedYear + "'"); // ✅ Debug: Input values
         if ((selectedMonth == null || selectedMonth.isEmpty() || selectedMonth.equals("Item 1")) && // Treat "Item 1" as no filter
             (selectedYear == null || selectedYear.isEmpty() || selectedYear.equals("Item 1"))) { // Treat "Item 1" as no filter
             return true; // No filter selected, show all logs
@@ -182,7 +182,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
             logYear = String.valueOf(logDate.getYear());
             logMonth = String.valueOf(logDate.getMonthValue());
             
-            System.out.println("isLogMatchingFilter - Parsed Log Date - Year: " + logYear + ", Month: " + logMonth); // ✅ Debug: Parsed date parts
+            System.out.println("isLogMatchingFilter - Parsed Date: " + logDate + ", Year: " + logYear + ", Month (number): " + logMonth); // ✅ Debug: Parsed LocalDate and parts
 
             
         } catch (java.time.format.DateTimeParseException e) {
@@ -205,17 +205,17 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         boolean monthMatch = true;
         if (selectedMonth != null && !selectedMonth.isEmpty() && !selectedMonth.equals("Item 1")) { // Filter by month if selected
             monthMatch = selectedMonth.equalsIgnoreCase(getMonthNameFromNumber(logMonth)); // Compare month names (case-insensitive)
-            System.out.println("isLogMatchingFilter - Month Match: " + monthMatch + ", Selected Month: " + selectedMonth + ", Log Month Name: " + getMonthNameFromNumber(logMonth)); // ✅ Debug: Month match result
+            System.out.println("isLogMatchingFilter - Month Match: " + monthMatch + ", Selected Month: " + selectedMonth + ", Log Month Name: " + getMonthNameFromNumber(logMonth) + ", Log Month Number: " + logMonth); // ✅ Debug: Month match details
         }
 
         boolean yearMatch = true;
         if (selectedYear != null && !selectedYear.isEmpty() && !selectedYear.equals("Item 1")) { // Filter by year if selected
             yearMatch = selectedYear.equals(logYear); // Compare years as strings
-            System.out.println("isLogMatchingFilter - Year Match: " + yearMatch + ", Selected Year: " + selectedYear + ", Log Year: " + logYear); // ✅ Debug: Year match result
+            System.out.println("isLogMatchingFilter - Year Match: " + yearMatch + ", Selected Year: " + selectedYear + ", Log Year: " + logYear + ", Parsed Log Year: " + logYear); // ✅ Debug: Year match details
         }
         
         boolean finalResult = monthMatch && yearMatch;
-        System.out.println("isLogMatchingFilter - Final Result: " + finalResult); // ✅ Debug: Final result
+        System.out.println("isLogMatchingFilter - Final Result: " + finalResult);
         return finalResult;
         //return monthMatch && yearMatch; // Log entry matches filter if both month and year (if selected) match
     }
@@ -1240,7 +1240,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jPanelSelectYearAttendance.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jComboBoxSelectYearAttendance.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBoxSelectYearAttendance.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2024", "2025" }));
+        jComboBoxSelectYearAttendance.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2025", "2024" }));
         jPanelSelectYearAttendance.add(jComboBoxSelectYearAttendance, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 230, 40));
 
         jPanelAttendanceandTracker.add(jPanelSelectYearAttendance, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 400, 270, 60));
@@ -1275,6 +1275,11 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jButtonTimeIn.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jButtonTimeIn.setForeground(new java.awt.Color(255, 255, 255));
         jButtonTimeIn.setText("TIME IN");
+        jButtonTimeIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonTimeInActionPerformed(evt);
+            }
+        });
         jPanelTimeTracker.add(jButtonTimeIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, 320, 50));
 
         jButtonTimeOut.setBackground(new java.awt.Color(204, 0, 51));
@@ -1498,7 +1503,27 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
     private void jButtonTimeOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTimeOutActionPerformed
         // TODO add your handling code here:
+        try {
+            TimeTrackerReader.clockOut(loggedInUser.getEmployeeId()); // Call clockOut method
+            JOptionPane.showMessageDialog(this, "Time Out recorded successfully!", "Time Out", JOptionPane.INFORMATION_MESSAGE); // User feedback
+            loadAttendanceLogs(null, null); // Refresh attendance logs (optional - for immediate update)
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error recording Time Out.", "Error", JOptionPane.ERROR_MESSAGE); // Error feedback
+            Logger.getLogger(EmployeeDashboard.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButtonTimeOutActionPerformed
+
+    private void jButtonTimeInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTimeInActionPerformed
+        // TdODO add your handling code here:
+        try {
+            TimeTrackerReader.clockIn(loggedInUser.getEmployeeId()); // Call clockIn method
+            JOptionPane.showMessageDialog(this, "Time In recorded successfully!", "Time In", JOptionPane.INFORMATION_MESSAGE); // User feedback
+            loadAttendanceLogs(null, null); // Refresh attendance logs (optional - for immediate update)
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error recording Time In.", "Error", JOptionPane.ERROR_MESSAGE); // Error feedback
+            Logger.getLogger(EmployeeDashboard.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButtonTimeInActionPerformed
 
     /**
      * @param args the command line arguments
