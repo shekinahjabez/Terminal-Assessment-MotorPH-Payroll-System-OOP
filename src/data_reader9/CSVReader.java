@@ -20,6 +20,26 @@ public class CSVReader {
         }
         return data;
     }
+    
+    /*public static List<String[]> readCSV(String filePath, boolean skipHeader) throws IOException {
+        List<String[]> data = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            if (skipHeader && (line = reader.readLine()) != null) {
+                // Skip the header row
+            }
+            while ((line = reader.readLine()) != null) {
+                data.add(line.split(",", -1));
+            }
+        } catch (java.io.FileNotFoundException e) {
+            System.err.println("File not found: " + filePath);
+            throw e;
+        } catch (IOException e) {
+            System.err.println("Error reading CSV file: " + e.getMessage());
+            throw e;
+        }
+        return data;
+    }*/
 
     public static void writeCSV(String filePath, List<String[]> data) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {

@@ -32,16 +32,20 @@ public class HRUser extends User {
               position, supervisor, "HR");
     }
     
-    public HRUser(String employeeId, String username, String roleName, String password, String firstName, String lastName) {
-        super(employeeId, username, roleName, password, firstName, lastName);
+    public HRUser(String employeeId, String username, String roleName, String password, String firstName, String lastName, String changePassword) {
+        super(employeeId, username, roleName, password, firstName, lastName, changePassword);
         
         // ✅ Debugging: Print to confirm assignment
         System.out.println("✅ HRUser Created: " + this.firstName + " " + this.lastName);
     }
     
-    /*public HRUser(String employeeId, String username, String roleName, String password) {
-        super(employeeId, username, roleName, password);
+    /*public HRUser(String employeeId, String username, String roleName, String password, String firstName, String lastName) {
+        super(employeeId, username, roleName, password, firstName, lastName);
+        
+        // ✅ Debugging: Print to confirm assignment
+        System.out.println("✅ HRUser Created: " + this.firstName + " " + this.lastName);
     }*/
+    
     
     @Override
     public void accessDashboard() {
