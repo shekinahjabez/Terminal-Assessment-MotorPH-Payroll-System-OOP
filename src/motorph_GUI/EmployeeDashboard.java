@@ -20,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JDateChooser;
+import data_reader9.TimeTrackerReader;
 import java.time.DayOfWeek;
 import java.time.ZoneId;
 import java.time.chrono.ChronoLocalDate;
@@ -45,9 +46,11 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private User loggedInUser; // To store the logged-in user
     private EmployeeDetailsReader employeeDetailsReader; // Use EmployeeDetailsReader
     private EmployeeLeaveTracker leaveTracker; // Use EmployeeLeaveTracker
+    private TimeTrackerReader timeTrackerReader;
     public static final LocalDate TODAY = LocalDate.now();
     private LeaveRequest leaveRequest;
     private LeaveProcessor leaveProcessor;
+    
     /**
      * Creates new form EmployeeDashboards
      */
@@ -65,13 +68,17 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         this.loggedInUser = user; // Store the logged-in user
         
         employeeDetailsReader = new EmployeeDetailsReader(); // Initialize reader
+        timeTrackerReader = new TimeTrackerReader(); // Initialize TimeTrackerReader
         leaveTracker = new EmployeeLeaveTracker(user.getEmployeeId()); //Initialize leave tracker
         leaveProcessor = new LeaveProcessor(leaveTracker); // Properly initialized
         
+        
         displayWelcomeMessage(); // Call method to display welcome message (example)
         loadEmployeeDetails(); // Call method to load and display employee details
+        loadAttendanceLogs();
         loadSalaryInformation();
         initializeLeaveTypeComboBox(); // Populate leave types with balance
+        
     }
     
     private void displayWelcomeMessage() {
@@ -96,6 +103,41 @@ public class EmployeeDashboard extends javax.swing.JFrame {
             } catch (IOException ex) {
                 Logger.getLogger(EmployeeDashboard.class.getName()).log(Level.SEVERE, "Error reading employee details", ex);
                 JOptionPane.showMessageDialog(this, "Error reading employee details from file.", "File Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
+    private void loadAttendanceLogs() {
+        if (loggedInUser != null) {
+            try {
+                List<String[]> logs = TimeTrackerReader.getTimeLogs(loggedInUser.getEmployeeId());
+                DefaultTableModel model = (DefaultTableModel) jTableAttendanceLogs.getModel();
+                model.setRowCount(0); // Clear existing rows
+
+                for (String[] logData : logs) {
+                    // Assuming your TimeTracker.csv data order is: employeeNum,date,timeIn,timeOut,totalWorkedHrs
+                    // Adjust column indices to match your CSV structure
+
+                    String employeeNum = ""; // Added for Employee # column
+                    String date = "";
+                    String timeIn = "";
+                    String timeOut = "";
+                    String hoursWorked = "";
+
+                    if (logData.length >= 5) { // Ensure enough columns in each log entry
+                        employeeNum = logData[0].trim(); // ✅ Employee # is in column 1 (index 0)
+                        date = logData[1].trim();         // Date is in column 2 (index 1)
+                        timeIn = logData[2].trim();         // Time In is in column 3 (index 2)
+                        timeOut = logData[3].trim();        // Time Out is in column 4 (index 3)
+                        hoursWorked = logData[4].trim();   // Hours Worked is in column 5 (index 4)
+                    }
+
+                    model.addRow(new Object[]{employeeNum, date, timeIn, timeOut, hoursWorked}); // ✅ Add row to table with all 5 columns
+                }
+
+            } catch (IOException ex) {
+                Logger.getLogger(EmployeeDashboard.class.getName()).log(Level.SEVERE, "Error reading attendance logs", ex);
+                JOptionPane.showMessageDialog(this, "Error reading attendance logs from file.", "File Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -1040,16 +1082,31 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jTableAttendanceLogs.setBackground(new java.awt.Color(255, 255, 255));
         jTableAttendanceLogs.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Employee #", "Date", "Time In", "Time Out", "Hours Worked"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPaneAttenedanceandTracker.setViewportView(jTableAttendanceLogs);
+        if (jTableAttendanceLogs.getColumnModel().getColumnCount() > 0) {
+            jTableAttendanceLogs.getColumnModel().getColumn(0).setResizable(false);
+            jTableAttendanceLogs.getColumnModel().getColumn(1).setResizable(false);
+            jTableAttendanceLogs.getColumnModel().getColumn(2).setResizable(false);
+            jTableAttendanceLogs.getColumnModel().getColumn(3).setResizable(false);
+            jTableAttendanceLogs.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         jPanelAttendanceAndTracker.add(jScrollPaneAttenedanceandTracker, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 530, 240));
 
