@@ -85,39 +85,6 @@ public class EmployeeLeaveTracker {
         }
     }
     
-    /*private void saveLeaveBalances() {
-        List<String> fileContent = new ArrayList<>();
-        boolean found = false;
-        
-        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
-                if (data[0].equals(employeeId)) {
-                    fileContent.add(employeeId + "," + sickLeaveBalance + "," + vacationLeaveBalance + "," + birthdayLeaveBalance);
-                    found = true;
-                } else {
-                    fileContent.add(line);
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Error reading leave balances: " + e.getMessage());
-        }
-        
-        if (!found) {
-            fileContent.add(employeeId + "," + sickLeaveBalance + "," + vacationLeaveBalance + "," + birthdayLeaveBalance);
-        }
-        
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH))) {
-            for (String record : fileContent) {
-                bw.write(record);
-                bw.newLine();
-            }
-        } catch (IOException e) {
-            System.err.println("Error saving leave balances: " + e.getMessage());
-        }
-    }*/
-    
     public void saveLeaveBalances() {
         List<String> fileContent = new ArrayList<>();
         boolean found = false;

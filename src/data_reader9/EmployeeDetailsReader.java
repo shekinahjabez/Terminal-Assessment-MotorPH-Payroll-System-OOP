@@ -23,7 +23,7 @@ import motorph9.User;
 public class EmployeeDetailsReader {
    private static final String FILE_PATH = "src/data9/Employee.csv";
         
-    public User getEmployeeById(String username) {
+    /*public User getEmployeeById(String username) {
         try (BufferedReader br = new BufferedReader(new FileReader("src/data9/Login.csv"))) {
             String line;
             br.readLine(); // ✅ Skip header row
@@ -62,7 +62,50 @@ public class EmployeeDetailsReader {
             e.printStackTrace();
         }
         return null;
+    }*/
+   
+   public User getEmployeeById(String username) {
+        try (BufferedReader br = new BufferedReader(new FileReader("src/data9/Login.csv"))) {
+            String line;
+            br.readLine(); // ✅ Skip header row
+
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",", -1);
+                if (data.length >= 5) { // ✅ Ensure at least 5 columns exist (including Change Password)
+                    String empNum = data[0].trim(); // ✅ Employee ID from Login.csv
+                    String storedUsername = data[1].trim();
+                    String roleName = data[2].trim();
+                    String storedPassword = data[3].trim();
+                    String changePassword = data[4].trim(); // ✅ Read Change Password status
+
+                    if (storedUsername.equals(username.trim())) {
+                        // ✅ Fetch First Name & Last Name from Employee.csv
+                        String[] employeeDetails = getEmployeeDetails(empNum);
+                        String firstName = (employeeDetails != null) ? employeeDetails[2] : "Unknown";
+                        String lastName = (employeeDetails != null) ? employeeDetails[1] : "Unknown";
+
+                        // ✅ Return Correct User Type with changePassword
+                        switch (roleName.trim()) {
+                            case "HR":
+                                return new HRUser(empNum, storedUsername, roleName, storedPassword, firstName, lastName, changePassword);
+                            case "IT":
+                                return new ITUser(empNum, storedUsername, roleName, storedPassword, firstName, lastName, changePassword);
+                            case "Finance":
+                                return new FinanceUser(empNum, storedUsername, roleName, storedPassword, firstName, lastName, changePassword);
+                            case "Employee":
+                                return new EmployeeUser(empNum, storedUsername, roleName, storedPassword, firstName, lastName, changePassword);
+                            default:
+                                return null;
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
+
     
     public EmployeeUser getEmployeeDetailsByNumber(String employeeNumToFind) throws IOException {        
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {    
@@ -108,7 +151,7 @@ public class EmployeeDetailsReader {
     }
 
     // Fetch Employee Details from Employee.csv
-    private String[] getEmployeeDetails(String empNum) {
+    /*private String[] getEmployeeDetails(String empNum) {
         System.out.println("🔍 Searching for Employee Details for ID: " + empNum);
 
         try (BufferedReader br = new BufferedReader(new FileReader("src/data9/Employee.csv"))) {
@@ -130,7 +173,30 @@ public class EmployeeDetailsReader {
 
         System.out.println("❌ Employee Not Found for ID: " + empNum); // Debugging output
         return null; // ✅ Return null if not found
+    }*/
+    
+    private String[] getEmployeeDetails(String empNum) {
+        System.out.println("🔍 Searching for Employee Details for ID: " + empNum);
+
+        try (BufferedReader br = new BufferedReader(new FileReader("src/data9/Employee.csv"))) {
+            String line;
+            br.readLine(); // ✅ Skip header row
+
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",", -1); // ✅ Handle missing values correctly
+                if (data.length >= 3 && data[0].trim().equals(empNum.trim())) {
+                    System.out.println("✅ Employee Found: " + data[1] + ", " + data[2]); // Debugging output
+                    return data; // ✅ Return full employee data
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("❌ Error reading Employee.csv: " + e.getMessage());
+        }
+
+        System.out.println("❌ Employee Not Found for ID: " + empNum);
+        return null; // ✅ Return null if not found
     }
+
 
     public static void addEmployee(User newEmployee) throws IOException {
         List<String[]> data = CSVReader.readCSV(FILE_PATH);
@@ -239,7 +305,7 @@ public class EmployeeDetailsReader {
         return false; // ❌ Employee not found
     }
     
-    public User getLoginDetails(String username) {
+    /*public User getLoginDetails(String username) {
         try (BufferedReader br = new BufferedReader(new FileReader("src/data9/Login.csv"))) {
             String line;
             br.readLine(); // ✅ Skip header row
@@ -283,5 +349,101 @@ public class EmployeeDetailsReader {
             e.printStackTrace();
         }
         return null;
+    }*/
+    
+    
+    /*public User getLoginDetails(String username, String password) {
+        try (BufferedReader br = new BufferedReader(new FileReader("src/data9/Login.csv"))) {
+            String line;
+            br.readLine(); // ✅ Skip header row
+
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",", -1);
+                if (data.length >= 5) { // ✅ Ensure at least 5 columns exist (including Change Password)
+                    String empNum = data[0].trim();
+                    String storedUsername = data[1].trim();
+                    String roleName = data[2].trim();
+                    String storedPassword = data[3].trim();
+                    String changePassword = data[4].trim(); // ✅ Read Change Password status
+
+                    if (storedUsername.equalsIgnoreCase(username.trim()) && storedPassword.equals(password.trim())) {
+                        // ✅ Fetch Employee First Name & Last Name from Employee.csv
+                        String[] employeeDetails = getEmployeeDetails(empNum);
+                        String firstName = (employeeDetails != null) ? employeeDetails[2] : "Unknown";
+                        String lastName = (employeeDetails != null) ? employeeDetails[1] : "Unknown";
+
+                        System.out.println("✅ Login Successful for: " + firstName + " " + lastName);
+                        System.out.println("🔄 Change Password Status: " + changePassword);
+
+                        // ✅ Return Correct User Type (Including Change Password)
+                        switch (roleName.trim().toUpperCase()) {
+                            case "HR":
+                                return new HRUser(empNum, storedUsername, "HR", storedPassword, firstName, lastName, changePassword);
+                            case "IT":
+                                return new ITUser(empNum, storedUsername, "IT", storedPassword, firstName, lastName, changePassword);
+                            case "FINANCE":
+                                return new FinanceUser(empNum, storedUsername, "Finance", storedPassword, firstName, lastName, changePassword);
+                            case "EMPLOYEE":
+                                return new EmployeeUser(empNum, storedUsername, "Employee", storedPassword, firstName, lastName, changePassword);
+                            default:
+                                return null;
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("❌ Login failed for user: " + username);
+        return null;
+    }*/
+    
+    public User getLoginDetails(String username) {
+        try (BufferedReader br = new BufferedReader(new FileReader("src/data9/Login.csv"))) {
+            String line;
+            br.readLine(); // ✅ Skip header row
+
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",", -1);
+                if (data.length >= 5) { // ✅ Ensure at least 5 columns exist (including Change Password)
+                    String empNum = data[0].trim();
+                    String storedUsername = data[1].trim();
+                    String roleName = data[2].trim();
+                    String storedPassword = data[3].trim();
+                    String changePassword = data[4].trim(); // ✅ Read Change Password status
+
+                    if (storedUsername.equalsIgnoreCase(username.trim())) {
+                        // ✅ Fetch Employee First Name & Last Name from Employee.csv
+                        String[] employeeDetails = getEmployeeDetails(empNum);
+                        String firstName = (employeeDetails != null) ? employeeDetails[2] : "Unknown";
+                        String lastName = (employeeDetails != null) ? employeeDetails[1] : "Unknown";
+
+                        System.out.println("✅ User Found: " + storedUsername);
+                        System.out.println("🔄 Change Password Status: " + changePassword);
+
+                        // ✅ Return Correct User Type (Including Change Password)
+                        switch (roleName.trim().toUpperCase()) {
+                            case "HR":
+                                return new HRUser(empNum, storedUsername, "HR", storedPassword, firstName, lastName, changePassword);
+                            case "IT":
+                                return new ITUser(empNum, storedUsername, "IT", storedPassword, firstName, lastName, changePassword);
+                            case "FINANCE":
+                                return new FinanceUser(empNum, storedUsername, "Finance", storedPassword, firstName, lastName, changePassword);
+                            case "EMPLOYEE":
+                                return new EmployeeUser(empNum, storedUsername, "Employee", storedPassword, firstName, lastName, changePassword);
+                            default:
+                                return null;
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("❌ User not found: " + username);
+        return null;
     }
+
+
+
 }    

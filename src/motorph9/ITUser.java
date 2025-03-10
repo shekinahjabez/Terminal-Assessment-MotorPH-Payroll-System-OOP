@@ -20,8 +20,13 @@ public class ITUser extends User {
               sssNumber, philhealthNumber, tinNumber, pagibigNumber, status, 
               position, supervisor, "IT"); // Pass userType as "IT"
     }
-    public ITUser(String employeeId, String username, String roleName, String password, String firstName, String lastName) {
+    /*public ITUser(String employeeId, String username, String roleName, String password, String firstName, String lastName) {
         super(employeeId, username, roleName, password, firstName, lastName);
+    }*/
+    
+    
+    public ITUser(String employeeId, String username, String roleName, String password, String firstName, String lastName, String changePassword) {
+        super(employeeId, username, roleName, password, firstName, lastName, changePassword);
     }
 
     

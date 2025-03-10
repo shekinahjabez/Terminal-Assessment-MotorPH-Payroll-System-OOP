@@ -231,32 +231,6 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         }));
     }
     
-    /*private String generateLeaveId() {
-        List<LeaveRequest> requests = new LeaveRequestReader().getAllLeaveRequests();
-        int maxId = 0;
-        for (LeaveRequest request : requests) {
-            String idStr = request.getLeaveID().replace("L", "");
-            try {
-                int idNum = Integer.parseInt(idStr);
-                if (idNum > maxId) maxId = idNum;
-            } catch (NumberFormatException ignored) {}
-        }
-        return "L" + String.format("%03d", maxId + 1);
-    }
-    
-    private int calculateWeekdays(LocalDate startDate, LocalDate endDate) {
-        int weekdays = 0;
-        for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
-            DayOfWeek day = date.getDayOfWeek();
-            if (day != DayOfWeek.SATURDAY && day != DayOfWeek.SUNDAY) {
-                weekdays++;
-            }
-        }
-        return weekdays;
-    }*/
-
-
-    
     
 
 
