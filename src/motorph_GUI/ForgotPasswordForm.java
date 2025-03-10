@@ -92,7 +92,8 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
         jLabelPH = new javax.swing.JLabel();
         jLabelTime = new javax.swing.JLabel();
         jLabelGMT = new javax.swing.JLabel();
-        jButtonFPSubmit1 = new javax.swing.JButton();
+        jButtonFPSubmit = new javax.swing.JButton();
+        jButtonFPCancel = new javax.swing.JButton();
 
         jTextField1.setText("jTextField1");
 
@@ -190,16 +191,27 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
 
         jPanelForgotPassword.add(jPanelHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 530, 100));
 
-        jButtonFPSubmit1.setBackground(new java.awt.Color(251, 0, 54));
-        jButtonFPSubmit1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButtonFPSubmit1.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonFPSubmit1.setText("SUBMIT");
-        jButtonFPSubmit1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonFPSubmit.setBackground(new java.awt.Color(251, 0, 54));
+        jButtonFPSubmit.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jButtonFPSubmit.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonFPSubmit.setText("SUBMIT");
+        jButtonFPSubmit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonFPSubmit1ActionPerformed(evt);
+                jButtonFPSubmitActionPerformed(evt);
             }
         });
-        jPanelForgotPassword.add(jButtonFPSubmit1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 350, 170, 40));
+        jPanelForgotPassword.add(jButtonFPSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 350, 170, 40));
+
+        jButtonFPCancel.setBackground(new java.awt.Color(251, 0, 54));
+        jButtonFPCancel.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jButtonFPCancel.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonFPCancel.setText("CANCEL");
+        jButtonFPCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFPCancelActionPerformed(evt);
+            }
+        });
+        jPanelForgotPassword.add(jButtonFPCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 350, 170, 40));
 
         getContentPane().add(jPanelForgotPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 510, 420));
 
@@ -207,7 +219,7 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     
-    private void jButtonFPSubmit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFPSubmit1ActionPerformed
+    private void jButtonFPSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFPSubmitActionPerformed
         /**
         * Handles Forgot Password submission.
         *   Validates Employee ID & Name before allowing submission.
@@ -223,7 +235,7 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
             return;
         }
 
-        // Validate Employee ID (Must be exactly 6 digits)
+        // Validate Employee ID (Must be exactly 5 digits)
         if (!empNum.matches("\\d{5}")) {
             JOptionPane.showMessageDialog(this, "Employee Number must be exactly 5 digits!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -250,8 +262,9 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
         PasswordResetReader.saveRequest(request);
 
         JOptionPane.showMessageDialog(this, "Request Sent to IT!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        //dispose();
     
-    }//GEN-LAST:event_jButtonFPSubmit1ActionPerformed
+    }//GEN-LAST:event_jButtonFPSubmitActionPerformed
 
     private void jTextFieldFPEmpNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFPEmpNameKeyTyped
         // TODO add your handling code here:
@@ -268,6 +281,12 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
             evt.consume(); // Ignore the key event
         }    
     }//GEN-LAST:event_jTextFieldFPEmpNumKeyTyped
+
+    private void jButtonFPCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFPCancelActionPerformed
+        Login newClassInstance = new Login();
+                 newClassInstance.setVisible(true); 
+        dispose();         
+    }//GEN-LAST:event_jButtonFPCancelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -307,7 +326,8 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Logo;
-    private javax.swing.JButton jButtonFPSubmit1;
+    private javax.swing.JButton jButtonFPCancel;
+    private javax.swing.JButton jButtonFPSubmit;
     private com.toedter.calendar.JDateChooser jDateChooser;
     private javax.swing.JLabel jLabelFPDOR;
     private javax.swing.JLabel jLabelFPEmpName;

@@ -29,9 +29,14 @@ public class EmployeeUser extends User {
               position, supervisor, "Employee"); // Pass userType as "Employee"
     }
      
-    public EmployeeUser(String employeeId, String username, String roleName, String password, String firstName, String lastName) {
+    /*public EmployeeUser(String employeeId, String username, String roleName, String password, String firstName, String lastName) {
         super(employeeId, username, roleName, password, firstName, lastName);
-    }    
+    }*/
+
+    public EmployeeUser(String employeeId, String username, String roleName, String password, String firstName, String lastName, String changePassword) {
+        super(employeeId, username, roleName, password, firstName, lastName, changePassword);
+        
+    }
     
     public LocalDateTime getClockInTime() {
         return clockInTime;

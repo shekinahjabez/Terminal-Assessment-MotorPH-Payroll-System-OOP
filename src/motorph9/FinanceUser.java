@@ -23,13 +23,14 @@ public class FinanceUser extends User {
               position, supervisor, "Finance"); // Pass userType as "Finance"
     }
     
-    public FinanceUser(String employeeId, String username, String roleName, String password, String firstName, String lastName) {
+    /*public FinanceUser(String employeeId, String username, String roleName, String password, String firstName, String lastName) {
         super(employeeId, username, roleName, password, firstName, lastName);
-    }    
+    }*/    
     
-    /*public FinanceUser(String employeeId, String username, String roleName, String password) {
-        super(employeeId, username, roleName, password);
-    }*/
+    public FinanceUser(String employeeId, String username, String roleName, String password, String firstName, String lastName, String changePassword) {
+        super(employeeId, username, roleName, password, firstName, lastName, changePassword);
+        
+    }
 
     
     public double getHourlyRate() throws IOException {
