@@ -8,6 +8,7 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -25,7 +26,7 @@ public class ResetPasswordProcessor {
      * @param adminEmployeeNo The IT admin’s employee number.
      * @return true if the password reset is successful.
      */
-    public boolean resetPassword(String employeeNumber, String adminName, String adminEmployeeNo) {
+    /*public boolean resetPassword(String employeeNumber, String adminName, String adminEmployeeNo) {
         try {
             if (!updateLoginCSV(employeeNumber)) {
                 return false;
@@ -40,7 +41,36 @@ public class ResetPasswordProcessor {
             System.err.println("❌ Error resetting password: " + e.getMessage());
             return false;
         }
+    }*/
+    
+    public boolean resetPassword(String employeeNumber, String adminName, String adminEmpNum) throws IOException {
+        List<String[]> loginData = CSVReader.readCSV("src/data9/Login.csv");
+        boolean updated = false;
+        String newPassword = "Default" + employeeNumber; // ✅ Generate default password
+
+        for (String[] row : loginData) {
+            if (row[0].equals(employeeNumber)) { // ✅ Match Employee Number
+                row[3] = newPassword; // ✅ Update password
+                row[4] = "YES"; // ✅ Set Change Password to YES
+                updated = true;
+                break;
+            }
+        }
+
+        if (updated) {
+            CSVReader.writeCSV("src/data9/Login.csv", loginData);
+            JOptionPane.showMessageDialog(null, 
+                "✅ Password has been reset.\n" + 
+                "Temporary password: " + newPassword, 
+                "Password Reset Successful", JOptionPane.INFORMATION_MESSAGE);
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, 
+                "❌ Employee not found.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
     }
+
 
 
     /**
