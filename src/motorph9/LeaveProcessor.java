@@ -23,7 +23,7 @@ public class LeaveProcessor {
     }
     
     /*public void processLeaveRequest(String employeeId, String leaveType, LocalDate startLocalDate, LocalDate endLocalDate, String reason) throws IOException {
-        if (startLocalDate.isBefore(EmployeeDashboard.TODAY) || endLocalDate.isBefore(EmployeeDashboard.TODAY)) {
+        if (startLocalDate.isBefore(EmployeeDashboard2.TODAY) || endLocalDate.isBefore(EmployeeDashboard2.TODAY)) {
             throw new IllegalArgumentException("Leave cannot be in the past!");
         }
         
@@ -48,7 +48,7 @@ public class LeaveProcessor {
             leaveId,
             employeeId,
             leaveType,
-            EmployeeDashboard.TODAY,
+            EmployeeDashboard2.TODAY,
             startLocalDate,
             endLocalDate,
             reason,

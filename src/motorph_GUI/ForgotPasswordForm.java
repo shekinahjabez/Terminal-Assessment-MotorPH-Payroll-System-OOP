@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import data_reader9.PasswordResetReader;
+import javax.swing.Timer;
 import motorph9.PasswordResetRequest;
 import motorph9.PasswordResetRequest;
 
@@ -29,6 +30,7 @@ import motorph9.PasswordResetRequest;
  * Saves the request if all validations pass.
  */
 public class ForgotPasswordForm extends javax.swing.JFrame {
+    private Timer timer;
     private EmployeeDetailsReader employeeReader = new EmployeeDetailsReader();
     
     /**
@@ -39,6 +41,19 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null); // Center the window
         restrictDateChooser(); 
+        startClock();
+    }
+    
+    private void startClock() {
+        timer = new Timer(1000, e -> updateTimeAndDate());
+        timer.start();
+    }
+
+    private void updateTimeAndDate() {
+        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm:ss a");
+        //SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM d, yyyy");
+        jLabelTime.setText(timeFormat.format(new Date()));
+        //jLabelDate.setText(dateFormat.format(new Date()));
     }
     
     /**

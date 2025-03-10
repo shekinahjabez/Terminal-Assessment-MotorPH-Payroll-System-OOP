@@ -16,20 +16,21 @@ import motorph9.ITUser;
  * @author Four Lugtu
  */
 public class ITDashboard extends javax.swing.JFrame {
- private Timer timer;
+    private Timer timer;
     private ITUser itUser;
 
     /**
       * Creates new form ITDashboar
       * @param itUser*/
-  public ITDashboard(ITUser itUser) {  // ✅ Pass ITUser object directly
-      this.itUser = itUser; // ✅ Assign it correctly
+  public ITDashboard(ITUser itUser) {  // Pass ITUser object directly
+      this.itUser = itUser; // Assign it correctly
       initComponents(); // Call initComponents() to initialize UI
       setLocationRelativeTo(null); // Center the window
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Define close behavior
+      restrictDateChooser(); // Apply date restrictions
       startClock();
 
-        // ✅ Debugging: Print ITUser details
+        // Debugging: Print ITUser details
         System.out.println("ITUser Data: ");
         System.out.println("Username: " + itUser.getUsername());
         System.out.println("First Name: " + itUser.getFirstName());
@@ -47,12 +48,24 @@ public class ITDashboard extends javax.swing.JFrame {
         timer = new Timer(1000, e -> updateTimeAndDate());
         timer.start();
     }
-
+    
+  
     private void updateTimeAndDate() {
         SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm:ss a");
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM d, yyyy");
         jLabelTime.setText(timeFormat.format(new Date()));
         jLabelDate.setText(dateFormat.format(new Date()));
+    }
+    
+    /**
+     * Restricts jDateChooser to **only allow today's date** (prevents past & future selections).
+     */
+    private void restrictDateChooser() {
+        Date today = new Date();
+        jDateChooser.setDate(today);
+        jDateChooser.setMinSelectableDate(today);
+        jDateChooser.setMaxSelectableDate(today);
+        //jDateChooser.setEnabled(false); // ITUser cannot even click it
     }
     
     /**
@@ -193,7 +206,7 @@ public class ITDashboard extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Employee Name", "Employee Number", "Date of Request", "Admin Name", "Admin Employee Number", "Date of Reset", "Status"
+                "Employee No.", "Employee Name", "Date of Request", "Status", "Admin Name", "Admin Employee No.", "Date of Reset"
             }
         ));
         jScrollPanePasswordResetTickets.setViewportView(jTablePasswordResetTickets);

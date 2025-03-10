@@ -48,12 +48,9 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     public static final LocalDate TODAY = LocalDate.now();
     private LeaveRequest leaveRequest;
     private LeaveProcessor leaveProcessor;
-    
-    
     /**
      * Creates new form EmployeeDashboards
      */
-    
     public EmployeeDashboard() {
         initComponents();
         setLocationRelativeTo(null); // Center the window
@@ -165,8 +162,8 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     
     private void loadRequests() {
         DefaultTableModel model = (DefaultTableModel) jTableRequestLogs.getModel();
-        model.setRowCount(0); // ✅ Clear existing rows
-
+        model.setRowCount(0);
+        
         List<LeaveRequest> requests = new LeaveRequestReader().getAllLeaveRequests();
         for (LeaveRequest request : requests) {
             if (request.getEmployeeID().equals(loggedInUser.getEmployeeId())) {
@@ -178,7 +175,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                     request.getReason(),
                     request.getStatus(),
                     request.getApprover().isEmpty() ? "HR" : request.getApprover(),
-                    request.getDateResponded() != null ? request.getDateResponded().toString() : "" // ✅ Show empty string instead of "Pending"
+                    request.getDateResponded() != null ? request.getDateResponded().toString() : "Pending"
                 });
             }
         }
@@ -192,7 +189,31 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         }));
     }
     
-   
+    /*private String generateLeaveId() {
+        List<LeaveRequest> requests = new LeaveRequestReader().getAllLeaveRequests();
+        int maxId = 0;
+        for (LeaveRequest request : requests) {
+            String idStr = request.getLeaveID().replace("L", "");
+            try {
+                int idNum = Integer.parseInt(idStr);
+                if (idNum > maxId) maxId = idNum;
+            } catch (NumberFormatException ignored) {}
+        }
+        return "L" + String.format("%03d", maxId + 1);
+    }
+    
+    private int calculateWeekdays(LocalDate startDate, LocalDate endDate) {
+        int weekdays = 0;
+        for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+            DayOfWeek day = date.getDayOfWeek();
+            if (day != DayOfWeek.SATURDAY && day != DayOfWeek.SUNDAY) {
+                weekdays++;
+            }
+        }
+        return weekdays;
+    }*/
+
+
     
     
 
@@ -337,7 +358,6 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jComboBoxSelectMonthAttendance = new javax.swing.JComboBox<>();
         jButtonAttendanceView = new javax.swing.JButton();
         jPanelTimeTracker = new javax.swing.JPanel();
-        jButtonBreak = new javax.swing.JButton();
         jButtonTimeIn = new javax.swing.JButton();
         jButtonTimeOut = new javax.swing.JButton();
         jLabelAttendanceLog = new javax.swing.JLabel();
@@ -625,19 +645,21 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jTableSalaryLogs.setBackground(new java.awt.Color(255, 255, 255));
         jTableSalaryLogs.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Month", "Year", "Gross Salary", "Net Month Salary"
+                "Employee No.", "Month", "Year", "Gross Salary", "Total Allowance", "Total Deductions", "Net Month Salary"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
             }
         });
         jScrollPaneSalaryLogs.setViewportView(jTableSalaryLogs);
@@ -688,8 +710,8 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jLabelGrossSalary.setBackground(new java.awt.Color(255, 255, 255));
         jLabelGrossSalary.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabelGrossSalary.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelGrossSalary.setText("Monthly Salary:");
-        jPanelSalaryCalculations.add(jLabelGrossSalary, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, 110, 40));
+        jLabelGrossSalary.setText("Gross Salary:");
+        jPanelSalaryCalculations.add(jLabelGrossSalary, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, 100, 40));
 
         jTextFieldHourlyRate.setBackground(new java.awt.Color(255, 255, 255));
         jPanelSalaryCalculations.add(jTextFieldHourlyRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, 80, -1));
@@ -828,7 +850,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jPanelSelectMonthSalary.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jComboBoxSelectMonthSalary.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBoxSelectMonthSalary.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "June 2024", "July 2024", "January 2025", "" }));
+        jComboBoxSelectMonthSalary.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanelSelectMonthSalary.add(jComboBoxSelectMonthSalary, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 230, 40));
 
         jPanelSalaryInformation.add(jPanelSelectMonthSalary, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 400, 270, 60));
@@ -944,6 +966,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
         jTextFieldReason.setBackground(new java.awt.Color(255, 255, 255));
         jTextFieldReason.setForeground(new java.awt.Color(0, 0, 0));
+        jTextFieldReason.setText("Please put reason");
         jPanelCreateRquest.add(jTextFieldReason, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 260, 150));
 
         jDateChooserStart.setBackground(new java.awt.Color(255, 255, 255));
@@ -1077,23 +1100,22 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jPanelTimeTracker.setBackground(new java.awt.Color(102, 0, 0));
         jPanelTimeTracker.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButtonBreak.setBackground(new java.awt.Color(204, 0, 51));
-        jButtonBreak.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jButtonBreak.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonBreak.setText("BREAK");
-        jPanelTimeTracker.add(jButtonBreak, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, 200, 50));
-
         jButtonTimeIn.setBackground(new java.awt.Color(204, 0, 51));
         jButtonTimeIn.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jButtonTimeIn.setForeground(new java.awt.Color(255, 255, 255));
         jButtonTimeIn.setText("TIME IN");
-        jPanelTimeTracker.add(jButtonTimeIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 200, 50));
+        jPanelTimeTracker.add(jButtonTimeIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, 320, 50));
 
         jButtonTimeOut.setBackground(new java.awt.Color(204, 0, 51));
         jButtonTimeOut.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jButtonTimeOut.setForeground(new java.awt.Color(255, 255, 255));
         jButtonTimeOut.setText("TIME OUT");
-        jPanelTimeTracker.add(jButtonTimeOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 200, 50));
+        jButtonTimeOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonTimeOutActionPerformed(evt);
+            }
+        });
+        jPanelTimeTracker.add(jButtonTimeOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, 320, 50));
 
         jPanelAttendanceandTracker.add(jPanelTimeTracker, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 140, 430, 230));
 
@@ -1228,7 +1250,84 @@ public class EmployeeDashboard extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error saving request.", "File Error", JOptionPane.ERROR_MESSAGE);
         }
 
+        
+        /*String selectedLeave = jComboBoxLeaveType.getSelectedItem().toString();
+        String leaveType = selectedLeave.replaceAll("\\s\\(.*\\)", "");
+        
+        Date startDateRaw = jDateChooserStart.getDate();
+        Date endDateRaw = jDateChooserEnd.getDate();
+        
+        if (startDateRaw == null || endDateRaw == null) {
+            JOptionPane.showMessageDialog(this, "Please select a valid start and end date.", "Date Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        LocalDate startLocalDate = startDateRaw.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate endLocalDate = endDateRaw.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        
+        if (startLocalDate == null || endLocalDate == null) {
+            JOptionPane.showMessageDialog(this, "Invalid date selection.", "Date Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (startLocalDate.isBefore(TODAY) || endLocalDate.isBefore(TODAY)) {
+            JOptionPane.showMessageDialog(this, "Leave cannot be in the past!", "Date Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (startLocalDate.getDayOfWeek() == DayOfWeek.SATURDAY || startLocalDate.getDayOfWeek() == DayOfWeek.SUNDAY ||
+            endLocalDate.getDayOfWeek() == DayOfWeek.SATURDAY || endLocalDate.getDayOfWeek() == DayOfWeek.SUNDAY) {
+            JOptionPane.showMessageDialog(this, "Leave cannot start or end on a weekend!", "Date Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        String reason = jTextFieldReason.getText();
+        if (reason.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a reason for your leave.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        int leaveDuration = calculateWeekdays(startLocalDate, endLocalDate);
+        
+        if (!leaveTracker.hasSufficientLeave(leaveType, leaveDuration)) {
+            JOptionPane.showMessageDialog(this, "Insufficient leave balance.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        String leaveId = generateLeaveId();
+        
+        LeaveRequest leaveRequest = new LeaveRequest(
+            leaveId,
+            loggedInUser.getEmployeeId(),
+            leaveType,
+            TODAY,
+            startLocalDate,
+            endLocalDate,
+            reason,
+            "Pending",
+            "",
+            null,
+            ""
+        );
+        
+        try {
+            LeaveRequestReader.addLeaveRequest(leaveRequest);
+            leaveTracker.deductLeave(leaveType, leaveDuration);
+            leaveTracker.saveLeaveBalances();
+            JOptionPane.showMessageDialog(this, "Request submitted successfully!\nUpdated Balances:\nSick Leave: " + leaveTracker.getSickLeaveBalance() + "\nVacation Leave: " + leaveTracker.getVacationLeaveBalance() + "\nBirthday Leave: " + leaveTracker.getBirthdayLeaveBalance(), "Success", JOptionPane.INFORMATION_MESSAGE);
+            loadRequests();
+            initializeLeaveTypeComboBox();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error saving request.", "File Error", JOptionPane.ERROR_MESSAGE);
+        }*/
+        
+        
+             
     }//GEN-LAST:event_jButtonSubmitRequestActionPerformed
+
+    private void jButtonTimeOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTimeOutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonTimeOutActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1257,6 +1356,12 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -1270,7 +1375,6 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel Logo;
     private javax.swing.JButton jButtonAttendance;
     private javax.swing.JButton jButtonAttendanceView;
-    private javax.swing.JButton jButtonBreak;
     private javax.swing.JButton jButtonEmployeeDetails;
     private javax.swing.JButton jButtonLogout;
     private javax.swing.JButton jButtonRequests;
