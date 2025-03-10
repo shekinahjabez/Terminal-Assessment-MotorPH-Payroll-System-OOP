@@ -214,7 +214,7 @@ public class HRUser extends User {
         }
     }*/
     
-    public void approveLeave(String leaveID, LeaveRequestReader leaveRequestReader) throws IOException {
+    public void approveLeave(String leaveID, LeaveRequestReader leaveRequestReader, String remark) throws IOException {
         LeaveRequest leaveRequest = leaveRequestReader.getLeaveById(leaveID); // ✅ FIXED
         if (leaveRequest != null) {
             leaveRequest.approve(getFirstName() + " " + getLastName());
@@ -237,7 +237,7 @@ public class HRUser extends User {
         }
     }*/
     
-    public void rejectLeave(String leaveID, LeaveRequestReader leaveRequestReader) throws IOException {
+    public void rejectLeave(String leaveID, LeaveRequestReader leaveRequestReader, String remark) throws IOException {
         LeaveRequest leaveRequest = leaveRequestReader.getLeaveById(leaveID); // ✅ FIXED
         if (leaveRequest != null) {
             leaveRequest.reject(getFirstName() + " " + getLastName());
