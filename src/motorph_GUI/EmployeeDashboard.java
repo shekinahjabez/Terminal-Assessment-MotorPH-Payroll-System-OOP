@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -36,6 +37,9 @@ import motorph9.SalaryDetails;
 import motorph9.SalaryDetails;
 import motorph9.User;
 import motorph9.User;
+import java.awt.event.ActionListener; 
+import java.awt.event.ActionEvent;    
+
 
 /**
  *
@@ -75,7 +79,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         
         displayWelcomeMessage(); // Call method to display welcome message (example)
         loadEmployeeDetails(); // Call method to load and display employee details
-        loadAttendanceLogs();
+        loadAttendanceLogs(null, null);
         loadSalaryInformation();
         initializeLeaveTypeComboBox(); // Populate leave types with balance
         
@@ -107,14 +111,23 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         }
     }
     
-    private void loadAttendanceLogs() {
+    private void loadAttendanceLogs(String selectedMonth, String selectedYear) { // ✅ Modified to accept month and year
         if (loggedInUser != null) {
             try {
                 List<String[]> logs = TimeTrackerReader.getTimeLogs(loggedInUser.getEmployeeId());
                 DefaultTableModel model = (DefaultTableModel) jTableAttendanceLogs.getModel();
                 model.setRowCount(0); // Clear existing rows
+                
+                //System.out.println("loadAttendanceLogs: Logs size from TimeTrackerReader: " + logs.size()); // ✅ Debug: Check logs size
+                
+                boolean dataFound = false; // Flag to track if any data is found after filtering
+
+                // Define the desired date format for display
+                DateTimeFormatter displayFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy"); // ✅ Format: MM/DD/YYYY  <-- UPDATED DATE FORMAT HERE
+
 
                 for (String[] logData : logs) {
+                    //System.out.println("loadAttendanceLogs: LogData from TimeTrackerReader: " + java.util.Arrays.toString(logData)); // ✅ Debug: Print each logData
                     // Assuming your TimeTracker.csv data order is: employeeNum,date,timeIn,timeOut,totalWorkedHrs
                     // Adjust column indices to match your CSV structure
 
@@ -132,7 +145,16 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                         hoursWorked = logData[4].trim();   // Hours Worked is in column 5 (index 4)
                     }
 
-                    model.addRow(new Object[]{employeeNum, date, timeIn, timeOut, hoursWorked}); // ✅ Add row to table with all 5 columns
+                    // ✅ Filtering logic: Check if log entry matches selected month and year
+                    if (isLogMatchingFilter(date, selectedMonth, selectedYear)) { // ✅ Call helper method for filtering
+                        model.addRow(new Object[]{employeeNum, date, timeIn, timeOut, hoursWorked});
+                        dataFound = true; // Set flag to true if at least one row is added
+                    }
+                }
+                
+                // ✅ Check if no data was found and show JOptionPane message
+                if (!dataFound) { // Check the dataFound flag instead of table row count
+                    JOptionPane.showMessageDialog(this, "No attendance logs found for the selected month and year.", "No Data Found", JOptionPane.ERROR_MESSAGE);
                 }
 
             } catch (IOException ex) {
@@ -140,6 +162,77 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Error reading attendance logs from file.", "File Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+
+    // ✅ Helper method to check if a log entry matches the filters
+    private boolean isLogMatchingFilter(String logDateString, String selectedMonth, String selectedYear) {
+        System.out.println("isLogMatchingFilter - LogDateString: " + logDateString + ", Selected Month: " + selectedMonth + ", Selected Year: " + selectedYear); // ✅ Debug: Input values
+        if ((selectedMonth == null || selectedMonth.isEmpty() || selectedMonth.equals("Item 1")) && // Treat "Item 1" as no filter
+            (selectedYear == null || selectedYear.isEmpty() || selectedYear.equals("Item 1"))) { // Treat "Item 1" as no filter
+            return true; // No filter selected, show all logs
+        }
+
+        String logMonth = "";
+        String logYear = "";
+        
+        try {
+            
+            DateTimeFormatter csvDateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy"); // ✅ Define input format: MM/DD/YYYY
+            LocalDate logDate = LocalDate.parse(logDateString, csvDateFormatter); // ✅ Parse using csvDateFormatter
+            logYear = String.valueOf(logDate.getYear());
+            logMonth = String.valueOf(logDate.getMonthValue());
+            
+            System.out.println("isLogMatchingFilter - Parsed Log Date - Year: " + logYear + ", Month: " + logMonth); // ✅ Debug: Parsed date parts
+
+            
+        } catch (java.time.format.DateTimeParseException e) {
+            System.err.println("Warning: Unexpected date format in CSV: " + logDateString);
+            return false;
+        }
+
+        // Assuming date format in CSV is YYYY-MM-DD or similar that can be split by '-'
+        //String[] dateParts = logDateString.split("-"); // Split date string to get month and year
+        //if (dateParts.length >= 2) {
+            //logYear = dateParts[0].trim();       // Year is the first part
+            //logMonth = dateParts[1].trim();      // Month is the second part
+        //} else {
+            // If date format is different, you'll need to adjust date parsing logic here
+            //System.err.println("Warning: Unexpected date format in CSV: " + logDateString);
+            //return false; // Skip this log entry if date parsing fails
+        //}
+
+
+        boolean monthMatch = true;
+        if (selectedMonth != null && !selectedMonth.isEmpty() && !selectedMonth.equals("Item 1")) { // Filter by month if selected
+            monthMatch = selectedMonth.equalsIgnoreCase(getMonthNameFromNumber(logMonth)); // Compare month names (case-insensitive)
+            System.out.println("isLogMatchingFilter - Month Match: " + monthMatch + ", Selected Month: " + selectedMonth + ", Log Month Name: " + getMonthNameFromNumber(logMonth)); // ✅ Debug: Month match result
+        }
+
+        boolean yearMatch = true;
+        if (selectedYear != null && !selectedYear.isEmpty() && !selectedYear.equals("Item 1")) { // Filter by year if selected
+            yearMatch = selectedYear.equals(logYear); // Compare years as strings
+            System.out.println("isLogMatchingFilter - Year Match: " + yearMatch + ", Selected Year: " + selectedYear + ", Log Year: " + logYear); // ✅ Debug: Year match result
+        }
+        
+        boolean finalResult = monthMatch && yearMatch;
+        System.out.println("isLogMatchingFilter - Final Result: " + finalResult); // ✅ Debug: Final result
+        return finalResult;
+        //return monthMatch && yearMatch; // Log entry matches filter if both month and year (if selected) match
+    }
+
+    // ✅ Helper method to get month name from month number (String)
+    private String getMonthNameFromNumber(String monthNumber) {
+        try {
+            int month = Integer.parseInt(monthNumber);
+            if (month >= 1 && month <= 12) {
+                String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+                return monthNames[month - 1];
+            }
+        } catch (NumberFormatException e) {
+            // Handle parsing error if monthNumber is not a valid number
+            System.err.println("Error parsing month number: " + monthNumber);
+        }
+        return ""; // Return empty string if month number is invalid or parsing fails
     }
     
     private void displayEmployeeDetails(EmployeeUser details) { // Parameter type is now EmployeeUser
@@ -1147,7 +1240,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jPanelSelectYearAttendance.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jComboBoxSelectYearAttendance.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBoxSelectYearAttendance.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxSelectYearAttendance.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2024", "2025" }));
         jPanelSelectYearAttendance.add(jComboBoxSelectYearAttendance, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 230, 40));
 
         jPanelAttendanceandTracker.add(jPanelSelectYearAttendance, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 400, 270, 60));
@@ -1156,7 +1249,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jPanelSelectMonthAttendance.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jComboBoxSelectMonthAttendance.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBoxSelectMonthAttendance.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxSelectMonthAttendance.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" }));
         jPanelSelectMonthAttendance.add(jComboBoxSelectMonthAttendance, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 230, 40));
 
         jPanelAttendanceandTracker.add(jPanelSelectMonthAttendance, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 400, 280, 60));
@@ -1166,6 +1259,14 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jButtonAttendanceView.setForeground(new java.awt.Color(255, 255, 255));
         jButtonAttendanceView.setText("View");
         jPanelAttendanceandTracker.add(jButtonAttendanceView, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 470, 160, 30));
+        jButtonAttendanceView.addActionListener(new ActionListener() { // ✅ Add ActionListener to View button
+            //@Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedMonth = (String) jComboBoxSelectMonthAttendance.getSelectedItem(); // Get selected month
+                String selectedYear = (String) jComboBoxSelectYearAttendance.getSelectedItem();   // Get selected year
+                loadAttendanceLogs(selectedMonth, selectedYear); // ✅ Call loadAttendanceLogs with month and year
+            }
+        });
 
         jPanelTimeTracker.setBackground(new java.awt.Color(102, 0, 0));
         jPanelTimeTracker.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
