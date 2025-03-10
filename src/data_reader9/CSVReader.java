@@ -15,7 +15,7 @@ public class CSVReader {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                data.add(line.split(","));
+                data.add(line.split(",", -1)); // ✅ Use split(",", -1) for robust CSV parsing
             }
         }
         return data;
