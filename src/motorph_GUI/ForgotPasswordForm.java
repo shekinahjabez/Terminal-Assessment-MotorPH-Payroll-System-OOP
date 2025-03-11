@@ -1,20 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package motorph_GUI;
 
 import data_reader9.EmployeeDetailsReader;
-import data_reader9.PasswordResetReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import data_reader9.PasswordResetReader;
 import javax.swing.Timer;
-import motorph9.PasswordResetRequest;
-import motorph9.PasswordResetRequest;
+import password_reset9.PasswordResetRequest;
 
 /**
  *
@@ -254,37 +247,50 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
         }
 
         // Format date
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
         String dateOfRequest = sdf.format(selectedDate);
 
+        // Debugging print 
+        System.out.println("Employee Number: " + empNum);
+        System.out.println("Employee Name: " + empName);
+        System.out.println("Date of Request: " + dateOfRequest);
+        
         // Use the correct class to save request
         PasswordResetRequest request = new PasswordResetRequest(empNum, empName, dateOfRequest);
-        PasswordResetReader.saveRequest(request);
 
-        JOptionPane.showMessageDialog(this, "Request Sent to IT!", "Success", JOptionPane.INFORMATION_MESSAGE);
-        //dispose();
-    
+        try {
+            PasswordResetReader reader = new PasswordResetReader();
+            reader.saveRequest(request);
+            JOptionPane.showMessageDialog(this, "Your password reset request has been submitted. A temporary password will be sent to your registered communication method shortly.", "Request Sent to IT!", JOptionPane.INFORMATION_MESSAGE);
+            //Clear form.
+            jTextFieldFPEmpNum.setText("");
+            jTextFieldFPEmpName.setText("");
+            jDateChooser.setDate(null);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error saving request: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_jButtonFPSubmitActionPerformed
 
     private void jTextFieldFPEmpNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFPEmpNameKeyTyped
         // TODO add your handling code here:
-        char c = evt.getKeyChar();
+        /*char c = evt.getKeyChar();
         if (!Character.isLetter(c) && c != ' ') { // Allow letters & spaces only
             evt.consume(); // Ignore the key event
-        }
+        }*/
     }//GEN-LAST:event_jTextFieldFPEmpNameKeyTyped
 
     private void jTextFieldFPEmpNumKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFPEmpNumKeyTyped
         // TODO add your handling code here:
-        char c = evt.getKeyChar();
+        /*char c = evt.getKeyChar();
         if (!Character.isDigit(c)) { // Allow only numbers
             evt.consume(); // Ignore the key event
-        }    
+        }*/    
     }//GEN-LAST:event_jTextFieldFPEmpNumKeyTyped
 
     private void jButtonFPCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFPCancelActionPerformed
         Login newClassInstance = new Login();
-                 newClassInstance.setVisible(true); 
+                 newClassInstance.setVisible(true);
         dispose();         
     }//GEN-LAST:event_jButtonFPCancelActionPerformed
 
@@ -313,6 +319,8 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(ForgotPasswordForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
