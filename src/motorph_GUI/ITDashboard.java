@@ -224,36 +224,30 @@ public class ITDashboard extends javax.swing.JFrame {
         jLabelGMT = new javax.swing.JLabel();
         jLabelTime = new javax.swing.JLabel();
         jPanelHeader = new javax.swing.JPanel();
-        jButtonLogout = new javax.swing.JButton();
         jLabelGreet = new javax.swing.JLabel();
         jLabelDate = new javax.swing.JLabel();
         jTabbedPaneIT = new javax.swing.JTabbedPane();
         jPanelPasswordReset = new javax.swing.JPanel();
         jScrollPanePasswordResetTickets = new javax.swing.JScrollPane();
         jTablePasswordResetTickets = new javax.swing.JTable();
-        jLabelPasswordResetTickets = new javax.swing.JLabel();
-        jPanelSide = new javax.swing.JPanel();
-        jPanelAdminInfoMain = new javax.swing.JPanel();
-        jPanelAdminInformation = new javax.swing.JPanel();
-        jLabelDateAdmin = new javax.swing.JLabel();
-        jLabelName = new javax.swing.JLabel();
-        jTextFieldName = new javax.swing.JTextField();
-        jLabelEmployeeNumber = new javax.swing.JLabel();
-        jTextFieldEmployeeNumber = new javax.swing.JTextField();
-        jDateChooser = new com.toedter.calendar.JDateChooser();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
         jLabelAdminInformation = new javax.swing.JLabel();
+        jTextFieldName = new javax.swing.JTextField();
+        jLabelName = new javax.swing.JLabel();
+        jTextFieldEmployeeNumber = new javax.swing.JTextField();
+        jLabelEmployeeNumber = new javax.swing.JLabel();
+        jDateChooser = new com.toedter.calendar.JDateChooser();
+        jLabelDateAdmin = new javax.swing.JLabel();
         jButtonResetPassword = new javax.swing.JButton();
-        jButtonLogout1 = new javax.swing.JButton();
-        jButtonCreateEmployeeAccountMain = new javax.swing.JButton();
-        jButtonPWResetTickets = new javax.swing.JButton();
+        jLabelPasswordResetTickets = new javax.swing.JLabel();
         jPanelCreateAccount = new javax.swing.JPanel();
         jScrollPaneTableEmployeeRecords = new javax.swing.JScrollPane();
         jTableEmployeeRecords = new javax.swing.JTable();
         jLabelCreateEmployeesAccoun = new javax.swing.JLabel();
         jButtonDeleteAccount = new javax.swing.JButton();
         jButtonCreateAccount = new javax.swing.JButton();
-        jSidePanel = new javax.swing.JPanel();
-        jButtonLogout2 = new javax.swing.JButton();
+        jButtonLogout1 = new javax.swing.JButton();
         jButtonCreateEmployeeAccount = new javax.swing.JButton();
         jButtonPasswordResetTickets = new javax.swing.JButton();
 
@@ -269,6 +263,7 @@ public class ITDashboard extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanelITMain.setBackground(new java.awt.Color(0, 0, 0));
         jPanelITMain.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -304,17 +299,6 @@ public class ITDashboard extends javax.swing.JFrame {
 
         jPanelHeader.setBackground(new java.awt.Color(0, 0, 0));
         jPanelHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jButtonLogout.setBackground(new java.awt.Color(255, 255, 255));
-        jButtonLogout.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
-        jButtonLogout.setForeground(new java.awt.Color(0, 0, 0));
-        jButtonLogout.setText("Logout");
-        jButtonLogout.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonLogoutActionPerformed(evt);
-            }
-        });
-        jPanelHeader.add(jButtonLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 560, 200, 30));
 
         jLabelGreet.setFont(new java.awt.Font("Century Gothic", 1, 20)); // NOI18N
         jLabelGreet.setForeground(new java.awt.Color(255, 255, 255));
@@ -357,55 +341,51 @@ public class ITDashboard extends javax.swing.JFrame {
         });
         jScrollPanePasswordResetTickets.setViewportView(jTablePasswordResetTickets);
 
-        jPanelPasswordReset.add(jScrollPanePasswordResetTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 800, 510));
+        jPanelPasswordReset.add(jScrollPanePasswordResetTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 800, 380));
 
-        jLabelPasswordResetTickets.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabelPasswordResetTickets.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelPasswordResetTickets.setText("PASSWORD RESET TICKETS");
-        jPanelPasswordReset.add(jLabelPasswordResetTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+        jPanel2.setBackground(new java.awt.Color(102, 0, 0));
+        jPanel2.setForeground(new java.awt.Color(102, 0, 0));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanelSide.setBackground(new java.awt.Color(0, 0, 0));
-        jPanelSide.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanelAdminInfoMain.setBackground(new java.awt.Color(0, 0, 0));
-        jPanelAdminInfoMain.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanelAdminInformation.setBackground(new java.awt.Color(102, 0, 0));
-        jPanelAdminInformation.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabelDateAdmin.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabelDateAdmin.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelDateAdmin.setText("Date:");
-        jPanelAdminInformation.add(jLabelDateAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
-
-        jLabelName.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabelName.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelName.setText("Name:");
-        jPanelAdminInformation.add(jLabelName, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-
-        jTextFieldName.setEditable(false);
-        jTextFieldName.setBackground(new java.awt.Color(255, 255, 255));
-        jPanelAdminInformation.add(jTextFieldName, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 180, 30));
-
-        jLabelEmployeeNumber.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabelEmployeeNumber.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelEmployeeNumber.setText("Employee Number:");
-        jPanelAdminInformation.add(jLabelEmployeeNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, -1, -1));
-
-        jTextFieldEmployeeNumber.setEditable(false);
-        jTextFieldEmployeeNumber.setBackground(new java.awt.Color(255, 255, 255));
-        jPanelAdminInformation.add(jTextFieldEmployeeNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 180, -1));
-
-        jDateChooser.setBackground(new java.awt.Color(255, 255, 255));
-        jDateChooser.setForeground(new java.awt.Color(0, 0, 0));
-        jPanelAdminInformation.add(jDateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 180, -1));
-
-        jPanelAdminInfoMain.add(jPanelAdminInformation, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 200, 180));
+        jPanel6.setBackground(new java.awt.Color(51, 0, 0));
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabelAdminInformation.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabelAdminInformation.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelAdminInformation.setText("Admin Information");
-        jPanelAdminInfoMain.add(jLabelAdminInformation, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 170, -1));
+        jLabelAdminInformation.setText(" ADMIN INFORMATION");
+        jPanel6.add(jLabelAdminInformation, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 200, 20));
+
+        jTextFieldName.setEditable(false);
+        jTextFieldName.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel6.add(jTextFieldName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 160, 30));
+
+        jLabelName.setFont(new java.awt.Font("Century Gothic", 0, 15)); // NOI18N
+        jLabelName.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelName.setText("Name:");
+        jPanel6.add(jLabelName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, 50));
+
+        jTextFieldEmployeeNumber.setEditable(false);
+        jTextFieldEmployeeNumber.setBackground(new java.awt.Color(255, 255, 255));
+        jTextFieldEmployeeNumber.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldEmployeeNumberActionPerformed(evt);
+            }
+        });
+        jPanel6.add(jTextFieldEmployeeNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 70, 180, 30));
+
+        jLabelEmployeeNumber.setFont(new java.awt.Font("Century Gothic", 0, 15)); // NOI18N
+        jLabelEmployeeNumber.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelEmployeeNumber.setText(" Employee Number:");
+        jPanel6.add(jLabelEmployeeNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 40, -1, 30));
+
+        jDateChooser.setBackground(new java.awt.Color(255, 255, 255));
+        jDateChooser.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel6.add(jDateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 70, 160, 30));
+
+        jLabelDateAdmin.setFont(new java.awt.Font("Century Gothic", 0, 15)); // NOI18N
+        jLabelDateAdmin.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelDateAdmin.setText("Date:");
+        jPanel6.add(jLabelDateAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 40, -1, 30));
 
         jButtonResetPassword.setBackground(new java.awt.Color(204, 0, 51));
         jButtonResetPassword.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
@@ -419,50 +399,16 @@ public class ITDashboard extends javax.swing.JFrame {
                 jButtonResetPasswordActionPerformed(evt);
             }
         });
-        jPanelAdminInfoMain.add(jButtonResetPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, 160, 40));
+        jPanel6.add(jButtonResetPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 70, 130, 30));
 
-        jPanelSide.add(jPanelAdminInfoMain, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 240, 320));
+        jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 820, 120));
 
-        jButtonLogout1.setBackground(new java.awt.Color(255, 255, 255));
-        jButtonLogout1.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
-        jButtonLogout1.setForeground(new java.awt.Color(0, 0, 0));
-        jButtonLogout1.setText("Logout");
-        jButtonLogout1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonLogout1ActionPerformed(evt);
-            }
-        });
-        jPanelSide.add(jButtonLogout1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 490, 200, 40));
+        jPanelPasswordReset.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 840, 150));
 
-        jButtonCreateEmployeeAccountMain.setBackground(new java.awt.Color(153, 0, 0));
-        jButtonCreateEmployeeAccountMain.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
-        jButtonCreateEmployeeAccountMain.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonCreateEmployeeAccountMain.setText("Create Employee Account");
-        jButtonCreateEmployeeAccountMain.setMaximumSize(new java.awt.Dimension(132, 27));
-        jButtonCreateEmployeeAccountMain.setMinimumSize(new java.awt.Dimension(132, 27));
-        jButtonCreateEmployeeAccountMain.setPreferredSize(new java.awt.Dimension(90, 23));
-        jButtonCreateEmployeeAccountMain.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCreateEmployeeAccountMainActionPerformed(evt);
-            }
-        });
-        jPanelSide.add(jButtonCreateEmployeeAccountMain, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 200, 40));
-
-        jButtonPWResetTickets.setBackground(new java.awt.Color(153, 0, 0));
-        jButtonPWResetTickets.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
-        jButtonPWResetTickets.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonPWResetTickets.setText("Password Reset Tickets");
-        jButtonPWResetTickets.setMaximumSize(new java.awt.Dimension(132, 27));
-        jButtonPWResetTickets.setMinimumSize(new java.awt.Dimension(132, 27));
-        jButtonPWResetTickets.setPreferredSize(new java.awt.Dimension(90, 23));
-        jButtonPWResetTickets.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonPWResetTicketsActionPerformed(evt);
-            }
-        });
-        jPanelSide.add(jButtonPWResetTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 200, 40));
-
-        jPanelPasswordReset.add(jPanelSide, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 0, 240, 580));
+        jLabelPasswordResetTickets.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabelPasswordResetTickets.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelPasswordResetTickets.setText("PASSWORD RESET TICKETS");
+        jPanelPasswordReset.add(jLabelPasswordResetTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, -1));
 
         jTabbedPaneIT.addTab("PasswordReset", jPanelPasswordReset);
 
@@ -558,19 +504,20 @@ public class ITDashboard extends javax.swing.JFrame {
         jButtonCreateAccount.setText("Create Account");
         jPanelCreateAccount.add(jButtonCreateAccount, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 40, 140, 30));
 
-        jSidePanel.setBackground(new java.awt.Color(0, 0, 0));
-        jSidePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jTabbedPaneIT.addTab("CreateAccount", jPanelCreateAccount);
 
-        jButtonLogout2.setBackground(new java.awt.Color(255, 255, 255));
-        jButtonLogout2.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
-        jButtonLogout2.setForeground(new java.awt.Color(0, 0, 0));
-        jButtonLogout2.setText("Logout");
-        jButtonLogout2.addActionListener(new java.awt.event.ActionListener() {
+        jPanelITMain.add(jTabbedPaneIT, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 840, 730));
+
+        jButtonLogout1.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonLogout1.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
+        jButtonLogout1.setForeground(new java.awt.Color(0, 0, 0));
+        jButtonLogout1.setText("Logout");
+        jButtonLogout1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonLogout2ActionPerformed(evt);
+                jButtonLogout1ActionPerformed(evt);
             }
         });
-        jSidePanel.add(jButtonLogout2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 490, 200, 40));
+        jPanelITMain.add(jButtonLogout1, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 580, 200, 40));
 
         jButtonCreateEmployeeAccount.setBackground(new java.awt.Color(153, 0, 0));
         jButtonCreateEmployeeAccount.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
@@ -584,7 +531,7 @@ public class ITDashboard extends javax.swing.JFrame {
                 jButtonCreateEmployeeAccountActionPerformed(evt);
             }
         });
-        jSidePanel.add(jButtonCreateEmployeeAccount, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 200, 40));
+        jPanelITMain.add(jButtonCreateEmployeeAccount, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 100, 200, 40));
 
         jButtonPasswordResetTickets.setBackground(new java.awt.Color(153, 0, 0));
         jButtonPasswordResetTickets.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
@@ -598,50 +545,18 @@ public class ITDashboard extends javax.swing.JFrame {
                 jButtonPasswordResetTicketsActionPerformed(evt);
             }
         });
-        jSidePanel.add(jButtonPasswordResetTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 200, 40));
+        jPanelITMain.add(jButtonPasswordResetTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 150, 200, 40));
 
-        jPanelCreateAccount.add(jSidePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 0, 240, 580));
-
-        jTabbedPaneIT.addTab("CreateAccount", jPanelCreateAccount);
-
-        jPanelITMain.add(jTabbedPaneIT, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 1080, 730));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1082, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanelITMain, javax.swing.GroupLayout.PREFERRED_SIZE, 1080, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 660, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanelITMain, javax.swing.GroupLayout.PREFERRED_SIZE, 660, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
+        getContentPane().add(jPanelITMain, new org.netbeans.lib.awtextra.AbsoluteConstraints(7, 0, 1080, 660));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonCreateEmployeeAccountMainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateEmployeeAccountMainActionPerformed
+    private void jButtonCreateEmployeeAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateEmployeeAccountActionPerformed
        jTabbedPaneIT.setSelectedIndex(1);
-       jButtonPWResetTickets.setBackground(new java.awt.Color(0,0,0));
-       jButtonCreateEmployeeAccountMain.setBackground(Color.RED);
-    }//GEN-LAST:event_jButtonCreateEmployeeAccountMainActionPerformed
-
-    private void jButtonLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLogoutActionPerformed
-        Login newClassInstance = new Login();
-        newClassInstance.setVisible(true);
-
-        dispose();
-    }//GEN-LAST:event_jButtonLogoutActionPerformed
+       jButtonPasswordResetTickets.setBackground(new java.awt.Color(0,0,0));
+       jButtonCreateEmployeeAccount.setBackground(Color.RED);
+    }//GEN-LAST:event_jButtonCreateEmployeeAccountActionPerformed
 
     private void jButtonLogout1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLogout1ActionPerformed
         Login newClassInstance = new Login();
@@ -691,33 +606,17 @@ public class ITDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonResetPasswordActionPerformed
 
-    private void jButtonPWResetTicketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPWResetTicketsActionPerformed
+    private void jButtonPasswordResetTicketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPasswordResetTicketsActionPerformed
         jTabbedPaneIT.setSelectedIndex(0);
-        jButtonPWResetTickets.setBackground(Color.RED);
-        jButtonCreateEmployeeAccountMain.setBackground(new java.awt.Color(0,0,0));
+        jButtonPasswordResetTickets.setBackground(Color.RED);
+        jButtonCreateEmployeeAccount.setBackground(new java.awt.Color(0,0,0));
         jButtonPasswordResetTickets.setBackground(new java.awt.Color(0,0,0));
         jButtonCreateEmployeeAccount.setBackground(new java.awt.Color(0,0,0));
-    }//GEN-LAST:event_jButtonPWResetTicketsActionPerformed
-
-    private void jButtonLogout2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLogout2ActionPerformed
-        Login newClassInstance = new Login();
-                 newClassInstance.setVisible(true); 
-
-                dispose();   
-    }//GEN-LAST:event_jButtonLogout2ActionPerformed
-
-    private void jButtonCreateEmployeeAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateEmployeeAccountActionPerformed
-       jTabbedPaneIT.setSelectedIndex(1);
-       jButtonPasswordResetTickets.setBackground(new java.awt.Color(0,0,0));
-       jButtonCreateEmployeeAccount.setBackground(Color.RED);
-    }//GEN-LAST:event_jButtonCreateEmployeeAccountActionPerformed
-
-    private void jButtonPasswordResetTicketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPasswordResetTicketsActionPerformed
-       jTabbedPaneIT.setSelectedIndex(0);
-       jButtonPasswordResetTickets.setBackground(Color.RED);
-       jButtonCreateEmployeeAccount.setBackground(new java.awt.Color(0,0,0));
-        
     }//GEN-LAST:event_jButtonPasswordResetTicketsActionPerformed
+
+    private void jTextFieldEmployeeNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldEmployeeNumberActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldEmployeeNumberActionPerformed
 
     /**
      * @param args the command line arguments
@@ -759,12 +658,8 @@ public class ITDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel Logo;
     private javax.swing.JButton jButtonCreateAccount;
     private javax.swing.JButton jButtonCreateEmployeeAccount;
-    private javax.swing.JButton jButtonCreateEmployeeAccountMain;
     private javax.swing.JButton jButtonDeleteAccount;
-    private javax.swing.JButton jButtonLogout;
     private javax.swing.JButton jButtonLogout1;
-    private javax.swing.JButton jButtonLogout2;
-    private javax.swing.JButton jButtonPWResetTickets;
     private javax.swing.JButton jButtonPasswordResetTickets;
     private javax.swing.JButton jButtonResetPassword;
     private com.toedter.calendar.JDateChooser jDateChooser;
@@ -780,17 +675,15 @@ public class ITDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelPH;
     private javax.swing.JLabel jLabelPasswordResetTickets;
     private javax.swing.JLabel jLabelTime;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanelAdminInfoMain;
-    private javax.swing.JPanel jPanelAdminInformation;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanelCreateAccount;
     private javax.swing.JPanel jPanelHeader;
     private javax.swing.JPanel jPanelITMain;
     private javax.swing.JPanel jPanelPasswordReset;
-    private javax.swing.JPanel jPanelSide;
     private javax.swing.JScrollPane jScrollPanePasswordResetTickets;
     private javax.swing.JScrollPane jScrollPaneTableEmployeeRecords;
-    private javax.swing.JPanel jSidePanel;
     private javax.swing.JTabbedPane jTabbedPaneIT;
     private javax.swing.JTable jTableEmployeeRecords;
     private javax.swing.JTable jTablePasswordResetTickets;
