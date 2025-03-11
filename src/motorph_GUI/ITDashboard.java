@@ -14,12 +14,16 @@ import java.io.IOException;
 //import java.lang.System.Logger.Level;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import motorph9.ITUser;
-import motorph9.ResetPasswordProcessor;
+import password_reset9.PasswordCsvDataAccess;
+import password_reset9.ResetPasswordProcessor;
+import password_reset9.PasswordDataAccess;
+import password_reset9.PasswordResetService;
 
 /**
  *
@@ -29,6 +33,7 @@ public class ITDashboard extends javax.swing.JFrame {
     private Timer timer;
     private ITUser itUser;
     private static final String FILE_PATH = "src/data9/Password_Reset_Requests.csv"; // CSV file path
+    private ResetPasswordProcessor resetPasswordProcessor;
 
     /**
       * Creates new form ITDashboar
@@ -44,6 +49,8 @@ public class ITDashboard extends javax.swing.JFrame {
       setupTable(); // Set correct table headers
       loadPasswordResetRequests(); // Load data into JTable
       setITUserDetails(); // Show IT User details
+      setupTableSelectionListener();
+      initializeDependencies();
 
         // Debugging: Print ITUser details
         System.out.println("ITUser Data: ");
@@ -100,46 +107,6 @@ public class ITDashboard extends javax.swing.JFrame {
         jTablePasswordResetTickets.setModel(model); // Apply headers to table
     }
     
-    /*private void loadPasswordResetRequests() {
-        DefaultTableModel model = (DefaultTableModel) jTablePasswordResetTickets.getModel();
-        model.setRowCount(0); // Clear table before loading new data
-
-        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
-            String line;
-            boolean firstLine = true; // Skip header row
-            int rowCount = 0; // Track number of rows added
-
-            while ((line = br.readLine()) != null) {
-                System.out.println("🔍 Reading line: " + line); // Debugging output
-
-                if (firstLine) { 
-                    firstLine = false; 
-                    continue; // Skip header row
-                }
-
-                String[] data = line.split(",", -1); // Ensure empty values are handled
-
-                // Handle missing columns by filling with empty values
-                String empNum = data.length > 0 ? data[0] : "";
-                String empName = data.length > 1 ? data[1] : "";
-                String dateRequest = data.length > 2 ? data[2] : "";
-                String status = data.length > 3 ? data[3] : "Pending"; // Default status
-                String adminName = data.length > 4 ? data[4] : "";
-                String adminEmpNum = data.length > 5 ? data[5] : "";
-                String dateReset = data.length > 6 ? data[6] : "";
-
-                // ✅ Add row to JTable
-                model.addRow(new Object[]{empNum, empName, dateRequest, status, adminName, adminEmpNum, dateReset});
-                rowCount++;
-            }
-
-            System.out.println("✅ Loaded " + rowCount + " requests into JTable.");
-
-        } catch (IOException e) {
-            System.err.println("❌ Error loading password reset requests: " + e.getMessage());
-        }
-    }*/
-    
     public void loadPasswordResetRequests() {
         DefaultTableModel model = (DefaultTableModel) jTablePasswordResetTickets.getModel();
         model.setRowCount(0); // Clear table before loading new data
@@ -181,7 +148,6 @@ public class ITDashboard extends javax.swing.JFrame {
         }
     }
 
-
     private void setITUserDetails() {
         jTextFieldEmployeeNumber.setText(itUser.getEmployeeId()); // IT Employee ID
         jTextFieldName.setText(itUser.getFirstName() + " " + itUser.getLastName()); // IT Full Name
@@ -204,6 +170,27 @@ public class ITDashboard extends javax.swing.JFrame {
             // ✅ Enable Reset Button Only for Pending Requests
             jButtonResetPassword.setEnabled(status.equalsIgnoreCase("Pending"));
         });
+    }
+    
+    private void initializeDependencies() {
+        try {
+            PasswordDataAccess passwordDataAccess = new PasswordCsvDataAccess();
+            PasswordResetService passwordResetService = new PasswordResetService(passwordDataAccess);
+            resetPasswordProcessor = new ResetPasswordProcessor(passwordResetService);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error initializing dependencies: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+    
+    private String generateComplexDefaultPassword(String employeeNumber) {
+        String basePassword = "Default" + employeeNumber;
+        String specialChars = "!@#$%^&*";
+        Random random = new Random();
+        int randomIndex = random.nextInt(specialChars.length());
+        char randomChar = specialChars.charAt(randomIndex);
+
+        return basePassword + randomChar + random.nextInt(100);
     }
 
     
@@ -568,42 +555,18 @@ public class ITDashboard extends javax.swing.JFrame {
     private void jButtonResetPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetPasswordActionPerformed
         int selectedRow = jTablePasswordResetTickets.getSelectedRow();
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "❌ Select a request before resetting!", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please select a row", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Get the Employee Number from the selected row in the table
-        String empNum = (String) jTablePasswordResetTickets.getValueAt(selectedRow, 0);
+        String employeeNumber = (String) jTablePasswordResetTickets.getValueAt(selectedRow, 0);
+        String adminName = jTextFieldName.getText();
+        String adminEmpNum = jTextFieldEmployeeNumber.getText();
 
-        // Debugging lines:
-        System.out.println("Selected Row Index: " + selectedRow);
-        System.out.println("Employee Number from Table: " + empNum);
-        System.out.println("IT User Employee ID: " + itUser.getEmployeeId()); // Confirming IT user info
+        resetPasswordProcessor.resetPassword(employeeNumber, adminName, adminEmpNum, this); // Process reset first
 
-        int confirm = JOptionPane.showConfirmDialog(this,
-                "Are you sure you want to reset the password for Employee " + empNum + "?",
-                "Confirm Password Reset", JOptionPane.YES_NO_OPTION);
-        if (confirm != JOptionPane.YES_OPTION) {
-            return;
-        }
-
-        ResetPasswordProcessor resetProcessor = new ResetPasswordProcessor();
-        boolean success = false;
-        try {
-            success = resetProcessor.resetPassword(empNum,
-                    itUser.getFirstName() + " " + itUser.getLastName(),
-                    itUser.getEmployeeId(),
-                    this);
-            if (success) {
-                JOptionPane.showMessageDialog(this, "✅ Password successfully reset!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "❌ Password reset failed. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (IOException ex) {
-            System.err.println("Error resetting password: " + ex.getMessage());
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "❌ Error resetting password: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        String tempPassword = generateComplexDefaultPassword(employeeNumber); // Generate password after reset
+        JOptionPane.showMessageDialog(this, "Temporary Password: " + tempPassword + "\n\n(This is a simulation. In a real system, the password would be delivered securely.)", "Password Reset", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButtonResetPasswordActionPerformed
 
     private void jButtonPasswordResetTicketsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPasswordResetTicketsActionPerformed

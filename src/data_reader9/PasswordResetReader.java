@@ -6,60 +6,91 @@ package data_reader9;
  */
 
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import motorph9.PasswordResetRequest;
+import password_reset9.PasswordResetDataAccess;
+import password_reset9.PasswordResetRequest;
+import java.io.IOException;
 
 /**
  *
  * @author Shekinah Jabez
  */
-public class PasswordResetReader {
-
+public class PasswordResetReader implements PasswordResetDataAccess { // Implement the interface
+ 
     private static final String FILE_NAME = "src/data9/Password_Reset_Requests.csv";
     
     /**
      * Saves a new password reset request to the CSV file.
      * @param request The password reset request to be saved.
      */
-    public static void saveRequest(PasswordResetRequest request) {
+    
+     //@Override
+    public void saveRequest(PasswordResetRequest request) throws IOException {
         try {
-            List<String[]> existingData = CSVReader.readCSV(FILE_NAME);
+            List<String[]> existingData = CSVReader.readCSV(FILE_NAME); // Use CSVReader.readCSV
             if (existingData.isEmpty()) {
                 existingData.add(new String[]{"Employee Number", "Employee Name", "Date of Request", "Status", "Admin Name", "Admin Employee No.", "Date of Reset"});
             }
-            existingData.add(request.toArray()); // Assuming PasswordResetRequest has a toArray() method
-            CSVReader.writeCSV(FILE_NAME, existingData);
+            existingData.add(request.toArray());
+            CSVReader.writeCSV(FILE_NAME, existingData); // Use CSVReader.writeCSV
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    
-    /*public static void saveRequest(PasswordResetRequest request) {
-        File file = new File(FILE_NAME);
-        boolean fileExists = file.exists(); 
-
-        try (FileWriter writer = new FileWriter(FILE_NAME, true);
-             BufferedWriter bufferedWriter = new BufferedWriter(writer)) {
-            
-            if (!fileExists) {
-                bufferedWriter.write("Employee Number,Employee Name,Date of Request,Status\n");
+    /*public void saveRequest(PasswordResetRequest request) throws IOException {
+        try {
+            List<String[]> existingData = CSVReader.readCSV(FILE_NAME);
+            if (existingData.isEmpty()) {
+                existingData.add(new String[]{"Employee Number", "Employee Name", "Date of Request", "Default Password", "Status", "Admin Name", "Admin Employee No.", "Date of Reset"});
             }
-
-            bufferedWriter.write(request.toCSV() + "\n");
-            bufferedWriter.flush();
+            existingData.add(request.toArray());
+            CSVReader.writeCSV(FILE_NAME, existingData);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }*/
-    
+     
+     /*public void saveRequest(PasswordResetRequest request) throws IOException { // Override the interface method
+        try (FileWriter fw = new FileWriter(FILE_PATH, true);
+             BufferedWriter bw = new BufferedWriter(fw);
+             PrintWriter out = new PrintWriter(bw)) {
+
+            String line = String.format("%s,%s,%s,%s,Pending,,,\"\"",
+                    request.getEmployeeNumber(),
+                    request.getEmployeeName(),
+                    request.getDateOfRequest(),
+                    request.getDefaultPassword()); // Add default password
+
+            out.println(line);
+            System.out.println("Password reset request saved: " + line);
+        }
+    }*/
+
     /**
      * ✅ Reads all password reset requests from the CSV file.
      * @return A list of password reset requests.
      */
     private List<PasswordResetRequest> getAllRequests() {
+        List<PasswordResetRequest> requests = new ArrayList<>();
+        try {
+            List<String[]> data = CSVReader.readCSV(FILE_NAME);
+            data.remove(0);
+            for (String[] row : data) {
+                if (row.length >= 8) {
+                    PasswordResetRequest request = new PasswordResetRequest(
+                            row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]
+                    );
+                    requests.add(request);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("❌ Error reading password reset requests: " + e.getMessage());
+        }
+        return requests;
+    }
+    
+    /*private List<PasswordResetRequest> getAllRequests() {
         List<PasswordResetRequest> requests = new ArrayList<>();
         try {
             //List<String[]> data = CSVReader.readCSV(FILE_NAME, true); // Skip header
@@ -77,41 +108,6 @@ public class PasswordResetReader {
             System.err.println("❌ Error reading password reset requests: " + e.getMessage());
         }
         return requests;
-    }
-
-    
-    /*private List<PasswordResetRequest> getAllRequests() {
-        List<PasswordResetRequest> requests = new ArrayList<>();
-
-        try (BufferedReader br = new BufferedReader(new FileReader(FILE_NAME))) {
-            String line;
-            boolean firstLine = true;
-
-            while ((line = br.readLine()) != null) {
-                if (firstLine) { 
-                    firstLine = false; 
-                    continue; // ✅ Skip header row
-                }
-
-                String[] data = line.split(",", -1);
-                if (data.length >= 7) { // ✅ Ensure all 7 fields exist
-                    PasswordResetRequest request = new PasswordResetRequest(
-                        data[0], // Employee Number
-                        data[1], // Employee Name
-                        data[2], // Date of Request
-                        data[3], // Status
-                        data[4], // Admin Name
-                        data[5], // Admin Employee No.
-                        data[6]  // Date of Reset
-                    );
-                    requests.add(request);
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("❌ Error reading password reset requests: " + e.getMessage());
-        }
-
-        return requests;
     }*/
    
     /**
@@ -123,30 +119,6 @@ public class PasswordResetReader {
      * @param dateOfReset The date the request was processed.
      * @return true if the update was successful, false otherwise.
      */
-    /*public boolean updateRequestStatus(String empNum, String newStatus, String adminName, String adminEmpNum, String dateOfReset) {
-        List<PasswordResetRequest> requests = getAllRequests();
-        boolean updated = false;
-
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME))) {
-            bw.write("Employee Number,Employee Name,Date of Request,Status,Admin Name,Admin Employee No.,Date of Reset\n"); // ✅ Rewrite header
-
-            for (PasswordResetRequest request : requests) {
-                if (request.getEmployeeNumber().equals(empNum)) {
-                    request.setStatus(newStatus);
-                    request.setAdminName(adminName);
-                    request.setAdminEmployeeNumber(adminEmpNum);
-                    request.setDateOfReset(dateOfReset);
-                    updated = true;
-                }
-                bw.write(request.toCSV() + "\n");
-            }
-        } catch (IOException e) {
-            System.err.println("❌ Error updating request: " + e.getMessage());
-        }
-
-        return updated;
-    }*/
-    
     public boolean updateRequestStatus(String empNum, String newStatus, String adminName, String adminEmpNum, String dateOfReset) {
         List<PasswordResetRequest> requests = getAllRequests();
         boolean updated = false;

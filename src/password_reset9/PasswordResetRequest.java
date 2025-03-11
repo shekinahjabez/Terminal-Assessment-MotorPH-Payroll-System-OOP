@@ -1,8 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package motorph9;
+package password_reset9;
 
 /**
  *
@@ -16,16 +12,35 @@ public class PasswordResetRequest {
     private String adminName;
     private String adminEmployeeNumber;
     private String dateOfReset;
-
-    /*public PasswordResetRequest(String employeeNumber, String employeeName, String dateOfRequest) {
+    private String defaultPassword;
+  
+    // Constructor with all parameters
+    public PasswordResetRequest(String employeeNumber, String employeeName, String dateOfRequest,
+                                String defaultPassword, String status, String adminName,
+                                String adminEmployeeNumber, String dateOfReset) {
         this.employeeNumber = employeeNumber;
         this.employeeName = employeeName;
         this.dateOfRequest = dateOfRequest;
-        this.status = "Pending"; // Default status
-    }*/
+        this.defaultPassword = defaultPassword;
+        this.status = status;
+        this.adminName = adminName;
+        this.adminEmployeeNumber = adminEmployeeNumber;
+        this.dateOfReset = dateOfReset;
+    }
     
-    // 3-parameter constructor (for saving new requests)
+    // Constructor for new requests (default status and other fields)
+    public PasswordResetRequest(String employeeNumber, String employeeName, String dateOfRequest, String defaultPassword) {
+        this(employeeNumber, employeeName, dateOfRequest, defaultPassword, "Pending", "", "", "");
+    }
+    
     public PasswordResetRequest(String employeeNumber, String employeeName, String dateOfRequest) {
+        this.employeeNumber = employeeNumber;
+        this.employeeName = employeeName;
+        this.dateOfRequest = dateOfRequest;
+    }
+    
+      // 3-parameter constructor (for saving new requests)
+    /*public PasswordResetRequest(String employeeNumber, String employeeName, String dateOfRequest) {
         this.employeeNumber = employeeNumber;
         this.employeeName = employeeName;
         this.dateOfRequest = dateOfRequest;
@@ -33,10 +48,11 @@ public class PasswordResetRequest {
         this.adminName = "";
         this.adminEmployeeNumber = "";
         this.dateOfReset = "";
-    }
+        
+    }*/
     
     // 7-parameter constructor (for loading existing requests)
-    public PasswordResetRequest(String employeeNumber, String employeeName, String dateOfRequest,
+    /*public PasswordResetRequest(String employeeNumber, String employeeName, String dateOfRequest,
                                 String status, String adminName, String adminEmployeeNumber, String dateOfReset) {
         this.employeeNumber = employeeNumber;
         this.employeeName = employeeName;
@@ -45,7 +61,7 @@ public class PasswordResetRequest {
         this.adminName = adminName;
         this.adminEmployeeNumber = adminEmployeeNumber;
         this.dateOfReset = dateOfReset;
-    }
+    }*/
 
     // Getters
     public String getEmployeeNumber() {
@@ -75,6 +91,11 @@ public class PasswordResetRequest {
     public String getDateOfReset() {
         return dateOfReset;
     }
+
+    public String getDefaultpassword() {
+        return defaultPassword;
+    }
+    
     
     // Setters
 
@@ -95,22 +116,39 @@ public class PasswordResetRequest {
     }
     
 
-    // Convert request to CSV format
-    public String toCSV() {
-        return employeeNumber + "," + employeeName + "," + dateOfRequest + "," + status;
+   // Convert request to CSV format
+    /*public String toCSV() {
+        return employeeNumber + "," + employeeName + "," + dateOfRequest + "," + defaultPassword + "," + status + "," + adminName + "," + adminEmployeeNumber + "," + dateOfReset;
     }
     
-    // toArray method
+    
     public String[] toArray() {
         return new String[]{
                 employeeNumber,
                 employeeName,
                 dateOfRequest,
+                defaultPassword,
                 status,
                 adminName,
                 adminEmployeeNumber,
                 dateOfReset
         };
+    }*/
+    
+    public String toCSV() {
+        return employeeNumber + "," + employeeName + "," + dateOfRequest + ",Pending,,,\n";
     }
+
+    public String[] toArray() {
+        return new String[]{
+                employeeNumber,
+                employeeName,
+                dateOfRequest,
+                "Pending",
+                "",
+                "",
+                ""
+        };
+    }    
 }
 
