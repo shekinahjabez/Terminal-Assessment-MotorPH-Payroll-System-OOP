@@ -34,7 +34,18 @@ import motorph9.SalaryDetails;
 import motorph9.User;
 import motorph9.User;
 import java.awt.event.ActionListener; 
-import java.awt.event.ActionEvent;    
+import java.awt.event.ActionEvent;   
+import java.io.BufferedReader; // Import for reading files efficiently
+import java.io.FileReader;   // Import for reading files
+import java.io.IOException;    // Import for handling IO Exceptions
+import java.text.ParseException; // Import for handling parsing exceptions (numbers)
+import java.text.DecimalFormat; // Import for formatting numbers if needed
+import java.util.ArrayList; // Import ArrayList
+import java.util.Collections; // Import Collections for sorting
+import java.util.Comparator; // Import Comparator for custom sorting
+import java.util.HashMap; // Import HashMap for month name to number mapping
+import java.util.List; // Import List
+import java.util.Map; // Import Map
 
 
 /**
@@ -107,6 +118,146 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         }
     }
     
+    private void loadSalaryLogs() {
+        DefaultTableModel model = (DefaultTableModel) jTableSalaryLogs.getModel();
+        model.setRowCount(0); // Clear existing rows
+        
+        String csvFile = "src/data9/SalaryLogs.csv"; // Path to your CSV file (adjust if needed)
+        String line = "";
+        String csvSplitBy = ","; // Delimiter is comma
+        boolean isFirstLine = true; // Flag to track the first line
+        String loggedInEmployeeId = loggedInUser.getEmployeeId(); // Get logged-in employee ID
+        
+        List<String[]> salaryLogEntries = new ArrayList<>(); // List to hold salary log data
+        
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+            while ((line = br.readLine()) != null) {
+                if (isFirstLine) {
+                    isFirstLine = false; // Skip processing the first line (header row)
+                    continue;          // Go to the next line
+                }
+                
+                // use comma as separator
+                String[] salaryData = line.split(csvSplitBy);
+                
+                // Assuming CSV order: Employee No, Month, Year, Gross Salary, Net Month Salary
+                if (salaryData.length == 5) {
+                    try {
+                        String employeeNoFromCSV = salaryData[0].trim();
+                        // You might need to parse numbers if they are stored as strings in CSV
+                        // For example, if Gross Salary and Net Salary are strings:
+                        // double grossSalary = Double.parseDouble(salaryData[3].trim());
+                        // double netSalary = Double.parseDouble(salaryData[4].trim());
+
+                        // Add row to table model
+                        if (employeeNoFromCSV.equals(loggedInEmployeeId)) {
+                            salaryLogEntries.add(salaryData); // Add to list instead of directly to table
+                            
+                        }                            
+                        
+                    } catch (NumberFormatException e) {
+                        System.err.println("Warning: Could not parse number from CSV line: " + line);
+                        // Handle parsing error, maybe skip the row or log it
+
+                        }
+                    } else {
+                        System.err.println("Warning: Incorrect number of fields in CSV line: " + line);
+                        // Handle incorrect line format, maybe skip the row or log it
+                    }
+                }
+            
+                // Sort salaryLogEntries in reverse chronological order (latest to oldest)
+                Collections.sort(salaryLogEntries, new Comparator<String[]>() {
+                    private final Map<String, Integer> monthMap = createMonthMap(); // Month name to number map
+                    
+                    @Override
+                    public int compare(String[] log1, String[] log2) {
+                        String year1 = log1[2].trim(); // Year is in column 3 (index 2)
+                        String month1 = log1[1].trim(); // Month is in column 2 (index 1)
+                        String year2 = log2[2].trim();
+                        String month2 = log2[1].trim();
+                        
+                        System.out.println("Comparing:"); // Debug print: Start comparison
+                        System.out.println("  Log 1: Year=" + year1 + ", Month=" + month1); // Debug print: Log 1 details
+                        System.out.println("  Log 2: Year=" + year2 + ", Month=" + month2); // Debug print: Log 2 details
+                        
+                        int yearCompare = year2.compareTo(year1); // Compare years in descending order (latest year first)
+                        if (yearCompare != 0) {
+                            System.out.println("  Years are different, yearCompare=" + yearCompare); // Debug print: Year compare result
+                            return yearCompare; // Years are different, sort by year
+                        } else {
+                            // Years are the same, sort by month in descending order (latest month first)
+                            int month1Num = getMonthNumberFromName(month1, monthMap);
+                            int month2Num = getMonthNumberFromName(month2, monthMap);
+                            int monthCompare = Integer.compare(month2Num, month1Num);
+                            System.out.println("  Years are same, monthCompare=" + monthCompare); // Debug print: Month compare result
+                            return monthCompare;
+                            //return Integer.compare(month1Num, month2Num); // Compare month numbers in descending order
+                        }
+                    }
+                private Map<String, Integer> createMonthMap() {
+                    Map<String, Integer> map = new HashMap<>();
+                    map.put("January", 1);   map.put("February", 2);  map.put("March", 3);
+                    map.put("April", 4);     map.put("May", 5);     map.put("June", 6);
+                    map.put("July", 7);      map.put("August", 8);    map.put("September", 9);
+                    map.put("October", 10);  map.put("November", 11); map.put("December", 12);
+                    return map;
+
+                }
+                
+                private int getMonthNumberFromName(String monthName, Map<String, Integer> monthMap) {
+                    return monthMap.getOrDefault(monthName, 0); // Default to 0 if month name not found (error case)
+                }
+            }); 
+                
+            System.out.println("\n--- Sorted Salary Log Entries (after sorting): ---"); // Debug print: Start of sorted list
+            for (String[] logEntry : salaryLogEntries) {
+                System.out.println("  Year=" + logEntry[2].trim() + ", Month=" + logEntry[1].trim()); // Debug print: Year and Month of each entry
+            }
+            System.out.println("--- End of Sorted List ---"); // Debug print: End of sorted list
+            
+            // Add sorted entries to the table model
+            for (String[] salaryData : salaryLogEntries) {
+                model.addRow(new Object[]{
+                    salaryData[0].trim(),
+                    salaryData[1].trim(),
+                    salaryData[2].trim(),
+                    salaryData[3].trim(),
+                    salaryData[4].trim()
+                });
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace(); // Or handle the exception more gracefully (e.g., JOptionPane)
+            JOptionPane.showMessageDialog(this, "Error reading Salary Logs CSV file: " + e.getMessage(), "File Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }   
+    
+
+
+    
+    private void loadSalaryInformation() { // Modified to call loadSalaryLogs and keep existing salary details loading        
+        loadSalaryLogs(); // Call the new method to load Salary Logs table
+        if (loggedInUser != null && loggedInUser instanceof EmployeeUser) { // Checks for EmployeeUser
+            try {
+                EmployeeUser employee = (EmployeeUser) loggedInUser;
+
+                // Get salary details from EmployeeUser
+                SalaryDetails salaryDetails = employee.getSalaryDetails();
+
+                // Update the UI
+                updateSalaryUI(salaryDetails);
+            
+            } catch (IOException ex) {
+                Logger.getLogger(EmployeeDashboard.class.getName()).log(Level.SEVERE, "Error reading salary details", ex);
+                JOptionPane.showMessageDialog(this, "Error reading salary details.", "File Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            System.out.println("No logged-in EmployeeUser found!"); // Debugging step
+        }       
+    }
+
+
     private void loadAttendanceLogs(String selectedMonth, String selectedYear) { // ✅ Modified to accept month and year
         if (loggedInUser != null) {
             try {
@@ -249,7 +400,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     }
     
     
-    private void loadSalaryInformation() {
+    /*private void loadSalaryInformation() {
         if (loggedInUser != null && loggedInUser instanceof EmployeeUser) { // Checks for EmployeeUser
             try {
                 EmployeeUser employee = (EmployeeUser) loggedInUser;
@@ -267,7 +418,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         } else {
             System.out.println("No logged-in EmployeeUser found!"); // Debugging step
         }
-    }
+    }*/
     
     private void updateSalaryUI(SalaryDetails salary) {
         DecimalFormat formatter = new DecimalFormat("#,##0.00"); // Formats numbers like 12,345.67
@@ -593,21 +744,28 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jTableSalaryLogs.setBackground(new java.awt.Color(255, 255, 255));
         jTableSalaryLogs.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Employee No.", "Month", "Year", "Gross Salary", "Total Allowance", "Total Deductions", "Net Month Salary"
+                "Employee No.", "Month", "Year", "Gross Salary", "Net Month Salary"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPaneSalaryLogs.setViewportView(jTableSalaryLogs);
@@ -741,6 +899,11 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jPanelAllowances.add(jLabelPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(49, 60, 60, 40));
 
         jTextFieldClothing.setBackground(new java.awt.Color(255, 255, 255));
+        jTextFieldClothing.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldClothingActionPerformed(evt);
+            }
+        });
         jPanelAllowances.add(jTextFieldClothing, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 80, -1));
 
         jPanelSalaryInformation.add(jPanelAllowances, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 90, 200, 100));
@@ -913,7 +1076,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Employee #", "Date", "Time In", "Time Out", "Hours Worked"
+                "Employee No.", "Date", "Time In", "Time Out", "Hours Worked"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -1377,6 +1540,10 @@ public class EmployeeDashboard extends javax.swing.JFrame {
             Logger.getLogger(EmployeeDashboard.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButtonTimeOutActionPerformed
+
+    private void jTextFieldClothingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldClothingActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldClothingActionPerformed
 
     /**
      * @param args the command line arguments
