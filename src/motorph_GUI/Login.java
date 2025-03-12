@@ -179,25 +179,24 @@ private class LoginActionListener implements ActionListener {
             employeeReader = new EmployeeDetailsReader("src/data9/Employee.csv", "src/data9/Login.csv");
             LeaveRequestReader leaveRequestReader = new LeaveRequestReader();
 
-            // ✅ Notify user if their password was reset
+            // ✅ Ask user to change the default password
             if (user.getChangePassword().equalsIgnoreCase("YES")) {
-                JOptionPane.showMessageDialog(Login.this, 
-                    "⚠️ Your password was reset by IT.\n" +
-                    "🔑 Please use your default password to log in and change it immediately.", 
-                    "Password Reset Notice", JOptionPane.WARNING_MESSAGE);
+                String newPassword;
 
-                String newPassword = JOptionPane.showInputDialog(Login.this, 
-                    "Enter a new password:", 
-                    "Change Password Required", JOptionPane.WARNING_MESSAGE);
+                while (true) {
+                    newPassword = JOptionPane.showInputDialog(Login.this, 
+                        "Enter a new password:", 
+                        "Change Password Required", JOptionPane.WARNING_MESSAGE);
 
-                if (newPassword != null && !newPassword.trim().isEmpty()) {
-                    employeeReader.changeUserPassword(user.getEmployeeId(), newPassword);
-                    JOptionPane.showMessageDialog(Login.this, 
-                        "✅ Password successfully changed!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(Login.this, 
-                        "❌ Password change is required to continue.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
+                    if (newPassword != null && !newPassword.trim().isEmpty()) {
+                        employeeReader.changeUserPassword(user.getEmployeeId(), newPassword);
+                        JOptionPane.showMessageDialog(Login.this, 
+                            "✅ Password successfully changed!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        break;
+                    } else {
+                        JOptionPane.showMessageDialog(Login.this, 
+                            "❌ Password change is required to continue.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
 
