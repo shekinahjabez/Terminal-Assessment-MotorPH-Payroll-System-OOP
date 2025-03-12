@@ -234,7 +234,6 @@ private class LoginActionListener implements ActionListener {
 // Open the Forgot Password Form when clicked
         ForgotPasswordForm form = new ForgotPasswordForm();
         form.setVisible(true);
-        
         dispose();
     }//GEN-LAST:event_jLblForgotPasswordMouseClicked
 

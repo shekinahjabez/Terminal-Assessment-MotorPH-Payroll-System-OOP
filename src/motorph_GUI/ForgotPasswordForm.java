@@ -213,63 +213,72 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
     
     
     private void jButtonFPSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFPSubmitActionPerformed
-        /**
-        * Handles Forgot Password submission.
-        *   Validates Employee ID & Name before allowing submission.
-        *   Saves request if validation is successful.
-        */
-        String empNum = jTextFieldFPEmpNum.getText().trim();
-        String empName = jTextFieldFPEmpName.getText().trim();
-        Date selectedDate = jDateChooser.getDate();
+    /**
+    * Handles Forgot Password submission.
+    *   Validates Employee ID & Name before allowing submission.
+    *   Saves request if validation is successful.
+    */
+    String empNum = jTextFieldFPEmpNum.getText().trim();
+    String empName = jTextFieldFPEmpName.getText().trim();
+    Date selectedDate = jDateChooser.getDate();
 
-        // Check if fields are empty
-        if (empNum.isEmpty() || empName.isEmpty() || selectedDate == null) {
-            JOptionPane.showMessageDialog(this, "All fields are required!", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+    // Check if fields are empty
+    if (empNum.isEmpty() || empName.isEmpty() || selectedDate == null) {
+        JOptionPane.showMessageDialog(this, "All fields are required!", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-        // Validate Employee ID (Must be exactly 5 digits)
-        if (!empNum.matches("\\d{5}")) {
-            JOptionPane.showMessageDialog(this, "Employee Number must be exactly 5 digits!", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+    // Validate Employee ID (Must be exactly 5 digits)
+    if (!empNum.matches("\\d{5}")) {
+        JOptionPane.showMessageDialog(this, "Employee Number must be exactly 5 digits!", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-        // Validate Employee Name (Must contain only letters & spaces)
-        if (!empName.matches("[a-zA-Z ]+")) {
-            JOptionPane.showMessageDialog(this, "Employee Name must contain only letters and spaces!", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+    // Validate Employee Name (Must contain only letters & spaces)
+    if (!empName.matches("[a-zA-Z ]+")) {
+        JOptionPane.showMessageDialog(this, "Employee Name must contain only letters and spaces!", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-        // Verify Employee ID & Name from CSV file
-        if (!employeeDetailsReader.isEmployeeValid(empNum, empName)) {
-            JOptionPane.showMessageDialog(this, "Invalid Employee Number or Name! Please enter correct details.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+    // Verify Employee ID & Name from CSV file
+    if (!employeeDetailsReader.isEmployeeValid(empNum, empName)) {
+        JOptionPane.showMessageDialog(this, "Invalid Employee Number or Name! Please enter correct details.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-        // Format date
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
-        String dateOfRequest = sdf.format(selectedDate);
+    // Format date
+    SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+    String dateOfRequest = sdf.format(selectedDate);
 
-        // Debugging print 
-        System.out.println("Employee Number: " + empNum);
-        System.out.println("Employee Name: " + empName);
-        System.out.println("Date of Request: " + dateOfRequest);
+    // Debugging print 
+    System.out.println("Employee Number: " + empNum);
+    System.out.println("Employee Name: " + empName);
+    System.out.println("Date of Request: " + dateOfRequest);
+    
+    // Use the correct class to save request
+    PasswordResetRequest request = new PasswordResetRequest(empNum, empName, dateOfRequest);
+
+    try {
+        PasswordResetReader reader = new PasswordResetReader();
+        reader.saveRequest(request);
+        JOptionPane.showMessageDialog(this, "Your password reset request has been submitted. A temporary password will be sent to your registered communication method shortly.", "Request Sent to IT!", JOptionPane.INFORMATION_MESSAGE);
         
-        // Use the correct class to save request
-        PasswordResetRequest request = new PasswordResetRequest(empNum, empName, dateOfRequest);
+        // Clear form fields
+        jTextFieldFPEmpNum.setText("");
+        jTextFieldFPEmpName.setText("");
+        jDateChooser.setDate(null);
+        
+        // Close only ForgotPasswordForm without affecting Login.java
+        this.dispose();
+        Login newClassInstance = new Login();
+                 newClassInstance.setVisible(true);
+        dispose();
+        
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error saving request: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    }
 
-        try {
-            PasswordResetReader reader = new PasswordResetReader();
-            reader.saveRequest(request);
-            JOptionPane.showMessageDialog(this, "Your password reset request has been submitted. A temporary password will be sent to your registered communication method shortly.", "Request Sent to IT!", JOptionPane.INFORMATION_MESSAGE);
-            //Clear form.
-            jTextFieldFPEmpNum.setText("");
-            jTextFieldFPEmpName.setText("");
-            jDateChooser.setDate(null);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error saving request: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
     }//GEN-LAST:event_jButtonFPSubmitActionPerformed
 
     private void jTextFieldFPEmpNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFPEmpNameKeyTyped
@@ -291,7 +300,7 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
     private void jButtonFPCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFPCancelActionPerformed
         Login newClassInstance = new Login();
                  newClassInstance.setVisible(true);
-        dispose();         
+        dispose();
     }//GEN-LAST:event_jButtonFPCancelActionPerformed
 
     /**
