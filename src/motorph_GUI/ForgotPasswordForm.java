@@ -33,7 +33,6 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
     public ForgotPasswordForm() {
         initComponents();
         setLocationRelativeTo(null); // Center the window
-        restrictDateChooser(); 
         startClock();
     }
     
@@ -52,12 +51,6 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
     /**
      * Restricts jDateChooser to **only allow today's date** (prevents past & future selections).
      */
-    private void restrictDateChooser() {
-        Date today = new Date();
-        jDateChooser.setDate(today);
-        jDateChooser.setMinSelectableDate(today);
-        jDateChooser.setMaxSelectableDate(today);
-    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -77,8 +70,6 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
         jTextFieldFPEmpName = new javax.swing.JTextField();
         jLabelFPEmpNum = new javax.swing.JLabel();
         jTextFieldFPEmpNum = new javax.swing.JTextField();
-        jLabelFPDOR = new javax.swing.JLabel();
-        jDateChooser = new com.toedter.calendar.JDateChooser();
         jPanelHeader = new javax.swing.JPanel();
         Logo = new javax.swing.JLabel();
         jLabelMotor = new javax.swing.JLabel();
@@ -116,7 +107,6 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
         jLabelFPEmpName.setText("Employee Name:");
         jPanelFormContents.add(jLabelFPEmpName, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, -1, 50));
 
-        jTextFieldFPEmpName.setBackground(new java.awt.Color(255, 255, 255));
         jTextFieldFPEmpName.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldFPEmpNameKeyTyped(evt);
@@ -130,7 +120,6 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
         jLabelFPEmpNum.setText(" Employee Number:");
         jPanelFormContents.add(jLabelFPEmpNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, 70));
 
-        jTextFieldFPEmpNum.setBackground(new java.awt.Color(255, 255, 255));
         jTextFieldFPEmpNum.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldFPEmpNumKeyTyped(evt);
@@ -138,17 +127,7 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
         });
         jPanelFormContents.add(jTextFieldFPEmpNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 260, 30));
 
-        jLabelFPDOR.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelFPDOR.setFont(new java.awt.Font("Century Gothic", 0, 17)); // NOI18N
-        jLabelFPDOR.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelFPDOR.setText("  Date of Request:");
-        jPanelFormContents.add(jLabelFPDOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, -1, 50));
-
-        jDateChooser.setBackground(new java.awt.Color(255, 255, 255));
-        jDateChooser.setForeground(new java.awt.Color(0, 0, 0));
-        jPanelFormContents.add(jDateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 90, 260, 30));
-
-        jPanelForgotPassword.add(jPanelFormContents, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 470, 140));
+        jPanelForgotPassword.add(jPanelFormContents, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 470, 100));
 
         jPanelHeader.setBackground(new java.awt.Color(0, 0, 0));
         jPanelHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -193,7 +172,7 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
                 jButtonFPSubmitActionPerformed(evt);
             }
         });
-        jPanelForgotPassword.add(jButtonFPSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 350, 170, 40));
+        jPanelForgotPassword.add(jButtonFPSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 320, 170, 40));
 
         jButtonFPCancel.setBackground(new java.awt.Color(251, 0, 54));
         jButtonFPCancel.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -204,72 +183,78 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
                 jButtonFPCancelActionPerformed(evt);
             }
         });
-        jPanelForgotPassword.add(jButtonFPCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 350, 170, 40));
+        jPanelForgotPassword.add(jButtonFPCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 320, 170, 40));
 
-        getContentPane().add(jPanelForgotPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 510, 420));
+        getContentPane().add(jPanelForgotPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 510, 380));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
     
     private void jButtonFPSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFPSubmitActionPerformed
-        /**
-        * Handles Forgot Password submission.
-        *   Validates Employee ID & Name before allowing submission.
-        *   Saves request if validation is successful.
-        */
-        String empNum = jTextFieldFPEmpNum.getText().trim();
-        String empName = jTextFieldFPEmpName.getText().trim();
-        Date selectedDate = jDateChooser.getDate();
+    /**
+    * Handles Forgot Password submission.
+    *   Validates Employee ID & Name before allowing submission.
+    *   Saves request if validation is successful.
+    */
+    String empNum = jTextFieldFPEmpNum.getText().trim();
+    String empName = jTextFieldFPEmpName.getText().trim();
+    Date dateToday = new Date(); // Gets today's date
+    SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+    String dateOfRequest = sdf.format(dateToday);
+    
+    // Check if fields are empty
+    if (empNum.isEmpty() || empName.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "All fields are required!", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-        // Check if fields are empty
-        if (empNum.isEmpty() || empName.isEmpty() || selectedDate == null) {
-            JOptionPane.showMessageDialog(this, "All fields are required!", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+    // Validate Employee ID (Must be exactly 5 digits)
+    if (!empNum.matches("\\d{5}")) {
+        JOptionPane.showMessageDialog(this, "Employee Number must be exactly 5 digits!", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-        // Validate Employee ID (Must be exactly 5 digits)
-        if (!empNum.matches("\\d{5}")) {
-            JOptionPane.showMessageDialog(this, "Employee Number must be exactly 5 digits!", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+    // Validate Employee Name (Must contain only letters & spaces)
+    if (!empName.matches("[a-zA-Z ]+")) {
+        JOptionPane.showMessageDialog(this, "Employee Name must contain only letters and spaces!", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-        // Validate Employee Name (Must contain only letters & spaces)
-        if (!empName.matches("[a-zA-Z ]+")) {
-            JOptionPane.showMessageDialog(this, "Employee Name must contain only letters and spaces!", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+    // Verify Employee ID & Name from CSV file
+    if (!employeeDetailsReader.isEmployeeValid(empNum, empName)) {
+        JOptionPane.showMessageDialog(this, "Invalid Employee Number or Name! Please enter correct details.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-        // Verify Employee ID & Name from CSV file
-        if (!employeeDetailsReader.isEmployeeValid(empNum, empName)) {
-            JOptionPane.showMessageDialog(this, "Invalid Employee Number or Name! Please enter correct details.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+    // Debugging print 
+    System.out.println("Employee Number: " + empNum);
+    System.out.println("Employee Name: " + empName);
+    System.out.println("Date of Request: " + dateOfRequest);
+    
+    // Use the correct class to save request
+    PasswordResetRequest request = new PasswordResetRequest(empNum, empName, dateOfRequest);
 
-        // Format date
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
-        String dateOfRequest = sdf.format(selectedDate);
-
-        // Debugging print 
-        System.out.println("Employee Number: " + empNum);
-        System.out.println("Employee Name: " + empName);
-        System.out.println("Date of Request: " + dateOfRequest);
+    try {
+        PasswordResetReader reader = new PasswordResetReader();
+        reader.saveRequest(request);
+        JOptionPane.showMessageDialog(this, "Your password reset request has been submitted. A temporary password will be sent to your registered communication method shortly.", "Request Sent to IT!", JOptionPane.INFORMATION_MESSAGE);
         
-        // Use the correct class to save request
-        PasswordResetRequest request = new PasswordResetRequest(empNum, empName, dateOfRequest);
+        // Clear form fields
+        jTextFieldFPEmpNum.setText("");
+        jTextFieldFPEmpName.setText("");
+        
+        // Close only ForgotPasswordForm without affecting Login.java
+        this.dispose();
+        Login newClassInstance = new Login();
+                 newClassInstance.setVisible(true);
+        dispose();
+        
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error saving request: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    }
 
-        try {
-            PasswordResetReader reader = new PasswordResetReader();
-            reader.saveRequest(request);
-            JOptionPane.showMessageDialog(this, "Your password reset request has been submitted. A temporary password will be sent to your registered communication method shortly.", "Request Sent to IT!", JOptionPane.INFORMATION_MESSAGE);
-            //Clear form.
-            jTextFieldFPEmpNum.setText("");
-            jTextFieldFPEmpName.setText("");
-            jDateChooser.setDate(null);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error saving request: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
     }//GEN-LAST:event_jButtonFPSubmitActionPerformed
 
     private void jTextFieldFPEmpNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFPEmpNameKeyTyped
@@ -291,7 +276,7 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
     private void jButtonFPCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFPCancelActionPerformed
         Login newClassInstance = new Login();
                  newClassInstance.setVisible(true);
-        dispose();         
+        dispose();
     }//GEN-LAST:event_jButtonFPCancelActionPerformed
 
     /**
@@ -336,8 +321,6 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
     private javax.swing.JLabel Logo;
     private javax.swing.JButton jButtonFPCancel;
     private javax.swing.JButton jButtonFPSubmit;
-    private com.toedter.calendar.JDateChooser jDateChooser;
-    private javax.swing.JLabel jLabelFPDOR;
     private javax.swing.JLabel jLabelFPEmpName;
     private javax.swing.JLabel jLabelFPEmpNum;
     private javax.swing.JLabel jLabelForgotPassword;
