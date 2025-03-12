@@ -2,36 +2,26 @@ package motorph_GUI;
 
 import data_reader9.EmployeeDetailsReader;
 import data_reader9.LeaveRequestReader;
-import java.awt.Color;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import com.toedter.calendar.JDateChooser;
 import data_reader9.TimeTrackerReader;
-import java.time.DayOfWeek;
 import java.time.ZoneId;
-import java.time.chrono.ChronoLocalDate;
 import motorph9.EmployeeLeaveTracker;
-import motorph9.EmployeeLeaveTracker;
-import motorph9.EmployeeUser;
 import motorph9.EmployeeUser;
 import motorph9.LeaveProcessor;
 import motorph9.LeaveRequest;
-import motorph9.LeaveRequest;
 import motorph_GUI.Login;
-import motorph9.SalaryDetails;
-import motorph9.SalaryDetails;
-import motorph9.User;
+import payroll9.SalaryDetails;
 import motorph9.User;
 import java.awt.event.ActionListener; 
 import java.awt.event.ActionEvent;    
@@ -58,7 +48,8 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null); // Center the window
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Define close behavior
-        employeeDetailsReader = new EmployeeDetailsReader(); // Initialize reader
+        //employeeDetailsReader = new EmployeeDetailsReader(); // Initialize reader
+        employeeDetailsReader = new EmployeeDetailsReader("src/data9/Employee.csv", "src/data9/Login.csv");
     }
 
     public EmployeeDashboard(User user) {
@@ -67,7 +58,8 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Define close behavior
         this.loggedInUser = user; // Store the logged-in user
         
-        employeeDetailsReader = new EmployeeDetailsReader(); // Initialize reader
+        //employeeDetailsReader = new EmployeeDetailsReader(); // Initialize reader
+        employeeDetailsReader = new EmployeeDetailsReader("src/data9/Employee.csv", "src/data9/Login.csv");
         timeTrackerReader = new TimeTrackerReader(); // Initialize TimeTrackerReader
         leaveTracker = new EmployeeLeaveTracker(user.getEmployeeId()); //Initialize leave tracker
         leaveProcessor = new LeaveProcessor(leaveTracker); // Properly initialized

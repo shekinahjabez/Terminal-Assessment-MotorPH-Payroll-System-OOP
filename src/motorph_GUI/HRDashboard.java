@@ -126,7 +126,8 @@ public final class HRDashboard extends javax.swing.JFrame {
         model.setRowCount(0); // ✅ Clear old data before adding new ones
 
         try {
-            List<EmployeeUser> employees = employeeReader.getAllEmployees(); // ✅ Load employees
+            EmployeeDetailsReader employeeReader = new EmployeeDetailsReader("src/data9/Employee.csv", "src/data9/Login.csv");
+            List<EmployeeUser> employees = employeeReader.getAllEmployees();
 
             // ✅ Debugging: Print total employees loaded
             System.out.println("Loading employees into table: " + employees.size());
@@ -154,7 +155,8 @@ public final class HRDashboard extends javax.swing.JFrame {
         modelRecords.setRowCount(0); // ✅ Clear Employee Records table
 
         try {
-            List<EmployeeUser> employees = EmployeeDetailsReader.getAllEmployees();
+            EmployeeDetailsReader employeeReader = new EmployeeDetailsReader("src/data9/Employee.csv", "src/data9/Login.csv");
+            List<EmployeeUser> employees = employeeReader.getAllEmployees();
             System.out.println("Total Employees Loaded: " + employees.size()); // ✅ Debugging
 
             for (EmployeeUser emp : employees) {

@@ -24,7 +24,7 @@ import password_reset9.PasswordResetRequest;
  */
 public class ForgotPasswordForm extends javax.swing.JFrame {
     private Timer timer;
-    private EmployeeDetailsReader employeeReader = new EmployeeDetailsReader();
+    private EmployeeDetailsReader employeeDetailsReader = new EmployeeDetailsReader("src/data9/Employee.csv", "src/data9/Login.csv");
     
     /**
      * Creates new form ForgotPasswordForm
@@ -241,7 +241,7 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
         }
 
         // Verify Employee ID & Name from CSV file
-        if (!employeeReader.isEmployeeValid(empNum, empName)) {
+        if (!employeeDetailsReader.isEmployeeValid(empNum, empName)) {
             JOptionPane.showMessageDialog(this, "Invalid Employee Number or Name! Please enter correct details.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }

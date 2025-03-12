@@ -21,7 +21,7 @@ public class Login extends javax.swing.JFrame {
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JButton loginButton;
-    private EmployeeDetailsReader reader;
+    private EmployeeDetailsReader employeeReader;
 
     /**
      * Creates new form Login
@@ -32,7 +32,8 @@ public class Login extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        reader = new EmployeeDetailsReader();
+        employeeReader = new EmployeeDetailsReader("src/data9/Employee.csv", "src/data9/Login.csv");
+        //reader = new EmployeeDetailsReader();
         jBtnLogin.addActionListener(new LoginActionListener());
     }
 
@@ -159,8 +160,8 @@ private class LoginActionListener implements ActionListener {
             }
             
         private User validateLogin(String username, String password) {
-            EmployeeDetailsReader reader = new EmployeeDetailsReader();
-            User user = reader.getLoginDetails(username); // ✅ Fetch user by username
+            employeeReader = new EmployeeDetailsReader("src/data9/Employee.csv", "src/data9/Login.csv");
+            User user = employeeReader.getLoginDetails(username); // ✅ Fetch user by username
 
             if (user != null) {
                 System.out.println("Loaded user: " + user.getUsername() + ", Password: " + user.getPassword());
@@ -175,7 +176,7 @@ private class LoginActionListener implements ActionListener {
         }
         
         private void openDashboard(User user) {
-            EmployeeDetailsReader employeeReader = new EmployeeDetailsReader();
+            employeeReader = new EmployeeDetailsReader("src/data9/Employee.csv", "src/data9/Login.csv");
             LeaveRequestReader leaveRequestReader = new LeaveRequestReader();
 
             // ✅ Notify user if their password was reset
