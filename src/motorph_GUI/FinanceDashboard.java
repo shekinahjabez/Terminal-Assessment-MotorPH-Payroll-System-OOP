@@ -4,27 +4,46 @@
  */
 package motorph_GUI;
 
-import motorph_GUI.Login;
+import data_reader9.EmployeeDetailsReader;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.Timer;
+import javax.swing.table.DefaultTableModel;
 import motorph9.FinanceUser;
 import motorph9.User;
+import payroll9.Salary;
+import java.io.FileReader;
+import payroll9.Deductions;
 
 /**
  *
  * @author Four Lugtu
  */
 public class FinanceDashboard extends javax.swing.JFrame {
+    private static final Logger LOGGER = Logger.getLogger(FinanceDashboard.class.getName());
     private Timer timer;
     private FinanceUser financeUser;
+    private EmployeeDetailsReader employeeDetailsReader;
+    private Map<String, Salary> salaryMap = new HashMap<>();
 
     /**
      * Creates new form FinanceDashboards
      */
+    /*public FinanceDashboard() {
+        initComponents();
+    }*/
+    
     public FinanceDashboard() {
         initComponents();
+        employeeDetailsReader = new EmployeeDetailsReader("src/data9/Employee.csv", "src/data9/Login.csv"); // Initialize with file paths
+        loadEmployeeData();
     }
     
     public FinanceDashboard(User user) {
@@ -38,13 +57,18 @@ public class FinanceDashboard extends javax.swing.JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Define close behavior
         startClock();
 
-        // ✅ Debugging: Print FinanceUser details
-        System.out.println("FinanceUser Data: ");
-        System.out.println("Username: " + financeUser.getUsername());
-        System.out.println("First Name: " + financeUser.getFirstName());
-        System.out.println("Last Name: " + financeUser.getLastName());
+        LOGGER.info("FinanceUser Data: ");
+        LOGGER.info("Username: " + financeUser.getUsername());
+        LOGGER.info("First Name: " + financeUser.getFirstName());
+        LOGGER.info("Last Name: " + financeUser.getLastName());
 
         jLabelGreet.setText("Welcome, " + financeUser.getFirstName() + "!");
+
+        employeeDetailsReader = new EmployeeDetailsReader("src/data9/Employee.csv", "src/data9/Login.csv"); // Initialize
+        loadSalaryData();
+        loadEmployeeData();
+        
+        
     }
     
     private void startClock() {
@@ -58,6 +82,80 @@ public class FinanceDashboard extends javax.swing.JFrame {
         jLabelTime.setText(timeFormat.format(new Date()));
         jLabelDate.setText(dateFormat.format(new Date()));
     }
+    
+    private void loadSalaryData() {
+        try (BufferedReader br = new BufferedReader(new FileReader("src/data9/Salary.csv"))) {
+            String line;
+            br.readLine();
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                Salary salary = new Salary(Double.parseDouble(data[1]), Double.parseDouble(data[2]), 0.0); // Added 0.0
+                salaryMap.put(data[0], salary);
+            }
+        } catch (IOException e) {
+            LOGGER.severe("Error loading Salary data: " + e.getMessage());
+        }
+    }
+    
+    private void loadEmployeeData() {
+        List<String[]> employees = employeeDetailsReader.getAllEmployeesStringArrays();
+        System.out.println("Employee Data Size: " + employees.size()); // Debugging
+        System.out.println("Salary Map Size: " + salaryMap.size()); // Check salaryMap size
+        DefaultTableModel model = (DefaultTableModel) jTableEmployeesList.getModel();
+        model.setRowCount(0);
+        for (String[] employee : employees) {
+            System.out.println("Row Data: " + java.util.Arrays.toString(employee)); // Inspect row data
+            try {
+                if (employee.length >= 14) {
+                    String employeeNumber = employee[0];
+                    String fullName = employee[2] + " " + employee[1];
+                    String sssNumber = employee[6];
+                    String philhealthNumber = employee[7];
+                    String tinNumber = employee[8];
+                    String pagibigNumber = employee[9];
+                    double basicSalary = Double.parseDouble(employee[13]);
+
+                    Salary salary = salaryMap.get(employeeNumber);
+                    if (salary != null) {
+                        double pagibig = Deductions.calculatePagibigDeduction();
+                        double philhealth = Deductions.calculatePhilHealthDeduction(basicSalary);
+                        double sss = Deductions.calculateSSSDeduction(basicSalary);
+                        double totalDeductions = pagibig + philhealth + sss;
+                        double totalAllowances = 0.0;
+                        double grossSalary = basicSalary + totalAllowances;
+                        double netSalary = grossSalary - totalDeductions;
+
+                        model.addRow(new Object[]{
+                                employeeNumber,
+                                fullName,
+                                sssNumber,
+                                philhealthNumber,
+                                tinNumber,
+                                pagibigNumber,
+                                totalAllowances,
+                                totalDeductions,
+                                grossSalary,
+                                netSalary
+                        });
+                    } else {
+                        LOGGER.warning("Salary data not found for employee: " + employeeNumber);
+                    }
+                }
+            } catch (NumberFormatException e) {
+                LOGGER.severe("Invalid basic salary for employee: " + employee[0] + ". Error: " + e.getMessage());
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        jTableEmployeesList.repaint();
+        validate();
+        repaint();
+        System.out.println("Table Row Count: " + jTableEmployeesList.getRowCount());
+        System.out.println("Table Column Count: " + jTableEmployeesList.getColumnCount());
+ 
+    }
+
+
 
 
     /**
@@ -128,8 +226,6 @@ public class FinanceDashboard extends javax.swing.JFrame {
         jPanelFinanceGenRep1.setBackground(new java.awt.Color(102, 0, 0));
         jPanelFinanceGenRep1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTableEmployeesList.setBackground(new java.awt.Color(255, 255, 255));
-        jTableEmployeesList.setForeground(new java.awt.Color(0, 0, 0));
         jTableEmployeesList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null},

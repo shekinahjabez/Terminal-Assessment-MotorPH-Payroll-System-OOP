@@ -1,13 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package motorph9;
 
 import data_reader9.AllowanceDetailsReader;
 import data_reader9.CSVReader;
 import data_reader9.SalaryDetailsReader;
 import java.io.IOException;
+import payroll9.Deductions;
+import payroll9.PayrollProcessor;
+import payroll9.Salary;
+import payroll9.SalaryDetails;
 
 /**
  *
@@ -22,20 +22,26 @@ public class FinanceUser extends User {
               sssNumber, philhealthNumber, tinNumber, pagibigNumber, status, 
               position, supervisor, "Finance"); // Pass userType as "Finance"
     }
-    
-    /*public FinanceUser(String employeeId, String username, String roleName, String password, String firstName, String lastName) {
-        super(employeeId, username, roleName, password, firstName, lastName);
-    }*/    
-    
+     
     public FinanceUser(String employeeId, String username, String roleName, String password, String firstName, String lastName, String changePassword) {
         super(employeeId, username, roleName, password, firstName, lastName, changePassword);
         
     }
 
     
-    public double getHourlyRate() throws IOException {
+    /*public double getHourlyRate() throws IOException {
         double hourlyRate = SalaryDetailsReader.getHourlyRate(getEmployeeId());
         return (hourlyRate > 0) ? hourlyRate : SalaryCalculation.calculateHourlyRate(getEmployeeId());
+    }*/
+    
+     public double getHourlyRate() throws IOException {
+        SalaryDetailsReader reader = new SalaryDetailsReader("src/data9/Salary.csv");
+        Salary salary = reader.getSalary(getEmployeeId());
+        if (salary != null) {
+            return (salary.getHourlyRate() > 0) ? salary.getHourlyRate() : SalaryCalculation.calculateHourlyRate(getEmployeeId());
+        } else {
+            return SalaryCalculation.calculateHourlyRate(getEmployeeId());
+        }
     }
     
     public double getNetSalary() throws IOException {
@@ -55,8 +61,14 @@ public class FinanceUser extends User {
         System.out.println("Generating payroll report");
     }
     
-    public void processPayroll(String employeeId) throws IOException {
+    /*public void processPayroll(String employeeId) throws IOException {
         PayrollProcessor.processPayroll(employeeId);
+    }*/
+    
+    public void processPayroll(String employeeId) throws IOException {
+        SalaryDetailsReader salaryReader = new SalaryDetailsReader("src/data9/Salary.csv");
+        PayrollProcessor processor = new PayrollProcessor("src/data9/Payroll.csv", salaryReader);
+        processor.processPayroll(employeeId);
     }
 
     public void viewPayroll(String employeeId) throws IOException {
@@ -74,7 +86,7 @@ public class FinanceUser extends User {
         System.out.println("No payroll record found for Employee ID: " + employeeId);
     }
     
-    public SalaryDetails getSalaryDetails(String employeeId) throws IOException {
+    /*public SalaryDetails getSalaryDetails(String employeeId) throws IOException {
         double grossSalary = SalaryCalculation.calculateGrossSalary(employeeId);
         double netSalary = SalaryCalculation.calculateNetSalary(employeeId);
         double hourlyRate = SalaryCalculation.calculateHourlyRate(employeeId);
@@ -93,16 +105,33 @@ public class FinanceUser extends User {
         return new SalaryDetails(grossSalary, netSalary, hourlyRate,
                                  riceSubsidy, phoneAllowance, clothingAllowance, totalAllowances,
                                  pagibigDeduction, philHealthDeduction, sssDeduction, withholdingTax, totalDeductions);
+    }*/
+    
+    public SalaryDetails getSalaryDetails(String employeeId) throws IOException {
+        double grossSalary = SalaryCalculation.calculateGrossSalary(employeeId);
+        double netSalary = SalaryCalculation.calculateNetSalary(employeeId);
+        double hourlyRate = SalaryCalculation.calculateHourlyRate(employeeId);
+
+        double riceSubsidy = AllowanceDetailsReader.getRiceSubsidyAllowance(employeeId);
+        double phoneAllowance = AllowanceDetailsReader.getPhoneAllowance(employeeId);
+        double clothingAllowance = AllowanceDetailsReader.getClothingAllowance(employeeId);
+        double totalAllowances = riceSubsidy + phoneAllowance + clothingAllowance;
+
+        Deductions deductions = new Deductions();
+        double pagibigDeduction = deductions.calculatePagibigDeduction();
+        double philHealthDeduction = deductions.calculatePhilHealthDeduction(grossSalary);
+        double sssDeduction = deductions.calculateSSSDeduction(grossSalary);
+        double withholdingTax = deductions.calculateWithholdingTax(grossSalary);
+        double totalDeductions = pagibigDeduction + philHealthDeduction + sssDeduction + withholdingTax;
+
+        return new SalaryDetails(grossSalary, netSalary, hourlyRate,
+                riceSubsidy, phoneAllowance, clothingAllowance, totalAllowances,
+                pagibigDeduction, philHealthDeduction, sssDeduction, withholdingTax, totalDeductions);
     }
 
-    /*public record SalaryDetails(
-        double grossSalary, double netSalary, double hourlyRate,
-        double riceSubsidy, double phoneAllowance, double clothingAllowance, double totalAllowances,
-        double pagibigDeduction, double philHealthDeduction, double sssDeduction, double withholdingTax, double totalDeductions
-    ) {}*/
 }
 
-class Deductions {
+/*class Deductions {
     public static double calculatePagibigDeduction() {
         return 100.0; // fixed Pagibig deduction of 100
     }
@@ -140,7 +169,7 @@ class Deductions {
         }
         return withholdingTax;
     }
-}
+}*/
 
 class Allowances {
     public static double getTotalAllowance(String employeeId) throws IOException {
@@ -150,37 +179,9 @@ class Allowances {
     }
 }
 
-
-/*class Allowances {
-    public static double calculateClothingAllowance() {
-        return 500.0; // Placeholder value
-    }
-    
-    public static double calculateRiceSubsidyAllowance() {
-        return 1500.0; // Placeholder value
-    }
-    
-    public static double calculatePhoneAllowance() {
-        return 800.0; // Placeholder value
-    }
-    
-    public static double calculateTotalAllowance() {
-        return calculateClothingAllowance() + calculateRiceSubsidyAllowance() + calculatePhoneAllowance();
-    }
-
-    static double getTotalAllowance(String employeeId) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-}*/
-
 class SalaryCalculation {
-    /*public static double calculateHourlyRate(String employeeId) throws IOException {
-        double basicSalary = SalaryDetailsReader.getBasicSalary(employeeId);
-        return basicSalary / 160; // Assuming 160 work hours per month
-    }*/
     
-    public static double calculateHourlyRate(String employeeId) throws IOException {
+    /*public static double calculateHourlyRate(String employeeId) throws IOException {
         double hourlyRate = SalaryDetailsReader.getHourlyRate(employeeId); // Fetch from CSV
 
         // If CSV does not have an hourly rate (0.0 or missing), fall back to calculation
@@ -191,11 +192,34 @@ class SalaryCalculation {
         }
 
         return hourlyRate;
+    }*/
+    
+    public static double calculateHourlyRate(String employeeId) throws IOException {
+        SalaryDetailsReader reader = new SalaryDetailsReader("src/data9/Salary.csv");
+        Salary salary = reader.getSalary(employeeId);
+        double hourlyRate = salary.getHourlyRate();
+        if (hourlyRate <= 0.0) {
+            double basicSalary = salary.getBasicSalary();
+            hourlyRate = basicSalary / 160;
+            System.out.println("Warning: Hourly rate missing in CSV. Calculated hourly rate: " + hourlyRate);
+        }
+        return hourlyRate;
     }
 
     
-    public static double calculateGrossSalary(String employeeId) throws IOException {
+    /*public static double calculateGrossSalary(String employeeId) throws IOException {
         double basicSalary = SalaryDetailsReader.getBasicSalary(employeeId);
+        double riceSubsidy = AllowanceDetailsReader.getRiceSubsidyAllowance(employeeId);
+        double phoneAllowance = AllowanceDetailsReader.getPhoneAllowance(employeeId);
+        double clothingAllowance = AllowanceDetailsReader.getClothingAllowance(employeeId);
+        double totalAllowances = riceSubsidy + phoneAllowance + clothingAllowance;
+        return basicSalary + totalAllowances;
+    }*/
+    
+    public static double calculateGrossSalary(String employeeId) throws IOException {
+        SalaryDetailsReader reader = new SalaryDetailsReader("src/data9/Salary.csv");
+        Salary salary = reader.getSalary(employeeId);
+        double basicSalary = salary.getBasicSalary();
         double riceSubsidy = AllowanceDetailsReader.getRiceSubsidyAllowance(employeeId);
         double phoneAllowance = AllowanceDetailsReader.getPhoneAllowance(employeeId);
         double clothingAllowance = AllowanceDetailsReader.getClothingAllowance(employeeId);
@@ -213,18 +237,4 @@ class SalaryCalculation {
         return grossSalary - totalDeductions;
     }
         
-    /*public static double calculateGrossSalary(String employeeId) throws IOException {
-        double basicSalary = SalaryDetailsReader.getBasicSalary(employeeId);
-        return basicSalary + Allowances.getTotalAllowance(employeeId);
-    }
-
-    public static double calculateNetSalary(String employeeId) throws IOException {
-        double basicSalary = SalaryDetailsReader.getBasicSalary(employeeId);
-        double grossSalary = calculateGrossSalary(employeeId);
-        double totalDeductions = Deductions.calculatePagibigDeduction() +
-                                 Deductions.calculatePhilHealthDeduction(basicSalary) +
-                                 Deductions.calculateSSSDeduction(basicSalary) +
-                                 Deductions.calculateWithholdingTax(grossSalary);
-        return grossSalary - totalDeductions;
-    }*/
 }

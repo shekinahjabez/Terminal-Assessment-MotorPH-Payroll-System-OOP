@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package motorph9;
 
 import data_reader9.LeaveRequestReader;
@@ -9,14 +5,20 @@ import data_reader9.TimeTrackerReader;
 import data_reader9.AllowanceDetailsReader;
 import data_reader9.SalaryDetailsReader;
 import java.io.IOException;
+import java.util.logging.Logger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-//import motorph9_MS2.FinanceUser.SalaryDetails;
+import payroll9.Deductions;
+import payroll9.Salary;
+import payroll9.SalaryDetails;
+
 
 public class EmployeeUser extends User {
+    private static final Logger LOGGER = Logger.getLogger(EmployeeUser.class.getName());
     private LocalDateTime clockInTime;
     private LocalDateTime clockOutTime;
+   
     //private String firstName;
     //private String lastName;
     
@@ -29,10 +31,6 @@ public class EmployeeUser extends User {
               position, supervisor, "Employee"); // Pass userType as "Employee"
     }
      
-    /*public EmployeeUser(String employeeId, String username, String roleName, String password, String firstName, String lastName) {
-        super(employeeId, username, roleName, password, firstName, lastName);
-    }*/
-
     public EmployeeUser(String employeeId, String username, String roleName, String password, String firstName, String lastName, String changePassword) {
         super(employeeId, username, roleName, password, firstName, lastName, changePassword);
         
@@ -103,12 +101,24 @@ public class EmployeeUser extends User {
     }
 
     
-    public void viewSalary() throws IOException {
+    /*public void viewSalary() throws IOException {
         double basicSalary = SalaryDetailsReader.getBasicSalary(getEmployeeId());
         System.out.println("Your basic salary: " + basicSalary);
+    }*/
+    
+    public void viewSalary() throws IOException {
+        try {
+            SalaryDetailsReader reader = new SalaryDetailsReader("src/data9/Salary.csv");
+            Salary salary = reader.getSalary(getEmployeeId());
+            double basicSalary = salary.getBasicSalary();
+            LOGGER.info("Employee " + getEmployeeId() + " basic salary: " + basicSalary);
+        } catch (IOException e) {
+            LOGGER.severe("Error viewing salary for employee " + getEmployeeId() + ": " + e.getMessage());
+            throw e;
+        }
     }
     
-    public void viewPayrollBreakdown() throws IOException {
+    /*public void viewPayrollBreakdown() throws IOException {
         double basicSalary = SalaryDetailsReader.getBasicSalary(getEmployeeId());
         double totalAllowances = AllowanceDetailsReader.getRiceSubsidyAllowance(getEmployeeId()) +
                                  AllowanceDetailsReader.getPhoneAllowance(getEmployeeId()) +
@@ -120,6 +130,28 @@ public class EmployeeUser extends User {
                                  Deductions.calculateWithholdingTax(grossSalary);
         double netSalary = grossSalary - totalDeductions;
         
+        System.out.println("Payroll Breakdown:");
+        System.out.println("Basic Salary: " + basicSalary);
+        System.out.println("Total Allowances: " + totalAllowances);
+        System.out.println("Total Deductions: " + totalDeductions);
+        System.out.println("Net Salary: " + netSalary);
+    }*/
+    
+    public void viewPayrollBreakdown() throws IOException {
+        SalaryDetailsReader reader = new SalaryDetailsReader("src/data9/Salary.csv");
+        Salary salary = reader.getSalary(getEmployeeId());
+        double basicSalary = salary.getBasicSalary();
+        double totalAllowances = AllowanceDetailsReader.getRiceSubsidyAllowance(getEmployeeId()) +
+                AllowanceDetailsReader.getPhoneAllowance(getEmployeeId()) +
+                AllowanceDetailsReader.getClothingAllowance(getEmployeeId());
+        double grossSalary = basicSalary + totalAllowances;
+        Deductions deductions = new Deductions();
+        double totalDeductions = deductions.calculatePagibigDeduction() +
+                deductions.calculatePhilHealthDeduction(basicSalary) +
+                deductions.calculateSSSDeduction(basicSalary) +
+                deductions.calculateWithholdingTax(grossSalary);
+        double netSalary = grossSalary - totalDeductions;
+
         System.out.println("Payroll Breakdown:");
         System.out.println("Basic Salary: " + basicSalary);
         System.out.println("Total Allowances: " + totalAllowances);
