@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -22,7 +23,15 @@ public class PasswordResetService {
     }
 
     public boolean resetPassword(String employeeNumber, String adminName, String adminEmpNum) throws IOException, PasswordResetException {
-        String newPassword = "Default" + employeeNumber;
+        String specialChars = "!@#$%^&*";
+        Random random = new Random();
+        int randomIndex = random.nextInt(specialChars.length());
+        char randomChar = specialChars.charAt(randomIndex);
+
+        // Ensure two-digit random number (e.g., 07 instead of 7)
+        String randomTwoDigit = String.format("%02d", random.nextInt(100));
+        
+        String newPassword = "Default" + employeeNumber + randomChar + randomTwoDigit;
 
         if (!updateLoginPassword(employeeNumber, newPassword)) {
             throw new PasswordResetException("Employee not found in login data.");
