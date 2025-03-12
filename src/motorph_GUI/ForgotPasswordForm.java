@@ -33,7 +33,6 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
     public ForgotPasswordForm() {
         initComponents();
         setLocationRelativeTo(null); // Center the window
-        restrictDateChooser(); 
         startClock();
     }
     
@@ -52,12 +51,6 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
     /**
      * Restricts jDateChooser to **only allow today's date** (prevents past & future selections).
      */
-    private void restrictDateChooser() {
-        Date today = new Date();
-        jDateChooser.setDate(today);
-        jDateChooser.setMinSelectableDate(today);
-        jDateChooser.setMaxSelectableDate(today);
-    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -77,8 +70,6 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
         jTextFieldFPEmpName = new javax.swing.JTextField();
         jLabelFPEmpNum = new javax.swing.JLabel();
         jTextFieldFPEmpNum = new javax.swing.JTextField();
-        jLabelFPDOR = new javax.swing.JLabel();
-        jDateChooser = new com.toedter.calendar.JDateChooser();
         jPanelHeader = new javax.swing.JPanel();
         Logo = new javax.swing.JLabel();
         jLabelMotor = new javax.swing.JLabel();
@@ -116,7 +107,6 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
         jLabelFPEmpName.setText("Employee Name:");
         jPanelFormContents.add(jLabelFPEmpName, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, -1, 50));
 
-        jTextFieldFPEmpName.setBackground(new java.awt.Color(255, 255, 255));
         jTextFieldFPEmpName.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldFPEmpNameKeyTyped(evt);
@@ -130,7 +120,6 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
         jLabelFPEmpNum.setText(" Employee Number:");
         jPanelFormContents.add(jLabelFPEmpNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, 70));
 
-        jTextFieldFPEmpNum.setBackground(new java.awt.Color(255, 255, 255));
         jTextFieldFPEmpNum.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextFieldFPEmpNumKeyTyped(evt);
@@ -138,17 +127,7 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
         });
         jPanelFormContents.add(jTextFieldFPEmpNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 260, 30));
 
-        jLabelFPDOR.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelFPDOR.setFont(new java.awt.Font("Century Gothic", 0, 17)); // NOI18N
-        jLabelFPDOR.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelFPDOR.setText("  Date of Request:");
-        jPanelFormContents.add(jLabelFPDOR, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, -1, 50));
-
-        jDateChooser.setBackground(new java.awt.Color(255, 255, 255));
-        jDateChooser.setForeground(new java.awt.Color(0, 0, 0));
-        jPanelFormContents.add(jDateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 90, 260, 30));
-
-        jPanelForgotPassword.add(jPanelFormContents, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 470, 140));
+        jPanelForgotPassword.add(jPanelFormContents, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 470, 100));
 
         jPanelHeader.setBackground(new java.awt.Color(0, 0, 0));
         jPanelHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -193,7 +172,7 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
                 jButtonFPSubmitActionPerformed(evt);
             }
         });
-        jPanelForgotPassword.add(jButtonFPSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 350, 170, 40));
+        jPanelForgotPassword.add(jButtonFPSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 320, 170, 40));
 
         jButtonFPCancel.setBackground(new java.awt.Color(251, 0, 54));
         jButtonFPCancel.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -204,9 +183,9 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
                 jButtonFPCancelActionPerformed(evt);
             }
         });
-        jPanelForgotPassword.add(jButtonFPCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 350, 170, 40));
+        jPanelForgotPassword.add(jButtonFPCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 320, 170, 40));
 
-        getContentPane().add(jPanelForgotPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 510, 420));
+        getContentPane().add(jPanelForgotPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 510, 380));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -220,10 +199,12 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
     */
     String empNum = jTextFieldFPEmpNum.getText().trim();
     String empName = jTextFieldFPEmpName.getText().trim();
-    Date selectedDate = jDateChooser.getDate();
-
+    Date dateToday = new Date(); // Gets today's date
+    SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+    String dateOfRequest = sdf.format(dateToday);
+    
     // Check if fields are empty
-    if (empNum.isEmpty() || empName.isEmpty() || selectedDate == null) {
+    if (empNum.isEmpty() || empName.isEmpty()) {
         JOptionPane.showMessageDialog(this, "All fields are required!", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
@@ -246,10 +227,6 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
         return;
     }
 
-    // Format date
-    SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
-    String dateOfRequest = sdf.format(selectedDate);
-
     // Debugging print 
     System.out.println("Employee Number: " + empNum);
     System.out.println("Employee Name: " + empName);
@@ -266,7 +243,6 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
         // Clear form fields
         jTextFieldFPEmpNum.setText("");
         jTextFieldFPEmpName.setText("");
-        jDateChooser.setDate(null);
         
         // Close only ForgotPasswordForm without affecting Login.java
         this.dispose();
@@ -345,8 +321,6 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
     private javax.swing.JLabel Logo;
     private javax.swing.JButton jButtonFPCancel;
     private javax.swing.JButton jButtonFPSubmit;
-    private com.toedter.calendar.JDateChooser jDateChooser;
-    private javax.swing.JLabel jLabelFPDOR;
     private javax.swing.JLabel jLabelFPEmpName;
     private javax.swing.JLabel jLabelFPEmpNum;
     private javax.swing.JLabel jLabelForgotPassword;
