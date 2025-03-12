@@ -4,6 +4,7 @@
  */
 package motorph_GUI;
 
+import data_reader9.EmployeeDetailsReader;
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import motorph9.ITUser;
+import motorph9.User;
 import password_reset9.PasswordCsvDataAccess;
 import password_reset9.ResetPasswordProcessor;
 import password_reset9.PasswordDataAccess;
@@ -43,7 +45,6 @@ public class ITDashboard extends javax.swing.JFrame {
       initComponents(); // Call initComponents() to initialize UI
       setLocationRelativeTo(null); // Center the window
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Define close behavior
-      restrictDateChooser(); // Apply date restrictions
       checkFileExists(); // Ensure the file exists
       startClock();
       setupTable(); // Set correct table headers
@@ -82,12 +83,6 @@ public class ITDashboard extends javax.swing.JFrame {
     /**
      * Restricts jDateChooser to **only allow today's date** (prevents past & future selections).
      */
-    private void restrictDateChooser() {
-        Date today = new Date();
-        jDateChooser.setDate(today);
-        jDateChooser.setMinSelectableDate(today);
-        jDateChooser.setMaxSelectableDate(today);
-    }
     
     public void checkFileExists() {
         File file = new File(FILE_PATH);
@@ -110,6 +105,7 @@ public class ITDashboard extends javax.swing.JFrame {
     public void loadPasswordResetRequests() {
         DefaultTableModel model = (DefaultTableModel) jTablePasswordResetTickets.getModel();
         model.setRowCount(0); // Clear table before loading new data
+        jButtonResetPassword.setEnabled(false);
 
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
@@ -190,7 +186,10 @@ public class ITDashboard extends javax.swing.JFrame {
         int randomIndex = random.nextInt(specialChars.length());
         char randomChar = specialChars.charAt(randomIndex);
 
-        return basePassword + randomChar + random.nextInt(100);
+        // Ensure two-digit random number (e.g., 07 instead of 7)
+        String randomTwoDigit = String.format("%02d", random.nextInt(100));
+
+        return basePassword + randomChar + randomTwoDigit;
     }
 
     
@@ -224,8 +223,6 @@ public class ITDashboard extends javax.swing.JFrame {
         jLabelName = new javax.swing.JLabel();
         jTextFieldEmployeeNumber = new javax.swing.JTextField();
         jLabelEmployeeNumber = new javax.swing.JLabel();
-        jDateChooser = new com.toedter.calendar.JDateChooser();
-        jLabelDateAdmin = new javax.swing.JLabel();
         jButtonResetPassword = new javax.swing.JButton();
         jLabelPasswordResetTickets = new javax.swing.JLabel();
         jPanelCreateAccount = new javax.swing.JPanel();
@@ -303,7 +300,6 @@ public class ITDashboard extends javax.swing.JFrame {
         jPanelPasswordReset.setBackground(new java.awt.Color(102, 0, 0));
         jPanelPasswordReset.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTablePasswordResetTickets.setBackground(new java.awt.Color(255, 255, 255));
         jTablePasswordResetTickets.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -317,15 +313,7 @@ public class ITDashboard extends javax.swing.JFrame {
             new String [] {
                 "Employee No.", "Employee Name", "Date of Request", "Status", "Admin Name", "Admin Employee No.", "Date & Time of Reset"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         jScrollPanePasswordResetTickets.setViewportView(jTablePasswordResetTickets);
 
         jPanelPasswordReset.add(jScrollPanePasswordResetTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 800, 380));
@@ -365,15 +353,6 @@ public class ITDashboard extends javax.swing.JFrame {
         jLabelEmployeeNumber.setText(" Employee Number:");
         jPanel6.add(jLabelEmployeeNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 40, -1, 30));
 
-        jDateChooser.setBackground(new java.awt.Color(255, 255, 255));
-        jDateChooser.setForeground(new java.awt.Color(0, 0, 0));
-        jPanel6.add(jDateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 70, 160, 30));
-
-        jLabelDateAdmin.setFont(new java.awt.Font("Century Gothic", 0, 15)); // NOI18N
-        jLabelDateAdmin.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelDateAdmin.setText("Date:");
-        jPanel6.add(jLabelDateAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 40, -1, 30));
-
         jButtonResetPassword.setBackground(new java.awt.Color(204, 0, 51));
         jButtonResetPassword.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
         jButtonResetPassword.setForeground(new java.awt.Color(255, 255, 255));
@@ -403,9 +382,7 @@ public class ITDashboard extends javax.swing.JFrame {
         jPanelCreateAccount.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jTableEmployeeRecords.setAutoCreateRowSorter(true);
-        jTableEmployeeRecords.setBackground(new java.awt.Color(255, 255, 255));
         jTableEmployeeRecords.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jTableEmployeeRecords.setForeground(new java.awt.Color(0, 0, 0));
         jTableEmployeeRecords.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null, null, null, null},
@@ -495,9 +472,7 @@ public class ITDashboard extends javax.swing.JFrame {
 
         jPanelITMain.add(jTabbedPaneIT, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 840, 730));
 
-        jButtonLogout1.setBackground(new java.awt.Color(255, 255, 255));
         jButtonLogout1.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
-        jButtonLogout1.setForeground(new java.awt.Color(0, 0, 0));
         jButtonLogout1.setText("Logout");
         jButtonLogout1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -555,17 +530,22 @@ public class ITDashboard extends javax.swing.JFrame {
     private void jButtonResetPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetPasswordActionPerformed
         int selectedRow = jTablePasswordResetTickets.getSelectedRow();
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a row", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please select a request to process.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         String employeeNumber = (String) jTablePasswordResetTickets.getValueAt(selectedRow, 0);
         String adminName = jTextFieldName.getText();
         String adminEmpNum = jTextFieldEmployeeNumber.getText();
-
+        
         resetPasswordProcessor.resetPassword(employeeNumber, adminName, adminEmpNum, this); // Process reset first
+        
+        //get temporary password
+        EmployeeDetailsReader employeeReader = new EmployeeDetailsReader("src/data9/Employee.csv", "src/data9/Login.csv");
+        String tempPassword = employeeReader.getPasswordByEmployeeNum(employeeNumber);
 
-        String tempPassword = generateComplexDefaultPassword(employeeNumber); // Generate password after reset
+
+//        String tempPassword = generateComplexDefaultPassword(employeeNumber); // Generate password after reset
         JOptionPane.showMessageDialog(this, "Temporary Password: " + tempPassword + "\n\n(This is a simulation. In a real system, the password would be delivered securely.)", "Password Reset", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButtonResetPasswordActionPerformed
 
@@ -625,11 +605,9 @@ public class ITDashboard extends javax.swing.JFrame {
     private javax.swing.JButton jButtonLogout1;
     private javax.swing.JButton jButtonPasswordResetTickets;
     private javax.swing.JButton jButtonResetPassword;
-    private com.toedter.calendar.JDateChooser jDateChooser;
     private javax.swing.JLabel jLabelAdminInformation;
     private javax.swing.JLabel jLabelCreateEmployeesAccoun;
     private javax.swing.JLabel jLabelDate;
-    private javax.swing.JLabel jLabelDateAdmin;
     private javax.swing.JLabel jLabelEmployeeNumber;
     private javax.swing.JLabel jLabelGMT;
     private javax.swing.JLabel jLabelGreet;
