@@ -3,23 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
-/*to do mark:
-
-Leave: check if you can set the spacing per COlumns
-
-*Done:
-Added Leave History
-fix Add Employee: Save but disposed if there's error
-restricted UPdate & Adding of dates 
-fixed UPdateEmployee's "No changes were made." this prompt's dispose() after.
-move Welcome
-fix default color of Leave button
-improve Save, Cancel, and OK Buttons
-corrected jdateChooser UX
-
-
-*/
-
 package motorph_GUI;
 import data_reader9.EmployeeDetailsReader;
 import data_reader9.LeaveRequestReader;
@@ -126,8 +109,7 @@ public final class HRDashboard extends javax.swing.JFrame {
         model.setRowCount(0); // ✅ Clear old data before adding new ones
 
         try {
-            EmployeeDetailsReader employeeReader = new EmployeeDetailsReader("src/data9/Employee.csv", "src/data9/Login.csv");
-            List<EmployeeUser> employees = employeeReader.getAllEmployees();
+            List<EmployeeUser> employees = employeeReader.getAllEmployees(); // ✅ Load employees
 
             // ✅ Debugging: Print total employees loaded
             System.out.println("Loading employees into table: " + employees.size());
@@ -292,9 +274,33 @@ public final class HRDashboard extends javax.swing.JFrame {
 
         addEmpPanel.add(createStyledLabel("Birthday:", labelFont));
         addEmpPanel.add(chooserBirthday);
+
+        // Set default date to 20 years ago
+        Calendar defaultCal = Calendar.getInstance();
+        defaultCal.add(Calendar.YEAR, -20);
+        chooserBirthday.setDate(defaultCal.getTime());
+
+        // Configure date field appearance
+        JTextField dateField = (JTextField) chooserBirthday.getDateEditor().getUiComponent();
+        dateField.setBackground(Color.BLACK);
+        dateField.setForeground(Color.BLACK); // Initially invisible text
+        dateField.setCaretColor(Color.WHITE);
+
+        // Calendar button and surroundings styling
         chooserBirthday.getCalendarButton().setBackground(Color.BLACK);
-        chooserBirthday.getDateEditor().getUiComponent().setBackground(Color.BLACK);
-        chooserBirthday.getDateEditor().getUiComponent().setForeground(Color.WHITE);
+        chooserBirthday.getCalendarButton().setForeground(Color.WHITE);
+        chooserBirthday.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        // Event handling for text color change on interaction
+        chooserBirthday.getDateEditor().addPropertyChangeListener("date", evt ->
+            dateField.setForeground(Color.WHITE));
+
+        dateField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                dateField.setForeground(Color.WHITE); // Show text when clicked
+            }
+        });
 
         addEmpPanel.add(createStyledLabel("Address:", labelFont));
         addEmpPanel.add(createStyledTextField(txtAddress, labelFont));
@@ -683,47 +689,56 @@ public final class HRDashboard extends javax.swing.JFrame {
     supervisor        De Leon Selena
 
     */
-    
+        
     private void addEmployee() {
-        int newEmployeeID = getNextEmployeeID(); // Get next available Employee ID
+        int newEmployeeID = getNextEmployeeID();
         txtEmployeeID.setText(String.valueOf(newEmployeeID));
 
-        // Assign blanks to other text fields
+        // Reset text fields to blank
         resetEmployeeForm();
 
         // Restrict birthday selection to at least 18 years ago
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.YEAR, -18); // Move back 18 years
-        chooserBirthday.setMaxSelectableDate(cal.getTime()); // Restrict future dates
+        cal.add(Calendar.YEAR, -18); 
+        chooserBirthday.setMaxSelectableDate(cal.getTime());
+        chooserBirthday.setDate(null); // Clear the date chooser initially
 
-        // Ensure the date chooser is empty initially
-        chooserBirthday.setDate(null);
-
-        // Get reference to the date field inside JDateChooser
+        // Configure date field styling
         JTextField dateField = (JTextField) chooserBirthday.getDateEditor().getUiComponent();
+        configureDateFieldAppearance(dateField);
+
+        // Add tooltips for clarity
+        addTooltips();
+
+        System.out.println("Add Employee form launched.");
+
+        // Display Add panel in a dialog
+        dialogAddEmployee.setContentPane(createAddEmployeePanel(dialogAddEmployee));
+        dialogAddEmployee.pack();
+        dialogAddEmployee.setLocationRelativeTo(this);
+        dialogAddEmployee.setVisible(true);
+    }
+
+    // Helper method for date field appearance
+    private void configureDateFieldAppearance(JTextField dateField) {
         dateField.setBackground(Color.BLACK);
         dateField.setForeground(Color.WHITE);
-        dateField.setCaretColor(Color.WHITE); // Ensures cursor is visible
+        dateField.setCaretColor(Color.WHITE);
 
-        // Fix: Update text color dynamically when the date is selected/changed
-        chooserBirthday.getDateEditor().addPropertyChangeListener("date", evt -> {
-            dateField.setForeground(Color.WHITE); // Ensure text remains white when date is selected
-        });
+        chooserBirthday.getDateEditor().addPropertyChangeListener("date", evt ->
+            dateField.setForeground(Color.WHITE));
 
-        // Prevent text color from changing when gaining/losing focus
         dateField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                dateField.setForeground(Color.WHITE); // Keep text white on focus
+                dateField.setForeground(Color.WHITE);
             }
-
             @Override
             public void focusLost(FocusEvent e) {
-                dateField.setForeground(Color.WHITE); // Keep text white when losing focus
+                dateField.setForeground(Color.WHITE);
             }
         });
 
-        // Move default view to 18 years ago when the user clicks the date chooser
         dateField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -731,20 +746,28 @@ public final class HRDashboard extends javax.swing.JFrame {
                     SwingUtilities.invokeLater(() -> {
                         Calendar defaultCal = Calendar.getInstance();
                         defaultCal.add(Calendar.YEAR, -18);
-                        chooserBirthday.setDate(defaultCal.getTime()); // Set the default view to 18 years ago
-                        chooserBirthday.setDate(null); // Clear selection after setting the view
+                        chooserBirthday.setDate(defaultCal.getTime());
+                        chooserBirthday.setDate(null);
                     });
                 }
             }
         });
+    }
 
-        System.out.println("Add Employee form launched.");
-
-        // Show Add panel in a dialog
-        dialogAddEmployee.setContentPane(createAddEmployeePanel(dialogAddEmployee));
-        dialogAddEmployee.pack();
-        dialogAddEmployee.setLocationRelativeTo(this);
-        dialogAddEmployee.setVisible(true);
+    // Helper method to add tooltips
+    private void addTooltips() {
+        txtLastName.setToolTipText("Enter last name (letters only)");
+        txtFirstName.setToolTipText("Enter first name (letters only)");
+        chooserBirthday.setToolTipText("Select birthdate (Must be at least 18 years old)");
+        txtAddress.setToolTipText("Enter home address");
+        txtPhoneNumber.setToolTipText("Enter a 9-digit phone number");
+        txtSSSNumber.setToolTipText("Format: XX-XXXXXXX-X");
+        txtPhilHealthNumber.setToolTipText("Must be 12 digits");
+        txtTINNumber.setToolTipText("Format: XXX-XXX-XXX-XXX");
+        txtPagIbigNumber.setToolTipText("Must be 12 digits");
+        txtStatus.setToolTipText("Enter employment status (e.g., Probationary, Regular)");
+        txtPosition.setToolTipText("Enter job position");
+        txtSupervisor.setToolTipText("Enter immediate supervisor name");
     }
 
     // Helper Method to Reset Form Fields
@@ -856,6 +879,9 @@ public final class HRDashboard extends javax.swing.JFrame {
                 }
             }
 
+            // Configure column widths for improved readability
+            configureLeaveRequestTables();
+            
             // Print counts for better visibility
             System.out.println("Total pending requests: " + pendingCount);
             System.out.println("Total processed requests (Approved/Rejected): " + processedCount);
@@ -872,6 +898,37 @@ public final class HRDashboard extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error loading leave requests: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+    // Handle column resizing for better readability
+    private void configureLeaveRequestTables() {
+        jTablePendingLeaveRequest.getColumnModel().getColumn(0).setPreferredWidth(80);  // Leave ID
+        jTablePendingLeaveRequest.getColumnModel().getColumn(1).setPreferredWidth(100); // Employee No.
+        jTablePendingLeaveRequest.getColumnModel().getColumn(2).setPreferredWidth(150); // Leave Type
+        jTablePendingLeaveRequest.getColumnModel().getColumn(3).setPreferredWidth(120); // Date Requested
+        jTablePendingLeaveRequest.getColumnModel().getColumn(4).setPreferredWidth(100); // Start Date
+        jTablePendingLeaveRequest.getColumnModel().getColumn(5).setPreferredWidth(100); // End Date
+        jTablePendingLeaveRequest.getColumnModel().getColumn(6).setPreferredWidth(340); // Reason
+        jTablePendingLeaveRequest.getColumnModel().getColumn(7).setPreferredWidth(90);  // Status
+
+        jTablePendingLeaveRequest.setAutoResizeMode(JTable.AUTO_RESIZE_OFF); 
+        jTablePendingLeaveRequest.revalidate();
+        jTablePendingLeaveRequest.repaint();
+        
+        jTableProcessedLeaveRequest.getColumnModel().getColumn(0).setPreferredWidth(60);  // Leave ID
+        jTableProcessedLeaveRequest.getColumnModel().getColumn(1).setPreferredWidth(50); // Employee No.
+        jTableProcessedLeaveRequest.getColumnModel().getColumn(2).setPreferredWidth(100); // Leave Type
+        jTableProcessedLeaveRequest.getColumnModel().getColumn(3).setPreferredWidth(80); // Date Requested
+        jTableProcessedLeaveRequest.getColumnModel().getColumn(4).setPreferredWidth(80); // Start Date
+        jTableProcessedLeaveRequest.getColumnModel().getColumn(5).setPreferredWidth(80); // End Date
+        jTableProcessedLeaveRequest.getColumnModel().getColumn(6).setPreferredWidth(200); // Reason
+        jTableProcessedLeaveRequest.getColumnModel().getColumn(7).setPreferredWidth(70);  // Status
+        jTableProcessedLeaveRequest.getColumnModel().getColumn(8).setPreferredWidth(120);  // Approver
+        jTableProcessedLeaveRequest.getColumnModel().getColumn(9).setPreferredWidth(80);  // Date Responded
+        jTableProcessedLeaveRequest.getColumnModel().getColumn(10).setPreferredWidth(160);  // Remarks
+
+        jTableProcessedLeaveRequest.setAutoResizeMode(JTable.AUTO_RESIZE_OFF); 
+        jTableProcessedLeaveRequest.revalidate();
+        jTableProcessedLeaveRequest.repaint();
     }
 
     private void approveLeave(JTable table) {
@@ -1001,8 +1058,8 @@ public final class HRDashboard extends javax.swing.JFrame {
         jLabelTitleLeaveRequests1 = new javax.swing.JLabel();
         jScrollPaneLeaveRequests1 = new javax.swing.JScrollPane();
         jTableProcessedLeaveRequest = new javax.swing.JTable();
-        jButtonApprove1 = new javax.swing.JButton();
-        jButtonReject1 = new javax.swing.JButton();
+        jButtonHistoryApprove = new javax.swing.JButton();
+        jButtonHistoryReject = new javax.swing.JButton();
         jButtonPending = new javax.swing.JButton();
         jPanelSidebar = new javax.swing.JPanel();
         jButtonManageEmployees = new javax.swing.JButton();
@@ -1295,27 +1352,27 @@ public final class HRDashboard extends javax.swing.JFrame {
 
         jPanelProcessedLeaveRequest.add(jScrollPaneLeaveRequests1, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 208, 1090, 420));
 
-        jButtonApprove1.setBackground(new java.awt.Color(204, 0, 51));
-        jButtonApprove1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jButtonApprove1.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonApprove1.setText("Approve");
-        jButtonApprove1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonHistoryApprove.setBackground(new java.awt.Color(204, 0, 51));
+        jButtonHistoryApprove.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jButtonHistoryApprove.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonHistoryApprove.setText("Approve");
+        jButtonHistoryApprove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonApprove1ActionPerformed(evt);
+                jButtonHistoryApproveActionPerformed(evt);
             }
         });
-        jPanelProcessedLeaveRequest.add(jButtonApprove1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 163, -1, 30));
+        jPanelProcessedLeaveRequest.add(jButtonHistoryApprove, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 163, -1, 30));
 
-        jButtonReject1.setBackground(new java.awt.Color(204, 0, 51));
-        jButtonReject1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jButtonReject1.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonReject1.setText("Reject");
-        jButtonReject1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonHistoryReject.setBackground(new java.awt.Color(204, 0, 51));
+        jButtonHistoryReject.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jButtonHistoryReject.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonHistoryReject.setText("Reject");
+        jButtonHistoryReject.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonReject1ActionPerformed(evt);
+                jButtonHistoryRejectActionPerformed(evt);
             }
         });
-        jPanelProcessedLeaveRequest.add(jButtonReject1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 163, 80, 30));
+        jPanelProcessedLeaveRequest.add(jButtonHistoryReject, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 163, 80, 30));
 
         jButtonPending.setBackground(new java.awt.Color(204, 204, 204));
         jButtonPending.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
@@ -1448,13 +1505,13 @@ public final class HRDashboard extends javax.swing.JFrame {
         loadLeaveRequests();
     }//GEN-LAST:event_jButtonHistoryActionPerformed
 
-    private void jButtonReject1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReject1ActionPerformed
+    private void jButtonHistoryRejectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHistoryRejectActionPerformed
         rejectLeave(jTableProcessedLeaveRequest);
-    }//GEN-LAST:event_jButtonReject1ActionPerformed
+    }//GEN-LAST:event_jButtonHistoryRejectActionPerformed
 
-    private void jButtonApprove1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApprove1ActionPerformed
+    private void jButtonHistoryApproveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHistoryApproveActionPerformed
         approveLeave(jTableProcessedLeaveRequest);
-    }//GEN-LAST:event_jButtonApprove1ActionPerformed
+    }//GEN-LAST:event_jButtonHistoryApproveActionPerformed
 
     private void jButtonPendingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPendingActionPerformed
         jTabbedMain.setSelectedIndex(1);
@@ -1488,15 +1545,15 @@ public final class HRDashboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAdd;
     private javax.swing.JButton jButtonApprove;
-    private javax.swing.JButton jButtonApprove1;
     private javax.swing.JButton jButtonDelete;
     private javax.swing.JButton jButtonHistory;
+    private javax.swing.JButton jButtonHistoryApprove;
+    private javax.swing.JButton jButtonHistoryReject;
     private javax.swing.JButton jButtonLeaveRequests;
     private javax.swing.JButton jButtonLogout;
     private javax.swing.JButton jButtonManageEmployees;
     private javax.swing.JButton jButtonPending;
     private javax.swing.JButton jButtonReject;
-    private javax.swing.JButton jButtonReject1;
     private javax.swing.JButton jButtonUpdate;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;

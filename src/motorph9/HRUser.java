@@ -39,56 +39,10 @@ public class HRUser extends User {
         System.out.println("✅ HRUser Created: " + this.firstName + " " + this.lastName);
     }
     
-    /*public HRUser(String employeeId, String username, String roleName, String password, String firstName, String lastName) {
-        super(employeeId, username, roleName, password, firstName, lastName);
-        
-        // ✅ Debugging: Print to confirm assignment
-        System.out.println("✅ HRUser Created: " + this.firstName + " " + this.lastName);
-    }*/
-    
-    
     @Override
     public void accessDashboard() {
         System.out.println("Accessing HR Dashboard");
     }
-    
-    /*public void updateEmployee(User updatedEmployee, EmployeeDetailsReader employeeReader) {
-        if (!isValidEmployee(updatedEmployee)) {
-            System.out.println("Invalid employee data. Update failed.");
-            return;
-        }
-        
-        List<String> employees = new ArrayList<>();
-        boolean found = false;
-        String FILE_PATH = null;
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (line.startsWith(updatedEmployee.getEmployeeId() + ",")) {
-                    employees.add(updatedEmployee.toCSV());
-                    found = true;
-                } else {
-                    employees.add(line);
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("Error updating employee: " + e.getMessage());
-        }
-        
-        if (found) {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
-                for (String employee : employees) {
-                    writer.write(employee);
-                    writer.newLine();
-                }
-                System.out.println("Employee updated successfully.");
-            } catch (IOException e) {
-                System.out.println("Error saving updated employee data: " + e.getMessage());
-            }
-        } else {
-            System.out.println("Employee not found.");
-        }
-    }*/  
     
     public void updateEmployee(User updatedEmployee, EmployeeDetailsReader employeeReader) {
         try {
@@ -102,21 +56,6 @@ public class HRUser extends User {
             System.out.println("Error updating employee: " + e.getMessage());
         }
     }
-    
-    /*public void addEmployee(User newEmployee, EmployeeDetailsReader employeeReader) {
-        if (isValidEmployee(newEmployee)) {
-            String FILE_PATH = null;
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
-                writer.write(newEmployee.toCSV());
-                writer.newLine();
-                System.out.println("Employee added successfully.");
-            } catch (IOException e) {
-                System.out.println("Error adding employee: " + e.getMessage());
-            }
-        } else {
-            System.out.println("Invalid employee data. Addition failed.");
-        }
-    }*/
 
     public void addEmployee(User newEmployee, EmployeeDetailsReader employeeReader) {
         try {
@@ -126,39 +65,6 @@ public class HRUser extends User {
             System.out.println("Error adding employee: " + e.getMessage());
         }
     }
-
-    
-    /*public void deleteEmployee(String employeeId, EmployeeDetailsReader employeeReader) {
-        List<String> employees = new ArrayList<>();
-        boolean found = false;
-        String FILE_PATH = null;
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (!line.startsWith(employeeId + ",")) {
-                    employees.add(line);
-                } else {
-                    found = true;
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("Error deleting employee: " + e.getMessage());
-        }
-        
-        if (found) {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
-                for (String employee : employees) {
-                    writer.write(employee);
-                    writer.newLine();
-                }
-                System.out.println("Employee deleted successfully.");
-            } catch (IOException e) {
-                System.out.println("Error saving updated employee data: " + e.getMessage());
-            }
-        } else {
-            System.out.println("Employee not found.");
-        }
-    }*/
     
     public void deleteEmployee(String employeeId, EmployeeDetailsReader employeeReader) {
         try {
@@ -172,20 +78,6 @@ public class HRUser extends User {
             System.out.println("Error deleting employee: " + e.getMessage());
         }
     }
-
-    
-    /*public void viewEmployeeRecords() {
-        System.out.println("Employee Records:");
-        String FILE_PATH = null;
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-            }
-        } catch (IOException e) {
-            System.out.println("Error reading employee records: " + e.getMessage());
-        }
-    }*/
     
     public void viewEmployeeRecords() {
         System.out.println("Employee Records:");
@@ -206,47 +98,26 @@ public class HRUser extends User {
         return employee.getEmployeeId() != null && !employee.getEmployeeId().isEmpty()
                 && employee.getUsername() != null && !employee.getUsername().isEmpty();
     }
-    
-    /*public void approveLeave(String leaveID) throws IOException {
-        LeaveRequest leaveRequest = LeaveRequestReader.getLeaveById(leaveID);
-        if (leaveRequest != null) {
-            leaveRequest.approve(getFirstName() + " " + getLastName()); // Pass HRUser's name
-            LeaveRequestReader.updateLeaveRequest(leaveRequest);
-            System.out.println("Leave approved.");
-        } else {
-            System.out.println("Leave request not found.");
-        }
-    }*/
-    
+
     public void approveLeave(String leaveID, LeaveRequestReader leaveRequestReader, String remark) throws IOException {
-        LeaveRequest leaveRequest = leaveRequestReader.getLeaveById(leaveID); // ✅ FIXED
+        LeaveRequest leaveRequest = leaveRequestReader.getLeaveById(leaveID);
         if (leaveRequest != null) {
             leaveRequest.approve(getFirstName() + " " + getLastName());
+            leaveRequest.setRemark(remark);
             leaveRequestReader.updateLeaveRequest(leaveRequest);
             System.out.println("Leave approved.");
         } else {
             System.out.println("Leave request not found.");
         }
     }
-
-
-    /*public void rejectLeave(String leaveID) throws IOException {
-        LeaveRequest leaveRequest = LeaveRequestReader.getLeaveById(leaveID);
-        if (leaveRequest != null) {
-            leaveRequest.reject(getFirstName() + " " + getLastName()); // Pass HRUser's name
-            LeaveRequestReader.updateLeaveRequest(leaveRequest);
-            System.out.println("Leave rejected.");
-        } else {
-            System.out.println("Leave request not found.");
-        }
-    }*/
     
     public void rejectLeave(String leaveID, LeaveRequestReader leaveRequestReader, String remark) throws IOException {
         LeaveRequest leaveRequest = leaveRequestReader.getLeaveById(leaveID); // ✅ FIXED
         if (leaveRequest != null) {
             leaveRequest.reject(getFirstName() + " " + getLastName());
+            leaveRequest.setRemark(remark);
             leaveRequestReader.updateLeaveRequest(leaveRequest);
-            System.out.println("Leave rejected.");
+            System.out.println("Leave rejected with remark: " + remark); // Debugging log
         } else {
             System.out.println("Leave request not found.");
         }

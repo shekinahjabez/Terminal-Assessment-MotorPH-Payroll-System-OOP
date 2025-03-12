@@ -76,6 +76,10 @@ public class LeaveRequest {
         return remark;
     }
 
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+    
     public String getLeaveDetails() {
         return "Leave ID: " + leaveID + "\nEmployee ID: " + employeeID + "\nType: " + leaveType + "\nStart: " + startDate + "\nEnd: " + endDate + "\nReason: " + reason + "\nStatus: " + status;
     }
