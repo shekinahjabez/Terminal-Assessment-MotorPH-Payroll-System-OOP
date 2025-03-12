@@ -39,30 +39,6 @@ public class PasswordResetRequest {
         this.dateOfRequest = dateOfRequest;
     }
     
-      // 3-parameter constructor (for saving new requests)
-    /*public PasswordResetRequest(String employeeNumber, String employeeName, String dateOfRequest) {
-        this.employeeNumber = employeeNumber;
-        this.employeeName = employeeName;
-        this.dateOfRequest = dateOfRequest;
-        this.status = "Pending"; // Default status for new requests
-        this.adminName = "";
-        this.adminEmployeeNumber = "";
-        this.dateOfReset = "";
-        
-    }*/
-    
-    // 7-parameter constructor (for loading existing requests)
-    /*public PasswordResetRequest(String employeeNumber, String employeeName, String dateOfRequest,
-                                String status, String adminName, String adminEmployeeNumber, String dateOfReset) {
-        this.employeeNumber = employeeNumber;
-        this.employeeName = employeeName;
-        this.dateOfRequest = dateOfRequest;
-        this.status = status;
-        this.adminName = adminName;
-        this.adminEmployeeNumber = adminEmployeeNumber;
-        this.dateOfReset = dateOfReset;
-    }*/
-
     // Getters
     public String getEmployeeNumber() {
         return employeeNumber;
@@ -114,27 +90,7 @@ public class PasswordResetRequest {
     public void setDateOfReset(String dateOfReset) {
         this.dateOfReset = dateOfReset;
     }
-    
-
-   // Convert request to CSV format
-    /*public String toCSV() {
-        return employeeNumber + "," + employeeName + "," + dateOfRequest + "," + defaultPassword + "," + status + "," + adminName + "," + adminEmployeeNumber + "," + dateOfReset;
-    }
-    
-    
-    public String[] toArray() {
-        return new String[]{
-                employeeNumber,
-                employeeName,
-                dateOfRequest,
-                defaultPassword,
-                status,
-                adminName,
-                adminEmployeeNumber,
-                dateOfReset
-        };
-    }*/
-    
+      
     public String toCSV() {
         return employeeNumber + "," + employeeName + "," + dateOfRequest + ",Pending,,,\n";
     }

@@ -8,7 +8,6 @@ package data_reader9;
 
 import java.util.ArrayList;
 import java.util.List;
-import password_reset9.PasswordResetDataAccess;
 import password_reset9.PasswordResetRequest;
 import java.io.IOException;
 
@@ -16,7 +15,7 @@ import java.io.IOException;
  *
  * @author Shekinah Jabez
  */
-public class PasswordResetReader implements PasswordResetDataAccess { // Implement the interface
+public class PasswordResetReader { 
  
     private static final String FILE_NAME = "src/data9/Password_Reset_Requests.csv";
     
@@ -25,7 +24,6 @@ public class PasswordResetReader implements PasswordResetDataAccess { // Impleme
      * @param request The password reset request to be saved.
      */
     
-     //@Override
     public void saveRequest(PasswordResetRequest request) throws IOException {
         try {
             List<String[]> existingData = CSVReader.readCSV(FILE_NAME); // Use CSVReader.readCSV
@@ -38,35 +36,7 @@ public class PasswordResetReader implements PasswordResetDataAccess { // Impleme
             e.printStackTrace();
         }
     }
-    /*public void saveRequest(PasswordResetRequest request) throws IOException {
-        try {
-            List<String[]> existingData = CSVReader.readCSV(FILE_NAME);
-            if (existingData.isEmpty()) {
-                existingData.add(new String[]{"Employee Number", "Employee Name", "Date of Request", "Default Password", "Status", "Admin Name", "Admin Employee No.", "Date of Reset"});
-            }
-            existingData.add(request.toArray());
-            CSVReader.writeCSV(FILE_NAME, existingData);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
-     
-     /*public void saveRequest(PasswordResetRequest request) throws IOException { // Override the interface method
-        try (FileWriter fw = new FileWriter(FILE_PATH, true);
-             BufferedWriter bw = new BufferedWriter(fw);
-             PrintWriter out = new PrintWriter(bw)) {
-
-            String line = String.format("%s,%s,%s,%s,Pending,,,\"\"",
-                    request.getEmployeeNumber(),
-                    request.getEmployeeName(),
-                    request.getDateOfRequest(),
-                    request.getDefaultPassword()); // Add default password
-
-            out.println(line);
-            System.out.println("Password reset request saved: " + line);
-        }
-    }*/
-
+    
     /**
      * ✅ Reads all password reset requests from the CSV file.
      * @return A list of password reset requests.
@@ -90,30 +60,11 @@ public class PasswordResetReader implements PasswordResetDataAccess { // Impleme
         return requests;
     }
     
-    /*private List<PasswordResetRequest> getAllRequests() {
-        List<PasswordResetRequest> requests = new ArrayList<>();
-        try {
-            //List<String[]> data = CSVReader.readCSV(FILE_NAME, true); // Skip header
-            List<String[]> data = CSVReader.readCSV(FILE_NAME);
-            data.remove(0); //remove the header row
-            for (String[] row : data) {
-                if (row.length >= 7) {
-                    PasswordResetRequest request = new PasswordResetRequest(
-                            row[0], row[1], row[2], row[3], row[4], row[5], row[6]
-                    );
-                    requests.add(request);
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("❌ Error reading password reset requests: " + e.getMessage());
-        }
-        return requests;
-    }*/
    
     /**
      * ✅ Updates the status of a password reset request in the CSV file.
      * @param empNum The employee number whose request is being updated.
-     * @param newStatus The new status (e.g., "Approved", "Denied").
+     * @param newStatus The new status ("Approved").
      * @param adminName The IT admin handling the request.
      * @param adminEmpNum The admin's employee number.
      * @param dateOfReset The date the request was processed.
