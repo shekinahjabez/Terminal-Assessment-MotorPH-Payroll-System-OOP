@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import data_reader9.PasswordResetReader;
+import javax.swing.JFrame;
 import javax.swing.Timer;
 import password_reset9.PasswordResetRequest;
 
@@ -32,6 +33,8 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
     
     public ForgotPasswordForm() {
         initComponents();
+        this.setResizable(false); // 💡 Prevent resizing
+        this.setExtendedState(JFrame.NORMAL);
         setLocationRelativeTo(null); // Center the window
         startClock();
     }
@@ -43,14 +46,9 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
 
     private void updateTimeAndDate() {
         SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm:ss a");
-        //SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM d, yyyy");
         jLabelTime.setText(timeFormat.format(new Date()));
-        //jLabelDate.setText(dateFormat.format(new Date()));
     }
     
-    /**
-     * Restricts jDateChooser to **only allow today's date** (prevents past & future selections).
-     */
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -106,12 +104,6 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
         jLabelFPEmpName.setForeground(new java.awt.Color(255, 255, 255));
         jLabelFPEmpName.setText("Employee Name:");
         jPanelFormContents.add(jLabelFPEmpName, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, -1, 50));
-
-        jTextFieldFPEmpName.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextFieldFPEmpNameKeyTyped(evt);
-            }
-        });
         jPanelFormContents.add(jTextFieldFPEmpName, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, 260, 30));
 
         jLabelFPEmpNum.setBackground(new java.awt.Color(255, 255, 255));
@@ -119,12 +111,6 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
         jLabelFPEmpNum.setForeground(new java.awt.Color(255, 255, 255));
         jLabelFPEmpNum.setText(" Employee Number:");
         jPanelFormContents.add(jLabelFPEmpNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, 70));
-
-        jTextFieldFPEmpNum.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextFieldFPEmpNumKeyTyped(evt);
-            }
-        });
         jPanelFormContents.add(jTextFieldFPEmpNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 260, 30));
 
         jPanelForgotPassword.add(jPanelFormContents, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 470, 100));
@@ -256,22 +242,6 @@ public class ForgotPasswordForm extends javax.swing.JFrame {
     }
 
     }//GEN-LAST:event_jButtonFPSubmitActionPerformed
-
-    private void jTextFieldFPEmpNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFPEmpNameKeyTyped
-        // TODO add your handling code here:
-        /*char c = evt.getKeyChar();
-        if (!Character.isLetter(c) && c != ' ') { // Allow letters & spaces only
-            evt.consume(); // Ignore the key event
-        }*/
-    }//GEN-LAST:event_jTextFieldFPEmpNameKeyTyped
-
-    private void jTextFieldFPEmpNumKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldFPEmpNumKeyTyped
-        // TODO add your handling code here:
-        /*char c = evt.getKeyChar();
-        if (!Character.isDigit(c)) { // Allow only numbers
-            evt.consume(); // Ignore the key event
-        }*/    
-    }//GEN-LAST:event_jTextFieldFPEmpNumKeyTyped
 
     private void jButtonFPCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFPCancelActionPerformed
         Login newClassInstance = new Login();

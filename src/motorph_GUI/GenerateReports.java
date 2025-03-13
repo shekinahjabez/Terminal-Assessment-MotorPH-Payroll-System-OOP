@@ -1,20 +1,64 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package motorph_GUI;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JFrame;
+import javax.swing.Timer;
 
 /**
  *
  * @author Four Lugtu
  */
 public class GenerateReports extends javax.swing.JFrame {
+    private Timer timer;
 
     /**
      * Creates new form GenerateReports
      */
     public GenerateReports() {
         initComponents();
+        setLocationRelativeTo(null); // Center the window
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        startClock();
+    }
+    
+    private void startClock() {
+        timer = new Timer(1000, e -> updateTime());
+        timer.start();
+    }
+    
+    private void updateTime() {
+        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm:ss a");
+        jLabelTime.setText(timeFormat.format(new Date()));
+    }
+    
+    
+    public void setEmployeeDetails(String employeeNumber, String fullName, String sssNumber, String philhealthNumber,
+                                    String tinNumber, String pagibigNumber, String totalAllowances, String totalDeductions,
+                                    String grossSalary, String netSalary) {
+        jTextFieldEmployeeNumber.setText(employeeNumber);
+        jTextFieldName.setText(fullName);
+        jTextFieldSSSNumber.setText(sssNumber);
+        jTextFieldPhilHealthNumber.setText(philhealthNumber);
+        jTextFieldTIN.setText(tinNumber);
+        jTextFieldPAGIBIGNumber.setText(pagibigNumber);
+        jTextFieldTotalAllowance.setText(totalAllowances);
+        jTextFieldTotalDeductions.setText(totalDeductions);
+        jTextFieldGrossSalary.setText(grossSalary);
+        jTextFieldNetSalary.setText(netSalary);
+    }
+
+    public void clearFields() {
+        jTextFieldEmployeeNumber.setText("");
+        jTextFieldName.setText("");
+        jTextFieldSSSNumber.setText("");
+        jTextFieldPhilHealthNumber.setText("");
+        jTextFieldTIN.setText("");
+        jTextFieldPAGIBIGNumber.setText("");
+        jTextFieldTotalAllowance.setText("");
+        jTextFieldTotalDeductions.setText("");
+        jTextFieldGrossSalary.setText("");
+        jTextFieldNetSalary.setText("");
     }
 
     /**
@@ -194,6 +238,11 @@ public class GenerateReports extends javax.swing.JFrame {
         jButtonCompute.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jButtonCompute.setForeground(new java.awt.Color(255, 255, 255));
         jButtonCompute.setText("Compute");
+        jButtonCompute.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonComputeActionPerformed(evt);
+            }
+        });
         jPanelBackground2.add(jButtonCompute, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 550, 190, 40));
 
         jTextFieldEmployeeNumber.setBackground(new java.awt.Color(255, 255, 255));
@@ -260,6 +309,10 @@ public class GenerateReports extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxSelectMonthActionPerformed
 
+    private void jButtonComputeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonComputeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonComputeActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -285,6 +338,8 @@ public class GenerateReports extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(GenerateReports.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 

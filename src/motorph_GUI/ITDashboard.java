@@ -43,6 +43,8 @@ public class ITDashboard extends javax.swing.JFrame {
   public ITDashboard(ITUser itUser) {  // Pass ITUser object directly
       this.itUser = itUser; // Assign it correctly
       initComponents(); // Call initComponents() to initialize UI
+      this.setResizable(false); // 💡 Prevent resizing
+      this.setExtendedState(JFrame.NORMAL);
       setLocationRelativeTo(null); // Center the window
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Define close behavior
       checkFileExists(); // Ensure the file exists
@@ -509,7 +511,7 @@ public class ITDashboard extends javax.swing.JFrame {
         });
         jPanelITMain.add(jButtonPasswordResetTickets, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 150, 200, 40));
 
-        getContentPane().add(jPanelITMain, new org.netbeans.lib.awtextra.AbsoluteConstraints(7, 0, 1080, 660));
+        getContentPane().add(jPanelITMain, new org.netbeans.lib.awtextra.AbsoluteConstraints(-3, 0, 1090, 660));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

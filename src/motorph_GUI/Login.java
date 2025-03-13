@@ -28,6 +28,8 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        this.setResizable(false); // 💡 Prevent resizing
+        this.setExtendedState(JFrame.NORMAL);
         setMinimumSize(new java.awt.Dimension(957, 490)); 
         pack();
         setLocationRelativeTo(null);
