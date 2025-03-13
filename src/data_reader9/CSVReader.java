@@ -10,12 +10,26 @@ import java.util.List;
 
 
 public class CSVReader {
-    public static List<String[]> readCSV(String filePath) throws IOException {
+    /*public static List<String[]> readCSV(String filePath) throws IOException {
         List<String[]> data = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
+            System.out.println("Reading CSV file: " + filePath);
             while ((line = reader.readLine()) != null) {
+                System.out.println("Read line: " + line);
                 data.add(line.split(",", -1)); // ✅ Use split(",", -1) for robust CSV parsing
+            }
+        }
+        return data;
+    }*/
+    
+    public static List<String[]> readCSV(String filePath) throws IOException {
+        List<String[]> data = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line = br.readLine(); // Skip header
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(",");
+                data.add(values);
             }
         }
         return data;
