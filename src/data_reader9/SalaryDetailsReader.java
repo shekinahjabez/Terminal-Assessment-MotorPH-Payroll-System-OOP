@@ -1,69 +1,68 @@
 package data_reader9;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import payroll9.Salary;
 
 /**
- *
  * @author Shekinah Jabez
  */
 public class SalaryDetailsReader {
     private static final Logger LOGGER = Logger.getLogger(SalaryDetailsReader.class.getName());
     private final String filePath;
-    private static final String FILE_PATH = "src/data9/Salary.csv";
-    
+    private Map<String, Salary> salaryMap = null; // Initialize to null
+
     public SalaryDetailsReader(String filePath) {
         this.filePath = filePath;
     }
 
-    /*public static double getBasicSalary(String employeeId) throws IOException {
-        for (String[] data : CSVReader.readCSV(FILE_PATH)) {
-            if (data[0].equals(employeeId)) {
-                return Double.parseDouble(data[1]);
-            }
-        }
-        return 0.0;
-    }
+    private void loadSalaries() throws IOException {
+        salaryMap = new HashMap<>(); // Create a new map
 
-    public static double getHourlyRate(String employeeId) throws IOException {
-        for (String[] data : CSVReader.readCSV(FILE_PATH)) {
-            if (data[0].equals(employeeId)) {
-                return Double.parseDouble(data[2]);
-            }
-        }
-        return 0.0;
-    }
-
-    public static void updateSalary(String employeeId, double newSalary) throws IOException {
-        List<String[]> salaries = CSVReader.readCSV(FILE_PATH);
-        for (String[] data : salaries) {
-            if (data[0].equals(employeeId)) {
-                data[1] = String.valueOf(newSalary);
-                break;
-            }
-        }
-        CSVReader.writeCSV(FILE_PATH, salaries);
-    }*/
-    
-    public Salary getSalary(String employeeId) throws IOException {
-        try {
-            for (String[] data : CSVReader.readCSV(filePath)) {
-                if (data[0].equals(employeeId)) {
-                    double basicSalary = Double.parseDouble(data[1]);
-                    double hourlyRate = Double.parseDouble(data[2]);
-                    double grossSMRate = Double.parseDouble(data[3]);
-                    return new Salary(basicSalary, hourlyRate, grossSMRate);
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            br.readLine(); // Skip header
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length > 0) {
+                    String employeeId = data[0].trim();
+                    try {
+                        Salary salary = new Salary(
+                                Double.parseDouble(data[1]),
+                                Double.parseDouble(data[2]),
+                                Double.parseDouble(data[3])
+                        );
+                        salaryMap.put(employeeId, salary);
+                    } catch (NumberFormatException e) {
+                        LOGGER.log(Level.WARNING, "Error parsing salary data: {0}", e.getMessage());
+                    }
                 }
             }
-            LOGGER.warning("Salary data not found for employee: " + employeeId);
-            return null; // Or throw a custom exception
-        } catch (NumberFormatException e) {
-            LOGGER.severe("Error parsing salary data: " + e.getMessage());
-            throw new IOException("Error parsing salary data", e);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Error loading salaries from file: {0}", e.getMessage());
+            throw e;
         }
+    }
+
+    public Salary getSalary(String employeeId) throws IOException {
+        if (salaryMap == null) {
+            loadSalaries();
+        }
+        return salaryMap.get(employeeId);
+    }
+
+    public Map<String, Salary> getAllSalaries() throws IOException {
+        if (salaryMap == null) {
+            loadSalaries();
+        }
+        return salaryMap;
     }
 
     public void updateSalary(String employeeId, Salary newSalary) throws IOException {
@@ -83,8 +82,9 @@ public class SalaryDetailsReader {
 
         if (updated) {
             CSVReader.writeCSV(filePath, updatedSalaries);
+            salaryMap = null; // Invalidate cache after update
         } else {
-            LOGGER.warning("Salary data not found for employee: " + employeeId);
+            LOGGER.log(Level.WARNING, "Salary data not found for employee: {0}", employeeId);
         }
     }
 }
