@@ -72,7 +72,7 @@ public final class HRDashboard extends javax.swing.JFrame {
         System.out.println("Last Name: " + hrUser.getLastName());
         
         jLabelGreet.setText("Welcome, " + hrUser.getFirstName() + "!");
-        jButtonLeaveRequests.setBackground (new java.awt.Color(0,0,0));
+        //jButtonLeaveRequests.setBackground (new java.awt.Color(0,0,0));
         //setupSearchListener();
         startClock();
         loadEmployeeTable();
@@ -1117,7 +1117,9 @@ public final class HRDashboard extends javax.swing.JFrame {
         jPanelManageEmployee.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jTableEmployeeRecords.setAutoCreateRowSorter(true);
-        jTableEmployeeRecords.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTableEmployeeRecords.setBackground(new java.awt.Color(255, 255, 255));
+        jTableEmployeeRecords.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jTableEmployeeRecords.setForeground(new java.awt.Color(0, 0, 0));
         jTableEmployeeRecords.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null, null, null, null},
@@ -1191,6 +1193,7 @@ public final class HRDashboard extends javax.swing.JFrame {
         jPanelManageEmployee.add(jScrollPaneTableEmployeeRecords, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 208, 1090, 420));
 
         jButtonDelete.setBackground(new java.awt.Color(204, 0, 51));
+        jButtonDelete.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jButtonDelete.setForeground(new java.awt.Color(255, 255, 255));
         jButtonDelete.setText("Delete");
         jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -1198,9 +1201,10 @@ public final class HRDashboard extends javax.swing.JFrame {
                 jButtonDeleteActionPerformed(evt);
             }
         });
-        jPanelManageEmployee.add(jButtonDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 163, -1, 30));
+        jPanelManageEmployee.add(jButtonDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 170, 110, 30));
 
         jButtonUpdate.setBackground(new java.awt.Color(204, 0, 51));
+        jButtonUpdate.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jButtonUpdate.setForeground(new java.awt.Color(255, 255, 255));
         jButtonUpdate.setText("Update");
         jButtonUpdate.addActionListener(new java.awt.event.ActionListener() {
@@ -1208,7 +1212,7 @@ public final class HRDashboard extends javax.swing.JFrame {
                 jButtonUpdateActionPerformed(evt);
             }
         });
-        jPanelManageEmployee.add(jButtonUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 163, -1, 30));
+        jPanelManageEmployee.add(jButtonUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 120, 30));
 
         jLabelTitleEmployeeList.setBackground(new java.awt.Color(255, 255, 255));
         jLabelTitleEmployeeList.setFont(new java.awt.Font("Century Gothic", 1, 20)); // NOI18N
@@ -1224,7 +1228,7 @@ public final class HRDashboard extends javax.swing.JFrame {
                 jButtonAddActionPerformed(evt);
             }
         });
-        jPanelManageEmployee.add(jButtonAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 163, -1, 30));
+        jPanelManageEmployee.add(jButtonAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 170, 100, 30));
 
         jTabbedMain.addTab("Manage Employees", jPanelManageEmployee);
 
@@ -1232,11 +1236,14 @@ public final class HRDashboard extends javax.swing.JFrame {
         jPanelPendingLeaveRequest.setForeground(new java.awt.Color(255, 255, 255));
         jPanelPendingLeaveRequest.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabelTitleLeaveRequests.setFont(new java.awt.Font("Segoe UI Semibold", 1, 20)); // NOI18N
+        jLabelTitleLeaveRequests.setFont(new java.awt.Font("Century Gothic", 1, 20)); // NOI18N
         jLabelTitleLeaveRequests.setForeground(new java.awt.Color(255, 255, 255));
         jLabelTitleLeaveRequests.setText("LEAVE REQUESTS");
-        jPanelPendingLeaveRequest.add(jLabelTitleLeaveRequests, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 110, -1, 32));
+        jPanelPendingLeaveRequest.add(jLabelTitleLeaveRequests, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 110, -1, 32));
 
+        jTablePendingLeaveRequest.setBackground(new java.awt.Color(255, 255, 255));
+        jTablePendingLeaveRequest.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jTablePendingLeaveRequest.setForeground(new java.awt.Color(0, 0, 0));
         jTablePendingLeaveRequest.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
@@ -1276,7 +1283,7 @@ public final class HRDashboard extends javax.swing.JFrame {
                 jButtonApproveActionPerformed(evt);
             }
         });
-        jPanelPendingLeaveRequest.add(jButtonApprove, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 163, -1, 30));
+        jPanelPendingLeaveRequest.add(jButtonApprove, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 110, 30));
 
         jButtonReject.setBackground(new java.awt.Color(204, 0, 51));
         jButtonReject.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
@@ -1287,10 +1294,11 @@ public final class HRDashboard extends javax.swing.JFrame {
                 jButtonRejectActionPerformed(evt);
             }
         });
-        jPanelPendingLeaveRequest.add(jButtonReject, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 163, 80, 30));
+        jPanelPendingLeaveRequest.add(jButtonReject, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 170, 110, 30));
 
-        jButtonHistory.setBackground(new java.awt.Color(204, 204, 204));
-        jButtonHistory.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jButtonHistory.setBackground(new java.awt.Color(254, 0, 51));
+        jButtonHistory.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        jButtonHistory.setForeground(new java.awt.Color(255, 255, 255));
         jButtonHistory.setText("History");
         jButtonHistory.setBorderPainted(false);
         jButtonHistory.setMaximumSize(new java.awt.Dimension(78, 23));
@@ -1301,7 +1309,7 @@ public final class HRDashboard extends javax.swing.JFrame {
                 jButtonHistoryActionPerformed(evt);
             }
         });
-        jPanelPendingLeaveRequest.add(jButtonHistory, new org.netbeans.lib.awtextra.AbsoluteConstraints(1025, 163, 80, 30));
+        jPanelPendingLeaveRequest.add(jButtonHistory, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 170, 100, 30));
 
         jTabbedMain.addTab("Leave Requests", jPanelPendingLeaveRequest);
 
@@ -1309,11 +1317,14 @@ public final class HRDashboard extends javax.swing.JFrame {
         jPanelProcessedLeaveRequest.setForeground(new java.awt.Color(255, 255, 255));
         jPanelProcessedLeaveRequest.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabelTitleLeaveRequests1.setFont(new java.awt.Font("Segoe UI Semibold", 1, 20)); // NOI18N
+        jLabelTitleLeaveRequests1.setFont(new java.awt.Font("Century Gothic", 1, 20)); // NOI18N
         jLabelTitleLeaveRequests1.setForeground(new java.awt.Color(255, 255, 255));
         jLabelTitleLeaveRequests1.setText("LEAVE REQUESTS");
-        jPanelProcessedLeaveRequest.add(jLabelTitleLeaveRequests1, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 110, -1, 32));
+        jPanelProcessedLeaveRequest.add(jLabelTitleLeaveRequests1, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 110, -1, 32));
 
+        jTableProcessedLeaveRequest.setBackground(new java.awt.Color(255, 255, 255));
+        jTableProcessedLeaveRequest.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jTableProcessedLeaveRequest.setForeground(new java.awt.Color(0, 0, 0));
         jTableProcessedLeaveRequest.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null, null},
@@ -1361,7 +1372,7 @@ public final class HRDashboard extends javax.swing.JFrame {
                 jButtonHistoryApproveActionPerformed(evt);
             }
         });
-        jPanelProcessedLeaveRequest.add(jButtonHistoryApprove, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 163, -1, 30));
+        jPanelProcessedLeaveRequest.add(jButtonHistoryApprove, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 110, 30));
 
         jButtonHistoryReject.setBackground(new java.awt.Color(204, 0, 51));
         jButtonHistoryReject.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
@@ -1372,10 +1383,11 @@ public final class HRDashboard extends javax.swing.JFrame {
                 jButtonHistoryRejectActionPerformed(evt);
             }
         });
-        jPanelProcessedLeaveRequest.add(jButtonHistoryReject, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 163, 80, 30));
+        jPanelProcessedLeaveRequest.add(jButtonHistoryReject, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 170, 110, 30));
 
-        jButtonPending.setBackground(new java.awt.Color(204, 204, 204));
-        jButtonPending.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jButtonPending.setBackground(new java.awt.Color(254, 0, 51));
+        jButtonPending.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        jButtonPending.setForeground(new java.awt.Color(255, 255, 255));
         jButtonPending.setText("Pending");
         jButtonPending.setBorderPainted(false);
         jButtonPending.addActionListener(new java.awt.event.ActionListener() {
@@ -1383,7 +1395,7 @@ public final class HRDashboard extends javax.swing.JFrame {
                 jButtonPendingActionPerformed(evt);
             }
         });
-        jPanelProcessedLeaveRequest.add(jButtonPending, new org.netbeans.lib.awtextra.AbsoluteConstraints(1025, 163, 80, 30));
+        jPanelProcessedLeaveRequest.add(jButtonPending, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 170, 100, 30));
 
         jTabbedMain.addTab("Leave Requests", jPanelProcessedLeaveRequest);
 
@@ -1459,15 +1471,13 @@ public final class HRDashboard extends javax.swing.JFrame {
 
     private void jButtonManageEmployeesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonManageEmployeesActionPerformed
         jTabbedMain.setSelectedIndex(0);
-        jButtonManageEmployees.setBackground(Color.RED);
-        jButtonLeaveRequests.setBackground (new java.awt.Color(0,0,0));
+        
         loadEmployeeData();
     }//GEN-LAST:event_jButtonManageEmployeesActionPerformed
 
     private void jButtonLeaveRequestsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLeaveRequestsActionPerformed
         jTabbedMain.setSelectedIndex(1);
-        jButtonManageEmployees.setBackground(new java.awt.Color(0,0,0));
-        jButtonLeaveRequests.setBackground(Color.RED);
+        
         loadLeaveRequests();
     }//GEN-LAST:event_jButtonLeaveRequestsActionPerformed
 
@@ -1500,8 +1510,7 @@ public final class HRDashboard extends javax.swing.JFrame {
 
     private void jButtonHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHistoryActionPerformed
         jTabbedMain.setSelectedIndex(2);
-        jButtonManageEmployees.setBackground(new java.awt.Color(0,0,0));
-        jButtonLeaveRequests.setBackground(Color.RED);
+        
         loadLeaveRequests();
     }//GEN-LAST:event_jButtonHistoryActionPerformed
 
@@ -1515,8 +1524,7 @@ public final class HRDashboard extends javax.swing.JFrame {
 
     private void jButtonPendingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPendingActionPerformed
         jTabbedMain.setSelectedIndex(1);
-        jButtonManageEmployees.setBackground(new java.awt.Color(0,0,0));
-        jButtonLeaveRequests.setBackground(Color.RED);
+       
         loadLeaveRequests();
     }//GEN-LAST:event_jButtonPendingActionPerformed
 

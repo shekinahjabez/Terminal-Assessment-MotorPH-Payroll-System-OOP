@@ -20,7 +20,10 @@ import motorph9.FinanceUser;
 import motorph9.User;
 import payroll9.Salary;
 import java.io.FileReader;
+import java.util.Arrays;
 import payroll9.Deductions;
+import java.text.DecimalFormat;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -91,35 +94,40 @@ public class FinanceDashboard extends javax.swing.JFrame {
                 String[] data = line.split(",");
                 Salary salary = new Salary(Double.parseDouble(data[1]), Double.parseDouble(data[2]), 0.0); // Added 0.0
                 salaryMap.put(data[0], salary);
+                System.out.println("Salary Map Key: " + data[0]); //Add this line
             }
         } catch (IOException e) {
             LOGGER.severe("Error loading Salary data: " + e.getMessage());
         }
     }
-    
-    private void loadEmployeeData() {
+        
+    /*private void loadEmployeeData() {
+        System.out.println("Salary Map Size: " + salaryMap.size());
         List<String[]> employees = employeeDetailsReader.getAllEmployeesStringArrays();
-        System.out.println("Employee Data Size: " + employees.size()); // Debugging
-        System.out.println("Salary Map Size: " + salaryMap.size()); // Check salaryMap size
+        System.out.println("Employee Data Size: " + employees.size());
         DefaultTableModel model = (DefaultTableModel) jTableEmployeesList.getModel();
         model.setRowCount(0);
+
         for (String[] employee : employees) {
-            System.out.println("Row Data: " + java.util.Arrays.toString(employee)); // Inspect row data
+            System.out.println("Row Data: " + Arrays.toString(employee));
             try {
-                if (employee.length >= 14) {
+                if (employee.length >= 10) { // Adjusted check
                     String employeeNumber = employee[0];
                     String fullName = employee[2] + " " + employee[1];
                     String sssNumber = employee[6];
                     String philhealthNumber = employee[7];
                     String tinNumber = employee[8];
                     String pagibigNumber = employee[9];
-                    double basicSalary = Double.parseDouble(employee[13]);
 
                     Salary salary = salaryMap.get(employeeNumber);
+
                     if (salary != null) {
+                        double basicSalary = salary.getBasicSalary();
+
                         double pagibig = Deductions.calculatePagibigDeduction();
                         double philhealth = Deductions.calculatePhilHealthDeduction(basicSalary);
                         double sss = Deductions.calculateSSSDeduction(basicSalary);
+
                         double totalDeductions = pagibig + philhealth + sss;
                         double totalAllowances = 0.0;
                         double grossSalary = basicSalary + totalAllowances;
@@ -143,7 +151,8 @@ public class FinanceDashboard extends javax.swing.JFrame {
                 }
             } catch (NumberFormatException e) {
                 LOGGER.severe("Invalid basic salary for employee: " + employee[0] + ". Error: " + e.getMessage());
-            } catch(Exception e){
+                e.printStackTrace();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -152,7 +161,85 @@ public class FinanceDashboard extends javax.swing.JFrame {
         repaint();
         System.out.println("Table Row Count: " + jTableEmployeesList.getRowCount());
         System.out.println("Table Column Count: " + jTableEmployeesList.getColumnCount());
- 
+    }*/
+    
+    private void loadEmployeeData() {
+        System.out.println("Salary Map Size: " + salaryMap.size());
+        List<String[]> employees = employeeDetailsReader.getAllEmployeesStringArrays();
+        System.out.println("Employee Data Size: " + employees.size());
+        DefaultTableModel model = (DefaultTableModel) jTableEmployeesList.getModel();
+        model.setRowCount(0);
+        
+        DecimalFormat decimalFormat = new DecimalFormat("#,###.00"); // Format with commas and two decimal places
+        
+        for (String[] employee : employees) {
+            System.out.println("Row Data: " + Arrays.toString(employee));
+            try {
+                if (employee.length >= 10) {
+                    String employeeNumber = employee[0];
+                    String fullName = employee[2] + " " + employee[1];
+                    String sssNumber = employee[6];
+                    String philhealthNumber = employee[7];
+                    String tinNumber = employee[8];
+                    String pagibigNumber = employee[9];
+
+                    Salary salary = salaryMap.get(employeeNumber);
+
+                    if (salary != null) {
+                        double basicSalary = salary.getBasicSalary();
+
+                        double pagibig = Deductions.calculatePagibigDeduction();
+                        double philhealth = Deductions.calculatePhilHealthDeduction(basicSalary);
+                        double sss = Deductions.calculateSSSDeduction(basicSalary);
+
+                        // Retrieve allowance and withholding tax
+                        double totalAllowances = 0.0;
+                        double withholdingTax = 0.0;
+                        try {
+                            payroll9.SalaryDetails salaryDetails = financeUser.getSalaryDetails(employeeNumber);
+                            totalAllowances = salaryDetails.totalAllowances();
+                            withholdingTax = salaryDetails.withholdingTax();
+                        } catch (IOException e) {
+                            LOGGER.severe("Error retrieving salary details: " + e.getMessage());
+                        }
+
+                        double totalDeductions = pagibig + philhealth + sss + withholdingTax;
+                        double grossSalary = basicSalary + totalAllowances;
+                        double netSalary = grossSalary - totalDeductions;
+                        
+                        String formattedAllowances = decimalFormat.format(totalAllowances);
+                        String formattedDeductions = decimalFormat.format(totalDeductions);
+                        String formattedGrossSalary = decimalFormat.format(grossSalary);
+                        String formattedNetSalary = decimalFormat.format(netSalary);
+
+                        model.addRow(new Object[]{
+                                employeeNumber,
+                                fullName,
+                                sssNumber,
+                                philhealthNumber,
+                                tinNumber,
+                                pagibigNumber,
+                                formattedAllowances, 
+                                formattedDeductions, 
+                                formattedGrossSalary, 
+                                formattedNetSalary 
+                        });
+                    } else {
+                        LOGGER.warning("Salary data not found for employee: " + employeeNumber);
+                    }
+                }
+            } catch (NumberFormatException e) {
+                LOGGER.severe("Invalid basic salary for employee: " + employee[0] + ". Error: " + e.getMessage());
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        jTableEmployeesList.repaint();
+        validate();
+        repaint();
+        System.out.println("Table Row Count: " + jTableEmployeesList.getRowCount());
+        System.out.println("Table Column Count: " + jTableEmployeesList.getColumnCount());
     }
 
 
@@ -252,6 +339,11 @@ public class FinanceDashboard extends javax.swing.JFrame {
         jButtonGenRep.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jButtonGenRep.setForeground(new java.awt.Color(255, 255, 255));
         jButtonGenRep.setText("Generate Report");
+        jButtonGenRep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGenRepActionPerformed(evt);
+            }
+        });
         jPanelMain.add(jButtonGenRep, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 200, 40));
 
         jButtonLogout.setBackground(new java.awt.Color(255, 255, 255));
@@ -289,6 +381,29 @@ public class FinanceDashboard extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButtonLogoutActionPerformed
 
+    private void jButtonGenRepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenRepActionPerformed
+        int selectedRow = jTableEmployeesList.getSelectedRow();
+        if (selectedRow >= 0) {
+            String employeeNumber = (String) jTableEmployeesList.getValueAt(selectedRow, 0);
+            String fullName = (String) jTableEmployeesList.getValueAt(selectedRow, 1);
+            String sssNumber = (String) jTableEmployeesList.getValueAt(selectedRow, 2);
+            String philhealthNumber = (String) jTableEmployeesList.getValueAt(selectedRow, 3);
+            String tinNumber = (String) jTableEmployeesList.getValueAt(selectedRow, 4);
+            String pagibigNumber = (String) jTableEmployeesList.getValueAt(selectedRow, 5);
+            String totalAllowances = (String) jTableEmployeesList.getValueAt(selectedRow, 6);
+            String totalDeductions = (String) jTableEmployeesList.getValueAt(selectedRow, 7);
+            String grossSalary = (String) jTableEmployeesList.getValueAt(selectedRow, 8);
+            String netSalary = (String) jTableEmployeesList.getValueAt(selectedRow, 9);
+
+            GenerateReports generateReports = new GenerateReports();
+            generateReports.setEmployeeDetails(employeeNumber, fullName, sssNumber, philhealthNumber, tinNumber,
+                                                pagibigNumber, totalAllowances, totalDeductions, grossSalary, netSalary);
+            generateReports.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select an employee.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButtonGenRepActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -314,6 +429,14 @@ public class FinanceDashboard extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FinanceDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>

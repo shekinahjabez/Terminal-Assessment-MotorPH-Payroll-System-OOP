@@ -21,21 +21,17 @@ import motorph9.EmployeeUser;
 import motorph9.LeaveProcessor;
 import motorph9.LeaveRequest;
 import motorph_GUI.Login;
-import payroll9.SalaryDetails;
 import motorph9.User;
 import java.awt.event.ActionListener; 
-import java.awt.event.ActionEvent;   
-import java.io.BufferedReader; // Import for reading files efficiently
-import java.io.FileReader;   // Import for reading files
-import java.io.IOException;    // Import for handling IO Exceptions
-import java.text.ParseException; // Import for handling parsing exceptions (numbers)
-import java.text.DecimalFormat; // Import for formatting numbers if needed
-import java.util.ArrayList; // Import ArrayList
-import java.util.Collections; // Import Collections for sorting
-import java.util.Comparator; // Import Comparator for custom sorting
-import java.util.HashMap; // Import HashMap for month name to number mapping
-import java.util.List; // Import List
-import java.util.Map; // Import Map
+import java.awt.event.ActionEvent;    
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import payroll9.SalaryDetails;
 
 
 /**
@@ -57,14 +53,18 @@ public class EmployeeDashboard extends javax.swing.JFrame {
      */
     public EmployeeDashboard() {
         initComponents();
+        this.setResizable(false); // 💡 Prevent resizing
+        this.setExtendedState(JFrame.NORMAL);
         setLocationRelativeTo(null); // Center the window
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Define close behavior
         //employeeDetailsReader = new EmployeeDetailsReader(); // Initialize reader
         employeeDetailsReader = new EmployeeDetailsReader("src/data9/Employee.csv", "src/data9/Login.csv");
     }
 
-    public EmployeeDashboard(User user) {
+    public EmployeeDashboard (User user) {
         initComponents(); // Call initComponents() to initialize UI
+        this.setResizable(false); // 💡 Prevent resizing
+        this.setExtendedState(JFrame.NORMAL);
         setLocationRelativeTo(null); // Center the window
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Define close behavior
         this.loggedInUser = user; // Store the logged-in user
@@ -404,7 +404,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                 updateSalaryUI(salaryDetails);
 
             } catch (IOException ex) {
-                Logger.getLogger(EmployeeDashboard.class.getName()).log(Level.SEVERE, "Error reading salary details", ex);
+                Logger.getLogger(EmployeeDashboardsss.class.getName()).log(Level.SEVERE, "Error reading salary details", ex);
                 JOptionPane.showMessageDialog(this, "Error reading salary details.", "File Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
@@ -463,30 +463,6 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         }));
     }
     
-    /*private String generateLeaveId() {
-        List<LeaveRequest> requests = new LeaveRequestReader().getAllLeaveRequests();
-        int maxId = 0;
-        for (LeaveRequest request : requests) {
-            String idStr = request.getLeaveID().replace("L", "");
-            try {
-                int idNum = Integer.parseInt(idStr);
-                if (idNum > maxId) maxId = idNum;
-            } catch (NumberFormatException ignored) {}
-        }
-        return "L" + String.format("%03d", maxId + 1);
-    }
-    
-    private int calculateWeekdays(LocalDate startDate, LocalDate endDate) {
-        int weekdays = 0;
-        for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
-            DayOfWeek day = date.getDayOfWeek();
-            if (day != DayOfWeek.SATURDAY && day != DayOfWeek.SUNDAY) {
-                weekdays++;
-            }
-        }
-        return weekdays;
-    }*/
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -507,11 +483,59 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jLabelFirstName = new javax.swing.JLabel();
         jButtonLogout = new javax.swing.JButton();
         jPanelMenuBar = new javax.swing.JPanel();
-        jButtonAttendance = new javax.swing.JButton();
         jButtonRequests = new javax.swing.JButton();
         jButtonEmployeeDetails = new javax.swing.JButton();
         jButtonSalaryInfomation = new javax.swing.JButton();
+        jButtonAttendance = new javax.swing.JButton();
         jTabbedPaneEmployee = new javax.swing.JTabbedPane();
+        jPanelEmployeeDetails2 = new javax.swing.JPanel();
+        jPanelPicture2 = new javax.swing.JPanel();
+        jLabel2x2Picture2 = new javax.swing.JLabel();
+        jLabelEmployeeDetails = new javax.swing.JLabel();
+        jPanelDetails = new javax.swing.JPanel();
+        jLabelEmployeeID = new javax.swing.JLabel();
+        jLabelPosition = new javax.swing.JLabel();
+        jTextFieldPosition = new javax.swing.JTextField();
+        jTextFieldEmployeeID = new javax.swing.JTextField();
+        jLabelUsername = new javax.swing.JLabel();
+        jTextFieldUsername = new javax.swing.JTextField();
+        jLabelName = new javax.swing.JLabel();
+        jTextFieldName = new javax.swing.JTextField();
+        jLabelBirthday = new javax.swing.JLabel();
+        jTextFieldBirthday = new javax.swing.JTextField();
+        jLabelAddress = new javax.swing.JLabel();
+        jTextFieldAddress = new javax.swing.JTextField();
+        jLabelPhoneNumber = new javax.swing.JLabel();
+        jTextFieldPhoneNumber = new javax.swing.JTextField();
+        jLabelSSS = new javax.swing.JLabel();
+        jTextFieldSSS = new javax.swing.JTextField();
+        jLabelPhilHealth = new javax.swing.JLabel();
+        jTextFieldPhilHealth = new javax.swing.JTextField();
+        jLabelTIN = new javax.swing.JLabel();
+        jTextFieldTIN = new javax.swing.JTextField();
+        jLabelPagibig = new javax.swing.JLabel();
+        jTextFieldPagibig = new javax.swing.JTextField();
+        jLabelSupervisor = new javax.swing.JLabel();
+        jTextFieldSupervisor = new javax.swing.JTextField();
+        jLabelStatus = new javax.swing.JLabel();
+        jTextFieldStatus = new javax.swing.JTextField();
+        jPanelRequests = new javax.swing.JPanel();
+        jPanelAttendanceLogs = new javax.swing.JPanel();
+        jScrollPaneAttendanceLogs = new javax.swing.JScrollPane();
+        jTableRequestLogs = new javax.swing.JTable();
+        jLabelRequests = new javax.swing.JLabel();
+        jLabelCreateRequest = new javax.swing.JLabel();
+        jPanelCreateRquest = new javax.swing.JPanel();
+        jComboBoxLeaveType = new javax.swing.JComboBox<>();
+        jLabelReason = new javax.swing.JLabel();
+        jLabelLeaveType = new javax.swing.JLabel();
+        jLabelStartDate = new javax.swing.JLabel();
+        jLabelEndDate = new javax.swing.JLabel();
+        jTextFieldReason = new javax.swing.JTextField();
+        jDateChooserStart = new com.toedter.calendar.JDateChooser();
+        jDateChooserEnd = new com.toedter.calendar.JDateChooser();
+        jLabelAttendanceLogs = new javax.swing.JLabel();
+        jButtonSubmitRequest = new javax.swing.JButton();
         jPanelSalaryInformation = new javax.swing.JPanel();
         jPanelSalaryLogs = new javax.swing.JPanel();
         jScrollPaneSalaryLogs = new javax.swing.JScrollPane();
@@ -550,23 +574,6 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jLabelTotalDeductions = new javax.swing.JLabel();
         jTextFieldTotalDeductions = new javax.swing.JTextField();
         jLabelSalaryCalculations = new javax.swing.JLabel();
-        jPanelRequests = new javax.swing.JPanel();
-        jPanelAttendanceLogs = new javax.swing.JPanel();
-        jScrollPaneAttendanceLogs = new javax.swing.JScrollPane();
-        jTableRequestLogs = new javax.swing.JTable();
-        jLabelRequests = new javax.swing.JLabel();
-        jLabelCreateRequest = new javax.swing.JLabel();
-        jPanelCreateRquest = new javax.swing.JPanel();
-        jComboBoxLeaveType = new javax.swing.JComboBox<>();
-        jLabelReason = new javax.swing.JLabel();
-        jLabelLeaveType = new javax.swing.JLabel();
-        jLabelStartDate = new javax.swing.JLabel();
-        jLabelEndDate = new javax.swing.JLabel();
-        jTextFieldReason = new javax.swing.JTextField();
-        jDateChooserStart = new com.toedter.calendar.JDateChooser();
-        jDateChooserEnd = new com.toedter.calendar.JDateChooser();
-        jLabelAttendanceLogs = new javax.swing.JLabel();
-        jButtonSubmitRequest = new javax.swing.JButton();
         jPanelAttendanceandTracker = new javax.swing.JPanel();
         jLabelAttendanceandTracker = new javax.swing.JLabel();
         jPanelAttendanceAndTracker = new javax.swing.JPanel();
@@ -584,37 +591,6 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jButtonTimeIn = new javax.swing.JButton();
         jButtonTimeOut = new javax.swing.JButton();
         jLabelAttendanceLog = new javax.swing.JLabel();
-        jPanelEmployeeDetails2 = new javax.swing.JPanel();
-        jPanelPicture2 = new javax.swing.JPanel();
-        jLabel2x2Picture2 = new javax.swing.JLabel();
-        jLabelEmployeeDetails = new javax.swing.JLabel();
-        jPanelDetails = new javax.swing.JPanel();
-        jLabelEmployeeID = new javax.swing.JLabel();
-        jLabelPosition = new javax.swing.JLabel();
-        jTextFieldPosition = new javax.swing.JTextField();
-        jTextFieldEmployeeID = new javax.swing.JTextField();
-        jLabelUsername = new javax.swing.JLabel();
-        jTextFieldUsername = new javax.swing.JTextField();
-        jLabelName = new javax.swing.JLabel();
-        jTextFieldName = new javax.swing.JTextField();
-        jLabelBirthday = new javax.swing.JLabel();
-        jTextFieldBirthday = new javax.swing.JTextField();
-        jLabelAddress = new javax.swing.JLabel();
-        jTextFieldAddress = new javax.swing.JTextField();
-        jLabelPhoneNumber = new javax.swing.JLabel();
-        jTextFieldPhoneNumber = new javax.swing.JTextField();
-        jLabelSSS = new javax.swing.JLabel();
-        jTextFieldSSS = new javax.swing.JTextField();
-        jLabelPhilHealth = new javax.swing.JLabel();
-        jTextFieldPhilHealth = new javax.swing.JTextField();
-        jLabelTIN = new javax.swing.JLabel();
-        jTextFieldTIN = new javax.swing.JTextField();
-        jLabelPagibig = new javax.swing.JLabel();
-        jTextFieldPagibig = new javax.swing.JTextField();
-        jLabelSupervisor = new javax.swing.JLabel();
-        jTextFieldSupervisor = new javax.swing.JTextField();
-        jLabelStatus = new javax.swing.JLabel();
-        jTextFieldStatus = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -646,23 +622,23 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jLabelTime.setForeground(new java.awt.Color(255, 255, 255));
         jLabelTime.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelTime.setText("12:12:12 AM");
-        jPanelHeaders.add(jLabelTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 30, 170, 50));
+        jPanelHeaders.add(jLabelTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 40, 170, 50));
 
         jLabelGMT.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabelGMT.setForeground(new java.awt.Color(255, 255, 255));
         jLabelGMT.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelGMT.setText("GMT+8 PH Time");
-        jPanelHeaders.add(jLabelGMT, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 10, 170, 40));
+        jPanelHeaders.add(jLabelGMT, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 20, 170, 40));
 
         jLabelGreet.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
         jLabelGreet.setForeground(new java.awt.Color(255, 255, 255));
         jLabelGreet.setText("Welcome,");
-        jPanelHeaders.add(jLabelGreet, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, -10, -1, 100));
+        jPanelHeaders.add(jLabelGreet, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, -10, -1, 100));
 
         jLabelFirstName.setFont(new java.awt.Font("Century Gothic", 0, 36)); // NOI18N
         jLabelFirstName.setForeground(new java.awt.Color(255, 255, 255));
         jLabelFirstName.setText("FirstName!");
-        jPanelHeaders.add(jLabelFirstName, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, -10, -1, 100));
+        jPanelHeaders.add(jLabelFirstName, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 30, 260, 100));
 
         jButtonLogout.setBackground(new java.awt.Color(255, 255, 255));
         jButtonLogout.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
@@ -673,46 +649,35 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                 jButtonLogoutActionPerformed(evt);
             }
         });
-        jPanelHeaders.add(jButtonLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 70, 90, 30));
+        jPanelHeaders.add(jButtonLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 90, 30));
 
-        jPanelEmployeeDashboard.add(jPanelHeaders, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1070, 110));
+        jPanelEmployeeDashboard.add(jPanelHeaders, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1070, 140));
 
         jPanelMenuBar.setBackground(new java.awt.Color(102, 0, 0));
         jPanelMenuBar.setForeground(new java.awt.Color(51, 0, 0));
         jPanelMenuBar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButtonAttendance.setBackground(new java.awt.Color(204, 0, 51));
-        jButtonAttendance.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jButtonAttendance.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonAttendance.setText("Employee Details");
-        jButtonAttendance.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAttendanceActionPerformed(evt);
-            }
-        });
-        jPanelMenuBar.add(jButtonAttendance, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 220, 50));
-
         jButtonRequests.setBackground(new java.awt.Color(204, 0, 51));
         jButtonRequests.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jButtonRequests.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonRequests.setText("Attendance & Tracker");
+        jButtonRequests.setText("Salary Information");
         jButtonRequests.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonRequestsActionPerformed(evt);
             }
         });
-        jPanelMenuBar.add(jButtonRequests, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 10, 230, 50));
+        jPanelMenuBar.add(jButtonRequests, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 230, 50));
 
         jButtonEmployeeDetails.setBackground(new java.awt.Color(204, 0, 51));
         jButtonEmployeeDetails.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jButtonEmployeeDetails.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonEmployeeDetails.setText("Salary Information");
+        jButtonEmployeeDetails.setText("Employee Details");
         jButtonEmployeeDetails.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonEmployeeDetailsActionPerformed(evt);
             }
         });
-        jPanelMenuBar.add(jButtonEmployeeDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, 240, 50));
+        jPanelMenuBar.add(jButtonEmployeeDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 240, 50));
 
         jButtonSalaryInfomation.setBackground(new java.awt.Color(204, 0, 51));
         jButtonSalaryInfomation.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
@@ -723,452 +688,20 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                 jButtonSalaryInfomationActionPerformed(evt);
             }
         });
-        jPanelMenuBar.add(jButtonSalaryInfomation, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 10, 230, 50));
+        jPanelMenuBar.add(jButtonSalaryInfomation, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 10, 230, 50));
 
-        jPanelEmployeeDashboard.add(jPanelMenuBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 1020, 70));
-
-        jPanelSalaryInformation.setBackground(new java.awt.Color(51, 0, 0));
-        jPanelSalaryInformation.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanelSalaryLogs.setBackground(new java.awt.Color(204, 0, 51));
-        jPanelSalaryLogs.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jTableSalaryLogs.setBackground(new java.awt.Color(255, 255, 255));
-        jTableSalaryLogs.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Employee No.", "Month", "Year", "Gross Salary", "Net Month Salary"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, true, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPaneSalaryLogs.setViewportView(jTableSalaryLogs);
-
-        jPanelSalaryLogs.add(jScrollPaneSalaryLogs, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 530, 370));
-
-        jPanelSalaryInformation.add(jPanelSalaryLogs, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 550, 390));
-
-        jLabelSalaryInformation.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelSalaryInformation.setFont(new java.awt.Font("Century Gothic", 1, 25)); // NOI18N
-        jLabelSalaryInformation.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelSalaryInformation.setText("Salary Information");
-        jPanelSalaryInformation.add(jLabelSalaryInformation, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, -10, -1, 90));
-
-        jPanelSalaryCalculations.setBackground(new java.awt.Color(204, 0, 51));
-        jPanelSalaryCalculations.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabelNetSalary.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelNetSalary.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabelNetSalary.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelNetSalary.setText("Net Salary:");
-        jPanelSalaryCalculations.add(jLabelNetSalary, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, -1, 40));
-
-        jTextFieldNetSalary.setBackground(new java.awt.Color(255, 255, 255));
-        jPanelSalaryCalculations.add(jTextFieldNetSalary, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, 80, -1));
-
-        jLabelHourlyRate.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelHourlyRate.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabelHourlyRate.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelHourlyRate.setText("Hourly Rate:");
-        jPanelSalaryCalculations.add(jLabelHourlyRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 0, -1, 40));
-
-        jLabelGrossSalary.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelGrossSalary.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabelGrossSalary.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelGrossSalary.setText("Gross Salary:");
-        jPanelSalaryCalculations.add(jLabelGrossSalary, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, 100, 40));
-
-        jTextFieldHourlyRate.setBackground(new java.awt.Color(255, 255, 255));
-        jPanelSalaryCalculations.add(jTextFieldHourlyRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, 80, -1));
-
-        jTextFieldGrossSalary.setBackground(new java.awt.Color(255, 255, 255));
-        jPanelSalaryCalculations.add(jTextFieldGrossSalary, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 40, 80, -1));
-
-        jPanelSalaryInformation.add(jPanelSalaryCalculations, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 380, 410, 100));
-
-        jLabelSalaryLogs.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelSalaryLogs.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabelSalaryLogs.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelSalaryLogs.setText("Salary Logs");
-        jPanelSalaryInformation.add(jLabelSalaryLogs, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, 80));
-
-        jLabelDeductions.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelDeductions.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabelDeductions.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelDeductions.setText("Deductions");
-        jPanelSalaryInformation.add(jLabelDeductions, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 170, -1, 70));
-
-        jPanelDeductions.setBackground(new java.awt.Color(204, 0, 51));
-        jPanelDeductions.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabelPhilHealthDeductions.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelPhilHealthDeductions.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabelPhilHealthDeductions.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelPhilHealthDeductions.setText("PhilHealth:");
-        jPanelDeductions.add(jLabelPhilHealthDeductions, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 80, 40));
-
-        jLabelWithholdingTax.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelWithholdingTax.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabelWithholdingTax.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelWithholdingTax.setText("Withholding Tax:");
-        jPanelDeductions.add(jLabelWithholdingTax, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 100, 40));
-
-        jTextFieldPhilhealth.setBackground(new java.awt.Color(255, 255, 255));
-        jPanelDeductions.add(jTextFieldPhilhealth, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 80, -1));
-
-        jTextFieldWithholdingTax.setBackground(new java.awt.Color(255, 255, 255));
-        jPanelDeductions.add(jTextFieldWithholdingTax, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 100, 80, -1));
-
-        jLabelSSSDeductions.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelSSSDeductions.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabelSSSDeductions.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelSSSDeductions.setText("SSS:");
-        jPanelDeductions.add(jLabelSSSDeductions, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, 40, 40));
-
-        jTextFieldSSSDeductions.setBackground(new java.awt.Color(255, 255, 255));
-        jPanelDeductions.add(jTextFieldSSSDeductions, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, 80, -1));
-
-        jLabelPagibigDeductions.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelPagibigDeductions.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabelPagibigDeductions.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelPagibigDeductions.setText("PAGIBIG:");
-        jPanelDeductions.add(jLabelPagibigDeductions, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, -1, 40));
-
-        jTextFieldPagibigDeductions.setBackground(new java.awt.Color(255, 255, 255));
-        jPanelDeductions.add(jTextFieldPagibigDeductions, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 80, -1));
-
-        jPanelSalaryInformation.add(jPanelDeductions, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 220, 200, 130));
-
-        jLabelAllowances.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelAllowances.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabelAllowances.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelAllowances.setText("Allowances");
-        jPanelSalaryInformation.add(jLabelAllowances, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 50, -1, 50));
-
-        jPanelAllowances.setBackground(new java.awt.Color(204, 0, 51));
-        jPanelAllowances.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jTextFieldPhone.setBackground(new java.awt.Color(255, 255, 255));
-        jPanelAllowances.add(jTextFieldPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, 80, -1));
-
-        jTextFieldRiceSubsidy.setBackground(new java.awt.Color(255, 255, 255));
-        jPanelAllowances.add(jTextFieldRiceSubsidy, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 80, -1));
-
-        jLabelClothing.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelClothing.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabelClothing.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelClothing.setText("Clothing:");
-        jPanelAllowances.add(jLabelClothing, new org.netbeans.lib.awtextra.AbsoluteConstraints(38, 0, -1, 40));
-
-        jLabelRiceSubsidy.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelRiceSubsidy.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabelRiceSubsidy.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelRiceSubsidy.setText("Rice Subsidy:");
-        jPanelAllowances.add(jLabelRiceSubsidy, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 100, 40));
-
-        jLabelPhone.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelPhone.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabelPhone.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelPhone.setText("Phone:");
-        jPanelAllowances.add(jLabelPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(49, 60, 60, 40));
-
-        jTextFieldClothing.setBackground(new java.awt.Color(255, 255, 255));
-        jTextFieldClothing.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAttendance.setBackground(new java.awt.Color(204, 0, 51));
+        jButtonAttendance.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jButtonAttendance.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonAttendance.setText("Attendance & Tracker");
+        jButtonAttendance.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldClothingActionPerformed(evt);
+                jButtonAttendanceActionPerformed(evt);
             }
         });
-        jPanelAllowances.add(jTextFieldClothing, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 80, -1));
+        jPanelMenuBar.add(jButtonAttendance, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 10, 230, 50));
 
-        jPanelSalaryInformation.add(jPanelAllowances, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 90, 200, 100));
-
-        jPanelTotalAllwances.setBackground(new java.awt.Color(204, 0, 51));
-        jPanelTotalAllwances.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabelTotalAllowances.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelTotalAllowances.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabelTotalAllowances.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelTotalAllowances.setText("TOTAL:");
-        jPanelTotalAllwances.add(jLabelTotalAllowances, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, -1, 50));
-
-        jTextFieldTotalAllowances.setBackground(new java.awt.Color(255, 255, 255));
-        jPanelTotalAllwances.add(jTextFieldTotalAllowances, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 30, 80, 30));
-
-        jPanelSalaryInformation.add(jPanelTotalAllwances, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 90, 200, 100));
-
-        jPanelTotalDeductions.setBackground(new java.awt.Color(204, 0, 51));
-        jPanelTotalDeductions.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabelTotalDeductions.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelTotalDeductions.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabelTotalDeductions.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelTotalDeductions.setText("TOTAL:");
-        jPanelTotalDeductions.add(jLabelTotalDeductions, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, 50));
-
-        jTextFieldTotalDeductions.setBackground(new java.awt.Color(255, 255, 255));
-        jPanelTotalDeductions.add(jTextFieldTotalDeductions, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, 80, 30));
-
-        jPanelSalaryInformation.add(jPanelTotalDeductions, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 220, 200, 130));
-
-        jLabelSalaryCalculations.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelSalaryCalculations.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabelSalaryCalculations.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelSalaryCalculations.setText("Salary Calculations");
-        jPanelSalaryInformation.add(jLabelSalaryCalculations, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 330, -1, 70));
-
-        jTabbedPaneEmployee.addTab("Salary Information", jPanelSalaryInformation);
-
-        jPanelRequests.setBackground(new java.awt.Color(51, 0, 0));
-        jPanelRequests.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanelAttendanceLogs.setBackground(new java.awt.Color(204, 0, 51));
-        jPanelAttendanceLogs.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jTableRequestLogs.setBackground(new java.awt.Color(255, 255, 255));
-        jTableRequestLogs.setForeground(new java.awt.Color(0, 0, 0));
-        jTableRequestLogs.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Leave Type", "Date Request", "Start Date", "End Date", "Reason", "Status", "Approver", "Date Approved"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPaneAttendanceLogs.setViewportView(jTableRequestLogs);
-
-        jPanelAttendanceLogs.add(jScrollPaneAttendanceLogs, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 660, 370));
-
-        jPanelRequests.add(jPanelAttendanceLogs, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 680, 390));
-
-        jLabelRequests.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelRequests.setFont(new java.awt.Font("Century Gothic", 1, 25)); // NOI18N
-        jLabelRequests.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelRequests.setText("Requests");
-        jPanelRequests.add(jLabelRequests, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, -10, -1, 90));
-
-        jLabelCreateRequest.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelCreateRequest.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabelCreateRequest.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelCreateRequest.setText("Create Request");
-        jPanelRequests.add(jLabelCreateRequest, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 50, -1, 80));
-
-        jPanelCreateRquest.setBackground(new java.awt.Color(204, 0, 51));
-        jPanelCreateRquest.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jComboBoxLeaveType.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBoxLeaveType.setForeground(new java.awt.Color(0, 0, 0));
-        jComboBoxLeaveType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Vacation Leave", "Sick Leave", "Birthday Leave" }));
-        jPanelCreateRquest.add(jComboBoxLeaveType, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, 170, -1));
-
-        jLabelReason.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelReason.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabelReason.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelReason.setText("Reason:");
-        jPanelCreateRquest.add(jLabelReason, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 80, 40));
-
-        jLabelLeaveType.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelLeaveType.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabelLeaveType.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelLeaveType.setText("Leave Type:");
-        jPanelCreateRquest.add(jLabelLeaveType, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 90, 40));
-
-        jLabelStartDate.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelStartDate.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabelStartDate.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelStartDate.setText("Start Date:");
-        jPanelCreateRquest.add(jLabelStartDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 80, 40));
-
-        jLabelEndDate.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelEndDate.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabelEndDate.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelEndDate.setText("End Date:");
-        jPanelCreateRquest.add(jLabelEndDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 80, 40));
-
-        jTextFieldReason.setBackground(new java.awt.Color(255, 255, 255));
-        jTextFieldReason.setForeground(new java.awt.Color(0, 0, 0));
-        jTextFieldReason.setText("Please put reason");
-        jPanelCreateRquest.add(jTextFieldReason, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 260, 150));
-
-        jDateChooserStart.setBackground(new java.awt.Color(255, 255, 255));
-        jDateChooserStart.setForeground(new java.awt.Color(0, 0, 0));
-        jPanelCreateRquest.add(jDateChooserStart, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 170, -1));
-
-        jDateChooserEnd.setBackground(new java.awt.Color(255, 255, 255));
-        jDateChooserEnd.setForeground(new java.awt.Color(0, 0, 0));
-        jPanelCreateRquest.add(jDateChooserEnd, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, 170, -1));
-
-        jPanelRequests.add(jPanelCreateRquest, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 110, 280, 320));
-
-        jLabelAttendanceLogs.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelAttendanceLogs.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabelAttendanceLogs.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelAttendanceLogs.setText("Request Logs");
-        jPanelRequests.add(jLabelAttendanceLogs, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, 80));
-
-        jButtonSubmitRequest.setBackground(new java.awt.Color(204, 0, 51));
-        jButtonSubmitRequest.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButtonSubmitRequest.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonSubmitRequest.setText("Submit");
-        jButtonSubmitRequest.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSubmitRequestActionPerformed(evt);
-            }
-        });
-        jPanelRequests.add(jButtonSubmitRequest, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 440, 160, 40));
-
-        jTabbedPaneEmployee.addTab("Requests", jPanelRequests);
-
-        jPanelAttendanceandTracker.setBackground(new java.awt.Color(51, 0, 0));
-        jPanelAttendanceandTracker.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabelAttendanceandTracker.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelAttendanceandTracker.setFont(new java.awt.Font("Century Gothic", 1, 25)); // NOI18N
-        jLabelAttendanceandTracker.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelAttendanceandTracker.setText("Attendance & Tracker");
-        jPanelAttendanceandTracker.add(jLabelAttendanceandTracker, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, -10, -1, 90));
-
-        jPanelAttendanceAndTracker.setBackground(new java.awt.Color(204, 0, 51));
-        jPanelAttendanceAndTracker.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jTableAttendanceLogs.setBackground(new java.awt.Color(255, 255, 255));
-        jTableAttendanceLogs.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Employee No.", "Date", "Time In", "Time Out", "Hours Worked"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPaneAttenedanceandTracker.setViewportView(jTableAttendanceLogs);
-
-        jPanelAttendanceAndTracker.add(jScrollPaneAttenedanceandTracker, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 540, 240));
-
-        jPanelAttendanceandTracker.add(jPanelAttendanceAndTracker, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 580, 260));
-
-        jLabelTimeTracker.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelTimeTracker.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabelTimeTracker.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelTimeTracker.setText("Time Tracker");
-        jPanelAttendanceandTracker.add(jLabelTimeTracker, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 60, -1, 80));
-
-        jLabelSelectYearAttendance.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelSelectYearAttendance.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabelSelectYearAttendance.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelSelectYearAttendance.setText("Select Year");
-        jPanelAttendanceandTracker.add(jLabelSelectYearAttendance, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 330, -1, 70));
-
-        jLabelSelectMonthAttendance.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelSelectMonthAttendance.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabelSelectMonthAttendance.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelSelectMonthAttendance.setText("Select Month");
-        jPanelAttendanceandTracker.add(jLabelSelectMonthAttendance, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 330, -1, 70));
-
-        jPanelSelectYearAttendance.setBackground(new java.awt.Color(204, 0, 51));
-        jPanelSelectYearAttendance.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jComboBoxSelectYearAttendance.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBoxSelectYearAttendance.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2025", "2024" }));
-        jPanelSelectYearAttendance.add(jComboBoxSelectYearAttendance, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 230, 40));
-
-        jPanelAttendanceandTracker.add(jPanelSelectYearAttendance, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 380, 270, 60));
-
-        jPanelSelectMonthAttendance.setBackground(new java.awt.Color(204, 0, 51));
-        jPanelSelectMonthAttendance.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jComboBoxSelectMonthAttendance.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBoxSelectMonthAttendance.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" }));
-        jPanelSelectMonthAttendance.add(jComboBoxSelectMonthAttendance, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 230, 40));
-
-        jPanelAttendanceandTracker.add(jPanelSelectMonthAttendance, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, 280, 60));
-
-        jButtonAttendanceView.setBackground(new java.awt.Color(204, 0, 51));
-        jButtonAttendanceView.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButtonAttendanceView.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonAttendanceView.setText("View");
-        jPanelAttendanceandTracker.add(jButtonAttendanceView, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 450, 160, 40));
-        jButtonAttendanceView.addActionListener(new ActionListener() { // ✅ Add ActionListener to View button
-            //@Override
-            public void actionPerformed(ActionEvent e) {
-                String selectedMonth = (String) jComboBoxSelectMonthAttendance.getSelectedItem(); // Get selected month
-                String selectedYear = (String) jComboBoxSelectYearAttendance.getSelectedItem();   // Get selected year
-                loadAttendanceLogs(selectedMonth, selectedYear); // ✅ Call loadAttendanceLogs with month and year
-            }
-        });
-
-        jPanelTimeTracker.setBackground(new java.awt.Color(102, 0, 0));
-        jPanelTimeTracker.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jButtonTimeIn.setBackground(new java.awt.Color(204, 0, 51));
-        jButtonTimeIn.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jButtonTimeIn.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonTimeIn.setText("TIME IN");
-        jButtonTimeIn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonTimeInActionPerformed(evt);
-            }
-        });
-        jPanelTimeTracker.add(jButtonTimeIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 320, 60));
-
-        jButtonTimeOut.setBackground(new java.awt.Color(204, 0, 51));
-        jButtonTimeOut.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jButtonTimeOut.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonTimeOut.setText("TIME OUT");
-        jButtonTimeOut.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonTimeOutActionPerformed(evt);
-            }
-        });
-        jPanelTimeTracker.add(jButtonTimeOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 320, 60));
-
-        jPanelAttendanceandTracker.add(jPanelTimeTracker, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 120, 360, 230));
-
-        jLabelAttendanceLog.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelAttendanceLog.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabelAttendanceLog.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelAttendanceLog.setText("Attendance Logs");
-        jPanelAttendanceandTracker.add(jLabelAttendanceLog, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, 80));
-
-        jTabbedPaneEmployee.addTab("Attendance & Tracker", jPanelAttendanceandTracker);
+        jPanelEmployeeDashboard.add(jPanelMenuBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 1030, 70));
 
         jPanelEmployeeDetails2.setBackground(new java.awt.Color(51, 0, 0));
         jPanelEmployeeDetails2.setForeground(new java.awt.Color(255, 255, 255));
@@ -1203,13 +736,13 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                 .addContainerGap(46, Short.MAX_VALUE))
         );
 
-        jPanelEmployeeDetails2.add(jPanelPicture2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 120, 110));
+        jPanelEmployeeDetails2.add(jPanelPicture2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 120, 110));
 
         jLabelEmployeeDetails.setBackground(new java.awt.Color(255, 255, 255));
         jLabelEmployeeDetails.setFont(new java.awt.Font("Century Gothic", 1, 25)); // NOI18N
         jLabelEmployeeDetails.setForeground(new java.awt.Color(255, 255, 255));
         jLabelEmployeeDetails.setText("Employee Details");
-        jPanelEmployeeDetails2.add(jLabelEmployeeDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, -10, -1, 90));
+        jPanelEmployeeDetails2.add(jLabelEmployeeDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, -10, -1, 90));
 
         jPanelDetails.setBackground(new java.awt.Color(204, 0, 51));
         jPanelDetails.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1343,11 +876,442 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jTextFieldStatus.setBackground(new java.awt.Color(255, 255, 255));
         jPanelDetails.add(jTextFieldStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 350, 270, -1));
 
-        jPanelEmployeeDetails2.add(jPanelDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 70, 500, 420));
+        jPanelEmployeeDetails2.add(jPanelDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 60, 500, 420));
 
         jTabbedPaneEmployee.addTab("Employee Details", jPanelEmployeeDetails2);
 
-        jPanelEmployeeDashboard.add(jTabbedPaneEmployee, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 1020, 540));
+        jPanelRequests.setBackground(new java.awt.Color(51, 0, 0));
+        jPanelRequests.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanelAttendanceLogs.setBackground(new java.awt.Color(204, 0, 51));
+        jPanelAttendanceLogs.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jTableRequestLogs.setBackground(new java.awt.Color(255, 255, 255));
+        jTableRequestLogs.setForeground(new java.awt.Color(0, 0, 0));
+        jTableRequestLogs.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Leave Type", "Date Request", "Start Date", "End Date", "Reason", "Status", "Approver", "Date Approved"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPaneAttendanceLogs.setViewportView(jTableRequestLogs);
+
+        jPanelAttendanceLogs.add(jScrollPaneAttendanceLogs, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 660, 370));
+
+        jPanelRequests.add(jPanelAttendanceLogs, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 680, 390));
+
+        jLabelRequests.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelRequests.setFont(new java.awt.Font("Century Gothic", 1, 25)); // NOI18N
+        jLabelRequests.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelRequests.setText("Requests");
+        jPanelRequests.add(jLabelRequests, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, -10, -1, 90));
+
+        jLabelCreateRequest.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelCreateRequest.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabelCreateRequest.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelCreateRequest.setText("Create Request");
+        jPanelRequests.add(jLabelCreateRequest, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 50, -1, 80));
+
+        jPanelCreateRquest.setBackground(new java.awt.Color(204, 0, 51));
+        jPanelCreateRquest.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jComboBoxLeaveType.setBackground(new java.awt.Color(255, 255, 255));
+        jComboBoxLeaveType.setForeground(new java.awt.Color(0, 0, 0));
+        jComboBoxLeaveType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Vacation Leave", "Sick Leave", "Birthday Leave" }));
+        jPanelCreateRquest.add(jComboBoxLeaveType, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, 170, -1));
+
+        jLabelReason.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelReason.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabelReason.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelReason.setText("Reason:");
+        jPanelCreateRquest.add(jLabelReason, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 80, 40));
+
+        jLabelLeaveType.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelLeaveType.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabelLeaveType.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelLeaveType.setText("Leave Type:");
+        jPanelCreateRquest.add(jLabelLeaveType, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 90, 40));
+
+        jLabelStartDate.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelStartDate.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabelStartDate.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelStartDate.setText("Start Date:");
+        jPanelCreateRquest.add(jLabelStartDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 80, 40));
+
+        jLabelEndDate.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelEndDate.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabelEndDate.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelEndDate.setText("End Date:");
+        jPanelCreateRquest.add(jLabelEndDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 80, 40));
+
+        jTextFieldReason.setBackground(new java.awt.Color(255, 255, 255));
+        jTextFieldReason.setForeground(new java.awt.Color(0, 0, 0));
+        jTextFieldReason.setText("Please put reason");
+        jPanelCreateRquest.add(jTextFieldReason, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 260, 150));
+
+        jDateChooserStart.setBackground(new java.awt.Color(255, 255, 255));
+        jDateChooserStart.setForeground(new java.awt.Color(0, 0, 0));
+        jPanelCreateRquest.add(jDateChooserStart, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 170, -1));
+
+        jDateChooserEnd.setBackground(new java.awt.Color(255, 255, 255));
+        jDateChooserEnd.setForeground(new java.awt.Color(0, 0, 0));
+        jPanelCreateRquest.add(jDateChooserEnd, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, 170, -1));
+
+        jPanelRequests.add(jPanelCreateRquest, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 110, 280, 320));
+
+        jLabelAttendanceLogs.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelAttendanceLogs.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabelAttendanceLogs.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelAttendanceLogs.setText("Request Logs");
+        jPanelRequests.add(jLabelAttendanceLogs, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, 80));
+
+        jButtonSubmitRequest.setBackground(new java.awt.Color(204, 0, 51));
+        jButtonSubmitRequest.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jButtonSubmitRequest.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonSubmitRequest.setText("Submit");
+        jButtonSubmitRequest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSubmitRequestActionPerformed(evt);
+            }
+        });
+        jPanelRequests.add(jButtonSubmitRequest, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 440, 160, 40));
+
+        jTabbedPaneEmployee.addTab("Requests", jPanelRequests);
+
+        jPanelSalaryInformation.setBackground(new java.awt.Color(51, 0, 0));
+        jPanelSalaryInformation.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanelSalaryLogs.setBackground(new java.awt.Color(204, 0, 51));
+        jPanelSalaryLogs.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jTableSalaryLogs.setBackground(new java.awt.Color(255, 255, 255));
+        jTableSalaryLogs.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Employee No.", "Month", "Year", "Gross Salary", "Net Month Salary"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPaneSalaryLogs.setViewportView(jTableSalaryLogs);
+
+        jPanelSalaryLogs.add(jScrollPaneSalaryLogs, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 530, 370));
+
+        jPanelSalaryInformation.add(jPanelSalaryLogs, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 550, 390));
+
+        jLabelSalaryInformation.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelSalaryInformation.setFont(new java.awt.Font("Century Gothic", 1, 25)); // NOI18N
+        jLabelSalaryInformation.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelSalaryInformation.setText("Salary Information");
+        jPanelSalaryInformation.add(jLabelSalaryInformation, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, -10, -1, 90));
+
+        jPanelSalaryCalculations.setBackground(new java.awt.Color(204, 0, 51));
+        jPanelSalaryCalculations.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabelNetSalary.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelNetSalary.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabelNetSalary.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelNetSalary.setText("Net Salary:");
+        jPanelSalaryCalculations.add(jLabelNetSalary, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, -1, 40));
+
+        jTextFieldNetSalary.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelSalaryCalculations.add(jTextFieldNetSalary, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, 80, -1));
+
+        jLabelHourlyRate.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelHourlyRate.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabelHourlyRate.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelHourlyRate.setText("Hourly Rate:");
+        jPanelSalaryCalculations.add(jLabelHourlyRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 0, -1, 40));
+
+        jLabelGrossSalary.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelGrossSalary.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabelGrossSalary.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelGrossSalary.setText("Gross Salary:");
+        jPanelSalaryCalculations.add(jLabelGrossSalary, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, 100, 40));
+
+        jTextFieldHourlyRate.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelSalaryCalculations.add(jTextFieldHourlyRate, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, 80, -1));
+
+        jTextFieldGrossSalary.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelSalaryCalculations.add(jTextFieldGrossSalary, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 40, 80, -1));
+
+        jPanelSalaryInformation.add(jPanelSalaryCalculations, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 380, 410, 100));
+
+        jLabelSalaryLogs.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelSalaryLogs.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabelSalaryLogs.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelSalaryLogs.setText("Salary Logs");
+        jPanelSalaryInformation.add(jLabelSalaryLogs, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, 80));
+
+        jLabelDeductions.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelDeductions.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabelDeductions.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelDeductions.setText("Deductions");
+        jPanelSalaryInformation.add(jLabelDeductions, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 170, -1, 70));
+
+        jPanelDeductions.setBackground(new java.awt.Color(204, 0, 51));
+        jPanelDeductions.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabelPhilHealthDeductions.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelPhilHealthDeductions.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabelPhilHealthDeductions.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelPhilHealthDeductions.setText("PhilHealth:");
+        jPanelDeductions.add(jLabelPhilHealthDeductions, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 80, 40));
+
+        jLabelWithholdingTax.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelWithholdingTax.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        jLabelWithholdingTax.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelWithholdingTax.setText("Withholding Tax:");
+        jPanelDeductions.add(jLabelWithholdingTax, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 100, 40));
+
+        jTextFieldPhilhealth.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelDeductions.add(jTextFieldPhilhealth, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 80, -1));
+
+        jTextFieldWithholdingTax.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelDeductions.add(jTextFieldWithholdingTax, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 100, 80, -1));
+
+        jLabelSSSDeductions.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelSSSDeductions.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabelSSSDeductions.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelSSSDeductions.setText("SSS:");
+        jPanelDeductions.add(jLabelSSSDeductions, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, 40, 40));
+
+        jTextFieldSSSDeductions.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelDeductions.add(jTextFieldSSSDeductions, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, 80, -1));
+
+        jLabelPagibigDeductions.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelPagibigDeductions.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabelPagibigDeductions.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelPagibigDeductions.setText("PAGIBIG:");
+        jPanelDeductions.add(jLabelPagibigDeductions, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, -1, 40));
+
+        jTextFieldPagibigDeductions.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelDeductions.add(jTextFieldPagibigDeductions, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 80, -1));
+
+        jPanelSalaryInformation.add(jPanelDeductions, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 220, 200, 130));
+
+        jLabelAllowances.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelAllowances.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabelAllowances.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelAllowances.setText("Allowances");
+        jPanelSalaryInformation.add(jLabelAllowances, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 50, -1, 50));
+
+        jPanelAllowances.setBackground(new java.awt.Color(204, 0, 51));
+        jPanelAllowances.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jTextFieldPhone.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelAllowances.add(jTextFieldPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, 80, -1));
+
+        jTextFieldRiceSubsidy.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelAllowances.add(jTextFieldRiceSubsidy, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 80, -1));
+
+        jLabelClothing.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelClothing.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabelClothing.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelClothing.setText("Clothing:");
+        jPanelAllowances.add(jLabelClothing, new org.netbeans.lib.awtextra.AbsoluteConstraints(38, 0, -1, 40));
+
+        jLabelRiceSubsidy.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelRiceSubsidy.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabelRiceSubsidy.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelRiceSubsidy.setText("Rice Subsidy:");
+        jPanelAllowances.add(jLabelRiceSubsidy, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 100, 40));
+
+        jLabelPhone.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelPhone.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabelPhone.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelPhone.setText("Phone:");
+        jPanelAllowances.add(jLabelPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(49, 60, 60, 40));
+
+        jTextFieldClothing.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelAllowances.add(jTextFieldClothing, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 80, -1));
+
+        jPanelSalaryInformation.add(jPanelAllowances, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 90, 200, 100));
+
+        jPanelTotalAllwances.setBackground(new java.awt.Color(204, 0, 51));
+        jPanelTotalAllwances.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabelTotalAllowances.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelTotalAllowances.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabelTotalAllowances.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelTotalAllowances.setText("TOTAL:");
+        jPanelTotalAllwances.add(jLabelTotalAllowances, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, -1, 50));
+
+        jTextFieldTotalAllowances.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelTotalAllwances.add(jTextFieldTotalAllowances, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 30, 80, 30));
+
+        jPanelSalaryInformation.add(jPanelTotalAllwances, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 90, 200, 100));
+
+        jPanelTotalDeductions.setBackground(new java.awt.Color(204, 0, 51));
+        jPanelTotalDeductions.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabelTotalDeductions.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelTotalDeductions.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabelTotalDeductions.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelTotalDeductions.setText("TOTAL:");
+        jPanelTotalDeductions.add(jLabelTotalDeductions, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, 50));
+
+        jTextFieldTotalDeductions.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelTotalDeductions.add(jTextFieldTotalDeductions, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, 80, 30));
+
+        jPanelSalaryInformation.add(jPanelTotalDeductions, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 220, 200, 130));
+
+        jLabelSalaryCalculations.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelSalaryCalculations.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabelSalaryCalculations.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelSalaryCalculations.setText("Salary Calculations");
+        jPanelSalaryInformation.add(jLabelSalaryCalculations, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 330, -1, 70));
+
+        jTabbedPaneEmployee.addTab("Salary Information", jPanelSalaryInformation);
+
+        jPanelAttendanceandTracker.setBackground(new java.awt.Color(51, 0, 0));
+        jPanelAttendanceandTracker.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabelAttendanceandTracker.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelAttendanceandTracker.setFont(new java.awt.Font("Century Gothic", 1, 25)); // NOI18N
+        jLabelAttendanceandTracker.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelAttendanceandTracker.setText("Attendance & Tracker");
+        jPanelAttendanceandTracker.add(jLabelAttendanceandTracker, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, -10, -1, 90));
+
+        jPanelAttendanceAndTracker.setBackground(new java.awt.Color(204, 0, 51));
+        jPanelAttendanceAndTracker.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jTableAttendanceLogs.setBackground(new java.awt.Color(255, 255, 255));
+        jTableAttendanceLogs.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Employee #", "Date", "Time In", "Time Out", "Hours Worked"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPaneAttenedanceandTracker.setViewportView(jTableAttendanceLogs);
+
+        jPanelAttendanceAndTracker.add(jScrollPaneAttenedanceandTracker, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 570, 240));
+
+        jPanelAttendanceandTracker.add(jPanelAttendanceAndTracker, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 610, 260));
+
+        jLabelTimeTracker.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelTimeTracker.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabelTimeTracker.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelTimeTracker.setText("Time Tracker");
+        jPanelAttendanceandTracker.add(jLabelTimeTracker, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 50, -1, 80));
+
+        jLabelSelectYearAttendance.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelSelectYearAttendance.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabelSelectYearAttendance.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelSelectYearAttendance.setText("Select Year");
+        jPanelAttendanceandTracker.add(jLabelSelectYearAttendance, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 320, -1, 70));
+
+        jLabelSelectMonthAttendance.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelSelectMonthAttendance.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabelSelectMonthAttendance.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelSelectMonthAttendance.setText("Select Month");
+        jPanelAttendanceandTracker.add(jLabelSelectMonthAttendance, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 320, -1, 70));
+
+        jPanelSelectYearAttendance.setBackground(new java.awt.Color(204, 0, 51));
+        jPanelSelectYearAttendance.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jComboBoxSelectYearAttendance.setBackground(new java.awt.Color(255, 255, 255));
+        jComboBoxSelectYearAttendance.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2025", "2024" }));
+        jPanelSelectYearAttendance.add(jComboBoxSelectYearAttendance, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 230, 40));
+
+        jPanelAttendanceandTracker.add(jPanelSelectYearAttendance, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 370, 270, 60));
+
+        jPanelSelectMonthAttendance.setBackground(new java.awt.Color(204, 0, 51));
+        jPanelSelectMonthAttendance.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jComboBoxSelectMonthAttendance.setBackground(new java.awt.Color(255, 255, 255));
+        jComboBoxSelectMonthAttendance.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" }));
+        jPanelSelectMonthAttendance.add(jComboBoxSelectMonthAttendance, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 230, 40));
+
+        jPanelAttendanceandTracker.add(jPanelSelectMonthAttendance, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 370, 280, 60));
+
+        jButtonAttendanceView.setBackground(new java.awt.Color(204, 0, 51));
+        jButtonAttendanceView.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jButtonAttendanceView.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonAttendanceView.setText("View");
+        jPanelAttendanceandTracker.add(jButtonAttendanceView, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 440, 160, 40));
+        jButtonAttendanceView.addActionListener(new ActionListener() { // ✅ Add ActionListener to View button
+            //@Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedMonth = (String) jComboBoxSelectMonthAttendance.getSelectedItem(); // Get selected month
+                String selectedYear = (String) jComboBoxSelectYearAttendance.getSelectedItem();   // Get selected year
+                loadAttendanceLogs(selectedMonth, selectedYear); // ✅ Call loadAttendanceLogs with month and year
+            }
+        });
+
+        jPanelTimeTracker.setBackground(new java.awt.Color(102, 0, 0));
+        jPanelTimeTracker.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButtonTimeIn.setBackground(new java.awt.Color(204, 0, 51));
+        jButtonTimeIn.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jButtonTimeIn.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonTimeIn.setText("TIME IN");
+        jButtonTimeIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonTimeInActionPerformed(evt);
+            }
+        });
+        jPanelTimeTracker.add(jButtonTimeIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 290, 60));
+
+        jButtonTimeOut.setBackground(new java.awt.Color(204, 0, 51));
+        jButtonTimeOut.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jButtonTimeOut.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonTimeOut.setText("TIME OUT");
+        jButtonTimeOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonTimeOutActionPerformed(evt);
+            }
+        });
+        jPanelTimeTracker.add(jButtonTimeOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 290, 60));
+
+        jPanelAttendanceandTracker.add(jPanelTimeTracker, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 110, 330, 230));
+
+        jLabelAttendanceLog.setBackground(new java.awt.Color(255, 255, 255));
+        jLabelAttendanceLog.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabelAttendanceLog.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelAttendanceLog.setText("Attendance Logs");
+        jPanelAttendanceandTracker.add(jLabelAttendanceLog, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, 80));
+
+        jTabbedPaneEmployee.addTab("Attendance & Tracker", jPanelAttendanceandTracker);
+
+        jPanelEmployeeDashboard.add(jTabbedPaneEmployee, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 1030, 530));
 
         getContentPane().add(jPanelEmployeeDashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1070, 720));
 
@@ -1436,77 +1400,6 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Error saving request.", "File Error", JOptionPane.ERROR_MESSAGE);
         }
-
-        /*String selectedLeave = jComboBoxLeaveType.getSelectedItem().toString();
-        String leaveType = selectedLeave.replaceAll("\\s\\(.*\\)", "");
-
-        Date startDateRaw = jDateChooserStart.getDate();
-        Date endDateRaw = jDateChooserEnd.getDate();
-
-        if (startDateRaw == null || endDateRaw == null) {
-            JOptionPane.showMessageDialog(this, "Please select a valid start and end date.", "Date Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        LocalDate startLocalDate = startDateRaw.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate endLocalDate = endDateRaw.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-        if (startLocalDate == null || endLocalDate == null) {
-            JOptionPane.showMessageDialog(this, "Invalid date selection.", "Date Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        if (startLocalDate.isBefore(TODAY) || endLocalDate.isBefore(TODAY)) {
-            JOptionPane.showMessageDialog(this, "Leave cannot be in the past!", "Date Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        if (startLocalDate.getDayOfWeek() == DayOfWeek.SATURDAY || startLocalDate.getDayOfWeek() == DayOfWeek.SUNDAY ||
-            endLocalDate.getDayOfWeek() == DayOfWeek.SATURDAY || endLocalDate.getDayOfWeek() == DayOfWeek.SUNDAY) {
-            JOptionPane.showMessageDialog(this, "Leave cannot start or end on a weekend!", "Date Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        String reason = jTextFieldReason.getText();
-        if (reason.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter a reason for your leave.", "Input Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        int leaveDuration = calculateWeekdays(startLocalDate, endLocalDate);
-
-        if (!leaveTracker.hasSufficientLeave(leaveType, leaveDuration)) {
-            JOptionPane.showMessageDialog(this, "Insufficient leave balance.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        String leaveId = generateLeaveId();
-
-        LeaveRequest leaveRequest = new LeaveRequest(
-            leaveId,
-            loggedInUser.getEmployeeId(),
-            leaveType,
-            TODAY,
-            startLocalDate,
-            endLocalDate,
-            reason,
-            "Pending",
-            "",
-            null,
-            ""
-        );
-
-        try {
-            LeaveRequestReader.addLeaveRequest(leaveRequest);
-            leaveTracker.deductLeave(leaveType, leaveDuration);
-            leaveTracker.saveLeaveBalances();
-            JOptionPane.showMessageDialog(this, "Request submitted successfully!\nUpdated Balances:\nSick Leave: " + leaveTracker.getSickLeaveBalance() + "\nVacation Leave: " + leaveTracker.getVacationLeaveBalance() + "\nBirthday Leave: " + leaveTracker.getBirthdayLeaveBalance(), "Success", JOptionPane.INFORMATION_MESSAGE);
-            loadRequests();
-            initializeLeaveTypeComboBox();
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error saving request.", "File Error", JOptionPane.ERROR_MESSAGE);
-        }*/
-
     }//GEN-LAST:event_jButtonSubmitRequestActionPerformed
 
     private void jButtonTimeInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTimeInActionPerformed
@@ -1532,10 +1425,6 @@ public class EmployeeDashboard extends javax.swing.JFrame {
             Logger.getLogger(EmployeeDashboard.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButtonTimeOutActionPerformed
-
-    private void jTextFieldClothingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldClothingActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldClothingActionPerformed
 
     /**
      * @param args the command line arguments
