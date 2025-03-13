@@ -30,17 +30,7 @@ public class FinanceUser extends User {
         super(employeeId, username, roleName, password, firstName, lastName, changePassword);
         
     }
-    
-    /*public double getHourlyRate() throws IOException {
-        SalaryDetailsReader reader = new SalaryDetailsReader("src/data9/Salary.csv");
-        Salary salary = reader.getSalary(getEmployeeId());
-        if (salary != null) {
-            return (salary.getHourlyRate() > 0) ? salary.getHourlyRate() : SalaryCalculation.calculateHourlyRate(getEmployeeId());
-        } else {
-            return SalaryCalculation.calculateHourlyRate(getEmployeeId());
-        }
-    }*/
-    
+     
     public double getHourlyRate() throws IOException {
         return SalaryCalculation.calculateHourlyRate(getEmployeeId());
     }
@@ -84,28 +74,6 @@ public class FinanceUser extends User {
         System.out.println("No payroll record found for Employee ID: " + employeeId);
     }
      
-    /*public SalaryDetails getSalaryDetails(String employeeId) throws IOException {
-        double grossSalary = SalaryCalculation.calculateGrossSalary(employeeId);
-        double netSalary = SalaryCalculation.calculateNetSalary(employeeId);
-        double hourlyRate = SalaryCalculation.calculateHourlyRate(employeeId);
-
-        double riceSubsidy = allowanceReader.getRiceSubsidyAllowance(getEmployeeId());
-        double phoneAllowance = allowanceReader.getPhoneAllowance(getEmployeeId());
-        double clothingAllowance = allowanceReader.getClothingAllowance(getEmployeeId());
-        double totalAllowances = riceSubsidy + phoneAllowance + clothingAllowance;
-
-        Deductions deductions = new Deductions();
-        double pagibigDeduction = deductions.calculatePagibigDeduction();
-        double philHealthDeduction = deductions.calculatePhilHealthDeduction(grossSalary);
-        double sssDeduction = deductions.calculateSSSDeduction(grossSalary);
-        double withholdingTax = deductions.calculateWithholdingTax(grossSalary);
-        double totalDeductions = pagibigDeduction + philHealthDeduction + sssDeduction + withholdingTax;
-
-        return new SalaryDetails(grossSalary, netSalary, hourlyRate,
-                riceSubsidy, phoneAllowance, clothingAllowance, totalAllowances,
-                pagibigDeduction, philHealthDeduction, sssDeduction, withholdingTax, totalDeductions);
-    }*/
-    
     public SalaryDetails getSalaryDetails(String employeeId) throws IOException {
         double grossSalary = SalaryCalculation.calculateGrossSalary(employeeId, allowanceReader);
         double netSalary = SalaryCalculation.calculateNetSalary(employeeId, allowanceReader);
@@ -144,18 +112,6 @@ class SalaryCalculation {
         return hourlyRate;
     }
 
-      
-    /*public static double calculateGrossSalary(String employeeId) throws IOException {
-        SalaryDetailsReader reader = new SalaryDetailsReader("src/data9/Salary.csv");
-        Salary salary = reader.getSalary(employeeId);
-        double basicSalary = salary.getBasicSalary();
-        double riceSubsidy = allowanceReader.getRiceSubsidyAllowance(getEmployeeId());
-        double phoneAllowance = allowanceReader.getPhoneAllowance(getEmployeeId());
-        double clothingAllowance = allowanceReader.getClothingAllowance(getEmployeeId());
-        double totalAllowances = riceSubsidy + phoneAllowance + clothingAllowance;
-        return basicSalary + totalAllowances;
-    }*/
-    
     public static double calculateGrossSalary(String employeeId, AllowanceDetailsReader allowanceReader) throws IOException {
         SalaryDetailsReader reader = new SalaryDetailsReader("src/data9/Salary.csv");
         Salary salary = reader.getSalary(employeeId);
@@ -167,16 +123,6 @@ class SalaryCalculation {
         return basicSalary + totalAllowances;
     }
 
-    /*public static double calculateNetSalary(String employeeId) throws IOException {
-        double grossSalary = calculateGrossSalary(employeeId);
-        double pagibigDeduction = Deductions.calculatePagibigDeduction();
-        double philHealthDeduction = Deductions.calculatePhilHealthDeduction(grossSalary);
-        double sssDeduction = Deductions.calculateSSSDeduction(grossSalary);
-        double withholdingTax = Deductions.calculateWithholdingTax(grossSalary);
-        double totalDeductions = pagibigDeduction + philHealthDeduction + sssDeduction + withholdingTax;
-        return grossSalary - totalDeductions;
-    }*/
-    
     public static double calculateNetSalary(String employeeId, AllowanceDetailsReader allowanceReader) throws IOException {
         double grossSalary = calculateGrossSalary(employeeId, allowanceReader);
         double pagibigDeduction = Deductions.calculatePagibigDeduction();
