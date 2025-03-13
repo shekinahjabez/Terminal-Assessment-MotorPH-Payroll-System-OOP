@@ -1,11 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package password_reset9;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -17,6 +18,7 @@ import java.util.Random;
 public class PasswordResetService {
 
     private PasswordDataAccess dataAccess;
+    private static final String LOGIN_FILE_PATH = "src/data9/Login.csv";
 
     public PasswordResetService(PasswordDataAccess dataAccess) {
         this.dataAccess = dataAccess;
@@ -43,6 +45,59 @@ public class PasswordResetService {
 
         return true;
     }
+    
+    /**
+     * Updates the login password while preserving CSV headers
+     */
+    private boolean updateLoginPasswordWithHeaderPreservation(String employeeNumber, String newPassword) throws IOException {
+        List<String> fileContent = new ArrayList<>();
+        boolean headerPreserved = false;
+        boolean employeeFound = false;
+        
+        // Read the entire file
+        try (BufferedReader reader = new BufferedReader(new FileReader(LOGIN_FILE_PATH))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (!headerPreserved) {
+                    // Save the header
+                    fileContent.add(line);
+                    headerPreserved = true;
+                    continue;
+                }
+                
+                String[] data = line.split(",");
+                if (data.length > 3 && data[0].equals(employeeNumber)) {
+                    // This is the target employee - update password (index 3) and reset flag (index 4)
+                    data[3] = newPassword;
+                    data[4] = "YES";
+                    fileContent.add(String.join(",", data));
+                    employeeFound = true;
+                } else {
+                    // Keep this line unchanged
+                    fileContent.add(line);
+                }
+            }
+        }
+        
+        // If employee was found, write the updated content back
+        if (employeeFound) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(LOGIN_FILE_PATH))) {
+                for (String line : fileContent) {
+                    writer.write(line);
+                    writer.newLine();
+                }
+            }
+            return true;
+        }
+        
+        // Use the original method as fallback if direct file method doesn't find the employee
+        if (!employeeFound) {
+            return updateLoginPassword(employeeNumber, newPassword);
+        }
+        
+        return false;
+    }
+    
 
     private boolean updateLoginPassword(String employeeNumber, String newPassword) throws IOException {
         List<String[]> loginData = dataAccess.readLoginData();
