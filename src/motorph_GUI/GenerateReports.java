@@ -1,5 +1,7 @@
 package motorph_GUI;
 
+import data_reader9.AllowanceDetailsReader;
+import data_reader9.SalaryDetailsReader;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -10,6 +12,11 @@ import motorph9.EmployeeUser;
 import motorph9.EmployeeUserDataManager;
 import payroll9.PayrollCalculatorService;
 import payroll9.PayrollData;
+import java.util.HashMap;
+import java.util.Map;
+import payroll9.Salary;
+import payroll9.Allowance;
+import payroll9.Deductions;
 
 /**
  *
@@ -29,7 +36,7 @@ public class GenerateReports extends javax.swing.JFrame {
         startClock();
     }
     
-    private PayrollData calculatePayrollData(String employeeNumber){
+    /*private PayrollData calculatePayrollData(String employeeNumber){
         PayrollData data = new PayrollData();
         EmployeeUserDataManager employeeDataManager = new EmployeeUserDataManager();
         EmployeeUser employee = employeeDataManager.getEmployee(employeeNumber);
@@ -42,6 +49,96 @@ public class GenerateReports extends javax.swing.JFrame {
             data.setPagibigNumber(employee.getPagibig());
         }
         return data;
+    }*/
+    
+    private PayrollData calculatePayrollData(String employeeNumber) {
+        PayrollData data = new PayrollData();
+        EmployeeUserDataManager employeeDataManager = new EmployeeUserDataManager();
+        EmployeeUser employee = employeeDataManager.getEmployee(employeeNumber);
+
+        if(employee != null) {
+            // Set employee basic info
+            data.setEmployeeNumber(employee.getEmployeeId());
+            data.setFullName(employee.getFirstName() + " " + employee.getLastName());
+            data.setSssNumber(employee.getSSS());
+            data.setPhilHealthNumber(employee.getPhilHealth());
+            data.setTinNumber(employee.getTIN());
+            data.setPagibigNumber(employee.getPagibig());
+
+            // Get the current month and year selected
+            String month = (String) jComboBoxSelectMonth.getSelectedItem();
+            String year = (String) jComboBoxSelectYear.getSelectedItem();
+
+            // Convert to dates
+            LocalDateTime startDate = convertMonthYearToStartDate(month, year);
+            LocalDateTime endDate = convertMonthYearToEndDate(month, year);
+
+            try {
+                // Get all the necessary calculations by reusing the existing code
+                // We'll need to extract these values from the calculateNetSalary method
+
+                // Call a new method to get all the payroll details
+                Map<String, Double> payrollDetails = getPayrollDetails(employeeNumber, startDate, endDate);
+
+                // Set these values in the PayrollData object
+                data.setGrossSalary(payrollDetails.get("grossSalary"));
+                data.setTotalAllowances(payrollDetails.get("totalAllowances"));
+                data.setTotalDeductions(payrollDetails.get("totalDeductions"));
+
+                // Note: Net salary is set separately in the compute action
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return data;
+    }
+
+    // New method to calculate and return all payroll details
+    private Map<String, Double> getPayrollDetails(String employeeId, LocalDateTime startDate, LocalDateTime endDate) {
+        Map<String, Double> details = new HashMap<>();
+
+        try {
+            AllowanceDetailsReader allowanceReader = new AllowanceDetailsReader("src/data9/Allowance.csv");
+            SalaryDetailsReader salaryReader = new SalaryDetailsReader("src/data9/Salary.csv");
+
+            // Read salary data once
+            Map<String, Salary> salaryMap = salaryReader.getAllSalaries();
+            Salary salary = salaryMap.get(employeeId);
+
+            // Read allowance data once
+            Map<String, Allowance> allowanceMap = allowanceReader.getAllAllowances();
+            Allowance allowance = allowanceMap.get(employeeId);
+
+            if (salary == null || allowance == null) {
+                System.out.println("Error: Salary or allowance data not found for employee " + employeeId);
+                return details; // Return empty map
+            }
+
+            double basicSalary = salary.getBasicSalary();
+            double riceSubsidy = allowance.getRiceSubsidy();
+            double phoneAllowance = allowance.getPhoneAllowance();
+            double clothingAllowance = allowance.getClothingAllowance();
+
+            double totalAllowances = riceSubsidy + phoneAllowance + clothingAllowance;
+            double grossSalary = basicSalary + totalAllowances;
+
+            double pagibigDeduction = Deductions.calculatePagibigDeduction();
+            double philHealthDeduction = Deductions.calculatePhilHealthDeduction(grossSalary);
+            double sssDeduction = Deductions.calculateSSSDeduction(grossSalary);
+            double withholdingTax = Deductions.calculateWithholdingTax(grossSalary);
+            double totalDeductions = pagibigDeduction + philHealthDeduction + sssDeduction + withholdingTax;
+
+            // Store all values in the map
+            details.put("grossSalary", grossSalary);
+            details.put("totalAllowances", totalAllowances);
+            details.put("totalDeductions", totalDeductions);
+            details.put("netSalary", grossSalary - totalDeductions);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return details;
     }
     
     private void startClock() {
@@ -389,6 +486,7 @@ public class GenerateReports extends javax.swing.JFrame {
         try {
             double netSalary = payrollCalculator.calculateNetSalary(employeeNumber, startDate, endDate);
             PayrollData payrollData = calculatePayrollData(employeeNumber);
+            //payrollData.setGrossSalary(netSalary);
             payrollData.setNetSalary(netSalary);
             setEmployeeDetails(payrollData);
 
