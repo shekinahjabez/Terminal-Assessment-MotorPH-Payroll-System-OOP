@@ -27,6 +27,7 @@ import com.toedter.calendar.JDateChooser;
 import java.awt.Font;
 import java.util.Calendar;
 import motorph9.EmployeeUser;
+import motorph9.EmployeeUserDataManager;
 import motorph9.HRUser;
 import motorph9.LeaveRequest;
 
@@ -35,6 +36,7 @@ public final class HRDashboard extends javax.swing.JFrame {
     private HRUser hrUser;
     private EmployeeDetailsReader employeeReader;
     private LeaveRequestReader leaveRequestReader;
+    private EmployeeUserDataManager employeeDataManager = new EmployeeUserDataManager();
 
     // Swing components for UpdateEmployee - Manage Employee
     private JTextField txtEmployeeID = new JTextField();
@@ -107,27 +109,19 @@ public final class HRDashboard extends javax.swing.JFrame {
 
         DefaultTableModel model = (DefaultTableModel) jTableEmployeeRecords.getModel();
         model.setRowCount(0); // ✅ Clear old data before adding new ones
-
-        try {
-            List<EmployeeUser> employees = employeeReader.getAllEmployees(); // ✅ Load employees
-
-            // ✅ Debugging: Print total employees loaded
-            System.out.println("Loading employees into table: " + employees.size());
-
-            for (EmployeeUser emp : employees) {
-                model.addRow(new Object[]{
-                    emp.getEmployeeId(), emp.getLastName(), emp.getFirstName(),
-                    emp.getSSS(), emp.getPhilHealth(), emp.getTIN(),
-                    emp.getPagibigNumber()
-                });
-            }
-
-            if (employees.isEmpty()) {
-                System.out.println("⚠️ No employees found!");
-            }
-
-        } catch (IOException e) {
-            System.err.println("❌ Error loading employees: " + e.getMessage());
+        //List<EmployeeUser> employees = employeeReader.getAllEmployees(); // ✅ Load employees
+        List<EmployeeUser> employees = employeeDataManager.getAllEmployees();
+        // ✅ Debugging: Print total employees loaded
+        System.out.println("Loading employees into table: " + employees.size());
+        for (EmployeeUser emp : employees) {
+            model.addRow(new Object[]{
+                emp.getEmployeeId(), emp.getLastName(), emp.getFirstName(),
+                emp.getSSS(), emp.getPhilHealth(), emp.getTIN(),
+                emp.getPagibigNumber()
+            });
+        }
+        if (employees.isEmpty()) {
+            System.out.println("⚠️ No employees found!");
         }
     }
     
@@ -135,33 +129,28 @@ public final class HRDashboard extends javax.swing.JFrame {
         DefaultTableModel modelRecords = (DefaultTableModel) jTableEmployeeRecords.getModel();
 
         modelRecords.setRowCount(0); // ✅ Clear Employee Records table
-
-        try {
-            EmployeeDetailsReader employeeReader = new EmployeeDetailsReader("src/data9/Employee.csv", "src/data9/Login.csv");
-            List<EmployeeUser> employees = employeeReader.getAllEmployees();
-            System.out.println("Total Employees Loaded: " + employees.size()); // ✅ Debugging
-
-            for (EmployeeUser emp : employees) {
-                Object[] rowData = {
-                    emp.getEmployeeNum(),
-                    emp.getLastName(),
-                    emp.getFirstName(),
-                    emp.getBirthday(),
-                    emp.getAddress(),
-                    emp.getPhone(),
-                    emp.getSSS(),
-                    emp.getPhilHealth(),
-                    emp.getTIN(),
-                    emp.getPagibigNumber(),
-                    emp.getStatus(),
-                    emp.getPosition(),
-                    emp.getImmediateSupervisor()
-                };
-
-                modelRecords.addRow(rowData); // ✅ Add to Employee Records table
-            }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error loading employee data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        EmployeeDetailsReader employeeReader = new EmployeeDetailsReader("src/data9/Employee.csv", "src/data9/Login.csv");
+        //List<EmployeeUser> employees = employeeReader.getAllEmployees();
+        List<EmployeeUser> employees = employeeDataManager.getAllEmployees();
+        System.out.println("Total Employees Loaded: " + employees.size()); // ✅ Debugging
+        for (EmployeeUser emp : employees) {
+            Object[] rowData = {
+                emp.getEmployeeNum(),
+                emp.getLastName(),
+                emp.getFirstName(),
+                emp.getBirthday(),
+                emp.getAddress(),
+                emp.getPhone(),
+                emp.getSSS(),
+                emp.getPhilHealth(),
+                emp.getTIN(),
+                emp.getPagibigNumber(),
+                emp.getStatus(),
+                emp.getPosition(),
+                emp.getImmediateSupervisor()
+            };
+            
+            modelRecords.addRow(rowData); // ✅ Add to Employee Records table
         }
     }
     

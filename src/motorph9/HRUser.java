@@ -22,6 +22,7 @@ public class HRUser extends User {
     private static final String LEAVE_FILE_PATH = "src/data9/LeaveRequests.csv";
     private String firstName;
     private String lastName;
+    private EmployeeUserDataManager employeeDataManager = new EmployeeUserDataManager();
     
     public HRUser(String employeeId, String lastName, String firstName, String birthday, 
                         String address, int phone, String sssNumber, String philhealthNumber, 
@@ -44,7 +45,17 @@ public class HRUser extends User {
         System.out.println("Accessing HR Dashboard");
     }
     
-    public void updateEmployee(User updatedEmployee, EmployeeDetailsReader employeeReader) {
+     
+    public boolean updateEmployee(User updatedEmployee) {
+        String[] employeeData = convertUserToStringArray(updatedEmployee);
+        return employeeDataManager.updateEmployee(updatedEmployee);
+    }
+    
+    public void addEmployee(User newEmployee) {
+        employeeDataManager.addEmployee(newEmployee);
+    }
+    
+    /*public void updateEmployee(User updatedEmployee, EmployeeDetailsReader employeeReader) {
         try {
             boolean success = employeeReader.updateEmployee(updatedEmployee);
             if (success) {
@@ -64,7 +75,7 @@ public class HRUser extends User {
         } catch (IOException e) {
             System.out.println("Error adding employee: " + e.getMessage());
         }
-    }
+    }*/
     
     public void deleteEmployee(String employeeId, EmployeeDetailsReader employeeReader) {
         try {
@@ -77,6 +88,24 @@ public class HRUser extends User {
         } catch (IOException e) {
             System.out.println("Error deleting employee: " + e.getMessage());
         }
+    }
+    
+     private String[] convertUserToStringArray(User user) {
+        return new String[]{
+            user.getEmployeeId(),
+            user.getLastName(),
+            user.getFirstName(),
+            user.getBirthday(),
+            user.getAddress(),
+            String.valueOf(user.getPhone()),
+            user.getSSS(),
+            user.getPhilHealth(),
+            user.getTIN(),
+            user.getPagibig(),
+            user.getStatus(),
+            user.getPosition(),
+            user.getImmediateSupervisor()
+        };
     }
     
     public void viewEmployeeRecords() {
@@ -123,7 +152,6 @@ public class HRUser extends User {
         }
     }
 
-    
     private void updateLeaveStatus(String leaveId, String newStatus) throws IOException {
         List<String> leaveRequests = new ArrayList<>();
         boolean found = false;

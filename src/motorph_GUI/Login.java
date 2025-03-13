@@ -10,6 +10,7 @@ import javax.swing.*;
 import data_reader9.EmployeeDetailsReader;
 import data_reader9.LeaveRequestReader;
 import motorph9.EmployeeUser;
+import motorph9.EmployeeUserDataManager;
 import motorph9.FinanceUser;
 import motorph9.HRUser;
 import motorph9.ITUser;
@@ -22,6 +23,7 @@ public class Login extends javax.swing.JFrame {
     private JPasswordField passwordField;
     private JButton loginButton;
     private EmployeeDetailsReader employeeReader;
+    private EmployeeUserDataManager employeeDataManager = new EmployeeUserDataManager();
 
     /**
      * Creates new form Login
@@ -163,7 +165,8 @@ private class LoginActionListener implements ActionListener {
             
         private User validateLogin(String username, String password) {
             employeeReader = new EmployeeDetailsReader("src/data9/Employee.csv", "src/data9/Login.csv");
-            User user = employeeReader.getLoginDetails(username); // ✅ Fetch user by username
+            //User user = employeeReader.getLoginDetails(username); // ✅ Fetch user by username
+            User user = employeeDataManager.getUser(username);
 
             if (user != null) {
                 System.out.println("Loaded user: " + user.getUsername() + ", Password: " + user.getPassword());
