@@ -1,11 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package data_reader9;
 
 import data_reader9.CSVReader;
@@ -17,10 +9,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import motorph9.TimeLog;
 
 /**
  *
- * @author Shekinah Jabez
+ * @author Shekinah Jabez, Paulo Martin
  */
 public class TimeTrackerReader {
     private static final String FILE_PATH = "src/data9/TimeTracker.csv";
@@ -103,64 +96,31 @@ public class TimeTrackerReader {
         }
         return logs;
     }
+    
+    public static List<TimeLog> getTimeLogsAsObjects(String employeeId) throws IOException {
+        List<TimeLog> timeLogs = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            br.readLine(); // Skip header
+
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",", -1);
+                if (data.length >= 3 && data[0].trim().equals(employeeId.trim())) {
+                    LocalDateTime timeIn = parseDateTime(data[1].trim());
+                    LocalDateTime timeOut = parseDateTime(data[2].trim());
+                    timeLogs.add(new TimeLog(timeIn, timeOut));
+                }
+            }
+        }
+        return timeLogs;
+    }
+
+    private static LocalDateTime parseDateTime(String dateTimeString) {
+        if (dateTimeString == null || dateTimeString.isEmpty()) {
+            return null;
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return LocalDateTime.parse(dateTimeString, formatter);
+    }
+
 }
-
-
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-//package data_reader9;
-
-//import data_reader9.CSVReader;
-//import java.io.IOException;
-//import java.time.LocalDateTime;
-//import java.util.ArrayList;
-//import java.util.List;
-
-/**
- *
- * @author Shekinah Jabez
- */
-//public class TimeTrackerReader {
-//    private static final String FILE_PATH = "src/data9/TimeTracker.csv";
-//
-//    public static void clockIn(String employeeId) throws IOException {
-//        List<String[]> data = CSVReader.readCSV(FILE_PATH);
-//        LocalDateTime now = LocalDateTime.now();
-//        data.add(new String[]{employeeId, now.toString(), ""}); // Empty clock-out field
-//       CSVReader.writeCSV(FILE_PATH, data);
-//    }
-//
-//    public static void clockOut(String employeeId) throws IOException {
-//        List<String[]> data = CSVReader.readCSV(FILE_PATH);
-//        LocalDateTime now = LocalDateTime.now();
-//        boolean updated = false;
-
-//       for (String[] row : data) {
-//            if (row[0].equals(employeeId) && row[2].isEmpty()) { // Find last clock-in without clock-out
-//                row[2] = now.toString();
-//                updated = true;
-//                break;
-//            }
-//        }
-        
-//        if (updated) {
-//            CSVReader.writeCSV(FILE_PATH, data);
-//        } else {
-//            throw new IOException("No active clock-in found for employee " + employeeId);
-//        }
-//    }
-
-//   public static List<String[]> getTimeLogs(String employeeId) throws IOException {
-//        List<String[]> logs = new ArrayList<>();
-//        for (String[] row : CSVReader.readCSV(FILE_PATH)) {
-//            if (row[0].equals(employeeId)) {
-//                logs.add(row);
-//            }
-//        }
-//        return logs;
-//   }
-//}
-

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import payroll9.Deductions;
 import payroll9.Salary;
@@ -18,9 +19,8 @@ public class EmployeeUser extends User {
     private static final Logger LOGGER = Logger.getLogger(EmployeeUser.class.getName());
     private LocalDateTime clockInTime;
     private LocalDateTime clockOutTime;
+    private AllowanceDetailsReader allowanceReader = new AllowanceDetailsReader("src/data9/Allowance.csv");
    
-    //private String firstName;
-    //private String lastName;
     
     public EmployeeUser(String employeeId, String lastName, String firstName, String birthday, 
                         String address, int phone, String sssNumber, String philhealthNumber, 
@@ -60,13 +60,13 @@ public class EmployeeUser extends User {
     }
     
     public SalaryDetails getSalaryDetails() throws IOException {
-        double grossSalary = SalaryCalculation.calculateGrossSalary(getEmployeeId());
-        double netSalary = SalaryCalculation.calculateNetSalary(getEmployeeId());
+        double grossSalary = SalaryCalculation.calculateGrossSalary(getEmployeeId(), allowanceReader);
+        double netSalary = SalaryCalculation.calculateNetSalary(getEmployeeId(), allowanceReader);
         double hourlyRate = SalaryCalculation.calculateHourlyRate(getEmployeeId());
 
-        double riceSubsidy = AllowanceDetailsReader.getRiceSubsidyAllowance(getEmployeeId());
-        double phoneAllowance = AllowanceDetailsReader.getPhoneAllowance(getEmployeeId());
-        double clothingAllowance = AllowanceDetailsReader.getClothingAllowance(getEmployeeId());
+        double riceSubsidy = allowanceReader.getRiceSubsidyAllowance(getEmployeeId());
+        double phoneAllowance = allowanceReader.getPhoneAllowance(getEmployeeId());
+        double clothingAllowance = allowanceReader.getClothingAllowance(getEmployeeId());
         double totalAllowances = riceSubsidy + phoneAllowance + clothingAllowance;
 
         double pagibigDeduction = Deductions.calculatePagibigDeduction();
@@ -76,9 +76,10 @@ public class EmployeeUser extends User {
         double totalDeductions = pagibigDeduction + philHealthDeduction + sssDeduction + withholdingTax;
 
         return new SalaryDetails(grossSalary, netSalary, hourlyRate,
-                                 riceSubsidy, phoneAllowance, clothingAllowance, totalAllowances,
-                                 pagibigDeduction, philHealthDeduction, sssDeduction, withholdingTax, totalDeductions);
+                riceSubsidy, phoneAllowance, clothingAllowance, totalAllowances,
+                pagibigDeduction, philHealthDeduction, sssDeduction, withholdingTax, totalDeductions);
     }
+
 
     
     public void requestLeave(String leaveID, String leaveType, LocalDate startDate, LocalDate endDate, String reason) throws IOException {
@@ -100,12 +101,7 @@ public class EmployeeUser extends User {
         System.out.println("Leave request submitted.");
     }
 
-    
-    /*public void viewSalary() throws IOException {
-        double basicSalary = SalaryDetailsReader.getBasicSalary(getEmployeeId());
-        System.out.println("Your basic salary: " + basicSalary);
-    }*/
-    
+     
     public void viewSalary() throws IOException {
         try {
             SalaryDetailsReader reader = new SalaryDetailsReader("src/data9/Salary.csv");
@@ -118,32 +114,13 @@ public class EmployeeUser extends User {
         }
     }
     
-    /*public void viewPayrollBreakdown() throws IOException {
-        double basicSalary = SalaryDetailsReader.getBasicSalary(getEmployeeId());
-        double totalAllowances = AllowanceDetailsReader.getRiceSubsidyAllowance(getEmployeeId()) +
-                                 AllowanceDetailsReader.getPhoneAllowance(getEmployeeId()) +
-                                 AllowanceDetailsReader.getClothingAllowance(getEmployeeId());
-        double grossSalary = basicSalary + totalAllowances;
-        double totalDeductions = Deductions.calculatePagibigDeduction() +
-                                 Deductions.calculatePhilHealthDeduction(basicSalary) +
-                                 Deductions.calculateSSSDeduction(basicSalary) +
-                                 Deductions.calculateWithholdingTax(grossSalary);
-        double netSalary = grossSalary - totalDeductions;
-        
-        System.out.println("Payroll Breakdown:");
-        System.out.println("Basic Salary: " + basicSalary);
-        System.out.println("Total Allowances: " + totalAllowances);
-        System.out.println("Total Deductions: " + totalDeductions);
-        System.out.println("Net Salary: " + netSalary);
-    }*/
-    
     public void viewPayrollBreakdown() throws IOException {
         SalaryDetailsReader reader = new SalaryDetailsReader("src/data9/Salary.csv");
         Salary salary = reader.getSalary(getEmployeeId());
         double basicSalary = salary.getBasicSalary();
-        double totalAllowances = AllowanceDetailsReader.getRiceSubsidyAllowance(getEmployeeId()) +
-                AllowanceDetailsReader.getPhoneAllowance(getEmployeeId()) +
-                AllowanceDetailsReader.getClothingAllowance(getEmployeeId());
+        double totalAllowances = allowanceReader.getRiceSubsidyAllowance(getEmployeeId()) +
+                allowanceReader.getPhoneAllowance(getEmployeeId()) +
+                allowanceReader.getClothingAllowance(getEmployeeId());
         double grossSalary = basicSalary + totalAllowances;
         Deductions deductions = new Deductions();
         double totalDeductions = deductions.calculatePagibigDeduction() +
@@ -159,11 +136,21 @@ public class EmployeeUser extends User {
         System.out.println("Net Salary: " + netSalary);
     }
     
-    public void viewTimeLogs() throws IOException {
+    /*public void viewTimeLogs() throws IOException {
         List<String[]> logs = TimeTrackerReader.getTimeLogs(getEmployeeId());
         System.out.println("Time Logs:");
         for (String[] log : logs) {
             System.out.println("Clock-In: " + log[1] + " | Clock-Out: " + (log[2].isEmpty() ? "Pending" : log[2]));
+        }
+    }*/
+    
+    public void viewTimeLogs() throws IOException {
+        List<TimeLog> logs = TimeTrackerReader.getTimeLogsAsObjects(getEmployeeId());
+        System.out.println("Time Logs:");
+        for (TimeLog log : logs) {
+            String timeIn = log.getTimeIn() != null ? log.getTimeIn().format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm")) : "Pending";
+            String timeOut = log.getTimeOut() != null ? log.getTimeOut().format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm")) : "Pending";
+            System.out.println("Clock-In: " + timeIn + " | Clock-Out: " + timeOut);
         }
     }
 

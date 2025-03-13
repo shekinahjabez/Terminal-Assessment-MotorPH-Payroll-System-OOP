@@ -26,12 +26,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;    
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.Timer;
 import payroll9.SalaryDetails;
+import motorph9.EmployeeUserDataManager;
 
 
 /**
@@ -40,6 +43,7 @@ import payroll9.SalaryDetails;
  */
 public class EmployeeDashboard extends javax.swing.JFrame {
     
+    private Timer timer;
     private User loggedInUser; // To store the logged-in user
     private EmployeeDetailsReader employeeDetailsReader; // Use EmployeeDetailsReader
     private EmployeeLeaveTracker leaveTracker; // Use EmployeeLeaveTracker
@@ -47,6 +51,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     public static final LocalDate TODAY = LocalDate.now();
     private LeaveRequest leaveRequest;
     private LeaveProcessor leaveProcessor;
+    private EmployeeUserDataManager employeeDataManager = new EmployeeUserDataManager();
     
     /**
      * Creates new form EmployeeDashboards
@@ -75,13 +80,23 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         leaveTracker = new EmployeeLeaveTracker(user.getEmployeeId()); //Initialize leave tracker
         leaveProcessor = new LeaveProcessor(leaveTracker); // Properly initialized
         
-        
+        startClock();
         displayWelcomeMessage(); // Call method to display welcome message (example)
         loadEmployeeDetails(); // Call method to load and display employee details
         loadAttendanceLogs(null, null);
         loadSalaryInformation();
         initializeLeaveTypeComboBox(); // Populate leave types with balance
         
+    }
+    
+    private void startClock() {
+        timer = new Timer(1000, e -> updateTime());
+        timer.start();
+    }
+    
+    private void updateTime() {
+        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm:ss a");
+        jLabelTime.setText(timeFormat.format(new Date()));
     }
     
     private void displayWelcomeMessage() {
@@ -95,17 +110,11 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     
     private void loadEmployeeDetails() {
         if (loggedInUser != null) {
-            try {
-                // ✅ Use getEmployeeResetDetailsByNumber from EmployeeDetailsReader
-                EmployeeUser employeeDetails = (EmployeeUser) employeeDetailsReader.getEmployeeDetailsByNumber(loggedInUser.getEmployeeId());
-                if (employeeDetails != null) {
-                    displayEmployeeDetails(employeeDetails); // Call method to populate UI
-                } else {
-                    JOptionPane.showMessageDialog(this, "Employee details not found in data file.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(EmployeeDashboard.class.getName()).log(Level.SEVERE, "Error reading employee details", ex);
-                JOptionPane.showMessageDialog(this, "Error reading employee details from file.", "File Error", JOptionPane.ERROR_MESSAGE);
+            EmployeeUser employeeDetails = employeeDataManager.getEmployee(loggedInUser.getEmployeeId());
+            if (employeeDetails != null) {
+                displayEmployeeDetails(employeeDetails); // Call method to populate UI
+            } else {
+                JOptionPane.showMessageDialog(this, "Employee details not found in data file.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
