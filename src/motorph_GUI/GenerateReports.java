@@ -1,9 +1,15 @@
 package motorph_GUI;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
+import motorph9.EmployeeUser;
+import motorph9.EmployeeUserDataManager;
+import payroll9.PayrollCalculatorService;
+import payroll9.PayrollData;
 
 /**
  *
@@ -11,6 +17,7 @@ import javax.swing.Timer;
  */
 public class GenerateReports extends javax.swing.JFrame {
     private Timer timer;
+    private PayrollCalculatorService payrollCalculator = new PayrollCalculatorService();
 
     /**
      * Creates new form GenerateReports
@@ -20,6 +27,21 @@ public class GenerateReports extends javax.swing.JFrame {
         setLocationRelativeTo(null); // Center the window
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         startClock();
+    }
+    
+    private PayrollData calculatePayrollData(String employeeNumber){
+        PayrollData data = new PayrollData();
+        EmployeeUserDataManager employeeDataManager = new EmployeeUserDataManager();
+        EmployeeUser employee = employeeDataManager.getEmployee(employeeNumber);
+        if(employee != null){
+            data.setEmployeeNumber(employee.getEmployeeId());
+            data.setFullName(employee.getFirstName() + " " + employee.getLastName());
+            data.setSssNumber(employee.getSSS());
+            data.setPhilHealthNumber(employee.getPhilHealth());
+            data.setTinNumber(employee.getTIN());
+            data.setPagibigNumber(employee.getPagibig());
+        }
+        return data;
     }
     
     private void startClock() {
@@ -33,19 +55,17 @@ public class GenerateReports extends javax.swing.JFrame {
     }
     
     
-    public void setEmployeeDetails(String employeeNumber, String fullName, String sssNumber, String philhealthNumber,
-                                    String tinNumber, String pagibigNumber, String totalAllowances, String totalDeductions,
-                                    String grossSalary, String netSalary) {
-        jTextFieldEmployeeNumber.setText(employeeNumber);
-        jTextFieldName.setText(fullName);
-        jTextFieldSSSNumber.setText(sssNumber);
-        jTextFieldPhilHealthNumber.setText(philhealthNumber);
-        jTextFieldTIN.setText(tinNumber);
-        jTextFieldPAGIBIGNumber.setText(pagibigNumber);
-        jTextFieldTotalAllowance.setText(totalAllowances);
-        jTextFieldTotalDeductions.setText(totalDeductions);
-        jTextFieldGrossSalary.setText(grossSalary);
-        jTextFieldNetSalary.setText(netSalary);
+    public void setEmployeeDetails(PayrollData payrollData) { // Correct method
+        jTextFieldEmployeeNumber.setText(payrollData.getEmployeeNumber());
+        jTextFieldName.setText(payrollData.getFullName());
+        jTextFieldSSSNumber.setText(payrollData.getSssNumber());
+        jTextFieldPhilHealthNumber.setText(payrollData.getPhilHealthNumber());
+        jTextFieldTIN.setText(payrollData.getTinNumber());
+        jTextFieldPAGIBIGNumber.setText(payrollData.getPagibigNumber());
+        jTextFieldTotalAllowance.setText(String.valueOf(payrollData.getTotalAllowances()));
+        jTextFieldTotalDeductions.setText(String.valueOf(payrollData.getTotalDeductions()));
+        jTextFieldGrossSalary.setText(String.valueOf(payrollData.getGrossSalary()));
+        jTextFieldNetSalary.setText(String.valueOf(payrollData.getNetSalary()));
     }
 
     public void clearFields() {
@@ -60,6 +80,43 @@ public class GenerateReports extends javax.swing.JFrame {
         jTextFieldGrossSalary.setText("");
         jTextFieldNetSalary.setText("");
     }
+    
+     private LocalDateTime convertMonthYearToStartDate(String month, String year) {
+        // Implement logic to convert month and year to LocalDateTime (start date)
+        int monthValue = getMonthNumber(month);
+        int yearValue = Integer.parseInt(year.trim()); // Trim year string
+        return LocalDateTime.of(yearValue, monthValue, 1, 0, 0);
+    }
+
+    private LocalDateTime convertMonthYearToEndDate(String month, String year) {
+        // Implement logic to convert month and year to LocalDateTime (end date)
+        int monthValue = getMonthNumber(month);
+        int yearValue = Integer.parseInt(year.trim()); // Trim year string
+        //get the last day of the month
+        java.time.YearMonth yearMonthObject = java.time.YearMonth.of(yearValue, monthValue);
+        int daysInMonth = yearMonthObject.lengthOfMonth();
+        return LocalDateTime.of(yearValue, monthValue, daysInMonth, 23, 59, 59);
+    }
+    
+    private int getMonthNumber(String month) {
+        //Implement logic to convert month string to month number.
+        return switch (month) {
+            case "January" -> 1;
+            case "February" -> 2;
+            case "March" -> 3;
+            case "April" -> 4;
+            case "May" -> 5;
+            case "June" -> 6;
+            case "July" -> 7;
+            case "August" -> 8;
+            case "September" -> 9;
+            case "October" -> 10;
+            case "November" -> 11;
+            case "December" -> 12;
+            default -> 0;
+        };
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -310,7 +367,35 @@ public class GenerateReports extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBoxSelectMonthActionPerformed
 
     private void jButtonComputeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonComputeActionPerformed
-        // TODO add your handling code here:
+        String employeeNumber = jTextFieldEmployeeNumber.getText();
+        String month = (String) jComboBoxSelectMonth.getSelectedItem();
+        String year = (String) jComboBoxSelectYear.getSelectedItem();
+
+        // Validation
+        if ("Year".equals(year) || year == null || year.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please select a valid year.", "Error", JOptionPane.ERROR_MESSAGE);
+            return; // Stop execution
+        }
+
+        if ("Month".equals(month) || month == null || month.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please select a valid month.", "Error", JOptionPane.ERROR_MESSAGE);
+            return; // Stop execution
+        }
+
+        // Convert month and year to LocalDateTime (start and end dates)
+        LocalDateTime startDate = convertMonthYearToStartDate(month, year);
+        LocalDateTime endDate = convertMonthYearToEndDate(month, year);
+
+        try {
+            double netSalary = payrollCalculator.calculateNetSalary(employeeNumber, startDate, endDate);
+            PayrollData payrollData = calculatePayrollData(employeeNumber);
+            payrollData.setNetSalary(netSalary);
+            setEmployeeDetails(payrollData);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error calculating net salary: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_jButtonComputeActionPerformed
 
     /**

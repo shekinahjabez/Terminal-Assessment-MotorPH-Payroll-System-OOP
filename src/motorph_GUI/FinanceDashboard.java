@@ -24,6 +24,7 @@ import java.util.Arrays;
 import payroll9.Deductions;
 import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
+import payroll9.PayrollData;
 
 /**
  *
@@ -390,15 +391,42 @@ public class FinanceDashboard extends javax.swing.JFrame {
             String philhealthNumber = (String) jTableEmployeesList.getValueAt(selectedRow, 3);
             String tinNumber = (String) jTableEmployeesList.getValueAt(selectedRow, 4);
             String pagibigNumber = (String) jTableEmployeesList.getValueAt(selectedRow, 5);
-            String totalAllowances = (String) jTableEmployeesList.getValueAt(selectedRow, 6);
-            String totalDeductions = (String) jTableEmployeesList.getValueAt(selectedRow, 7);
-            String grossSalary = (String) jTableEmployeesList.getValueAt(selectedRow, 8);
-            String netSalary = (String) jTableEmployeesList.getValueAt(selectedRow, 9);
 
-            GenerateReports generateReports = new GenerateReports();
-            generateReports.setEmployeeDetails(employeeNumber, fullName, sssNumber, philhealthNumber, tinNumber,
-                                                pagibigNumber, totalAllowances, totalDeductions, grossSalary, netSalary);
-            generateReports.setVisible(true);
+            try {
+                // Remove commas and parse to double
+                String totalAllowancesStr = (String) jTableEmployeesList.getValueAt(selectedRow, 6);
+                double totalAllowances = Double.parseDouble(totalAllowancesStr.replace(",", ""));
+
+                String totalDeductionsStr = (String) jTableEmployeesList.getValueAt(selectedRow, 7);
+                double totalDeductions = Double.parseDouble(totalDeductionsStr.replace(",", ""));
+
+                String grossSalaryStr = (String) jTableEmployeesList.getValueAt(selectedRow, 8);
+                double grossSalary = Double.parseDouble(grossSalaryStr.replace(",", ""));
+
+                String netSalaryStr = (String) jTableEmployeesList.getValueAt(selectedRow, 9);
+                double netSalary = Double.parseDouble(netSalaryStr.replace(",", ""));
+
+                // Create PayrollData object
+                PayrollData payrollData = new PayrollData();
+                payrollData.setEmployeeNumber(employeeNumber);
+                payrollData.setFullName(fullName);
+                payrollData.setSssNumber(sssNumber);
+                payrollData.setPhilHealthNumber(philhealthNumber);
+                payrollData.setTinNumber(tinNumber);
+                payrollData.setPagibigNumber(pagibigNumber);
+                payrollData.setTotalAllowances(totalAllowances);
+                payrollData.setTotalDeductions(totalDeductions);
+                payrollData.setGrossSalary(grossSalary);
+                payrollData.setNetSalary(netSalary);
+
+                GenerateReports generateReports = new GenerateReports();
+                generateReports.setEmployeeDetails(payrollData); // Correct call
+                generateReports.setVisible(true);
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Invalid number format in table data.", "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Please select an employee.", "Error", JOptionPane.ERROR_MESSAGE);
         }
