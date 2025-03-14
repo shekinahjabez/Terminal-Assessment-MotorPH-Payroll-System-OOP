@@ -1,8 +1,8 @@
 employeeNum,username,roleName,password,changePassword
-10001,mgarcia3,HR,Garcia2025,NO
-10002,alim,Finance,Default10002^61,YES
-10003,baquino,IT,Aquino2025,NO
+10001,1,HR,1,NO
+10002,alim,Finance,Default10002^60,YES
+10003,3,IT,3,NO
 10004,ireyes,Employee,Reyes2025,NO
 10005,ehernandez,IT,Hernandez2025,NO
-10006,avillanueva,Employee,Default10006*07,YES
+10006,avillanueva,Employee,Default10006!39,YES
 10007,bsanjose,Employee,Default10007$67,YES
