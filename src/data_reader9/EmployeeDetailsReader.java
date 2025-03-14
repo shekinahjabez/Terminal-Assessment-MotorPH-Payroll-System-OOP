@@ -54,9 +54,15 @@ public class EmployeeDetailsReader {
     public boolean changeUserPassword(String employeeId, String newPassword) {
         try {
             List<String[]> loginData = CSVReader.readCSV(loginFilePath);
+
+            if (loginData.isEmpty()) {
+                return false; // Prevent writing an empty file
+            }
+
             boolean updated = false;
 
-            for (String[] row : loginData) {
+            for (int i = 1; i < loginData.size(); i++) { // Start from 1 to avoid modifying header
+                String[] row = loginData.get(i);
                 if (row[0].equals(employeeId)) {
                     row[3] = newPassword;
                     row[4] = "NO";
@@ -66,7 +72,7 @@ public class EmployeeDetailsReader {
             }
 
             if (updated) {
-                CSVReader.writeCSV(loginFilePath, loginData);
+                CSVReader.writeCSVWithHeader(loginFilePath, loginData); // Use new method
                 return true;
             }
         } catch (IOException e) {
