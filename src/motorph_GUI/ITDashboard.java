@@ -18,8 +18,10 @@ import java.util.Date;
 import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import motorph9.ITUser;
 import motorph9.User;
 import password_reset9.PasswordCsvDataAccess;
@@ -102,6 +104,18 @@ public class ITDashboard extends javax.swing.JFrame {
             "Status", "Admin Name", "Admin Employee No.", "Date of Reset"
         });
         jTablePasswordResetTickets.setModel(model); // Apply headers to table
+
+        // Customize column widths
+        TableColumnModel columnModel = jTablePasswordResetTickets.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(85);  // Employee Number
+        columnModel.getColumn(1).setPreferredWidth(150);  // Employee Name
+        columnModel.getColumn(2).setPreferredWidth(120);  // Date of Request
+        columnModel.getColumn(3).setPreferredWidth(80);   // Status
+        columnModel.getColumn(4).setPreferredWidth(122);  // Admin Name
+        columnModel.getColumn(5).setPreferredWidth(85);  // Admin Employee No.
+        columnModel.getColumn(6).setPreferredWidth(150);  // Date of Reset
+
+        jTablePasswordResetTickets.setAutoResizeMode(JTable.AUTO_RESIZE_OFF); // Prevent auto-resizing
     }
     
     public void loadPasswordResetRequests() {
@@ -145,30 +159,6 @@ public class ITDashboard extends javax.swing.JFrame {
             System.err.println("❌ Error loading password reset requests: " + e.getMessage());
         }
     }
-
-    /*private void setITUserDetails() {
-        jTextFieldEmployeeNumber.setText(itUser.getEmployeeId()); // IT Employee ID
-        jTextFieldName.setText(itUser.getFirstName() + " " + itUser.getLastName()); // IT Full Name
-
-        jTextFieldEmployeeNumber.setEditable(false); // IT cannot change Employee Number
-        jTextFieldName.setEditable(false); //  IT cannot change their Name
-    }*/
-    
-    /*private void setupTableSelectionListener() {
-        jTablePasswordResetTickets.getSelectionModel().addListSelectionListener(event -> {
-            int selectedRow = jTablePasswordResetTickets.getSelectedRow();
-            if (selectedRow == -1) {
-                jButtonResetPassword.setEnabled(false);
-                return;
-            }
-
-            DefaultTableModel model = (DefaultTableModel) jTablePasswordResetTickets.getModel();
-            String status = model.getValueAt(selectedRow, 3).toString(); // Get Status Column
-
-            // ✅ Enable Reset Button Only for Pending Requests
-            jButtonResetPassword.setEnabled(status.equalsIgnoreCase("Pending"));
-        });
-    }*/
     
     private void initializeDependencies() {
         try {
@@ -222,7 +212,7 @@ public class ITDashboard extends javax.swing.JFrame {
         jTablePasswordResetTickets = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
-        jLabelAdminInformation = new javax.swing.JLabel();
+        jLabelEmployeeInformation = new javax.swing.JLabel();
         jTextFieldSelectedEmployeeName = new javax.swing.JTextField();
         jLabelName = new javax.swing.JLabel();
         jTextFieldSelectedEmployeeNumber = new javax.swing.JTextField();
@@ -341,7 +331,15 @@ public class ITDashboard extends javax.swing.JFrame {
             new String [] {
                 "Employee No.", "Employee Name", "Date of Request", "Status", "Admin Name", "Admin Employee No.", "Date & Time of Reset"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTablePasswordResetTickets.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTablePasswordResetTicketsMouseClicked(evt);
@@ -358,10 +356,10 @@ public class ITDashboard extends javax.swing.JFrame {
         jPanel6.setBackground(new java.awt.Color(51, 0, 0));
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabelAdminInformation.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabelAdminInformation.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelAdminInformation.setText(" ADMIN INFORMATION");
-        jPanel6.add(jLabelAdminInformation, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 200, 20));
+        jLabelEmployeeInformation.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabelEmployeeInformation.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelEmployeeInformation.setText(" EMPLOYEE INFORMATION");
+        jPanel6.add(jLabelEmployeeInformation, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 230, 20));
 
         jTextFieldSelectedEmployeeName.setEditable(false);
         jTextFieldSelectedEmployeeName.setBackground(new java.awt.Color(255, 255, 255));
@@ -533,26 +531,6 @@ public class ITDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonLogout1ActionPerformed
 
     private void jButtonResetPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetPasswordActionPerformed
-        /*int selectedRow = jTablePasswordResetTickets.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a request to process.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        String employeeNumber = (String) jTablePasswordResetTickets.getValueAt(selectedRow, 0);
-        String adminName = jTextFieldSelectedEmployeeName.getText();
-        String adminEmpNum = jTextFieldSelectedEmployeeNumber.getText();
-        
-        resetPasswordProcessor.resetPassword(employeeNumber, adminName, adminEmpNum, this); // Process reset first
-        
-        //get temporary password
-        EmployeeDetailsReader employeeReader = new EmployeeDetailsReader("src/data9/Employee.csv", "src/data9/Login.csv");
-        String tempPassword = employeeReader.getPasswordByEmployeeNum(employeeNumber);
-
-
-        //String tempPassword = generateComplexDefaultPassword(employeeNumber); // Generate password after reset
-        JOptionPane.showMessageDialog(this, "Temporary Password: " + tempPassword + "\n\n(This is a simulation. In a real system, the password would be delivered securely.)", "Password Reset", JOptionPane.INFORMATION_MESSAGE);*/
-        
         int selectedRow = jTablePasswordResetTickets.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Please select a request to process.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -588,26 +566,6 @@ public class ITDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldSelectedEmployeeNumberActionPerformed
 
     private void jTablePasswordResetTicketsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePasswordResetTicketsMouseClicked
-        /*int selectedRow = jTablePasswordResetTickets.getSelectedRow();
-        if (selectedRow == -1) {
-            jButtonResetPassword.setEnabled(false);
-            return;
-        }
-
-        DefaultTableModel model = (DefaultTableModel) jTablePasswordResetTickets.getModel();
-
-        // Get the employee data from the selected row
-        String employeeNumber = model.getValueAt(selectedRow, 0).toString(); // Employee Number column
-        String employeeName = model.getValueAt(selectedRow, 1).toString();   // Employee Name column
-        String status = model.getValueAt(selectedRow, 3).toString();         // Status column
-
-        // Update the fields in the highlighted box
-        jTextFieldEmployeeNumber.setText(employeeNumber);  
-        jTextFieldName.setText(employeeName);              
-
-        // Enable/disable Reset Button based on status
-        jButtonResetPassword.setEnabled(status.equalsIgnoreCase("Pending"));*/
-        
         int selectedRow = jTablePasswordResetTickets.getSelectedRow();
         if (selectedRow == -1) {
             jButtonResetPassword.setEnabled(false);
@@ -672,9 +630,9 @@ public class ITDashboard extends javax.swing.JFrame {
     private javax.swing.JButton jButtonLogout1;
     private javax.swing.JButton jButtonPasswordResetTickets;
     private javax.swing.JButton jButtonResetPassword;
-    private javax.swing.JLabel jLabelAdminInformation;
     private javax.swing.JLabel jLabelCreateEmployeesAccoun;
     private javax.swing.JLabel jLabelDate;
+    private javax.swing.JLabel jLabelEmployeeInformation;
     private javax.swing.JLabel jLabelEmployeeNumber;
     private javax.swing.JLabel jLabelGMT;
     private javax.swing.JLabel jLabelGreet;

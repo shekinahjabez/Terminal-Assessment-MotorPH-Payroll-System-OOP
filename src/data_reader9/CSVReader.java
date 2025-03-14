@@ -10,18 +10,6 @@ import java.util.List;
 
 
 public class CSVReader {
-    /*public static List<String[]> readCSV(String filePath) throws IOException {
-        List<String[]> data = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            System.out.println("Reading CSV file: " + filePath);
-            while ((line = reader.readLine()) != null) {
-                System.out.println("Read line: " + line);
-                data.add(line.split(",", -1)); // ✅ Use split(",", -1) for robust CSV parsing
-            }
-        }
-        return data;
-    }*/
     
     public static List<String[]> readCSV(String filePath) throws IOException {
         List<String[]> data = new ArrayList<>();
@@ -34,27 +22,19 @@ public class CSVReader {
         }
         return data;
     }
-    
-    /*public static List<String[]> readCSV(String filePath, boolean skipHeader) throws IOException {
+        
+    public static List<String[]> readCSV2(String filePath) throws IOException {
         List<String[]> data = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
-            if (skipHeader && (line = reader.readLine()) != null) {
-                // Skip the header row
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(",");
+                data.add(values);
             }
-            while ((line = reader.readLine()) != null) {
-                data.add(line.split(",", -1));
-            }
-        } catch (java.io.FileNotFoundException e) {
-            System.err.println("File not found: " + filePath);
-            throw e;
-        } catch (IOException e) {
-            System.err.println("Error reading CSV file: " + e.getMessage());
-            throw e;
         }
         return data;
-    }*/
-
+    }
+    
     public static void writeCSV(String filePath, List<String[]> data) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (String[] row : data) {

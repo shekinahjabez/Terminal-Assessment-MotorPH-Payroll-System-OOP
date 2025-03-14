@@ -149,81 +149,99 @@ public class Login extends javax.swing.JFrame {
 
 private class LoginActionListener implements ActionListener {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                String username = jUnameField.getText();
-                String password = new String(jPwordField.getPassword());
+    public void actionPerformed(ActionEvent e) {
+        String username = jUnameField.getText();
+        String password = new String(jPwordField.getPassword());
 
-                User user = validateLogin(username, password);
-                if (user == null) {
-                    JOptionPane.showMessageDialog(Login.this, "Incorrect Credentials.", "Error", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(Login.this, "Login Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    openDashboard(user); // ✅ Calls method to open the dashboard
-                    dispose(); // ✅ Closes login window
-                }
-            }
-            
-        private User validateLogin(String username, String password) {
-            employeeReader = new EmployeeDetailsReader("src/data9/Employee.csv", "src/data9/Login.csv");
-            //User user = employeeReader.getLoginDetails(username); // ✅ Fetch user by username
-            User user = employeeDataManager.getUser(username);
-
-            if (user != null) {
-                System.out.println("Loaded user: " + user.getUsername() + ", Password: " + user.getPassword());
-
-                if (user.getPassword().equals(password)) { // ✅ Check if password matches
-                    return user;
-                }
-            }
-
-            System.out.println("❌ Login failed for user: " + username);
-            return null;
+        User user = validateLogin(username, password);
+        if (user == null) {
+            JOptionPane.showMessageDialog(Login.this, "Incorrect Credentials.", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(Login.this, "Login Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            openDashboard(user); // ✅ Calls method to open the dashboard
+            dispose(); // ✅ Closes login window
         }
-        
-        private void openDashboard(User user) {
-            employeeReader = new EmployeeDetailsReader("src/data9/Employee.csv", "src/data9/Login.csv");
-            LeaveRequestReader leaveRequestReader = new LeaveRequestReader();
-
-            // ✅ Ask user to change the default password
-            if (user.getChangePassword().equalsIgnoreCase("YES")) {
-                String newPassword;
-
-                while (true) {
-                    newPassword = JOptionPane.showInputDialog(Login.this, 
-                        "Enter a new password:", 
-                        "Change Password Required", JOptionPane.WARNING_MESSAGE);
-
-                    if (newPassword != null && !newPassword.trim().isEmpty()) {
-                        employeeReader.changeUserPassword(user.getEmployeeId(), newPassword);
-                        JOptionPane.showMessageDialog(Login.this, 
-                            "✅ Password successfully changed!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                        break;
-                    } else {
-                        JOptionPane.showMessageDialog(Login.this, 
-                            "❌ Password change is required to continue.", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            }
-
-            // ✅ Open the correct dashboard based on user type
-            if (user instanceof HRUser) {
-                HRDashboard hrDashboard = new HRDashboard((HRUser) user, employeeReader, leaveRequestReader);
-                hrDashboard.setVisible(true);
-            } else if (user instanceof ITUser) {
-                ITDashboard itDashboard = new ITDashboard((ITUser) user);
-                itDashboard.setVisible(true);
-            } else if (user instanceof FinanceUser) {
-                FinanceDashboard financeDashboard = new FinanceDashboard((FinanceUser) user);
-                financeDashboard.setVisible(true);
-            } else if (user instanceof EmployeeUser) {
-                EmployeeDashboard employeeDashboard = new EmployeeDashboard((EmployeeUser) user);
-                employeeDashboard.setVisible(true);
-            } else {
-                JOptionPane.showMessageDialog(Login.this, "Unknown user type. Cannot open dashboard.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-
     }
+
+    private User validateLogin(String username, String password) {
+        employeeReader = new EmployeeDetailsReader("src/data9/Employee.csv", "src/data9/Login.csv");
+        //User user = employeeReader.getLoginDetails(username); // ✅ Fetch user by username
+        User user = employeeDataManager.getUser(username);
+
+        if (user != null) {
+            System.out.println("Loaded user: " + user.getUsername() + ", Password: " + user.getPassword());
+
+            if (user.getPassword().equals(password)) { // ✅ Check if password matches
+                return user;
+            }
+        }
+
+        System.out.println("❌ Login failed for user: " + username);
+        return null;
+    }
+
+    private void openDashboard(User user) {
+        employeeReader = new EmployeeDetailsReader("src/data9/Employee.csv", "src/data9/Login.csv");
+        LeaveRequestReader leaveRequestReader = new LeaveRequestReader();
+
+        // ✅ Ask user to change the default password
+        if (user.getChangePassword().equalsIgnoreCase("YES")) {
+            String newPassword;
+
+            while (true) {
+                newPassword = JOptionPane.showInputDialog(Login.this, 
+                    "Enter a new password:", 
+                    "Change Password Required", JOptionPane.WARNING_MESSAGE);
+
+                // If user clicks Cancel or closes the dialog, relaunch the login page
+                if (newPassword == null) {
+                    JOptionPane.showMessageDialog(Login.this, 
+                        "Returning to login.", 
+                        "Password change cancelled", JOptionPane.WARNING_MESSAGE);
+
+                    // Close the current login window
+                    Login.this.dispose();
+
+                    // Relaunch the login page
+                    Login newClassInstance = new Login();
+                    newClassInstance.setVisible(true);
+                    return;
+                }
+
+                // Trim and validate password
+                if (!newPassword.trim().isEmpty()) {
+                    employeeReader.changeUserPassword(user.getEmployeeId(), newPassword);
+                    JOptionPane.showMessageDialog(Login.this, 
+                        "✅ Password successfully changed!", 
+                        "Success", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+                } else {
+                    JOptionPane.showMessageDialog(Login.this, 
+                        "❌ Password change is required to continue.", 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+
+        // ✅ Open the correct dashboard based on user type
+        if (user instanceof HRUser) {
+            HRDashboard hrDashboard = new HRDashboard((HRUser) user, employeeReader, leaveRequestReader);
+            hrDashboard.setVisible(true);
+        } else if (user instanceof ITUser) {
+            ITDashboard itDashboard = new ITDashboard((ITUser) user);
+            itDashboard.setVisible(true);
+        } else if (user instanceof FinanceUser) {
+            FinanceDashboard financeDashboard = new FinanceDashboard((FinanceUser) user);
+            financeDashboard.setVisible(true);
+        } else if (user instanceof EmployeeUser) {
+            EmployeeDashboard employeeDashboard = new EmployeeDashboard((EmployeeUser) user);
+            employeeDashboard.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(Login.this, "Unknown user type. Cannot open dashboard.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+}
     
   
     private void jBtnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnLoginActionPerformed
