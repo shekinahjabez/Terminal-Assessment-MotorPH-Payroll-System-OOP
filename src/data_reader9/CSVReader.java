@@ -39,4 +39,16 @@ public class CSVReader {
             }
         }
     }
+    
+    public static List<String[]> readCSV2(String filePath) throws IOException {
+        List<String[]> data = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(",");
+                data.add(values);
+            }
+        }
+        return data;
+    }
 }

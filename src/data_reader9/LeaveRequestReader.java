@@ -51,7 +51,7 @@ public class LeaveRequestReader {
     }
 
     public static void updateLeaveRequest(LeaveRequest updatedLeave) throws IOException {
-        List<String[]> data = CSVReader.readCSV(FILE_PATH);
+        List<String[]> data = CSVReader.readCSV2(FILE_PATH);
         for (int i = 0; i < data.size(); i++) {
             if (data.get(i)[0].equals(updatedLeave.getLeaveID())) {
                 data.set(i, new String[]{
