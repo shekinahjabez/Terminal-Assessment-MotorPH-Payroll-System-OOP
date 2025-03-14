@@ -636,6 +636,7 @@ public final class HRDashboard extends javax.swing.JFrame {
 
         JOptionPane.showMessageDialog(this, "Employee added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
         loadEmployeeData();
+        dialogAddEmployee.dispose();
     }
     
     // Get value from corresponding text field
