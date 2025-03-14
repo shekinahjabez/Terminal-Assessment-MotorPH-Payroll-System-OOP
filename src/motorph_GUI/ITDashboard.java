@@ -531,26 +531,6 @@ public class ITDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonLogout1ActionPerformed
 
     private void jButtonResetPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetPasswordActionPerformed
-        /*int selectedRow = jTablePasswordResetTickets.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a request to process.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        String employeeNumber = (String) jTablePasswordResetTickets.getValueAt(selectedRow, 0);
-        String adminName = jTextFieldSelectedEmployeeName.getText();
-        String adminEmpNum = jTextFieldSelectedEmployeeNumber.getText();
-        
-        resetPasswordProcessor.resetPassword(employeeNumber, adminName, adminEmpNum, this); // Process reset first
-        
-        //get temporary password
-        EmployeeDetailsReader employeeReader = new EmployeeDetailsReader("src/data9/Employee.csv", "src/data9/Login.csv");
-        String tempPassword = employeeReader.getPasswordByEmployeeNum(employeeNumber);
-
-
-        //String tempPassword = generateComplexDefaultPassword(employeeNumber); // Generate password after reset
-        JOptionPane.showMessageDialog(this, "Temporary Password: " + tempPassword + "\n\n(This is a simulation. In a real system, the password would be delivered securely.)", "Password Reset", JOptionPane.INFORMATION_MESSAGE);*/
-        
         int selectedRow = jTablePasswordResetTickets.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Please select a request to process.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -586,26 +566,6 @@ public class ITDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldSelectedEmployeeNumberActionPerformed
 
     private void jTablePasswordResetTicketsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePasswordResetTicketsMouseClicked
-        /*int selectedRow = jTablePasswordResetTickets.getSelectedRow();
-        if (selectedRow == -1) {
-            jButtonResetPassword.setEnabled(false);
-            return;
-        }
-
-        DefaultTableModel model = (DefaultTableModel) jTablePasswordResetTickets.getModel();
-
-        // Get the employee data from the selected row
-        String employeeNumber = model.getValueAt(selectedRow, 0).toString(); // Employee Number column
-        String employeeName = model.getValueAt(selectedRow, 1).toString();   // Employee Name column
-        String status = model.getValueAt(selectedRow, 3).toString();         // Status column
-
-        // Update the fields in the highlighted box
-        jTextFieldEmployeeNumber.setText(employeeNumber);  
-        jTextFieldName.setText(employeeName);              
-
-        // Enable/disable Reset Button based on status
-        jButtonResetPassword.setEnabled(status.equalsIgnoreCase("Pending"));*/
-        
         int selectedRow = jTablePasswordResetTickets.getSelectedRow();
         if (selectedRow == -1) {
             jButtonResetPassword.setEnabled(false);
