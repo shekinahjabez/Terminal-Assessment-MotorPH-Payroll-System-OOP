@@ -53,7 +53,7 @@ public class EmployeeDetailsReader {
 
     public boolean changeUserPassword(String employeeId, String newPassword) {
         try {
-            List<String[]> loginData = CSVReader.readCSV(loginFilePath);
+            List<String[]> loginData = CSVReader.readCSV2(loginFilePath);
             if (loginData.isEmpty()) {
                 return false; // CSV file is empty or doesn't exist
             }
@@ -69,7 +69,7 @@ public class EmployeeDetailsReader {
             }
             if (updated) {
                 // Use writeCSV instead of writeCSVWithHeader to preserve ALL rows
-                CSVReader.writeCSVWithHeader(loginFilePath, loginData);
+                CSVReader.writeCSV(loginFilePath, loginData);
                 return true;
             }
         } catch (IOException e) {
