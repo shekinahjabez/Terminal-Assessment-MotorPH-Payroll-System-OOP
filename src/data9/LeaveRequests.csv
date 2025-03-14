@@ -1,19 +1,13 @@
-leaveID,employeeNum,leaveType,dateRequest,startDate,endDate,reason,status,approver,dateResponded,remark
-L001,10002,Sick Leave,2024-06-03,2024-06-03,2024-06-05,Flu,Rejected,Manuel III Garcia,2025-03-12,Did not present Medical Certificate
-L002,10003,Vacation Leave,2024-07-09,2024-07-10,2024-07-15,Family Trip,Approved,Manuel III Garcia,2025-03-10,With enough leave credits
-L003,10005,Maternity Leave,2024-07-10,2024-08-01,2024-10-01,Childbirth,Approved,Manuel III Garcia,2025-03-10,With enough leave credits
-L004,10006,Sick Leave,2025-03-08,2025-03-10,2025-03-10,Please put reason,Rejected,Manuel III Garcia,2025-03-10,Insufficient leave credits
-L005,10007,Sick Leave,2025-03-08,2025-03-13,2025-03-14,Please put reason,Approved,Manuel III Garcia,2025-03-10,enough leave balance
 L006,10008,Sick Leave,2025-03-08,2025-03-25,2025-03-24,Please put reason,Rejected,Manuel III Garcia,2025-03-12,No Medical Certificate presented
 L007,10009,Sick Leave,2024-06-03,2024-06-03,2024-06-05,Flu,Rejected,Manuel III Garcia,2025-03-12,No medical certificate
 L008,10010,Vacation Leave,2024-07-09,2024-07-10,2024-07-15,Family Trip,Reject,Manuel III Garcia,2025-03-10,Lack of man power
 L009,10011,Maternity Leave,2024-07-10,2024-08-01,2024-10-01,Childbirth,Approved,Manuel III Garcia,2025-03-12,Auto approve
 L010,10012,Sick Leave,2025-03-08,2025-03-10,2025-03-10,Please put reason,Approved,Manuel III Garcia,2025-03-12,Approve
 L011,10013,Sick Leave,2025-03-08,2025-03-13,2025-03-14,Please put reason,Approved,Manuel III Garcia,2025-03-12,okay
-L012,10014,Sick Leave,2025-03-08,2025-03-25,2025-03-24,Please put reason,Pending,Manuel III Garcia,2025-03-10
+L012,10014,Sick Leave,2025-03-08,2025-03-25,2025-03-24,Please put reason,Approved,Unknown Unknown,2025-03-15,a
 L013,10015,Sick Leave,2024-06-03,2024-06-03,2024-06-05,Flu,Approved,Manuel III Garcia,2025-03-12,With medical certificate
 L014,10016,Vacation Leave,2024-07-09,2024-07-10,2024-07-15,Family Trip,Approved,Manuel III Garcia,2025-03-10,With enough leave credits
-L015,10017,Maternity Leave,2024-07-10,2024-08-01,2024-10-01,Childbirth,Pending,Manuel III Garcia,2025-03-10
-L016,10018,Sick Leave,2025-03-08,2025-03-10,2025-03-10,Please put reason,Pending,Manuel III Garcia,2025-03-08
+L015,10017,Maternity Leave,2024-07-10,2024-08-01,2024-10-01,Childbirth,Approved,Unknown Unknown,2025-03-15, a
+L016,10018,Sick Leave,2025-03-08,2025-03-10,2025-03-10,Please put reason,Approved,Unknown Unknown,2025-03-15,a
 L017,10019,Sick Leave,2025-03-08,2025-03-13,2025-03-14,Please put reason,Rejected,Manuel III Garcia,2025-03-10,Insufficient leave credits
-L018,10020,Sick Leave,2025-03-08,2025-03-25,2025-03-24,Please put reason,Rejected,Manuel III Garcia,2025-03-12,Not enough accruals
+L018,10020,Sick Leave,2025-03-08,2025-03-25,2025-03-24,Please put reason,Rejected,Unknown Unknown,2025-03-15,a

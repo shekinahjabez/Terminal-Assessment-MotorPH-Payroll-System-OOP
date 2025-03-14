@@ -958,9 +958,10 @@ public final class HRDashboard extends javax.swing.JFrame {
         try {
             hrUser.approveLeave(leaveId, leaveRequestReader, remark);
 
-            loadLeaveRequests();
             JOptionPane.showMessageDialog(this, "Leave request (ID: " + leaveId + ") has been approved successfully with remarks: " + remark,
                                           "Success", JOptionPane.INFORMATION_MESSAGE);
+            loadLeaveRequests();
+            
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Error approving leave: " + e.getMessage(),
                                           "Error", JOptionPane.ERROR_MESSAGE);
@@ -1003,9 +1004,10 @@ public final class HRDashboard extends javax.swing.JFrame {
 
         try {
             hrUser.rejectLeave(leaveId, leaveRequestReader, remark);
-            loadLeaveRequests();
             JOptionPane.showMessageDialog(this, "Leave request (ID: " + leaveId + ") has been rejected successfully with remarks: " + remark,
                                           "Success", JOptionPane.INFORMATION_MESSAGE);
+            loadLeaveRequests();
+            
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Error rejecting leave: " + e.getMessage(),
                                           "Error", JOptionPane.ERROR_MESSAGE);
@@ -1107,9 +1109,7 @@ public final class HRDashboard extends javax.swing.JFrame {
         jPanelManageEmployee.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jTableEmployeeRecords.setAutoCreateRowSorter(true);
-        jTableEmployeeRecords.setBackground(new java.awt.Color(255, 255, 255));
         jTableEmployeeRecords.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jTableEmployeeRecords.setForeground(new java.awt.Color(0, 0, 0));
         jTableEmployeeRecords.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null, null, null, null},
@@ -1231,9 +1231,7 @@ public final class HRDashboard extends javax.swing.JFrame {
         jLabelTitleLeaveRequests.setText("LEAVE REQUESTS");
         jPanelPendingLeaveRequest.add(jLabelTitleLeaveRequests, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 110, -1, 32));
 
-        jTablePendingLeaveRequest.setBackground(new java.awt.Color(255, 255, 255));
         jTablePendingLeaveRequest.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jTablePendingLeaveRequest.setForeground(new java.awt.Color(0, 0, 0));
         jTablePendingLeaveRequest.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
@@ -1312,9 +1310,7 @@ public final class HRDashboard extends javax.swing.JFrame {
         jLabelTitleLeaveRequests1.setText("LEAVE REQUESTS");
         jPanelProcessedLeaveRequest.add(jLabelTitleLeaveRequests1, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 110, -1, 32));
 
-        jTableProcessedLeaveRequest.setBackground(new java.awt.Color(255, 255, 255));
         jTableProcessedLeaveRequest.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jTableProcessedLeaveRequest.setForeground(new java.awt.Color(0, 0, 0));
         jTableProcessedLeaveRequest.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null, null},
@@ -1500,8 +1496,6 @@ public final class HRDashboard extends javax.swing.JFrame {
 
     private void jButtonHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHistoryActionPerformed
         jTabbedMain.setSelectedIndex(2);
-        
-        loadLeaveRequests();
     }//GEN-LAST:event_jButtonHistoryActionPerformed
 
     private void jButtonHistoryRejectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHistoryRejectActionPerformed
@@ -1513,8 +1507,7 @@ public final class HRDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonHistoryApproveActionPerformed
 
     private void jButtonPendingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPendingActionPerformed
-        jTabbedMain.setSelectedIndex(1);
-       
+        jTabbedMain.setSelectedIndex(1);       
         loadLeaveRequests();
     }//GEN-LAST:event_jButtonPendingActionPerformed
 
