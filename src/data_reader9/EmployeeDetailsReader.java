@@ -54,14 +54,11 @@ public class EmployeeDetailsReader {
     public boolean changeUserPassword(String employeeId, String newPassword) {
         try {
             List<String[]> loginData = CSVReader.readCSV(loginFilePath);
-
             if (loginData.isEmpty()) {
-                return false; // Prevent writing an empty file
+                return false; // CSV file is empty or doesn't exist
             }
-
             boolean updated = false;
-
-            for (int i = 1; i < loginData.size(); i++) { // Start from 1 to avoid modifying header
+            for (int i = 1; i < loginData.size(); i++) { // Start from 1 to skip header
                 String[] row = loginData.get(i);
                 if (row[0].equals(employeeId)) {
                     row[3] = newPassword;
@@ -70,9 +67,9 @@ public class EmployeeDetailsReader {
                     break;
                 }
             }
-
             if (updated) {
-                CSVReader.writeCSVWithHeader(loginFilePath, loginData); // Use new method
+                // Use writeCSV instead of writeCSVWithHeader to preserve ALL rows
+                CSVReader.writeCSVWithHeader(loginFilePath, loginData);
                 return true;
             }
         } catch (IOException e) {
@@ -145,8 +142,13 @@ public class EmployeeDetailsReader {
 
     public boolean deleteEmployee(String employeeId) throws IOException {
         List<String[]> data = CSVReader.readCSV(employeeFilePath);
+        String[] header = {"employeeNum,lastName,firstName,birthday,address,phoneNumber,sssNumber,philhealthNumber,tinNumber,pagibigNumber,status,position,supervisor"}; // Adjust to match your CSV's header
         boolean removed = data.removeIf(emp -> emp[0].equals(employeeId));
-        if (removed) CSVReader.writeCSV(employeeFilePath, data);
+        if (removed) {
+            data.add(0, header); // Add the header back to the list
+            CSVReader.writeCSV(employeeFilePath, data);
+        }
         return removed;
     }
+
 }

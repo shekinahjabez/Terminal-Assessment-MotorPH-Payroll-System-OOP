@@ -64,17 +64,9 @@ public class CSVReader {
     }
     
     public static void writeCSVWithHeader(String filePath, List<String[]> data) throws IOException {
-        if (data.isEmpty()) {
-            return; // Prevent writing an empty file
-        }
-
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write(String.join(",", data.get(0))); // Write the header
-            writer.newLine();
-
-            for (int i = 1; i < data.size(); i++) { // Start from 1 to skip re-writing header
-                writer.write(String.join(",", data.get(i)));
-                writer.newLine();
+            for (String[] row : data) {
+                writer.write(String.join(",", row) + "\n");
             }
         }
     }
