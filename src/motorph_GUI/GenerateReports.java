@@ -2,6 +2,8 @@ package motorph_GUI;
 
 import data_reader9.AllowanceDetailsReader;
 import data_reader9.SalaryDetailsReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -32,24 +34,10 @@ public class GenerateReports extends javax.swing.JFrame {
     public GenerateReports() {
         initComponents();
         setLocationRelativeTo(null); // Center the window
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         startClock();
     }
-    
-    /*private PayrollData calculatePayrollData(String employeeNumber){
-        PayrollData data = new PayrollData();
-        EmployeeUserDataManager employeeDataManager = new EmployeeUserDataManager();
-        EmployeeUser employee = employeeDataManager.getEmployee(employeeNumber);
-        if(employee != null){
-            data.setEmployeeNumber(employee.getEmployeeId());
-            data.setFullName(employee.getFirstName() + " " + employee.getLastName());
-            data.setSssNumber(employee.getSSS());
-            data.setPhilHealthNumber(employee.getPhilHealth());
-            data.setTinNumber(employee.getTIN());
-            data.setPagibigNumber(employee.getPagibig());
-        }
-        return data;
-    }*/
     
     private PayrollData calculatePayrollData(String employeeNumber) {
         PayrollData data = new PayrollData();
@@ -212,6 +200,72 @@ public class GenerateReports extends javax.swing.JFrame {
             case "December" -> 12;
             default -> 0;
         };
+    }
+    
+    private void writePayrollDataToCSV(PayrollData data, String month, String year) {
+        String filePath = "src/data9/salarylogs.csv"; // Ensure this is the correct path to your file
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter(filePath, true)); // Open in append mode
+
+            // Format the data as a comma-separated string
+            String csvRow = data.getEmployeeNumber() + "," +
+                           month + "," +
+                           year + "," +
+                           data.getGrossSalary() + "," +
+                           data.getNetSalary();
+
+            writer.write(csvRow);
+            writer.newLine(); // Add a new line
+            System.out.println("Payroll data written to CSV for employee " + data.getEmployeeNumber());
+
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error writing to CSV file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                if (writer != null) {
+                    writer.close(); // Close the writer in a finally block
+                }
+            } catch (java.io.IOException e) {
+                e.printStackTrace();
+                // Handle error during closing (optional, but good practice)
+            }
+        }
+    }
+    
+    private boolean isPayrollAlreadyLogged(String employeeNumber, String month, String year) {
+        String filePath = "src/data9/salarylogs.csv";
+        java.io.BufferedReader reader = null;
+        String line = "";
+        String delimiter = ",";
+
+        try {
+            reader = new java.io.BufferedReader(new java.io.FileReader(filePath));
+            reader.readLine(); // Skip the header row
+
+            while ((line = reader.readLine()) != null) {
+                String[] fields = line.split(delimiter);
+                if (fields.length >= 3 &&
+                    fields[0].trim().equals(employeeNumber.trim()) &&
+                    fields[1].trim().equals(month.trim()) &&
+                    fields[2].trim().equals(year.trim())) {
+                    return true; // Record already exists
+                }
+            }
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error reading salary logs file.", "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (java.io.IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return false; // Record not found
     }
 
 
@@ -488,6 +542,12 @@ public class GenerateReports extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Please select a valid month.", "Error", JOptionPane.ERROR_MESSAGE);
             return; // Stop execution
         }
+        
+        // Check if payroll is already logged
+        if (isPayrollAlreadyLogged(employeeNumber, month, year)) {
+            JOptionPane.showMessageDialog(this, "Payroll for " + month + " " + year + " for employee " + employeeNumber + " has already been computed.", "Duplicate Entry", JOptionPane.WARNING_MESSAGE);
+            return; // Stop further processing
+        }
 
         // Convert month and year to LocalDateTime (start and end dates)
         LocalDateTime startDate = convertMonthYearToStartDate(month, year);
@@ -499,7 +559,13 @@ public class GenerateReports extends javax.swing.JFrame {
             //payrollData.setGrossSalary(netSalary);
             payrollData.setNetSalary(netSalary);
             setEmployeeDetails(payrollData);
-
+            
+            JOptionPane.showMessageDialog(this, "Payroll data computed successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            
+            // Call the method to write to SalaryLogs.csv 
+            writePayrollDataToCSV(payrollData, month, year);
+            
+            this.dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error calculating net salary: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();

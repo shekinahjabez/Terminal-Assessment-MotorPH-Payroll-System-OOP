@@ -1,8 +1,8 @@
-employeeNum,lastName,firstName,Sick Leave ,Vacation Leave,Birthday Leave
+employeeNum,lastName,firstName,Sick Leave,Vacation Leave,Birthday Leave
 10001,Garcia,Manuel III,10,15,1
 10002,Lim,Antonio,10,15,1
 10003,Aquino,Bianca Sofia,10,15,1
-10004,Reyes,Isabella,1,15,0
+10004,Reyes,Isabella,10,15,1
 10005,Hernandez,Eduard,10,15,1
 10006,Villanueva,Andrea Mae,10,15,1
 10007,San Jose,Brad,10,15,1
