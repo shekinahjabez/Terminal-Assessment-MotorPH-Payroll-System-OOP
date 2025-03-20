@@ -324,7 +324,15 @@ public class FinanceDashboard extends javax.swing.JFrame {
             new String [] {
                 "Employee Number", "Name", "SSS", "PhilHealth", "TIN", "PAGIBIG", "Total Allowances", "Total Deductions", "Gross Salary", "Net Salary"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(jTableEmployeesList);
 
         jPanelFinanceGenRep1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 1060, 520));

@@ -357,6 +357,7 @@ public class GenerateReports extends javax.swing.JFrame {
         jLabelSelectMonth.setText(" Select Month:");
         jPanelBackground2.add(jLabelSelectMonth, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 380, -1, -1));
 
+        jTextFieldNetSalary.setEditable(false);
         jTextFieldNetSalary.setBackground(new java.awt.Color(255, 255, 255));
         jTextFieldNetSalary.setForeground(new java.awt.Color(0, 0, 0));
         jPanelBackground2.add(jTextFieldNetSalary, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 500, 220, 30));
@@ -399,38 +400,47 @@ public class GenerateReports extends javax.swing.JFrame {
         });
         jPanelBackground2.add(jButtonCompute, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 550, 190, 40));
 
+        jTextFieldEmployeeNumber.setEditable(false);
         jTextFieldEmployeeNumber.setBackground(new java.awt.Color(255, 255, 255));
         jTextFieldEmployeeNumber.setForeground(new java.awt.Color(0, 0, 0));
         jPanelBackground2.add(jTextFieldEmployeeNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 20, 220, 30));
 
+        jTextFieldName.setEditable(false);
         jTextFieldName.setBackground(new java.awt.Color(255, 255, 255));
         jTextFieldName.setForeground(new java.awt.Color(0, 0, 0));
         jPanelBackground2.add(jTextFieldName, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 60, 220, 30));
 
+        jTextFieldSSSNumber.setEditable(false);
         jTextFieldSSSNumber.setBackground(new java.awt.Color(255, 255, 255));
         jTextFieldSSSNumber.setForeground(new java.awt.Color(0, 0, 0));
         jPanelBackground2.add(jTextFieldSSSNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 100, 220, 30));
 
+        jTextFieldPhilHealthNumber.setEditable(false);
         jTextFieldPhilHealthNumber.setBackground(new java.awt.Color(255, 255, 255));
         jTextFieldPhilHealthNumber.setForeground(new java.awt.Color(0, 0, 0));
         jPanelBackground2.add(jTextFieldPhilHealthNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 140, 220, 30));
 
+        jTextFieldTIN.setEditable(false);
         jTextFieldTIN.setBackground(new java.awt.Color(255, 255, 255));
         jTextFieldTIN.setForeground(new java.awt.Color(0, 0, 0));
         jPanelBackground2.add(jTextFieldTIN, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 180, 220, 30));
 
+        jTextFieldPAGIBIGNumber.setEditable(false);
         jTextFieldPAGIBIGNumber.setBackground(new java.awt.Color(255, 255, 255));
         jTextFieldPAGIBIGNumber.setForeground(new java.awt.Color(0, 0, 0));
         jPanelBackground2.add(jTextFieldPAGIBIGNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 220, 220, 30));
 
+        jTextFieldTotalAllowance.setEditable(false);
         jTextFieldTotalAllowance.setBackground(new java.awt.Color(255, 255, 255));
         jTextFieldTotalAllowance.setForeground(new java.awt.Color(0, 0, 0));
         jPanelBackground2.add(jTextFieldTotalAllowance, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 260, 220, 30));
 
+        jTextFieldTotalDeductions.setEditable(false);
         jTextFieldTotalDeductions.setBackground(new java.awt.Color(255, 255, 255));
         jTextFieldTotalDeductions.setForeground(new java.awt.Color(0, 0, 0));
         jPanelBackground2.add(jTextFieldTotalDeductions, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 300, 220, 30));
 
+        jTextFieldGrossSalary.setEditable(false);
         jTextFieldGrossSalary.setBackground(new java.awt.Color(255, 255, 255));
         jTextFieldGrossSalary.setForeground(new java.awt.Color(0, 0, 0));
         jPanelBackground2.add(jTextFieldGrossSalary, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 460, 220, 30));
