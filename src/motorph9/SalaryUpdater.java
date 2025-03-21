@@ -107,6 +107,8 @@ public class SalaryUpdater {
         panel.add(netSalaryField);
 
         boolean validInput = false;
+        
+        System.out.println("Current salary details displayed");
 
         while (!validInput) {
             int result = JOptionPane.showConfirmDialog(frame, panel, "Update Salary Details", JOptionPane.OK_CANCEL_OPTION);
@@ -118,6 +120,7 @@ public class SalaryUpdater {
                     double grossSalary = Double.parseDouble(grossSalaryField.getText().replaceAll(",", ""));
                     double netSalary = Double.parseDouble(netSalaryField.getText().replaceAll(",", ""));
 
+                    System.out.println("OK button clicked");
                     updateSalary(filePath, employeeNum, totalAllowances, totalDeductions, grossSalary, netSalary);
                     refreshTable();
                     validInput = true; // Exit the loop after successful update

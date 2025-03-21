@@ -101,7 +101,7 @@ public class FinanceDashboard extends javax.swing.JFrame {
                 String[] data = line.split(",");
                 Salary salary = new Salary(Double.parseDouble(data[1]), Double.parseDouble(data[2]), 0.0); // Added 0.0
                 salaryMap.put(data[0], salary);
-                System.out.println("Salary Map Key: " + data[0]); //Add this line
+//                System.out.println("Salary Map Key: " + data[0]); //Add this line
             }
         } catch (IOException e) {
             LOGGER.severe("Error loading Salary data: " + e.getMessage());
@@ -118,7 +118,7 @@ public class FinanceDashboard extends javax.swing.JFrame {
         DecimalFormat decimalFormat = new DecimalFormat("#,###.00"); // Format with commas and two decimal places
         
         for (String[] employee : employees) {
-            System.out.println("Row Data: " + Arrays.toString(employee));
+//            System.out.println("Row Data: " + Arrays.toString(employee));
             try {
                 if (employee.length >= 10) {
                     String employeeNumber = employee[0];

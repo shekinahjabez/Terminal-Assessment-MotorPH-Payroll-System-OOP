@@ -127,14 +127,14 @@ public class FinanceUser extends User {
         double withholdingTax = deductions.calculateWithholdingTax(grossSalary);
         double totalDeductions = pagibigDeduction + philHealthDeduction + sssDeduction + withholdingTax;
         
-        System.out.println("Salary: " + salaryReader.getSalary(employeeId));
-        System.out.println("Allowances: Rice=" + allowanceReader.getRiceSubsidyAllowance(employeeId) +
-                            ", Phone=" + allowanceReader.getPhoneAllowance(employeeId) +
-                            ", Clothing=" + allowanceReader.getClothingAllowance(employeeId));
-        
-        System.out.println("Gross Salary: " + grossSalary);
-        System.out.println("Net Salary: " + netSalary);
-        System.out.println("Total Deductions: " + totalDeductions);
+//        System.out.println("Salary: " + salaryReader.getSalary(employeeId));
+//        System.out.println("Allowances: Rice=" + allowanceReader.getRiceSubsidyAllowance(employeeId) +
+//                            ", Phone=" + allowanceReader.getPhoneAllowance(employeeId) +
+//                            ", Clothing=" + allowanceReader.getClothingAllowance(employeeId));
+//        
+//        System.out.println("Gross Salary: " + grossSalary);
+//        System.out.println("Net Salary: " + netSalary);
+//        System.out.println("Total Deductions: " + totalDeductions);
         
         return new SalaryDetails(grossSalary, netSalary, hourlyRate,
                 riceSubsidy, phoneAllowance, clothingAllowance, totalAllowances,
