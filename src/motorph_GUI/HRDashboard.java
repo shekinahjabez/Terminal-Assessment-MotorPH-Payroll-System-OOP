@@ -74,8 +74,6 @@ public final class HRDashboard extends javax.swing.JFrame {
         System.out.println("Last Name: " + hrUser.getLastName());
         
         jLabelGreet.setText("Welcome, " + hrUser.getFirstName() + "!");
-        //jButtonLeaveRequests.setBackground (new java.awt.Color(0,0,0));
-        //setupSearchListener();
         startClock();
         loadEmployeeTable();
         loadEmployeeData();
