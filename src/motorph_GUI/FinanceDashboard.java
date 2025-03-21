@@ -24,6 +24,8 @@ import java.util.Arrays;
 import payroll9.Deductions;
 import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import motorph9.SalaryUpdater;
 import payroll9.PayrollData;
 
 /**
@@ -75,6 +77,10 @@ public class FinanceDashboard extends javax.swing.JFrame {
         
     }
     
+    public JTable getJTableEmployeesList() {
+        return jTableEmployeesList;
+    }
+
     private void startClock() {
         timer = new Timer(1000, e -> updateTimeAndDate());
         timer.start();
@@ -101,70 +107,8 @@ public class FinanceDashboard extends javax.swing.JFrame {
             LOGGER.severe("Error loading Salary data: " + e.getMessage());
         }
     }
-        
-    /*private void loadEmployeeData() {
-        System.out.println("Salary Map Size: " + salaryMap.size());
-        List<String[]> employees = employeeDetailsReader.getAllEmployeesStringArrays();
-        System.out.println("Employee Data Size: " + employees.size());
-        DefaultTableModel model = (DefaultTableModel) jTableEmployeesList.getModel();
-        model.setRowCount(0);
-
-        for (String[] employee : employees) {
-            System.out.println("Row Data: " + Arrays.toString(employee));
-            try {
-                if (employee.length >= 10) { // Adjusted check
-                    String employeeNumber = employee[0];
-                    String fullName = employee[2] + " " + employee[1];
-                    String sssNumber = employee[6];
-                    String philhealthNumber = employee[7];
-                    String tinNumber = employee[8];
-                    String pagibigNumber = employee[9];
-
-                    Salary salary = salaryMap.get(employeeNumber);
-
-                    if (salary != null) {
-                        double basicSalary = salary.getBasicSalary();
-
-                        double pagibig = Deductions.calculatePagibigDeduction();
-                        double philhealth = Deductions.calculatePhilHealthDeduction(basicSalary);
-                        double sss = Deductions.calculateSSSDeduction(basicSalary);
-
-                        double totalDeductions = pagibig + philhealth + sss;
-                        double totalAllowances = 0.0;
-                        double grossSalary = basicSalary + totalAllowances;
-                        double netSalary = grossSalary - totalDeductions;
-
-                        model.addRow(new Object[]{
-                                employeeNumber,
-                                fullName,
-                                sssNumber,
-                                philhealthNumber,
-                                tinNumber,
-                                pagibigNumber,
-                                totalAllowances,
-                                totalDeductions,
-                                grossSalary,
-                                netSalary
-                        });
-                    } else {
-                        LOGGER.warning("Salary data not found for employee: " + employeeNumber);
-                    }
-                }
-            } catch (NumberFormatException e) {
-                LOGGER.severe("Invalid basic salary for employee: " + employee[0] + ". Error: " + e.getMessage());
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        jTableEmployeesList.repaint();
-        validate();
-        repaint();
-        System.out.println("Table Row Count: " + jTableEmployeesList.getRowCount());
-        System.out.println("Table Column Count: " + jTableEmployeesList.getColumnCount());
-    }*/
-    
-    private void loadEmployeeData() {
+            
+    public void loadEmployeeData() {
         System.out.println("Salary Map Size: " + salaryMap.size());
         List<String[]> employees = employeeDetailsReader.getAllEmployeesStringArrays();
         System.out.println("Employee Data Size: " + employees.size());
@@ -270,6 +214,7 @@ public class FinanceDashboard extends javax.swing.JFrame {
         jButtonLogout = new javax.swing.JButton();
         jLabelTime = new javax.swing.JLabel();
         jLabelGMT = new javax.swing.JLabel();
+        jButtonUpdateSalary = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -355,9 +300,7 @@ public class FinanceDashboard extends javax.swing.JFrame {
         });
         jPanelMain.add(jButtonGenRep, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 200, 40));
 
-        jButtonLogout.setBackground(new java.awt.Color(255, 255, 255));
         jButtonLogout.setFont(new java.awt.Font("Century Gothic", 1, 13)); // NOI18N
-        jButtonLogout.setForeground(new java.awt.Color(0, 0, 0));
         jButtonLogout.setText("Logout");
         jButtonLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -377,6 +320,17 @@ public class FinanceDashboard extends javax.swing.JFrame {
         jLabelGMT.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelGMT.setText("GMT+8 PH Time");
         jPanelMain.add(jLabelGMT, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 560, 210, -1));
+
+        jButtonUpdateSalary.setBackground(new java.awt.Color(251, 0, 54));
+        jButtonUpdateSalary.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jButtonUpdateSalary.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonUpdateSalary.setText("Update Salary");
+        jButtonUpdateSalary.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonUpdateSalaryActionPerformed(evt);
+            }
+        });
+        jPanelMain.add(jButtonUpdateSalary, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, 200, 40));
 
         getContentPane().add(jPanelMain, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1340, 670));
 
@@ -440,6 +394,20 @@ public class FinanceDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonGenRepActionPerformed
 
+    private void jButtonUpdateSalaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateSalaryActionPerformed
+        int selectedRow = jTableEmployeesList.getSelectedRow();
+        if (selectedRow >= 0) {
+            String employeeNumStr = (String) jTableEmployeesList.getValueAt(selectedRow, 0);
+            int employeeNum = Integer.parseInt(employeeNumStr);
+
+            // Create SalaryUpdater instance and pass the current FinanceDashboard instance
+            SalaryUpdater salaryUpdater = new SalaryUpdater(this);
+            salaryUpdater.openUpdateForm("src/data9/Salary.csv", employeeNum);
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select an employee from the list.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButtonUpdateSalaryActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -493,6 +461,7 @@ public class FinanceDashboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonGenRep;
     private javax.swing.JButton jButtonLogout;
+    private javax.swing.JButton jButtonUpdateSalary;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabelDate;
