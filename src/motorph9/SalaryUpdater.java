@@ -8,7 +8,7 @@ import motorph_GUI.FinanceDashboard;
 
 public class SalaryUpdater {
     private FinanceDashboard financeDashboard;
-    
+
     // Constructor to accept FinanceDashboard instance
     public SalaryUpdater(FinanceDashboard dashboard) {
         this.financeDashboard = dashboard;
@@ -17,37 +17,53 @@ public class SalaryUpdater {
     public static void updateSalary(String filePath, int employeeNum, double totalAllowances, double totalDeductions, double grossSalary, double netSalary) {
         List<String> lines = new ArrayList<>();
         String header;
-        
-        System.out.println("Reading file...");
-        System.out.println("Employee number: " + employeeNum);
+        boolean updated = false; // Flag to check if update happened
+
+        System.out.println("Reading file: " + filePath);
+        System.out.println("Searching for Employee #: " + employeeNum);
+
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            header = br.readLine(); // Read header
-            lines.add(header);
+            header = br.readLine(); // Read and store header
+            if (header != null) {
+                lines.add(header);
+            }
+
             String line;
-            boolean updated = false;
-            
             while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                if (values.length >= 8 && Integer.parseInt(values[0].trim()) == employeeNum) {
-                    values[4] = String.valueOf(totalAllowances);
-                    values[5] = String.valueOf(totalDeductions);
-                    values[6] = String.valueOf(grossSalary);
-                    values[7] = String.valueOf(netSalary);
-                    updated = true;
+                String[] values = line.split(",", -1); // Preserve empty values
+                System.out.println("CSV row: " + Arrays.toString(values)); // Debugging
+
+                if (values.length >= 4) { // ✅ Change from 8 to 4
+                    String fileEmployeeNum = values[0].trim().replaceAll("[^0-9]", ""); // Remove spaces & non-numeric chars
+
+                    System.out.println("Checking Employee #: " + fileEmployeeNum + " vs " + employeeNum);
+
+                    if (fileEmployeeNum.equals(String.valueOf(employeeNum))) {
+                        values[2] = String.format("%.2f", totalAllowances); // ✅ Adjusted index for Total Allowances
+                        values[3] = String.format("%.2f", netSalary); // ✅ Adjusted index for Net Salary
+
+                        updated = true;
+                        System.out.println("✅ Employee found! Updating salary.");
+                    }
                 }
                 lines.add(String.join(",", values));
             }
-            
+
             if (!updated) {
-                System.out.println("Employee not found.");
-                return;
+                System.out.println("❌ Employee NOT FOUND: " + employeeNum);
             }
-        } catch (IOException | NumberFormatException e) {
-            e.printStackTrace();
+
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
             return;
         }
-        
-        System.out.println("Updated content: " + lines);
+
+        if (!updated) {
+            System.out.println("Employee not found: " + employeeNum);
+            return;
+        }
+
+        // Write updated content back to the file
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             for (String l : lines) {
                 bw.write(l);
@@ -55,17 +71,11 @@ public class SalaryUpdater {
             }
             System.out.println("Salary updated successfully.");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error writing file: " + e.getMessage());
         }
     }
-    
-    // Helper Method to Prevent NullPointerException
-    private String getTableValue(int row, int col) {
-        Object value = financeDashboard.getJTableEmployeesList().getValueAt(row, col);
-        return (value != null) ? value.toString().trim() : "";
-    }
-    
-    // Place this method inside the class but outside any other method
+
+    // Safe method to retrieve table value
     private String getSafeTableValue(JTable table, int row, int col) {
         Object value = table.getValueAt(row, col);
         return (value != null) ? value.toString().trim() : "";
@@ -81,16 +91,15 @@ public class SalaryUpdater {
         JTextField grossSalaryField = new JTextField(10);
         JTextField netSalaryField = new JTextField(10);
 
-
-        // Assign selected row values to text fields (with null safety)
+        // Assign selected row values to text fields
         int selectedRow = financeDashboard.getJTableEmployeesList().getSelectedRow();
-        if (selectedRow != -1) { // Ensure a row is selected before accessing data
+        if (selectedRow != -1) { // Ensure a row is selected
             allowanceField.setText(getSafeTableValue(financeDashboard.getJTableEmployeesList(), selectedRow, 6));
             deductionField.setText(getSafeTableValue(financeDashboard.getJTableEmployeesList(), selectedRow, 7));
             grossSalaryField.setText(getSafeTableValue(financeDashboard.getJTableEmployeesList(), selectedRow, 8));
             netSalaryField.setText(getSafeTableValue(financeDashboard.getJTableEmployeesList(), selectedRow, 9));
         } else {
-            // Optional: Clear fields if no row is selected
+            // Clear fields if no row is selected
             allowanceField.setText("");
             deductionField.setText("");
             grossSalaryField.setText("");
@@ -106,13 +115,11 @@ public class SalaryUpdater {
         panel.add(new JLabel("Net Salary:"));
         panel.add(netSalaryField);
 
-        boolean validInput = false;
-        
         System.out.println("Current salary details displayed");
 
+        boolean validInput = false;
         while (!validInput) {
             int result = JOptionPane.showConfirmDialog(frame, panel, "Update Salary Details", JOptionPane.OK_CANCEL_OPTION);
-
             if (result == JOptionPane.OK_OPTION) {
                 try {
                     double totalAllowances = Double.parseDouble(allowanceField.getText().replaceAll(",", ""));
@@ -123,26 +130,23 @@ public class SalaryUpdater {
                     System.out.println("OK button clicked");
                     updateSalary(filePath, employeeNum, totalAllowances, totalDeductions, grossSalary, netSalary);
                     refreshTable();
-                    validInput = true; // Exit the loop after successful update
+                    validInput = true; // Exit loop after update
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(frame, "Invalid input. Please enter numeric values.", "Error", JOptionPane.ERROR_MESSAGE);
-                    // The loop will continue, redisplaying the form
                 }
             } else {
-                // If user cancels, exit the loop
-                validInput = true;
+                validInput = true; // Exit if user cancels
             }
         }
-
     }
-    
+
     private String[] getCurrentSalaryDetails(String filePath, int employeeNum) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             br.readLine(); // Skip header
             String line;
             while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                if (values.length >= 8 && Integer.parseInt(values[0].trim()) == employeeNum) {
+                String[] values = line.split(",", -1); // Preserve empty values
+                if (values.length >= 8 && values[0].trim().equals(String.valueOf(employeeNum))) {
                     return new String[]{values[4].trim(), values[5].trim(), values[6].trim(), values[7].trim()};
                 }
             }
@@ -151,7 +155,7 @@ public class SalaryUpdater {
         }
         return null;
     }
-    
+
     private void refreshTable() {
         if (financeDashboard != null) {
             DefaultTableModel model = (DefaultTableModel) financeDashboard.getJTableEmployeesList().getModel();
