@@ -1,21 +1,26 @@
-# Terminal-Assessment-Final-Code-Submission-Group-9
-Welcome to the MotorPH Payroll System repository! This repository houses the source code for our Java-based payroll management application. For a comprehensive understanding of the system, including detailed setup instructions, step-by-step usage guides for all user roles (Employee, HR, IT, Finance), technical specifications, and future improvement plans, please consult our dedicated documentation website. Explore the full documentation here: https://therese.craft.me/MotorPH-G9-Official-Docs
+# MotorPH Payroll System Repository - Group 9
 
-## Dependencies
+Welcome to the MotorPH Payroll System repository! This repository houses the source code for our Java-based payroll management application. For a comprehensive understanding of the system, including detailed setup instructions, step-by-step usage guides for all user roles (Employee, HR, IT, Finance), technical specifications, and future improvement plans, please consult our dedicated documentation website. Explore the full documentation here: [MotorPH Documentation](https://therese.craft.me/MotorPH-G9-Official-Docs).
 
-This project uses the `opencsv`, `commons-lang3`, and `jcalendar` libraries for various functionalities.
+## Project Dependencies
 
-### Downloading JAR Files
+This project relies on the following external libraries:
 
-You can download the JAR files from their respective repositories:
+- **OpenCSV**: For handling CSV file operations.
+- **Commons Lang**: Utility functions to enhance the core Java classes.
+- **JCalendar**: For date and calendar functionalities.
 
-- For `opencsv`, download it from [OpenCSV Maven Repository](https://mvnrepository.com/artifact/com.opencsv/opencsv/5.9).
-- For `commons-lang3`, download it from [Commons Lang Maven Repository](https://mvnrepository.com/artifact/org.apache.commons/commons-lang3/3.14.0).
-- For `jcalendar`, download it from [JCalendar Maven Repository](https://mvnrepository.com/artifact/com.toedter/jcalendar/1.4).
+### Obtaining JAR Files
 
-### Adding Dependencies Using Maven
+You can download the required JAR files from their respective Maven repositories:
 
-Alternatively, you can include these dependencies in your Maven `pom.xml` file. Add the following to the `<dependencies>` section:
+- [OpenCSV Maven Repository](https://mvnrepository.com/artifact/com.opencsv/opencsv/5.9)
+- [Commons Lang Maven Repository](https://mvnrepository.com/artifact/org.apache.commons/commons-lang3/3.14.0)
+- [JCalendar Maven Repository](https://mvnrepository.com/artifact/com.toedter/jcalendar/1.4)
+
+### Adding Dependencies to Maven
+
+Alternatively, you can add these libraries directly to your Maven `pom.xml` file by including the following dependencies:
 
 ```xml
 <dependencies>
@@ -35,4 +40,3 @@ Alternatively, you can include these dependencies in your Maven `pom.xml` file. 
         <version>1.4</version>
     </dependency>
 </dependencies>
-
