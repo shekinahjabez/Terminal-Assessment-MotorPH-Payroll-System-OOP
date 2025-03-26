@@ -1,5 +1,5 @@
 # Terminal-Assessment-Final-Code-Submission-Group-9
-MotorPH Payroll System
+Welcome to the MotorPH Payroll System repository! This repository houses the source code for our Java-based payroll management application. For a comprehensive understanding of the system, including detailed setup instructions, step-by-step usage guides for all user roles (Employee, HR, IT, Finance), technical specifications, and future improvement plans, please consult our dedicated documentation website. Explore the full documentation here: https://therese.craft.me/MotorPH-G9-Official-Docs
 
 ## Dependencies
 
